@@ -1,0 +1,9 @@
+language: objective-c
+osx_image: xcode8.0
+branches:
+  only:
+    - master
+notifications:
+  email: false
+script:
+  - make test_osx SCHEME=processing_mac_tests SDK=macosx
