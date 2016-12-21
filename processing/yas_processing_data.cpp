@@ -13,3 +13,7 @@ std::type_info const &processing::data::sample_type() const {
 std::size_t processing::data::sample_byte_count() const {
     return impl_ptr<impl_base>()->sample_byte_count();
 }
+
+std::size_t processing::data::size() const {
+    return impl_ptr<impl_base>()->size();
+}

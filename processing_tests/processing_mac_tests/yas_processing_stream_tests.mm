@@ -6,6 +6,7 @@
 #import "yas_processing.h"
 
 using namespace yas;
+using namespace yas::processing;
 
 @interface yas_processing_stream_tests : XCTestCase
 
@@ -41,23 +42,23 @@ using namespace yas;
 
     stream.insert_channel(1);
 
-    XCTAssertTrue(stream.channel_exists(1));
+    XCTAssertTrue(stream.has_channel(1));
     XCTAssertEqual(stream.channel_count(), 1);
 
     stream.insert_channel(5);
 
-    XCTAssertTrue(stream.channel_exists(5));
+    XCTAssertTrue(stream.has_channel(5));
     XCTAssertEqual(stream.channel_count(), 2);
 
     stream.insert_channel(100);
 
-    XCTAssertTrue(stream.channel_exists(100));
+    XCTAssertTrue(stream.has_channel(100));
     XCTAssertEqual(stream.channel_count(), 3);
 
     stream.insert_channel(1);
 
     XCTAssertEqual(stream.channel_count(), 3);
-    XCTAssertFalse(stream.channel_exists(0));
+    XCTAssertFalse(stream.has_channel(0));
 }
 
 - (void)test_channel {
@@ -74,8 +75,8 @@ using namespace yas;
     XCTAssertEqual(const_channel.datas().size(), 1);
     
     auto const &const_data = (*const_channel.datas().begin()).second;
-    XCTAssertEqual(const_data.raw<int8_t>()[0], 5);
-    XCTAssertEqual(const_data.raw<int8_t>()[1], 6);
+    XCTAssertEqual(get_raw<int8_t>(const_data)[0], 5);
+    XCTAssertEqual(get_raw<int8_t>(const_data)[1], 6);
 }
 
 @end

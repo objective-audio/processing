@@ -28,15 +28,16 @@ using namespace yas::processing;
     auto data = processing::make_data<float>(16);
 
     XCTAssertEqual(data.sample_byte_count(), 4);
+    XCTAssertEqual(data.size(), 16);
 
-    XCTAssertEqual(data.raw<float>().size(), 16);
+    XCTAssertEqual(get_raw<float>(data).size(), 16);
 
     for (auto const &idx : make_each(16)) {
-        data.raw<float>()[idx] = static_cast<float>(idx);
+        get_raw<float>(data)[idx] = static_cast<float>(idx);
     }
 
     for (auto const &idx : make_each(16)) {
-        XCTAssertEqual(data.raw<float>()[idx], static_cast<float>(idx));
+        XCTAssertEqual(get_raw<float>(data)[idx], static_cast<float>(idx));
     }
 }
 
@@ -44,13 +45,14 @@ using namespace yas::processing;
     data data{std::vector<double>{0.0, 2.0, 4.0, 8.0}};
 
     XCTAssertEqual(data.sample_byte_count(), 8);
+    XCTAssertEqual(data.size(), 4);
 
-    XCTAssertEqual(data.raw<double>().size(), 4);
+    XCTAssertEqual(get_raw<double>(data).size(), 4);
 
-    XCTAssertEqual(data.raw<double>()[0], 0.0);
-    XCTAssertEqual(data.raw<double>()[1], 2.0);
-    XCTAssertEqual(data.raw<double>()[2], 4.0);
-    XCTAssertEqual(data.raw<double>()[3], 8.0);
+    XCTAssertEqual(get_raw<double>(data)[0], 0.0);
+    XCTAssertEqual(get_raw<double>(data)[1], 2.0);
+    XCTAssertEqual(get_raw<double>(data)[2], 4.0);
+    XCTAssertEqual(get_raw<double>(data)[3], 8.0);
 }
 
 - (void)test_create_data_with_reference_vector {
@@ -63,13 +65,14 @@ using namespace yas::processing;
     vec[2] = 7;
 
     XCTAssertEqual(data.sample_byte_count(), 4);
+    XCTAssertEqual(data.size(), 3);
 
-    XCTAssertEqual(data.raw<int32_t>().size(), 3);
-    XCTAssertTrue(vec.data() == data.raw<int32_t>().data());
+    XCTAssertEqual(get_raw<int32_t>(data).size(), 3);
+    XCTAssertTrue(vec.data() == get_raw<int32_t>(data).data());
 
-    XCTAssertEqual(data.raw<int32_t>()[0], 5);
-    XCTAssertEqual(data.raw<int32_t>()[1], 6);
-    XCTAssertEqual(data.raw<int32_t>()[2], 7);
+    XCTAssertEqual(get_raw<int32_t>(data)[0], 5);
+    XCTAssertEqual(get_raw<int32_t>(data)[1], 6);
+    XCTAssertEqual(get_raw<int32_t>(data)[2], 7);
 }
 
 - (void)test_create_data_with_struct {
@@ -79,19 +82,20 @@ using namespace yas::processing;
     };
 
     auto data = make_data<element>(2);
-    data.raw<element>()[0].key = "zero";
-    data.raw<element>()[0].value = 100;
-    data.raw<element>()[1].key = "one";
-    data.raw<element>()[1].value = 200;
+    get_raw<element>(data)[0].key = "zero";
+    get_raw<element>(data)[0].value = 100;
+    get_raw<element>(data)[1].key = "one";
+    get_raw<element>(data)[1].value = 200;
 
     XCTAssertEqual(data.sample_byte_count(), sizeof(element));
+    XCTAssertEqual(data.size(), 2);
 
-    XCTAssertEqual(data.raw<element>().size(), 2);
+    XCTAssertEqual(get_raw<element>(data).size(), 2);
 
-    XCTAssertEqual(data.raw<element>()[0].key, "zero");
-    XCTAssertEqual(data.raw<element>()[0].value, 100);
-    XCTAssertEqual(data.raw<element>()[1].key, "one");
-    XCTAssertEqual(data.raw<element>()[1].value, 200);
+    XCTAssertEqual(get_raw<element>(data)[0].key, "zero");
+    XCTAssertEqual(get_raw<element>(data)[0].value, 100);
+    XCTAssertEqual(get_raw<element>(data)[1].key, "one");
+    XCTAssertEqual(get_raw<element>(data)[1].value, 200);
 }
 
 @end

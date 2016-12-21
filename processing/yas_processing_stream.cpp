@@ -26,7 +26,7 @@ processing::stream::stream(processing::time_range time_range) : base(std::make_s
 processing::stream::stream(std::nullptr_t) : base(nullptr) {
 }
 
-processing::time_range processing::stream::time_range() const {
+processing::time_range const &processing::stream::time_range() const {
     return impl_ptr<impl>()->_time_range;
 }
 
@@ -34,7 +34,7 @@ void processing::stream::insert_channel(int64_t const channel) {
     impl_ptr<impl>()->_channels.emplace(channel, processing::channel());
 }
 
-bool processing::stream::channel_exists(int64_t const channel) {
+bool processing::stream::has_channel(int64_t const channel) {
     return impl_ptr<impl>()->_channels.count(channel) > 0;
 }
 

@@ -30,6 +30,13 @@ using namespace yas::processing;
     XCTAssertEqual(range.next_frame(), 300);
 }
 
+- (void)test_create_empty_time_range {
+    time_range range;
+    
+    XCTAssertEqual(range.start_frame, 0);
+    XCTAssertEqual(range.length, 0);
+}
+
 - (void)test_equal_time_range {
     auto range1a = time_range{.start_frame = 12, .length = 345};
     auto range1b = time_range{.start_frame = 12, .length = 345};
@@ -69,6 +76,42 @@ using namespace yas::processing;
     XCTAssertTrue(range1a < range3);
     XCTAssertFalse(range1a < range4);
     XCTAssertTrue(range1a < range5);
+}
+
+- (void)test_can_combine {
+    auto range1 = time_range{.start_frame = 0, .length = 2};
+    auto range2 = time_range{.start_frame = 2, .length = 2};
+    auto range3 = time_range{.start_frame = 3, .length = 2};
+    auto range4 = time_range{.start_frame = 1, .length = 2};
+    auto range5 = time_range{.start_frame = -1, .length = 4};
+    
+    XCTAssertTrue(range1.can_combine(range2));
+    XCTAssertFalse(range1.can_combine(range3));
+    XCTAssertTrue(range1.can_combine(range4));
+    XCTAssertTrue(range1.can_combine(range5));
+    
+    XCTAssertTrue(range2.can_combine(range1));
+    XCTAssertFalse(range3.can_combine(range1));
+    XCTAssertTrue(range4.can_combine(range1));
+    XCTAssertTrue(range5.can_combine(range1));
+}
+
+- (void)test_combine {
+    auto range1 = time_range{.start_frame = 0, .length = 2};
+    auto range2 = time_range{.start_frame = 2, .length = 2};
+    auto range3 = time_range{.start_frame = 3, .length = 2};
+    auto range4 = time_range{.start_frame = 1, .length = 2};
+    auto range5 = time_range{.start_frame = -1, .length = 4};
+    
+    XCTAssertTrue((range1.combine(range2) == time_range{.start_frame = 0, .length = 4}));
+    XCTAssertFalse(range1.combine(range3));
+    XCTAssertTrue((range1.combine(range4) == time_range{.start_frame = 0, .length = 3}));
+    XCTAssertTrue((range1.combine(range5) == time_range{.start_frame = -1, .length = 4}));
+    
+    XCTAssertTrue((range2.combine(range1) == time_range{.start_frame = 0, .length = 4}));
+    XCTAssertFalse(range3.combine(range1));
+    XCTAssertTrue((range4.combine(range1) == time_range{.start_frame = 0, .length = 3}));
+    XCTAssertTrue((range5.combine(range1) == time_range{.start_frame = -1, .length = 4}));
 }
 
 @end
