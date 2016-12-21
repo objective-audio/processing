@@ -31,5 +31,9 @@ std::multimap<processing::time_range, processing::data> &processing::channel::da
 }
 
 void processing::channel::insert_data(time_range time_range, data data) {
+    if (time_range.length > 0 && time_range.length != data.size()) {
+        throw "invalid data size.";
+    }
+    
     impl_ptr<impl>()->_datas.emplace(std::move(time_range), std::move(data));
 }

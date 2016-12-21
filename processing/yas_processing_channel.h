@@ -23,6 +23,11 @@ namespace processing {
         std::multimap<time_range, data> &datas();
 
         void insert_data(time_range, data);
+
+        template <typename P>
+        void erase_data_if(P predicate);
     };
 }
 }
+
+#include "yas_processing_channel_private.h"
