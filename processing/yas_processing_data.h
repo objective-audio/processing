@@ -23,15 +23,16 @@ namespace processing {
 
         std::type_info const &sample_type() const;
         std::size_t sample_byte_count() const;
-
-        template <typename T>
-        std::vector<T> const &raw() const;
-        template <typename T>
-        std::vector<T> &raw();
+        std::size_t size() const;
     };
 
     template <typename T>
     processing::data make_data(std::size_t const);
+    
+    template <typename T>
+    std::vector<T> const &get_raw(data const &);
+    template <typename T>
+    std::vector<T> &get_raw(data &);
 }
 }
 

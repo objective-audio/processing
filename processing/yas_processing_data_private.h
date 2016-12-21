@@ -8,6 +8,7 @@ namespace yas {
 struct processing::data::impl_base : base::impl {
     virtual std::type_info const &type() const = 0;
     virtual std::size_t sample_byte_count() const = 0;
+    virtual std::size_t size() const = 0;
 };
 
 template <typename T>
@@ -24,6 +25,10 @@ struct processing::data::impl : impl_base {
 
     std::size_t sample_byte_count() const override {
         return sizeof(T);
+    }
+    
+    std::size_t size() const override {
+        return _raw_data_ref.size();
     }
 
     std::vector<T> &raw_data() {
@@ -44,17 +49,17 @@ processing::data::data(std::vector<T> &bytes) : base(std::make_shared<impl<T>>(b
 }
 
 template <typename T>
-std::vector<T> const &processing::data::raw() const {
-    return impl_ptr<impl<T>>()->raw_data();
-}
-
-template <typename T>
-std::vector<T> &processing::data::raw() {
-    return impl_ptr<impl<T>>()->raw_data();
-}
-
-template <typename T>
 processing::data processing::make_data(std::size_t const length) {
     return processing::data{std::vector<T>(length)};
+}
+
+template <typename T>
+std::vector<T> const &processing::get_raw(data const &data) {
+    return data.impl_ptr<data::impl<T>>()->raw_data();
+}
+
+template <typename T>
+std::vector<T> &processing::get_raw(data &data) {
+    return data.impl_ptr<data::impl<T>>()->raw_data();
 }
 }
