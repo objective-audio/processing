@@ -32,9 +32,7 @@ processing::module::module(std::nullptr_t) : base(nullptr) {
 }
 
 void processing::module::process(stream &stream) {
-    impl_ptr<impl>()->pre_process(stream);
     impl_ptr<impl>()->process(stream);
-    impl_ptr<impl>()->post_process(stream);
 }
 
 processing::module::connector_map_t const &processing::module::input_connectors() {
@@ -63,8 +61,4 @@ void processing::module::disconnect_output(std::string const &key) {
 
 processing::time_range const &processing::module::time_range() const {
     return impl_ptr<impl>()->time_range();
-}
-
-int64_t processing::module::frame_offset() const {
-    return impl_ptr<impl>()->frame_offset();
 }

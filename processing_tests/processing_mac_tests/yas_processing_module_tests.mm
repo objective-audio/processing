@@ -36,14 +36,6 @@ using namespace yas;
     XCTAssertFalse(module);
 }
 
-- (void)test_offset {
-    test::module module;
-    
-    module.set_frame_offset(5);
-    
-    XCTAssertEqual(module.frame_offset(), 5);
-}
-
 - (void)test_process_called {
     test::module module;
     processing::stream stream{{.start_frame = 23, .length = 456}};

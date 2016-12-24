@@ -14,7 +14,6 @@ namespace test {
 
         struct impl : processing::module::impl {
             int64_t _value = 0;
-            int64_t _frame_offset = 0;
             process_f _process_handler;
 
             impl(processing::time_range time_range) : processing::module::impl(std::move(time_range)) {
@@ -24,10 +23,6 @@ namespace test {
                 if (_process_handler) {
                     _process_handler(stream);
                 }
-            }
-
-            int64_t frame_offset() override {
-                return _frame_offset;
             }
         };
 
@@ -46,10 +41,6 @@ namespace test {
 
         int64_t value() const {
             return impl_ptr<impl>()->_value;
-        }
-
-        void set_frame_offset(int64_t const offset) {
-            impl_ptr<impl>()->_frame_offset = offset;
         }
 
         void set_process_handler(process_f handler) {
