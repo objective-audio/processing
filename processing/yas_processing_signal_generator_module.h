@@ -1,4 +1,3 @@
-
 //
 //  yas_processing_signal_generator_module.h
 //
@@ -13,13 +12,13 @@ namespace processing {
         class impl_base;
 
        public:
-        static auto constexpr result_key = "result";
-        
+        static auto constexpr output_key = "output";
+
         template <typename T>
         class impl;
 
         template <typename T>
-        using process_f = std::function<void(processing::time_range const &, T *)>;
+        using process_f = std::function<void(processing::time_range const &, int64_t const, T *)>;
 
         explicit signal_generator_module(std::shared_ptr<signal_generator_module::impl_base> &&);
         signal_generator_module(std::nullptr_t);
