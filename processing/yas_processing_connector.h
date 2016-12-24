@@ -10,9 +10,9 @@
 namespace yas {
 namespace processing {
     struct connector {
-        using channel_opt_t = std::experimental::optional<int64_t>;
+        using channel_index_t = int64_t;
         
-        channel_opt_t channel;
+        channel_index_t channel_index;
     };
 }
 }
