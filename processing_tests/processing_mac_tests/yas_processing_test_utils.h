@@ -17,7 +17,7 @@ namespace test {
             int64_t _frame_offset = 0;
             process_f _process_handler;
 
-            impl(module::impl::args args) : processing::module::impl(std::move(args)) {
+            impl(processing::time_range time_range) : processing::module::impl(std::move(time_range)) {
             }
 
             void process(processing::stream &stream) override {
@@ -31,7 +31,10 @@ namespace test {
             }
         };
 
-        module() : processing::module(std::make_shared<impl>(module::impl::args{})) {
+        module() : processing::module(std::make_shared<impl>(processing::time_range{})) {
+        }
+
+        module(processing::time_range time_range) : processing::module(std::make_shared<impl>(std::move(time_range))) {
         }
 
         module(std::nullptr_t) : processing::module(nullptr) {
@@ -53,32 +56,5 @@ namespace test {
             impl_ptr<impl>()->_process_handler = std::move(handler);
         }
     };
-/*
-    struct signal_generator_module : processing::signal_generator_module {
-        using process_f = std::function<void(processing::time_range const &, double *)>;
-
-        struct impl : processing::signal_generator_module::impl<double> {
-            process_f _process_handler;
-
-            impl(processing::time_range time_range)
-                : processing::signal_generator_module::impl<double>(std::move(time_range)) {
-            }
-
-            void process_signal(processing::time_range const &time_range, double *signal_ptr) override {
-                if (_process_handler) {
-                    _process_handler(time_range, signal_ptr);
-                }
-            }
-        };
-
-        signal_generator_module(processing::time_range time_range)
-            : processing::signal_generator_module(std::make_shared<impl>(std::move(time_range))) {
-        }
-        
-        void set_process_handler(process_f handler) {
-            impl_ptr<impl>()->_process_handler = std::move(handler);
-        }
-    };
- */
 }
 }
