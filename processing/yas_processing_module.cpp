@@ -8,6 +8,23 @@
 
 using namespace yas;
 
+namespace yas {
+namespace processing {
+    static void connect(module::connector_map_t &connectors, std::string const &key, int64_t const ch_idx) {
+        if (connectors.count(key) == 0) {
+            connectors.erase(key);
+        }
+        connectors.emplace(key, connector{.channel_index = ch_idx});
+    }
+
+    static void disconnect(module::connector_map_t &connectors, std::string const &key) {
+        if (connectors.count(key) > 0) {
+            connectors.erase(key);
+        }
+    }
+}
+}
+
 processing::module::module(std::shared_ptr<impl> &&impl) : base(std::move(impl)) {
 }
 
@@ -29,19 +46,19 @@ processing::module::connector_map_t const &processing::module::output_connectors
 }
 
 void processing::module::connect_input(std::string const &key, int64_t const ch) {
-    impl_ptr<impl>()->input_connectors().at(key).channel = ch;
+    connect(impl_ptr<impl>()->input_connectors(), key, ch);
 }
 
 void processing::module::connect_output(std::string const &key, int64_t const ch) {
-    impl_ptr<impl>()->output_connectors().at(key).channel = ch;
+    connect(impl_ptr<impl>()->output_connectors(), key, ch);
 }
 
 void processing::module::disconnect_input(std::string const &key) {
-    impl_ptr<impl>()->input_connectors().at(key).channel = std::experimental::nullopt;
+    disconnect(impl_ptr<impl>()->input_connectors(), key);
 }
 
 void processing::module::disconnect_output(std::string const &key) {
-    impl_ptr<impl>()->output_connectors().at(key).channel = std::experimental::nullopt;
+    disconnect(impl_ptr<impl>()->output_connectors(), key);
 }
 
 processing::time_range const &processing::module::time_range() const {

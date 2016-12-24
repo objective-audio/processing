@@ -9,25 +9,19 @@
 
 namespace yas {
 struct processing::module::impl : base::impl {
-    struct args {
-        processing::time_range time_range;
-        connector_map_t input_connectors;
-        connector_map_t output_connectors;
-    };
-
-    impl(args args) : _args(std::move(args)) {
+    impl(processing::time_range time_range) : _time_range(std::move(time_range)) {
     }
 
     connector_map_t &input_connectors() {
-        return _args.input_connectors;
+        return _input_connectors;
     }
 
     connector_map_t &output_connectors() {
-        return _args.output_connectors;
+        return _output_connectors;
     }
-    
+
     processing::time_range &time_range() {
-        return _args.time_range;
+        return _time_range;
     }
 
     virtual int64_t frame_offset() {
@@ -43,6 +37,8 @@ struct processing::module::impl : base::impl {
     }
 
    private:
-    args _args;
+    processing::time_range _time_range;
+    connector_map_t _input_connectors;
+    connector_map_t _output_connectors;
 };
 }

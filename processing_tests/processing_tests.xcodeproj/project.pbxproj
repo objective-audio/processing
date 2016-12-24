@@ -184,12 +184,12 @@
 				B64C096B1DF024F900B9DCB1 /* yas_processing_channel_tests.mm */,
 				B64C09611DEC50D700B9DCB1 /* yas_processing_data_tests.mm */,
 				B6C4DADB1DF6F76200621F80 /* yas_processing_module_tests.mm */,
+				B6348AC41E0BD4F90096DA81 /* yas_processing_routing_tests.mm */,
 				B6C97A191E08CB21001B54E2 /* yas_processing_signal_generator_module_tests.mm */,
 				B64C096D1DF0250300B9DCB1 /* yas_processing_stream_tests.mm */,
 				B6272EB31DF70C1900F5DF95 /* yas_processing_test_utils.h */,
 				B633D22A1DE1E1EB00C35515 /* yas_processing_time_range_tests.mm */,
 				B6C4DADD1DF6F76E00621F80 /* yas_processing_track_tests.mm */,
-				B6348AC41E0BD4F90096DA81 /* yas_processing_routing_tests.mm */,
 			);
 			name = processing_tests;
 			sourceTree = "<group>";

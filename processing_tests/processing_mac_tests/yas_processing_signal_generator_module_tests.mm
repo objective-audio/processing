@@ -50,7 +50,7 @@ using namespace yas::processing;
         called_signal[1] = 0.0;
     };
 
-    auto handler = [&called_time_range, &called_signal](processing::time_range const &time_range, double *signal_ptr) {
+    auto handler = [&called_time_range, &called_signal](processing::time_range const &time_range, int64_t const ch_idx, double *signal_ptr) {
         called_time_range = time_range;
         for (auto const &idx : make_each(time_range.length)) {
             signal_ptr[idx] = 1.0;
@@ -58,7 +58,7 @@ using namespace yas::processing;
     };
 
     auto module = make_signal_generator_module<double>({.start_frame = 1, .length = 4}, std::move(handler));
-    module.connect_output(signal_generator_module::result_key, ch_idx);
+    module.connect_output(signal_generator_module::output_key, ch_idx);
 
     {
         clear();
