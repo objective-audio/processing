@@ -33,8 +33,6 @@ namespace processing {
         void disconnect_output(std::string const &key);
         
         time_range const &time_range() const;
-        
-        int64_t frame_offset() const;
     };
 }
 }

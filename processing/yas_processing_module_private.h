@@ -24,17 +24,7 @@ struct processing::module::impl : base::impl {
         return _time_range;
     }
 
-    virtual int64_t frame_offset() {
-        return 0;
-    }
-
-    void pre_process(stream &) {
-    }
-
     virtual void process(stream &) = 0;
-
-    void post_process(stream &) {
-    }
 
    private:
     processing::time_range _time_range;
