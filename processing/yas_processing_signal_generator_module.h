@@ -18,14 +18,15 @@ namespace processing {
         class impl;
 
         template <typename T>
-        using process_f = std::function<void(processing::time_range const &, int64_t const, T *)>;
+        using send_signal_f = std::function<void(processing::time_range const &, int64_t const, T *)>;
 
         explicit signal_generator_module(std::shared_ptr<signal_generator_module::impl_base> &&);
         signal_generator_module(std::nullptr_t);
     };
 
     template <typename T>
-    signal_generator_module make_signal_generator_module(processing::time_range, signal_generator_module::process_f<T>);
+    signal_generator_module make_signal_generator_module(processing::time_range,
+                                                         signal_generator_module::send_signal_f<T>);
 }
 }
 

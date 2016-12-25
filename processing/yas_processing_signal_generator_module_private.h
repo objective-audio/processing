@@ -19,13 +19,13 @@ struct processing::signal_generator_module::impl_base : module::impl {
 
 template <typename T>
 struct processing::signal_generator_module::impl : impl_base {
-    impl(processing::time_range &&time_range, process_f<T> &&handler)
-        : impl_base(std::move(time_range)), _process_handler(std::move(handler)) {
+    impl(processing::time_range &&time_range, send_signal_f<T> &&handler)
+        : impl_base(std::move(time_range)), _send_signal_handler(std::move(handler)) {
     }
 
-    void generate_signal(processing::time_range const &time_range, int64_t const ch_idx, T *signal_ptr) {
-        if (_process_handler) {
-            _process_handler(time_range, ch_idx, signal_ptr);
+    void send_signal(processing::time_range const &time_range, int64_t const ch_idx, T *signal_ptr) {
+        if (_send_signal_handler) {
+            _send_signal_handler(time_range, ch_idx, signal_ptr);
         }
     }
 
@@ -73,8 +73,8 @@ struct processing::signal_generator_module::impl : impl_base {
 
                     channel.erase_data_if(std::move(predicate));
 
-                    generate_signal(current_time_range, ch_idx,
-                                    &vec[current_time_range.start_frame - combined_time_range.start_frame]);
+                    send_signal(current_time_range, ch_idx,
+                                &vec[current_time_range.start_frame - combined_time_range.start_frame]);
 
                     channel.insert_data(combined_time_range, std::move(vec));
 
@@ -86,7 +86,7 @@ struct processing::signal_generator_module::impl : impl_base {
 
             std::vector<T> vec(current_time_range.length);
 
-            generate_signal(current_time_range, ch_idx, vec.data());
+            send_signal(current_time_range, ch_idx, vec.data());
 
             auto &channel = stream.channel(ch_idx);
             channel.insert_data(current_time_range, std::move(vec));
@@ -94,6 +94,6 @@ struct processing::signal_generator_module::impl : impl_base {
     }
 
    private:
-    process_f<T> _process_handler;
+    send_signal_f<T> _send_signal_handler;
 };
 }
