@@ -19,3 +19,11 @@ processing::signal_module processing::make_signal_module(signal_module::args<T> 
 
 template processing::signal_module processing::make_signal_module(signal_module::args<double>);
 template processing::signal_module processing::make_signal_module(signal_module::args<float>);
+template processing::signal_module processing::make_signal_module(signal_module::args<int64_t>);
+template processing::signal_module processing::make_signal_module(signal_module::args<int32_t>);
+template processing::signal_module processing::make_signal_module(signal_module::args<int16_t>);
+template processing::signal_module processing::make_signal_module(signal_module::args<int8_t>);
+template processing::signal_module processing::make_signal_module(signal_module::args<uint64_t>);
+template processing::signal_module processing::make_signal_module(signal_module::args<uint32_t>);
+template processing::signal_module processing::make_signal_module(signal_module::args<uint16_t>);
+template processing::signal_module processing::make_signal_module(signal_module::args<uint8_t>);
