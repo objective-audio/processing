@@ -1,4 +1,3 @@
-
 //
 //  yas_processing_signal_module_tests.mm
 //
@@ -167,12 +166,12 @@ using namespace yas::processing;
         called_signal[1] = 0.0;
     };
 
-    auto make_stream = [&stream_data_raw, &ch_idx](time_range const &time_range) {
+    auto make_stream = [&stream_data, &ch_idx](time_range const &time_range) {
         auto stream = processing::stream{time_range};
         stream.insert_channel(ch_idx);
 
         auto &channel = stream.channel(ch_idx);
-        channel.insert_data(time_range, stream_data_raw);
+        channel.insert_data(time_range, stream_data);
 
         return stream;
     };
@@ -258,6 +257,71 @@ using namespace yas::processing;
         XCTAssertEqual(called_signal[0], 0.0);
         XCTAssertEqual(called_signal[1], 0.0);
     }
+}
+
+- (void)test_process_receive_and_send_signal {
+    auto const receive_ch_idx = 3;
+    auto const send_ch_idx = 9;
+    auto const output_connector_key = "output";
+    auto const input_connector_key = "input";
+
+    time_range process_time_range{.start_frame = 0, .length = 2};
+
+    auto stream = processing::stream{process_time_range};
+    stream.insert_channel(receive_ch_idx);
+
+    auto input_stream_data = processing::make_data<int16_t>(2);
+    auto &input_stream_data_raw = get_raw<int16_t>(input_stream_data);
+    input_stream_data_raw[0] = 1;
+    input_stream_data_raw[1] = 2;
+
+    auto &channel = stream.channel(receive_ch_idx);
+    channel.insert_data(process_time_range, input_stream_data);
+
+    auto process_data = processing::make_data<int16_t>(2);
+
+    auto receive_handler = [&process_data, &input_connector_key](processing::time_range const &time_range,
+                                                                 int64_t const ch_idx, std::string const &key,
+                                                                 int16_t const *const signal_ptr) {
+        auto &process_data_raw = get_raw<int16_t>(process_data);
+        for (auto const &idx : make_each(time_range.length)) {
+            process_data_raw[idx] = signal_ptr[idx] * 2;
+        }
+    };
+
+    auto send_handler = [&process_data](processing::time_range const &time_range, int64_t const ch_idx,
+                                        std::string const &key, int16_t *const signal_ptr) {
+        auto &process_data_raw = get_raw<int16_t>(process_data);
+        for (auto const &idx : make_each(time_range.length)) {
+            signal_ptr[idx] = process_data_raw[idx];
+        }
+    };
+
+    auto module = make_signal_module<int16_t>({.time_range = process_time_range,
+                                               .receive_signal_handler = std::move(receive_handler),
+                                               .send_signal_handler = std::move(send_handler)});
+    module.connect_input(input_connector_key, receive_ch_idx);
+    module.connect_output(output_connector_key, send_ch_idx);
+
+    module.process(stream);
+
+    XCTAssertTrue(stream.has_channel(send_ch_idx));
+
+    auto const &send_channel = stream.channel(send_ch_idx);
+    auto const &send_data_raw = get_raw<int16_t>((*send_channel.datas().begin()).second);
+
+    XCTAssertEqual(send_data_raw.size(), 2);
+    XCTAssertEqual(send_data_raw[0], 2);
+    XCTAssertEqual(send_data_raw[1], 4);
+
+    XCTAssertTrue(stream.has_channel(receive_ch_idx));
+
+    auto const &receive_channel = stream.channel(receive_ch_idx);
+    auto const &receive_data_raw = get_raw<int16_t>((*receive_channel.datas().begin()).second);
+
+    XCTAssertEqual(receive_data_raw.size(), 2);
+    XCTAssertEqual(receive_data_raw[0], 1);
+    XCTAssertEqual(receive_data_raw[1], 2);
 }
 
 @end
