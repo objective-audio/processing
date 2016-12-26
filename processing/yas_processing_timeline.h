@@ -1,5 +1,5 @@
 //
-//  yas_processing_routing.h
+//  yas_processing_timeline.h
 //
 
 #pragma once
@@ -11,12 +11,12 @@ namespace yas {
 namespace processing {
     class track;
 
-    class routing : public base {
+    class timeline : public base {
         class impl;
 
        public:
-        routing();
-        routing(std::nullptr_t);
+        timeline();
+        timeline(std::nullptr_t);
 
         std::map<int64_t, track> const &tracks() const;
         std::map<int64_t, track> &tracks();
