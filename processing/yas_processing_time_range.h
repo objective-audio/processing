@@ -18,7 +18,7 @@ namespace processing {
         bool operator<(time_range const &) const;
 
         int64_t next_frame() const;
-        
+
         bool is_contain(time_range const &) const;
         bool is_overlap(time_range const &) const;
         bool can_combine(time_range const &) const;

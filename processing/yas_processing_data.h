@@ -28,7 +28,7 @@ namespace processing {
 
     template <typename T>
     processing::data make_data(std::size_t const);
-    
+
     template <typename T>
     std::vector<T> const &get_raw(data const &);
     template <typename T>

@@ -45,7 +45,7 @@ bool processing::time_range::can_combine(time_range const &other) const {
 std::experimental::optional<processing::time_range> processing::time_range::intersect(time_range const &other) const {
     auto const start = std::max(start_frame, other.start_frame);
     auto const next = std::min(next_frame(), other.next_frame());
-    
+
     if (start <= next) {
         return time_range{.start_frame = start, .length = static_cast<uint32_t>(next - start)};
     } else {
@@ -57,9 +57,9 @@ std::experimental::optional<processing::time_range> processing::time_range::comb
     if (!can_combine(other)) {
         return std::experimental::nullopt;
     }
-    
+
     auto const start = std::min(start_frame, other.start_frame);
     auto const next = std::max(next_frame(), other.next_frame());
-    
+
     return time_range{.start_frame = start, .length = static_cast<uint32_t>(next - start)};
 }
