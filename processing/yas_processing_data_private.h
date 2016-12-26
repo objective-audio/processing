@@ -26,7 +26,7 @@ struct processing::data::impl : impl_base {
     std::size_t sample_byte_count() const override {
         return sizeof(T);
     }
-    
+
     std::size_t size() const override {
         return _raw_data_ref.size();
     }

@@ -11,7 +11,7 @@ namespace yas {
 namespace processing {
     struct connector {
         using channel_index_t = int64_t;
-        
+
         channel_index_t channel_index;
     };
 }

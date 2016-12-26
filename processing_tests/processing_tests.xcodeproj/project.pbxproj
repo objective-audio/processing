@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		B620F60D1DE1BDD30050F6A2 /* yas_processing_stream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B620F60B1DE1BDD30050F6A2 /* yas_processing_stream.cpp */; };
 		B620F6101DE1C4E20050F6A2 /* yas_processing_time_range.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B620F60E1DE1C4E20050F6A2 /* yas_processing_time_range.cpp */; };
-		B62D02A41DFA438F007CFDDA /* yas_processing_connector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B62D02A21DFA438F007CFDDA /* yas_processing_connector.cpp */; };
 		B633D22B1DE1E1EB00C35515 /* yas_processing_time_range_tests.mm in Sources */ = {isa = PBXBuildFile; fileRef = B633D22A1DE1E1EB00C35515 /* yas_processing_time_range_tests.mm */; };
 		B6348AC31E0B67AE0096DA81 /* yas_processing_routing.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B6348AC11E0B67AE0096DA81 /* yas_processing_routing.cpp */; };
 		B6348AC51E0BD4F90096DA81 /* yas_processing_routing_tests.mm in Sources */ = {isa = PBXBuildFile; fileRef = B6348AC41E0BD4F90096DA81 /* yas_processing_routing_tests.mm */; };
@@ -47,7 +46,6 @@
 		B620F60F1DE1C4E20050F6A2 /* yas_processing_time_range.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yas_processing_time_range.h; path = ../../processing/yas_processing_time_range.h; sourceTree = "<group>"; };
 		B6272EB31DF70C1900F5DF95 /* yas_processing_test_utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = yas_processing_test_utils.h; sourceTree = "<group>"; };
 		B628EDF61E00DDE200445DA8 /* yas_processing_channel_private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = yas_processing_channel_private.h; path = ../../processing/yas_processing_channel_private.h; sourceTree = "<group>"; };
-		B62D02A21DFA438F007CFDDA /* yas_processing_connector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = yas_processing_connector.cpp; path = ../../processing/yas_processing_connector.cpp; sourceTree = "<group>"; };
 		B62D02A31DFA438F007CFDDA /* yas_processing_connector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yas_processing_connector.h; path = ../../processing/yas_processing_connector.h; sourceTree = "<group>"; };
 		B633D22A1DE1E1EB00C35515 /* yas_processing_time_range_tests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = yas_processing_time_range_tests.mm; sourceTree = "<group>"; };
 		B6348AC11E0B67AE0096DA81 /* yas_processing_routing.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = yas_processing_routing.cpp; path = ../../processing/yas_processing_routing.cpp; sourceTree = "<group>"; };
@@ -147,7 +145,6 @@
 				B628EDF61E00DDE200445DA8 /* yas_processing_channel_private.h */,
 				B64C09681DEFCD2200B9DCB1 /* yas_processing_channel.cpp */,
 				B64C09691DEFCD2200B9DCB1 /* yas_processing_channel.h */,
-				B62D02A21DFA438F007CFDDA /* yas_processing_connector.cpp */,
 				B62D02A31DFA438F007CFDDA /* yas_processing_connector.h */,
 				B64C09601DEBC1E000B9DCB1 /* yas_processing_data_private.h */,
 				B64C09631DEC536D00B9DCB1 /* yas_processing_data.cpp */,
@@ -376,7 +373,6 @@
 				B63674BB1DD9DFF500C724DB /* yas_exception.cpp in Sources */,
 				B620F6101DE1C4E20050F6A2 /* yas_processing_time_range.cpp in Sources */,
 				B63674B81DD9DFF500C724DB /* yas_chain.cpp in Sources */,
-				B62D02A41DFA438F007CFDDA /* yas_processing_connector.cpp in Sources */,
 				B63674BD1DD9DFF500C724DB /* yas_objc_ptr.mm in Sources */,
 				B64C09621DEC50D700B9DCB1 /* yas_processing_data_tests.mm in Sources */,
 				B64C096E1DF0250300B9DCB1 /* yas_processing_stream_tests.mm in Sources */,
