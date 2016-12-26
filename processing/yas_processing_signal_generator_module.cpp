@@ -14,13 +14,11 @@ processing::signal_generator_module::signal_generator_module(std::nullptr_t) : m
 }
 
 template <typename T>
-processing::signal_generator_module processing::make_signal_generator_module(
-    processing::time_range time_range, signal_generator_module::send_signal_f<T> handler) {
-    return signal_generator_module{
-        std::make_shared<signal_generator_module::impl<T>>(std::move(time_range), std::move(handler))};
+processing::signal_generator_module processing::make_signal_generator_module(signal_generator_module::args<T> args) {
+    return signal_generator_module{std::make_shared<signal_generator_module::impl<T>>(std::move(args))};
 }
 
 template processing::signal_generator_module processing::make_signal_generator_module(
-    time_range, signal_generator_module::send_signal_f<double>);
+    signal_generator_module::args<double>);
 template processing::signal_generator_module processing::make_signal_generator_module(
-    time_range, signal_generator_module::send_signal_f<float>);
+    signal_generator_module::args<float>);
