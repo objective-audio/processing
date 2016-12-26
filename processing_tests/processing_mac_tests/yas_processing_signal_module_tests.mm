@@ -154,9 +154,9 @@ using namespace yas::processing;
     double called_signal[2];
 
     auto stream_data = processing::make_data<double>(2);
-    auto &straem_data_raw = get_raw<double>(stream_data);
-    straem_data_raw[0] = 1.0;
-    straem_data_raw[1] = 1.0;
+    auto &stream_data_raw = get_raw<double>(stream_data);
+    stream_data_raw[0] = 1.0;
+    stream_data_raw[1] = 1.0;
 
     auto clear = [&called_time_range, &called_key, &called_ch_idx, &called_signal]() {
         called_time_range.start_frame = 0;
@@ -167,12 +167,12 @@ using namespace yas::processing;
         called_signal[1] = 0.0;
     };
 
-    auto make_stream = [&straem_data_raw, &ch_idx](time_range const &time_range) {
+    auto make_stream = [&stream_data_raw, &ch_idx](time_range const &time_range) {
         auto stream = processing::stream{time_range};
         stream.insert_channel(ch_idx);
 
         auto &channel = stream.channel(ch_idx);
-        channel.insert_data(time_range, straem_data_raw);
+        channel.insert_data(time_range, stream_data_raw);
 
         return stream;
     };
