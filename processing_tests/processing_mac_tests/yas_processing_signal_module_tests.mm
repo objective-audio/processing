@@ -1,5 +1,6 @@
+
 //
-//  yas_processing_signal_generator_module_tests.mm
+//  yas_processing_signal_module_tests.mm
 //
 
 #import <XCTest/XCTest.h>
@@ -9,11 +10,11 @@
 using namespace yas;
 using namespace yas::processing;
 
-@interface yas_processing_signal_generator_module_tests : XCTestCase
+@interface yas_processing_signal_module_tests : XCTestCase
 
 @end
 
-@implementation yas_processing_signal_generator_module_tests
+@implementation yas_processing_signal_module_tests
 
 - (void)setUp {
     [super setUp];
@@ -24,13 +25,13 @@ using namespace yas::processing;
 }
 
 - (void)test_create {
-    auto module = processing::make_signal_generator_module<double>({});
+    auto module = processing::make_signal_module<double>({});
 
     XCTAssertTrue(module);
 }
 
 - (void)test_create_null {
-    signal_generator_module module = nullptr;
+    signal_module module = nullptr;
 
     XCTAssertFalse(module);
 }
@@ -63,7 +64,7 @@ using namespace yas::processing;
         }
     };
 
-    auto module = make_signal_generator_module<double>(
+    auto module = make_signal_module<double>(
         {.time_range = {.start_frame = 1, .length = 4}, .send_signal_handler = std::move(handler)});
     module.connect_output(output_connector_key, ch_idx);
 
@@ -187,7 +188,7 @@ using namespace yas::processing;
         }
     };
 
-    auto module = make_signal_generator_module<double>(
+    auto module = make_signal_module<double>(
         {.time_range = {.start_frame = 1, .length = 4}, .receive_signal_handler = std::move(handler)});
     module.connect_input(input_connector_key, ch_idx);
 

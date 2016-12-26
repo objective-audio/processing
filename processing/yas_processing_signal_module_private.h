@@ -1,5 +1,5 @@
 //
-//  yas_processing_signal_generator_module_private.h
+//  yas_processing_signal_module_private.h
 //
 
 #pragma once
@@ -12,13 +12,13 @@
 #include <vector>
 
 namespace yas {
-struct processing::signal_generator_module::impl_base : module::impl {
+struct processing::signal_module::impl_base : module::impl {
     impl_base(processing::time_range &&time_range) : module::impl(std::move(time_range)) {
     }
 };
 
 template <typename T>
-struct processing::signal_generator_module::impl : impl_base {
+struct processing::signal_module::impl : impl_base {
     impl(args<T> &&args)
         : impl_base(std::move(args.time_range)),
           _send_signal_handler(std::move(args.send_signal_handler)),
