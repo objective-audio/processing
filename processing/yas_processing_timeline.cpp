@@ -11,6 +11,12 @@ using namespace yas;
 
 struct processing::timeline::impl : base::impl {
     std::map<int64_t, processing::track> _tracks;
+    
+    void process(stream &stream) {
+        for (auto &track_pair : _tracks) {
+            track_pair.second.process(stream);
+        }
+    }
 };
 
 #pragma mark - timeline
@@ -47,4 +53,8 @@ std::experimental::optional<processing::track> processing::timeline::track(int64
     } else {
         return std::experimental::nullopt;
     }
+}
+
+void processing::timeline::process(stream &stream) {
+    impl_ptr<impl>()->process(stream);
 }
