@@ -10,6 +10,7 @@
 namespace yas {
 namespace processing {
     class track;
+    class stream;
 
     class timeline : public base {
         class impl;
@@ -25,6 +26,8 @@ namespace processing {
         std::size_t track_count() const;
         bool has_track(int64_t const) const;
         std::experimental::optional<track> track(int64_t const) const;
+        
+        void process(stream &);
     };
 }
 }
