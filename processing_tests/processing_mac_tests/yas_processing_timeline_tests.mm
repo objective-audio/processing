@@ -79,8 +79,8 @@ using namespace yas::processing;
         }
     };
 
-    auto module1 = make_signal_module<int16_t>(
-        {.time_range = {.start_frame = 0, .length = 2}, .send_signal_handler = std::move(send_handler1)});
+    auto processor1 = make_send_signal_processor<int16_t>({std::move(send_handler1)});
+    auto module1 = module{{.start_frame = 0, .length = 2}, {std::move(processor1)}};
     module1.connect_output("out", 0);
 
     track1.insert_module(module1);
@@ -112,9 +112,10 @@ using namespace yas::processing;
         }
     };
 
-    auto module2 = make_signal_module<int16_t>({.time_range = {.start_frame = 0, .length = 2},
-                                                .send_signal_handler = std::move(send_handler2),
-                                                .receive_signal_handler = std::move(receive_handler2)});
+    auto receive_processor2 = make_receive_signal_processor<int16_t>({std::move(receive_handler2)});
+    auto send_processor2 = make_send_signal_processor<int16_t>({std::move(send_handler2)});
+    auto module2 = module{{.start_frame = 0, .length = 2}, {std::move(receive_processor2), std::move(send_processor2)}};
+
     module2.connect_input("in", 0);
     module2.connect_output("out", 0);
 
