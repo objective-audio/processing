@@ -37,7 +37,7 @@ using namespace yas::processing;
     stream stream = nullptr;
     time_range called_time_range;
     std::string called_key;
-    connector::channel_index_t called_ch_idx;
+    channel_index_t called_ch_idx;
 
     auto clear = [&called_time_range, &called_key, &called_ch_idx]() {
         called_time_range.start_frame = 0;
@@ -47,7 +47,7 @@ using namespace yas::processing;
     };
 
     auto handler = [&called_time_range, &called_key, &called_ch_idx](processing::time_range const &time_range,
-                                                                     connector::channel_index_t const ch_idx,
+                                                                     channel_index_t const ch_idx,
                                                                      std::string const &key, double *const signal_ptr) {
         called_time_range = time_range;
         called_key = key;
@@ -145,7 +145,7 @@ using namespace yas::processing;
     stream stream = nullptr;
     time_range called_time_range;
     std::string called_key;
-    connector::channel_index_t called_ch_idx;
+    channel_index_t called_ch_idx;
     double called_signal[2];
 
     auto stream_data = processing::make_data<double>(2);
@@ -173,7 +173,7 @@ using namespace yas::processing;
     };
 
     auto handler = [&called_time_range, &called_key, &called_ch_idx, &called_signal](
-        processing::time_range const &time_range, connector::channel_index_t const ch_idx, std::string const &key,
+        processing::time_range const &time_range, channel_index_t const ch_idx, std::string const &key,
         double const *const signal_ptr) {
         called_time_range = time_range;
         called_key = key;
@@ -279,7 +279,7 @@ using namespace yas::processing;
     auto process_data = processing::make_data<int16_t>(2);
 
     auto receive_handler = [&process_data, &input_connector_key](
-        processing::time_range const &time_range, connector::channel_index_t const ch_idx, std::string const &key,
+        processing::time_range const &time_range, channel_index_t const ch_idx, std::string const &key,
         int16_t const *const signal_ptr) {
         auto &process_data_raw = get_raw<int16_t>(process_data);
         for (auto const &idx : make_each(time_range.length)) {
@@ -288,7 +288,7 @@ using namespace yas::processing;
     };
 
     auto send_handler = [&process_data](processing::time_range const &time_range,
-                                        connector::channel_index_t const ch_idx, std::string const &key,
+                                        channel_index_t const ch_idx, std::string const &key,
                                         int16_t *const signal_ptr) {
         auto &process_data_raw = get_raw<int16_t>(process_data);
         for (auto const &idx : make_each(time_range.length)) {

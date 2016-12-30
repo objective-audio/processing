@@ -70,7 +70,7 @@ using namespace yas::processing;
     track track1;
     timeline.insert_track(1, track1);
 
-    auto send_handler1 = [](processing::time_range const &time_range, connector::channel_index_t const ch_idx,
+    auto send_handler1 = [](processing::time_range const &time_range, channel_index_t const ch_idx,
                             std::string const &key, int16_t *const signal_ptr) {
         if (key == "out") {
             for (auto const &idx : make_each(time_range.length)) {
@@ -93,7 +93,7 @@ using namespace yas::processing;
     auto process_data = make_data<int16_t>(2);
 
     auto send_handler2 = [&process_data](processing::time_range const &time_range,
-                                         connector::channel_index_t const ch_idx, std::string const &key,
+                                         channel_index_t const ch_idx, std::string const &key,
                                          int16_t *const signal_ptr) {
         if (key == "out") {
             auto &data_raw = get_raw<int16_t>(process_data);
@@ -104,7 +104,7 @@ using namespace yas::processing;
     };
 
     auto receive_handler2 = [&process_data](processing::time_range const &time_range,
-                                            connector::channel_index_t const ch_idx, std::string const &key,
+                                            channel_index_t const ch_idx, std::string const &key,
                                             int16_t const *const signal_ptr) {
         if (key == "in") {
             auto &data_raw = get_raw<int16_t>(process_data);

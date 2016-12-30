@@ -6,7 +6,7 @@
 
 #include "yas_base.h"
 #include "yas_processing_time_range.h"
-#include "yas_processing_connector.h"
+#include "yas_processing_types.h"
 
 namespace yas {
 namespace processing {
@@ -19,10 +19,10 @@ namespace processing {
 
         processing::time_range const &time_range() const;
 
-        void insert_channel(connector::channel_index_t const);
-        bool has_channel(connector::channel_index_t const);
-        processing::channel const &channel(connector::channel_index_t const) const;
-        processing::channel &channel(connector::channel_index_t const);
+        void insert_channel(channel_index_t const);
+        bool has_channel(channel_index_t const);
+        processing::channel const &channel(channel_index_t const) const;
+        processing::channel &channel(channel_index_t const);
         std::size_t channel_count() const;
 
        private:

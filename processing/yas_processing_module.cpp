@@ -11,7 +11,7 @@ using namespace yas;
 namespace yas {
 namespace processing {
     static void connect(module::connector_map_t &connectors, std::string const &key,
-                        connector::channel_index_t const ch_idx) {
+                        channel_index_t const ch_idx) {
         if (connectors.count(key) == 0) {
             connectors.erase(key);
         }
@@ -44,11 +44,11 @@ processing::module::connector_map_t const &processing::module::output_connectors
     return impl_ptr<impl>()->output_connectors();
 }
 
-void processing::module::connect_input(std::string const &key, connector::channel_index_t const ch) {
+void processing::module::connect_input(std::string const &key, channel_index_t const ch) {
     connect(impl_ptr<impl>()->input_connectors(), key, ch);
 }
 
-void processing::module::connect_output(std::string const &key, connector::channel_index_t const ch) {
+void processing::module::connect_output(std::string const &key, channel_index_t const ch) {
     connect(impl_ptr<impl>()->output_connectors(), key, ch);
 }
 

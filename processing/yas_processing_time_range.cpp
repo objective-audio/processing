@@ -23,7 +23,7 @@ bool processing::time_range::operator<(time_range const &rhs) const {
     return length < rhs.length;
 }
 
-int64_t processing::time_range::next_frame() const {
+processing::frame_index_t processing::time_range::next_frame() const {
     return start_frame + length;
 }
 
@@ -67,7 +67,7 @@ std::experimental::optional<processing::time_range> processing::time_range::inte
     auto const next = std::min(next_frame(), other.next_frame());
 
     if (start <= next) {
-        return time_range{.start_frame = start, .length = static_cast<uint32_t>(next - start)};
+        return time_range{.start_frame = start, .length = static_cast<length_t>(next - start)};
     } else {
         return std::experimental::nullopt;
     }
@@ -81,5 +81,5 @@ std::experimental::optional<processing::time_range> processing::time_range::comb
     auto const start = std::min(start_frame, other.start_frame);
     auto const next = std::max(next_frame(), other.next_frame());
 
-    return time_range{.start_frame = start, .length = static_cast<uint32_t>(next - start)};
+    return time_range{.start_frame = start, .length = static_cast<length_t>(next - start)};
 }

@@ -6,7 +6,7 @@
 
 #include "yas_base.h"
 #include "yas_processing_time_range.h"
-#include "yas_processing_connector.h"
+#include "yas_processing_types.h"
 
 namespace yas {
 namespace processing {
@@ -26,11 +26,11 @@ namespace processing {
     };
 
     template <typename T>
-    using send_signal_f = std::function<void(processing::time_range const &, connector::channel_index_t const,
+    using send_signal_f = std::function<void(processing::time_range const &, channel_index_t const,
                                              std::string const &, T *const)>;
 
     template <typename T>
-    using receive_signal_f = std::function<void(processing::time_range const &, connector::channel_index_t const,
+    using receive_signal_f = std::function<void(processing::time_range const &, channel_index_t const,
                                                 std::string const &, T const *const)>;
 
     template <typename T>

@@ -36,7 +36,7 @@ using namespace yas;
 
 - (void)test_insert_module {
     processing::track track;
-    
+
     processing::module module1{{.time_range = {.start_frame = 0}}};
     processing::module module2{{.time_range = {.start_frame = 1}}};
 
