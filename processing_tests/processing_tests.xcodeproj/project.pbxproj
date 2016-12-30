@@ -31,6 +31,8 @@
 		B64C096A1DEFCD2200B9DCB1 /* yas_processing_channel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B64C09681DEFCD2200B9DCB1 /* yas_processing_channel.cpp */; };
 		B64C096C1DF024F900B9DCB1 /* yas_processing_channel_tests.mm in Sources */ = {isa = PBXBuildFile; fileRef = B64C096B1DF024F900B9DCB1 /* yas_processing_channel_tests.mm */; };
 		B64C096E1DF0250300B9DCB1 /* yas_processing_stream_tests.mm in Sources */ = {isa = PBXBuildFile; fileRef = B64C096D1DF0250300B9DCB1 /* yas_processing_stream_tests.mm */; };
+		B6AF4F771E14B87600805168 /* yas_processing_processor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B6AF4F751E14B87600805168 /* yas_processing_processor.cpp */; };
+		B6AF4F791E15048300805168 /* yas_processing_processor_tests.mm in Sources */ = {isa = PBXBuildFile; fileRef = B6AF4F781E15048300805168 /* yas_processing_processor_tests.mm */; };
 		B6C4DAD61DF6501400621F80 /* yas_processing_module.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B6C4DAD41DF6501400621F80 /* yas_processing_module.cpp */; };
 		B6C4DADA1DF6F19B00621F80 /* yas_processing_track.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B6C4DAD81DF6F19B00621F80 /* yas_processing_track.cpp */; };
 		B6C4DADC1DF6F76200621F80 /* yas_processing_module_tests.mm in Sources */ = {isa = PBXBuildFile; fileRef = B6C4DADB1DF6F76200621F80 /* yas_processing_module_tests.mm */; };
@@ -114,6 +116,9 @@
 		B65947F31DE6AA4C009D5E34 /* yas_processing_data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yas_processing_data.h; path = ../../processing/yas_processing_data.h; sourceTree = "<group>"; };
 		B6A6EF9A1DD94E9200436428 /* processing_mac_tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = processing_mac_tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6A6EF9F1DD94E9200436428 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B6AF4F751E14B87600805168 /* yas_processing_processor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = yas_processing_processor.cpp; path = ../../processing/yas_processing_processor.cpp; sourceTree = "<group>"; };
+		B6AF4F761E14B87600805168 /* yas_processing_processor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yas_processing_processor.h; path = ../../processing/yas_processing_processor.h; sourceTree = "<group>"; };
+		B6AF4F781E15048300805168 /* yas_processing_processor_tests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = yas_processing_processor_tests.mm; sourceTree = "<group>"; };
 		B6C4DAD41DF6501400621F80 /* yas_processing_module.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = yas_processing_module.cpp; path = ../../processing/yas_processing_module.cpp; sourceTree = "<group>"; };
 		B6C4DAD51DF6501400621F80 /* yas_processing_module.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yas_processing_module.h; path = ../../processing/yas_processing_module.h; sourceTree = "<group>"; };
 		B6C4DAD71DF6505700621F80 /* yas_processing_module_private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = yas_processing_module_private.h; path = ../../processing/yas_processing_module_private.h; sourceTree = "<group>"; };
@@ -152,12 +157,14 @@
 				B6C4DAD71DF6505700621F80 /* yas_processing_module_private.h */,
 				B6C4DAD41DF6501400621F80 /* yas_processing_module.cpp */,
 				B6C4DAD51DF6501400621F80 /* yas_processing_module.h */,
-				B6348AC11E0B67AE0096DA81 /* yas_processing_timeline.cpp */,
-				B6348AC21E0B67AE0096DA81 /* yas_processing_timeline.h */,
+				B6AF4F751E14B87600805168 /* yas_processing_processor.cpp */,
+				B6AF4F761E14B87600805168 /* yas_processing_processor.h */,
 				B620F60B1DE1BDD30050F6A2 /* yas_processing_stream.cpp */,
 				B620F60C1DE1BDD30050F6A2 /* yas_processing_stream.h */,
 				B620F60E1DE1C4E20050F6A2 /* yas_processing_time_range.cpp */,
 				B620F60F1DE1C4E20050F6A2 /* yas_processing_time_range.h */,
+				B6348AC11E0B67AE0096DA81 /* yas_processing_timeline.cpp */,
+				B6348AC21E0B67AE0096DA81 /* yas_processing_timeline.h */,
 				B6C4DAD81DF6F19B00621F80 /* yas_processing_track.cpp */,
 				B6C4DAD91DF6F19B00621F80 /* yas_processing_track.h */,
 				B64C096F1DF1089600B9DCB1 /* yas_processing.h */,
@@ -181,11 +188,12 @@
 				B64C096B1DF024F900B9DCB1 /* yas_processing_channel_tests.mm */,
 				B64C09611DEC50D700B9DCB1 /* yas_processing_data_tests.mm */,
 				B6C4DADB1DF6F76200621F80 /* yas_processing_module_tests.mm */,
-				B6348AC41E0BD4F90096DA81 /* yas_processing_timeline_tests.mm */,
+				B6AF4F781E15048300805168 /* yas_processing_processor_tests.mm */,
 				B6C97A191E08CB21001B54E2 /* yas_processing_signal_module_tests.mm */,
 				B64C096D1DF0250300B9DCB1 /* yas_processing_stream_tests.mm */,
 				B6272EB31DF70C1900F5DF95 /* yas_processing_test_utils.h */,
 				B633D22A1DE1E1EB00C35515 /* yas_processing_time_range_tests.mm */,
+				B6348AC41E0BD4F90096DA81 /* yas_processing_timeline_tests.mm */,
 				B6C4DADD1DF6F76E00621F80 /* yas_processing_track_tests.mm */,
 			);
 			name = processing_tests;
@@ -364,6 +372,7 @@
 				B63674C01DD9DFF500C724DB /* yas_stl_utils.cpp in Sources */,
 				B6C97A1A1E08CB21001B54E2 /* yas_processing_signal_module_tests.mm in Sources */,
 				B6C4DADA1DF6F19B00621F80 /* yas_processing_track.cpp in Sources */,
+				B6AF4F791E15048300805168 /* yas_processing_processor_tests.mm in Sources */,
 				B6C97A171E082F29001B54E2 /* yas_processing_signal_module.cpp in Sources */,
 				B63674B51DD9DFF500C724DB /* yas_base.cpp in Sources */,
 				B64C09641DEC536D00B9DCB1 /* yas_processing_data.cpp in Sources */,
@@ -376,6 +385,7 @@
 				B63674BD1DD9DFF500C724DB /* yas_objc_ptr.mm in Sources */,
 				B64C09621DEC50D700B9DCB1 /* yas_processing_data_tests.mm in Sources */,
 				B64C096E1DF0250300B9DCB1 /* yas_processing_stream_tests.mm in Sources */,
+				B6AF4F771E14B87600805168 /* yas_processing_processor.cpp in Sources */,
 				B63674BE1DD9DFF500C724DB /* yas_operation.cpp in Sources */,
 				B63674B91DD9DFF500C724DB /* yas_delaying_caller.cpp in Sources */,
 				B620F60D1DE1BDD30050F6A2 /* yas_processing_stream.cpp in Sources */,
