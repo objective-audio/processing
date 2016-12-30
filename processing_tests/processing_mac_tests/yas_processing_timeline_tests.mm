@@ -59,7 +59,6 @@ using namespace yas::processing;
     XCTAssertTrue(timeline.track(-1) == trackMinus1);
 
     XCTAssertFalse(timeline.has_track(0));
-    XCTAssertFalse(timeline.track(0));
 }
 
 - (void)test_process {
