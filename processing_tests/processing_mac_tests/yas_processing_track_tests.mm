@@ -3,7 +3,7 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "yas_processing_test_utils.h"
+#import "yas_processing.h"
 
 using namespace yas;
 
@@ -36,12 +36,9 @@ using namespace yas;
 
 - (void)test_insert_module {
     processing::track track;
-
-    test::module module1{{.start_frame = 0}};
-    module1.set_value(1);
-
-    test::module module2{{.start_frame = 1}};
-    module2.set_value(2);
+    
+    processing::module module1{{.start_frame = 0}, {}};
+    processing::module module2{{.start_frame = 1}, {}};
 
     track.insert_module(std::move(module1));
     track.insert_module(std::move(module2));
@@ -52,16 +49,14 @@ using namespace yas;
         std::size_t idx = 0;
         for (auto const &pair : const_track.modules()) {
             auto const &time_range = pair.first;
-            auto const &module = cast<test::module>(pair.second);
+            auto const &module = pair.second;
 
             XCTAssertTrue(module);
 
             if (idx == 0) {
                 XCTAssertTrue((time_range == processing::time_range{.start_frame = 0}));
-                XCTAssertEqual(module.value(), 1);
             } else if (idx == 1) {
                 XCTAssertTrue((time_range == processing::time_range{.start_frame = 1}));
-                XCTAssertEqual(module.value(), 2);
             } else {
                 XCTFail();
             }

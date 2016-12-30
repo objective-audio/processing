@@ -25,9 +25,6 @@ namespace processing {
 }
 }
 
-processing::module::module(std::shared_ptr<impl> &&impl) : base(std::move(impl)) {
-}
-
 processing::module::module(processing::time_range time_range, std::vector<processor> processors)
     : base(std::make_shared<impl>(std::move(time_range), std::move(processors))) {
 }

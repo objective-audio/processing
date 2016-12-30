@@ -4,11 +4,6 @@
 
 #pragma once
 
-#include "yas_processing_connector.h"
-#include "yas_processing_processor.h"
-#include "yas_processing_time_range.h"
-#include "yas_processing_stream.h"
-
 namespace yas {
 struct processing::module::impl : base::impl {
     impl(processing::time_range time_range) : _time_range(std::move(time_range)) {
