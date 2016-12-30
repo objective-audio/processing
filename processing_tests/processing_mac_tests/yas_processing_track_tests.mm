@@ -3,7 +3,7 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "yas_processing_test_utils.h"
+#import "yas_processing.h"
 
 using namespace yas;
 
