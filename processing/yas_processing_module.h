@@ -5,15 +5,19 @@
 #pragma once
 
 #include "yas_base.h"
+#include "yas_processing_connector.h"
+#include "yas_processing_processor.h"
+#include "yas_processing_time_range.h"
+#include "yas_processing_stream.h"
 #include <vector>
 #include <unordered_map>
 
 namespace yas {
 namespace processing {
-    class stream;
-    class time_range;
-    class connector;
-    class processor;
+//    class stream;
+//    class time_range;
+//    class connector;
+//    class processor;
 
     class module : public base {
        public:
@@ -22,7 +26,6 @@ namespace processing {
         using connector_map_t = std::unordered_map<std::string, connector>;
         using processors_t = std::vector<processor>;
 
-        explicit module(std::shared_ptr<impl> &&);
         module(time_range, processors_t);
         module(std::nullptr_t);
 
