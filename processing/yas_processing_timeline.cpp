@@ -10,7 +10,7 @@ using namespace yas;
 #pragma mark - timeline::impl
 
 struct processing::timeline::impl : base::impl {
-    std::map<track_index_t, processing::track> _tracks;
+    track_map_t _tracks;
 
     void process(stream &stream) {
         for (auto &track_pair : _tracks) {
@@ -27,11 +27,11 @@ processing::timeline::timeline() : base(std::make_shared<impl>()) {
 processing::timeline::timeline(std::nullptr_t) : base(nullptr) {
 }
 
-std::map<processing::track_index_t, processing::track> const &processing::timeline::tracks() const {
+processing::timeline::track_map_t const &processing::timeline::tracks() const {
     return impl_ptr<impl>()->_tracks;
 }
 
-std::map<processing::track_index_t, processing::track> &processing::timeline::tracks() {
+processing::timeline::track_map_t &processing::timeline::tracks() {
     return impl_ptr<impl>()->_tracks;
 }
 
@@ -47,12 +47,12 @@ bool processing::timeline::has_track(track_index_t const idx) const {
     return impl_ptr<impl>()->_tracks.count(idx) > 0;
 }
 
-std::experimental::optional<processing::track> processing::timeline::track(track_index_t const idx) const {
-    if (has_track(idx)) {
-        return impl_ptr<impl>()->_tracks.at(idx);
-    } else {
-        return std::experimental::nullopt;
-    }
+processing::track const &processing::timeline::track(track_index_t const trk_idx) const {
+    return impl_ptr<impl>()->_tracks.at(trk_idx);
+}
+
+processing::track &processing::timeline::track(track_index_t const trk_idx) {
+    return impl_ptr<impl>()->_tracks.at(trk_idx);
 }
 
 void processing::timeline::process(stream &stream) {
