@@ -70,8 +70,8 @@ using namespace yas::processing;
     track track1;
     timeline.insert_track(1, track1);
 
-    auto send_handler1 = [](processing::time_range const &time_range, int64_t const ch_idx, std::string const &key,
-                            int16_t *const signal_ptr) {
+    auto send_handler1 = [](processing::time_range const &time_range, channel_index_t const ch_idx,
+                            std::string const &key, int16_t *const signal_ptr) {
         if (key == "out") {
             for (auto const &idx : make_each(time_range.length)) {
                 signal_ptr[idx] = idx;
@@ -80,7 +80,7 @@ using namespace yas::processing;
     };
 
     auto processor1 = make_send_signal_processor<int16_t>({std::move(send_handler1)});
-    auto module1 = module{{.start_frame = 0, .length = 2}, {std::move(processor1)}};
+    auto module1 = module{{.time_range = {.start_frame = 0, .length = 2}, .processors = {std::move(processor1)}}};
     module1.connect_output("out", 0);
 
     track1.insert_module(module1);
@@ -92,8 +92,9 @@ using namespace yas::processing;
 
     auto process_data = make_data<int16_t>(2);
 
-    auto send_handler2 = [&process_data](processing::time_range const &time_range, int64_t const ch_idx,
-                                         std::string const &key, int16_t *const signal_ptr) {
+    auto send_handler2 = [&process_data](processing::time_range const &time_range,
+                                         channel_index_t const ch_idx, std::string const &key,
+                                         int16_t *const signal_ptr) {
         if (key == "out") {
             auto &data_raw = get_raw<int16_t>(process_data);
             for (auto const &idx : make_each(time_range.length)) {
@@ -102,8 +103,9 @@ using namespace yas::processing;
         }
     };
 
-    auto receive_handler2 = [&process_data](processing::time_range const &time_range, int64_t const ch_idx,
-                                            std::string const &key, int16_t const *const signal_ptr) {
+    auto receive_handler2 = [&process_data](processing::time_range const &time_range,
+                                            channel_index_t const ch_idx, std::string const &key,
+                                            int16_t const *const signal_ptr) {
         if (key == "in") {
             auto &data_raw = get_raw<int16_t>(process_data);
             for (auto const &idx : make_each(time_range.length)) {
@@ -114,7 +116,8 @@ using namespace yas::processing;
 
     auto receive_processor2 = make_receive_signal_processor<int16_t>({std::move(receive_handler2)});
     auto send_processor2 = make_send_signal_processor<int16_t>({std::move(send_handler2)});
-    auto module2 = module{{.start_frame = 0, .length = 2}, {std::move(receive_processor2), std::move(send_processor2)}};
+    auto module2 = module{{.time_range = {.start_frame = 0, .length = 2},
+                           .processors = {std::move(receive_processor2), std::move(send_processor2)}}};
 
     module2.connect_input("in", 0);
     module2.connect_output("out", 0);

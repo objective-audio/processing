@@ -4,20 +4,21 @@
 
 #pragma once
 
+#include "yas_processing_types.h"
 #include <memory>
 #include <experimental/optional>
 
 namespace yas {
 namespace processing {
     struct time_range {
-        int64_t start_frame = 0;
-        uint32_t length = 0;
+        frame_index_t start_frame = 0;
+        length_t length = 0;
 
         bool operator==(time_range const &) const;
         bool operator!=(time_range const &) const;
         bool operator<(time_range const &) const;
 
-        int64_t next_frame() const;
+        frame_index_t next_frame() const;
 
         bool is_contain(time_range const &) const;
         bool is_overlap(time_range const &) const;
