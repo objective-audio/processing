@@ -16,13 +16,13 @@ namespace processing {
     class processor : public base {
        public:
         struct impl : base::impl {
-            virtual void process(module const &, time_range const &, stream &) = 0;
+            virtual void process(time_range const &, module const &, stream &) = 0;
         };
 
         explicit processor(std::shared_ptr<impl> &&);
         processor(std::nullptr_t);
 
-        void process(module const &, time_range const &, stream &);
+        void process(time_range const &, module const &, stream &);
     };
 }
 }

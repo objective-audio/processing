@@ -23,8 +23,8 @@ namespace processing {
         std::multimap<time_range, module> const &modules() const;
         std::multimap<time_range, module> &modules();
 
-        void insert_module(module);
-        
+        void insert_module(time_range, module);
+
         void process(stream &);
     };
 }

@@ -10,8 +10,7 @@ using namespace yas;
 
 namespace yas {
 namespace processing {
-    static void connect(module::connector_map_t &connectors, std::string const &key,
-                        channel_index_t const ch_idx) {
+    static void connect(module::connector_map_t &connectors, std::string const &key, channel_index_t const ch_idx) {
         if (connectors.count(key) == 0) {
             connectors.erase(key);
         }
@@ -26,14 +25,14 @@ namespace processing {
 }
 }
 
-processing::module::module(processing::module::args args) : base(std::make_shared<impl>(std::move(args))) {
+processing::module::module(processors_t processors) : base(std::make_shared<impl>(std::move(processors))) {
 }
 
 processing::module::module(std::nullptr_t) : base(nullptr) {
 }
 
-void processing::module::process(stream &stream) {
-    impl_ptr<impl>()->process(stream);
+void processing::module::process(time_range const &time_range, stream &stream) {
+    impl_ptr<impl>()->process(time_range, stream);
 }
 
 processing::module::connector_map_t const &processing::module::input_connectors() const {
@@ -62,8 +61,4 @@ void processing::module::disconnect_output(std::string const &key) {
 
 processing::module::processors_t const &processing::module::processors() const {
     return impl_ptr<impl>()->processors();
-}
-
-processing::time_range const &processing::module::time_range() const {
-    return impl_ptr<impl>()->time_range();
 }

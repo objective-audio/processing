@@ -1,5 +1,4 @@
-
-    //
+//
 //  yas_processing_receive_signal_processor.cpp
 //
 
@@ -19,14 +18,8 @@ namespace processing {
         receive_signal_processor_impl(processing::receive_signal_f<T> &&handler) : _handler(std::move(handler)) {
         }
 
-        void process(module const &module, time_range const &current_time_range, stream &stream) override {
+        void process(time_range const &current_time_range, module const &module, stream &stream) override {
             if (_handler) {
-                auto const current_time_range_opt = module.time_range().intersect(stream.time_range());
-                if (!current_time_range_opt) {
-                    return;
-                }
-                auto const &current_time_range = *current_time_range_opt;
-
                 for (auto const &connector_pair : module.input_connectors()) {
                     auto const &connector_key = connector_pair.first;
                     auto const &connector = connector_pair.second;
@@ -74,4 +67,3 @@ template processing::processor processing::make_receive_signal_processor(process
 template processing::processor processing::make_receive_signal_processor(processing::receive_signal_f<uint32_t>);
 template processing::processor processing::make_receive_signal_processor(processing::receive_signal_f<uint16_t>);
 template processing::processor processing::make_receive_signal_processor(processing::receive_signal_f<uint8_t>);
-;

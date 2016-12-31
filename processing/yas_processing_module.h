@@ -21,15 +21,10 @@ namespace processing {
         using connector_map_t = std::unordered_map<std::string, connector>;
         using processors_t = std::vector<processor>;
 
-        struct args {
-            time_range time_range;
-            processors_t processors;
-        };
-
-        explicit module(args);
+        explicit module(processors_t);
         module(std::nullptr_t);
 
-        void process(stream &);
+        void process(time_range const &, stream &);
 
         connector_map_t const &input_connectors() const;
         connector_map_t const &output_connectors() const;
@@ -39,8 +34,6 @@ namespace processing {
         void disconnect_output(std::string const &key);
 
         processors_t const &processors() const;
-
-        time_range const &time_range() const;
     };
 }
 }

@@ -14,12 +14,12 @@ using namespace yas;
 
 struct processing::track::impl : base::impl {
     std::multimap<time_range, module> _modules;
-    
+
     void process(stream &stream) {
         auto const &stream_time_range = stream.time_range();
         for (auto &pair : _modules) {
-            if (pair.first.is_overlap(stream_time_range)) {
-                pair.second.process(stream);
+            if (auto const current_time_range = pair.first.intersect(stream_time_range)) {
+                pair.second.process(*current_time_range, stream);
             }
         }
     }
@@ -41,8 +41,8 @@ std::multimap<processing::time_range, processing::module> &processing::track::mo
     return impl_ptr<impl>()->_modules;
 }
 
-void processing::track::insert_module(module module) {
-    impl_ptr<impl>()->_modules.emplace(module.time_range(), std::move(module));
+void processing::track::insert_module(processing::time_range time_range, module module) {
+    impl_ptr<impl>()->_modules.emplace(std::move(time_range), std::move(module));
 }
 
 void processing::track::process(stream &stream) {

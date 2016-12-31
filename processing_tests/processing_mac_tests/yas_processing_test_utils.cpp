@@ -9,15 +9,15 @@ using namespace yas;
 struct test::processor_impl : processing::processor::impl {
     processor_impl(process_f &&handler) : _handler(std::move(handler)) {
     }
-    
-    virtual void process(processing::module const &, processing::time_range const &,
+
+    virtual void process(processing::time_range const &, processing::module const &,
                          processing::stream &stream) override {
         if (_handler) {
             _handler(stream);
         }
     }
-    
-private:
+
+   private:
     process_f _handler;
 };
 

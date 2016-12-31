@@ -12,6 +12,6 @@ processing::processor::processor(std::shared_ptr<impl> &&impl) : base(std::move(
 processing::processor::processor(std::nullptr_t) : base(nullptr) {
 }
 
-void processing::processor::process(module const &module, time_range const &time_range, stream &stream) {
-    impl_ptr<impl>()->process(module, time_range, stream);
+void processing::processor::process(time_range const &time_range, module const &module, stream &stream) {
+    impl_ptr<impl>()->process(time_range, module, stream);
 }
