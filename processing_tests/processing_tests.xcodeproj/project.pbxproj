@@ -38,6 +38,8 @@
 		B6C4DADA1DF6F19B00621F80 /* yas_processing_track.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B6C4DAD81DF6F19B00621F80 /* yas_processing_track.cpp */; };
 		B6C4DADC1DF6F76200621F80 /* yas_processing_module_tests.mm in Sources */ = {isa = PBXBuildFile; fileRef = B6C4DADB1DF6F76200621F80 /* yas_processing_module_tests.mm */; };
 		B6C4DADE1DF6F76E00621F80 /* yas_processing_track_tests.mm in Sources */ = {isa = PBXBuildFile; fileRef = B6C4DADD1DF6F76E00621F80 /* yas_processing_track_tests.mm */; };
+		B6E0CB261E1762A100329906 /* yas_processing_send_signal_processor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B6E0CB241E1762A100329906 /* yas_processing_send_signal_processor.cpp */; };
+		B6E0CB291E1762B500329906 /* yas_processing_receive_signal_processor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B6E0CB271E1762B500329906 /* yas_processing_receive_signal_processor.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -127,6 +129,10 @@
 		B6C4DAD91DF6F19B00621F80 /* yas_processing_track.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yas_processing_track.h; path = ../../processing/yas_processing_track.h; sourceTree = "<group>"; };
 		B6C4DADB1DF6F76200621F80 /* yas_processing_module_tests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = yas_processing_module_tests.mm; sourceTree = "<group>"; };
 		B6C4DADD1DF6F76E00621F80 /* yas_processing_track_tests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = yas_processing_track_tests.mm; sourceTree = "<group>"; };
+		B6E0CB241E1762A100329906 /* yas_processing_send_signal_processor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = yas_processing_send_signal_processor.cpp; path = ../../processing/yas_processing_send_signal_processor.cpp; sourceTree = "<group>"; };
+		B6E0CB251E1762A100329906 /* yas_processing_send_signal_processor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yas_processing_send_signal_processor.h; path = ../../processing/yas_processing_send_signal_processor.h; sourceTree = "<group>"; };
+		B6E0CB271E1762B500329906 /* yas_processing_receive_signal_processor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = yas_processing_receive_signal_processor.cpp; path = ../../processing/yas_processing_receive_signal_processor.cpp; sourceTree = "<group>"; };
+		B6E0CB281E1762B500329906 /* yas_processing_receive_signal_processor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yas_processing_receive_signal_processor.h; path = ../../processing/yas_processing_receive_signal_processor.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,6 +149,7 @@
 		B620F6071DE1BD390050F6A2 /* processing */ = {
 			isa = PBXGroup;
 			children = (
+				B6E0CB231E17628100329906 /* processor */,
 				B628EDF61E00DDE200445DA8 /* yas_processing_channel_private.h */,
 				B64C09681DEFCD2200B9DCB1 /* yas_processing_channel.cpp */,
 				B64C09691DEFCD2200B9DCB1 /* yas_processing_channel.h */,
@@ -282,6 +289,17 @@
 			path = processing_mac_tests;
 			sourceTree = "<group>";
 		};
+		B6E0CB231E17628100329906 /* processor */ = {
+			isa = PBXGroup;
+			children = (
+				B6E0CB241E1762A100329906 /* yas_processing_send_signal_processor.cpp */,
+				B6E0CB251E1762A100329906 /* yas_processing_send_signal_processor.h */,
+				B6E0CB271E1762B500329906 /* yas_processing_receive_signal_processor.cpp */,
+				B6E0CB281E1762B500329906 /* yas_processing_receive_signal_processor.h */,
+			);
+			name = processor;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -356,6 +374,8 @@
 				B63674BC1DD9DFF500C724DB /* yas_flex_ptr.cpp in Sources */,
 				B6C4DADE1DF6F76E00621F80 /* yas_processing_track_tests.mm in Sources */,
 				B64C096C1DF024F900B9DCB1 /* yas_processing_channel_tests.mm in Sources */,
+				B6E0CB261E1762A100329906 /* yas_processing_send_signal_processor.cpp in Sources */,
+				B6E0CB291E1762B500329906 /* yas_processing_receive_signal_processor.cpp in Sources */,
 				B63674C01DD9DFF500C724DB /* yas_stl_utils.cpp in Sources */,
 				B6C4DADA1DF6F19B00621F80 /* yas_processing_track.cpp in Sources */,
 				B6AF4F791E15048300805168 /* yas_processing_processor_tests.mm in Sources */,
