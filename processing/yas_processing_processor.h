@@ -24,19 +24,5 @@ namespace processing {
 
         void process(module const &, time_range const &, stream &);
     };
-
-    template <typename T>
-    using send_signal_f = std::function<void(processing::time_range const &, channel_index_t const,
-                                             std::string const &, T *const)>;
-
-    template <typename T>
-    using receive_signal_f = std::function<void(processing::time_range const &, channel_index_t const,
-                                                std::string const &, T const *const)>;
-
-    template <typename T>
-    processor make_send_signal_processor(send_signal_f<T>);
-
-    template <typename T>
-    processor make_receive_signal_processor(receive_signal_f<T>);
 }
 }
