@@ -18,14 +18,8 @@ namespace processing {
         send_signal_processor_impl(processing::send_signal_f<T> &&handler) : _handler(std::move(handler)) {
         }
 
-        void process(module const &module, time_range const &current_time_range, stream &stream) override {
+        void process(time_range const &current_time_range, module const &module, stream &stream) override {
             if (_handler) {
-                auto const current_time_range_opt = module.time_range().intersect(stream.time_range());
-                if (!current_time_range_opt) {
-                    return;
-                }
-                auto const &current_time_range = *current_time_range_opt;
-
                 for (auto const &connector_pair : module.output_connectors()) {
                     auto const &connector_key = connector_pair.first;
                     auto const &connector = connector_pair.second;
@@ -100,5 +94,3 @@ template processing::processor processing::make_send_signal_processor(processing
 template processing::processor processing::make_send_signal_processor(processing::send_signal_f<uint32_t>);
 template processing::processor processing::make_send_signal_processor(processing::send_signal_f<uint16_t>);
 template processing::processor processing::make_send_signal_processor(processing::send_signal_f<uint8_t>);
-
-;

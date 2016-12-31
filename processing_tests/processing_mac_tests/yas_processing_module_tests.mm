@@ -22,10 +22,9 @@ using namespace yas;
 }
 
 - (void)test_create_module {
-    processing::module module{{.time_range = {.start_frame = 1, .length = 2}}};
+    processing::module module{processing::module::processors_t{}};
 
     XCTAssertTrue(module);
-    XCTAssertTrue((module.time_range() == processing::time_range{.start_frame = 1, .length = 2}));
     XCTAssertEqual(module.input_connectors().size(), 0);
     XCTAssertEqual(module.output_connectors().size(), 0);
 }
@@ -43,16 +42,16 @@ using namespace yas;
 
     auto processor = test::make_processor(
         [&called_time_range](processing::stream &stream) { called_time_range = stream.time_range(); });
-    processing::module module{{.time_range = {.start_frame = 23, .length = 456}, .processors = {std::move(processor)}}};
+    processing::module module{{std::move(processor)}};
 
-    module.process(stream);
+    module.process({.start_frame = 23, .length = 456}, stream);
 
     XCTAssertEqual(called_time_range.start_frame, 23);
     XCTAssertEqual(called_time_range.length, 456);
 }
 
 - (void)test_connect_input {
-    processing::module module{processing::module::args{}};
+    processing::module module{processing::module::processors_t{}};
 
     module.connect_input("a", 1);
 
@@ -62,7 +61,7 @@ using namespace yas;
 }
 
 - (void)test_connect_output {
-    processing::module module{processing::module::args{}};
+    processing::module module{processing::module::processors_t{}};
 
     module.connect_output("b", 2);
 
@@ -72,7 +71,7 @@ using namespace yas;
 }
 
 - (void)test_disconnect_input {
-    processing::module module{processing::module::args{}};
+    processing::module module{processing::module::processors_t{}};
 
     module.connect_input("c", 3);
 
@@ -86,7 +85,7 @@ using namespace yas;
 }
 
 - (void)test_disconnect_output {
-    processing::module module{processing::module::args{}};
+    processing::module module{processing::module::processors_t{}};
 
     module.connect_output("d", 3);
 

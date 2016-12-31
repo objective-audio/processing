@@ -6,7 +6,7 @@
 
 namespace yas {
 struct processing::module::impl : base::impl {
-    impl(args &&args) : _args(std::move(args)) {
+    impl(processors_t &&processors) : _processors(std::move(processors)) {
     }
 
     connector_map_t &input_connectors() {
@@ -18,29 +18,19 @@ struct processing::module::impl : base::impl {
     }
 
     processors_t &processors() {
-        return _args.processors;
+        return _processors;
     }
 
-    processing::time_range &time_range() {
-        return _args.time_range;
-    }
-
-    virtual void process(stream &stream) {
-        auto const current_time_range_opt = time_range().intersect(stream.time_range());
-        if (!current_time_range_opt) {
-            return;
-        }
-
+    virtual void process(processing::time_range const &current_time_range, stream &stream) {
         auto const module = cast<processing::module>();
-        auto const &current_time_range = *current_time_range_opt;
 
-        for (auto &processor : _args.processors) {
-            processor.process(module, current_time_range, stream);
+        for (auto &processor : _processors) {
+            processor.process(current_time_range, module, stream);
         }
     }
 
    private:
-    args _args;
+    processors_t _processors;
     connector_map_t _input_connectors;
     connector_map_t _output_connectors;
 };

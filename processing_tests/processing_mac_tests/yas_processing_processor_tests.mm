@@ -59,8 +59,7 @@ using namespace yas::processing;
 
     auto processor = processing::make_send_signal_processor<double>(std::move(handler));
 
-    auto module =
-        processing::module{{.time_range = {.start_frame = 1, .length = 4}, .processors = {std::move(processor)}}};
+    auto module = processing::module{{std::move(processor)}};
     module.connect_output(output_connector_key, ch_idx);
 
     {
@@ -69,7 +68,7 @@ using namespace yas::processing;
         process_time_range.start_frame = 0;
         stream = processing::stream{process_time_range};
 
-        module.process(stream);
+        module.process({.start_frame = 1, .length = 1}, stream);
 
         XCTAssertEqual(called_time_range.start_frame, 1);
         XCTAssertEqual(called_time_range.length, 1);
@@ -88,7 +87,7 @@ using namespace yas::processing;
         process_time_range.start_frame = 2;
         stream = processing::stream{process_time_range};
 
-        module.process(stream);
+        module.process({.start_frame = 2, .length = 2}, stream);
 
         XCTAssertEqual(called_time_range.start_frame, 2);
         XCTAssertEqual(called_time_range.length, 2);
@@ -100,40 +99,6 @@ using namespace yas::processing;
         XCTAssertEqual(raw.size(), 2);
         XCTAssertEqual(raw.at(0), 1.0);
         XCTAssertEqual(raw.at(1), 1.0);
-    }
-
-    {
-        clear();
-
-        process_time_range.start_frame = 4;
-        stream = processing::stream{process_time_range};
-
-        module.process(stream);
-
-        XCTAssertEqual(called_time_range.start_frame, 4);
-        XCTAssertEqual(called_time_range.length, 1);
-        XCTAssertEqual(called_key, output_connector_key);
-        XCTAssertEqual(called_ch_idx, ch_idx);
-
-        XCTAssertTrue(stream.has_channel(ch_idx));
-        auto const &raw = get_raw<double>((*stream.channel(ch_idx).datas().begin()).second);
-        XCTAssertEqual(raw.size(), 1);
-        XCTAssertEqual(raw.at(0), 1.0);
-    }
-
-    {
-        clear();
-
-        process_time_range.start_frame = 6;
-        stream = processing::stream{process_time_range};
-
-        module.process(stream);
-
-        XCTAssertEqual(called_time_range.length, 0);
-        XCTAssertTrue(called_key.empty());
-        XCTAssertEqual(called_ch_idx, 0);
-
-        XCTAssertFalse(stream.has_channel(ch_idx));
     }
 }
 
@@ -185,8 +150,7 @@ using namespace yas::processing;
 
     auto processor = make_receive_signal_processor<double>(std::move(handler));
 
-    auto module =
-        processing::module{{.time_range = {.start_frame = 1, .length = 4}, .processors = {std::move(processor)}}};
+    auto module = processing::module{{std::move(processor)}};
     module.connect_input(input_connector_key, ch_idx);
 
     {
@@ -195,7 +159,7 @@ using namespace yas::processing;
         process_time_range.start_frame = 0;
         stream = make_stream(process_time_range);
 
-        module.process(stream);
+        module.process({.start_frame = 1, .length = 1}, stream);
 
         XCTAssertEqual(called_time_range.start_frame, 1);
         XCTAssertEqual(called_time_range.length, 1);
@@ -212,7 +176,7 @@ using namespace yas::processing;
         process_time_range.start_frame = 2;
         stream = make_stream(process_time_range);
 
-        module.process(stream);
+        module.process({.start_frame = 2, .length = 2}, stream);
 
         XCTAssertEqual(called_time_range.start_frame, 2);
         XCTAssertEqual(called_time_range.length, 2);
@@ -221,39 +185,6 @@ using namespace yas::processing;
 
         XCTAssertEqual(called_signal[0], 1.0);
         XCTAssertEqual(called_signal[1], 1.0);
-    }
-
-    {
-        clear();
-
-        process_time_range.start_frame = 4;
-        stream = make_stream(process_time_range);
-
-        module.process(stream);
-
-        XCTAssertEqual(called_time_range.start_frame, 4);
-        XCTAssertEqual(called_time_range.length, 1);
-        XCTAssertEqual(called_key, input_connector_key);
-        XCTAssertEqual(called_ch_idx, ch_idx);
-
-        XCTAssertEqual(called_signal[0], 1.0);
-        XCTAssertEqual(called_signal[1], 0.0);
-    }
-
-    {
-        clear();
-
-        process_time_range.start_frame = 6;
-        stream = make_stream(process_time_range);
-
-        module.process(stream);
-
-        XCTAssertEqual(called_time_range.length, 0);
-        XCTAssertTrue(called_key.empty());
-        XCTAssertEqual(called_ch_idx, 0);
-
-        XCTAssertEqual(called_signal[0], 0.0);
-        XCTAssertEqual(called_signal[1], 0.0);
     }
 }
 
@@ -278,18 +209,17 @@ using namespace yas::processing;
 
     auto process_data = processing::make_data<int16_t>(2);
 
-    auto receive_handler = [&process_data, &input_connector_key](
-        processing::time_range const &time_range, channel_index_t const ch_idx, std::string const &key,
-        int16_t const *const signal_ptr) {
+    auto receive_handler = [&process_data, &input_connector_key](processing::time_range const &time_range,
+                                                                 channel_index_t const ch_idx, std::string const &key,
+                                                                 int16_t const *const signal_ptr) {
         auto &process_data_raw = get_raw<int16_t>(process_data);
         for (auto const &idx : make_each(time_range.length)) {
             process_data_raw[idx] = signal_ptr[idx] * 2;
         }
     };
 
-    auto send_handler = [&process_data](processing::time_range const &time_range,
-                                        channel_index_t const ch_idx, std::string const &key,
-                                        int16_t *const signal_ptr) {
+    auto send_handler = [&process_data](processing::time_range const &time_range, channel_index_t const ch_idx,
+                                        std::string const &key, int16_t *const signal_ptr) {
         auto &process_data_raw = get_raw<int16_t>(process_data);
         for (auto const &idx : make_each(time_range.length)) {
             signal_ptr[idx] = process_data_raw[idx];
@@ -298,12 +228,11 @@ using namespace yas::processing;
 
     auto receive_processor = make_receive_signal_processor<int16_t>(std::move(receive_handler));
     auto send_processor = processing::make_send_signal_processor<int16_t>(std::move(send_handler));
-    auto module = processing::module{
-        {.time_range = process_time_range, .processors = {std::move(receive_processor), std::move(send_processor)}}};
+    auto module = processing::module{{std::move(receive_processor), std::move(send_processor)}};
     module.connect_input(input_connector_key, receive_ch_idx);
     module.connect_output(output_connector_key, send_ch_idx);
 
-    module.process(stream);
+    module.process(process_time_range, stream);
 
     XCTAssertTrue(stream.has_channel(send_ch_idx));
 

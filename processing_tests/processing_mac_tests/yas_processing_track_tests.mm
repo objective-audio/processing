@@ -37,11 +37,11 @@ using namespace yas;
 - (void)test_insert_module {
     processing::track track;
 
-    processing::module module1{{.time_range = {.start_frame = 0}}};
-    processing::module module2{{.time_range = {.start_frame = 1}}};
+    processing::module module1{processing::module::processors_t{}};
+    processing::module module2{processing::module::processors_t{}};
 
-    track.insert_module(std::move(module1));
-    track.insert_module(std::move(module2));
+    track.insert_module({.start_frame = 0}, std::move(module1));
+    track.insert_module({.start_frame = 1}, std::move(module2));
 
     XCTAssertEqual(track.modules().size(), 2);
 
