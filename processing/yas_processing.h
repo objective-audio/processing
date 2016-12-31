@@ -10,3 +10,5 @@
 
 #include "yas_processing_send_signal_processor.h"
 #include "yas_processing_receive_signal_processor.h"
+
+#include "yas_processing_constant_signal_module.h"
