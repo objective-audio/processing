@@ -23,7 +23,7 @@ bool processing::time_range::operator<(time_range const &rhs) const {
     return length < rhs.length;
 }
 
-processing::frame_index_t processing::time_range::next_frame() const {
+processing::index_t processing::time_range::next_frame() const {
     return start_frame + length;
 }
 
