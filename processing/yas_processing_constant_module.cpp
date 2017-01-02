@@ -2,7 +2,7 @@
 //  yas_processing_constant_module.cpp
 //
 
-#include "yas_processing_constant_signal_module.h"
+#include "yas_processing_constant_module.h"
 #include "yas_processing_send_signal_processor.h"
 #include "yas_processing_module.h"
 #include "yas_ptr_enumerator.h"
