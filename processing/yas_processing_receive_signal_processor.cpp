@@ -6,7 +6,7 @@
 #include "yas_processing_processor.h"
 #include "yas_processing_module.h"
 #include "yas_processing_channel.h"
-#include "yas_processing_data.h"
+#include "yas_processing_buffer.h"
 #include "yas_stl_utils.h"
 
 using namespace yas;
@@ -31,12 +31,12 @@ namespace processing {
 
                         auto predicate = [](auto const &pair) { return pair.second.sample_type() == typeid(T); };
 
-                        auto const filtered_datas = filter(channel.datas(), predicate);
+                        auto const filtered_buffers = filter(channel.buffers(), predicate);
 
-                        for (auto const &pair : filtered_datas) {
+                        for (auto const &pair : filtered_buffers) {
                             if (auto const time_range_opt = current_time_range.intersect(pair.first)) {
                                 auto const &time_range = *time_range_opt;
-                                auto const *ptr = get_raw<T>(pair.second).data();
+                                auto const *ptr = get_vector<T>(pair.second).data();
                                 auto const idx = time_range.start_frame - current_time_range.start_frame;
                                 _handler(time_range, ch_idx, connector_key, &ptr[idx]);
                             }

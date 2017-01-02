@@ -66,15 +66,15 @@ using namespace yas::processing;
 
     time_range called_send_time_range;
     time_range called_receive_time_range;
-    
-    auto process_data = make_data<int16_t>(2);
-    
-    auto clear = [&called_send_time_range, &called_receive_time_range, &process_data](){
+
+    auto process_buffer = make_buffer<int16_t>(2);
+
+    auto clear = [&called_send_time_range, &called_receive_time_range, &process_buffer]() {
         called_send_time_range = {};
         called_receive_time_range = {};
-        auto &data_raw = get_raw<int16_t>(process_data);
+        auto &vec = get_vector<int16_t>(process_buffer);
         for (auto const &idx : make_each(2)) {
-            data_raw[idx] = 0;
+            vec[idx] = 0;
         }
     };
 
@@ -103,28 +103,28 @@ using namespace yas::processing;
     track track2;
     timeline.insert_track(2, track2);
 
-    auto send_handler2 = [&process_data, &called_send_time_range](processing::time_range const &time_range,
-                                                                  channel_index_t const ch_idx, std::string const &key,
-                                                                  int16_t *const signal_ptr) {
+    auto send_handler2 = [&process_buffer, &called_send_time_range](processing::time_range const &time_range,
+                                                                    channel_index_t const ch_idx,
+                                                                    std::string const &key, int16_t *const signal_ptr) {
         called_send_time_range = time_range;
 
         if (key == "out") {
-            auto &data_raw = get_raw<int16_t>(process_data);
+            auto &vec = get_vector<int16_t>(process_buffer);
             for (auto const &idx : make_each(time_range.length)) {
-                signal_ptr[idx] = data_raw[idx];
+                signal_ptr[idx] = vec[idx];
             }
         }
     };
 
-    auto receive_handler2 = [&process_data, &called_receive_time_range](
+    auto receive_handler2 = [&process_buffer, &called_receive_time_range](
         processing::time_range const &time_range, channel_index_t const ch_idx, std::string const &key,
         int16_t const *const signal_ptr) {
         called_receive_time_range = time_range;
 
         if (key == "in") {
-            auto &data_raw = get_raw<int16_t>(process_data);
+            auto &vec = get_vector<int16_t>(process_buffer);
             for (auto const &idx : make_each(time_range.length)) {
-                data_raw[idx] = signal_ptr[idx] + 1;
+                vec[idx] = signal_ptr[idx] + 1;
             }
         }
     };
@@ -140,64 +140,64 @@ using namespace yas::processing;
 
     {
         stream stream{{.start_frame = 0, .length = 2}};
-        
+
         timeline.process(stream);
-        
+
         XCTAssertTrue((called_send_time_range == time_range{.start_frame = 0, .length = 2}));
         XCTAssertTrue((called_receive_time_range == time_range{.start_frame = 0, .length = 2}));
-        
+
         XCTAssertTrue(stream.has_channel(0));
-        auto &datas = stream.channel(0).datas();
-        XCTAssertEqual(datas.size(), 1);
-        auto const &data_raw = get_raw<int16_t>((*datas.begin()).second);
-        XCTAssertEqual(data_raw.size(), 2);
-        XCTAssertEqual(data_raw[0], 1);
-        XCTAssertEqual(data_raw[1], 2);
+        auto &buffers = stream.channel(0).buffers();
+        XCTAssertEqual(buffers.size(), 1);
+        auto const &vec = get_vector<int16_t>((*buffers.begin()).second);
+        XCTAssertEqual(vec.size(), 2);
+        XCTAssertEqual(vec[0], 1);
+        XCTAssertEqual(vec[1], 2);
     }
-    
+
     clear();
-    
+
     {
         stream stream{{.start_frame = -1, .length = 2}};
-        
+
         timeline.process(stream);
-        
+
         XCTAssertTrue((called_send_time_range == time_range{.start_frame = 0, .length = 1}));
         XCTAssertTrue((called_receive_time_range == time_range{.start_frame = 0, .length = 1}));
-        
+
         XCTAssertTrue(stream.has_channel(0));
-        auto &datas = stream.channel(0).datas();
-        XCTAssertEqual(datas.size(), 1);
-        auto const &data_raw = get_raw<int16_t>((*datas.begin()).second);
-        XCTAssertEqual(data_raw.size(), 1);
-        XCTAssertEqual(data_raw[0], 1);
+        auto &buffers = stream.channel(0).buffers();
+        XCTAssertEqual(buffers.size(), 1);
+        auto const &vec = get_vector<int16_t>((*buffers.begin()).second);
+        XCTAssertEqual(vec.size(), 1);
+        XCTAssertEqual(vec[0], 1);
     }
-    
+
     clear();
-    
+
     {
         stream stream{{.start_frame = 1, .length = 2}};
-        
+
         timeline.process(stream);
-        
+
         XCTAssertTrue((called_send_time_range == time_range{.start_frame = 1, .length = 1}));
         XCTAssertTrue((called_receive_time_range == time_range{.start_frame = 1, .length = 1}));
-        
+
         XCTAssertTrue(stream.has_channel(0));
-        auto &datas = stream.channel(0).datas();
-        XCTAssertEqual(datas.size(), 1);
-        auto const &data_raw = get_raw<int16_t>((*datas.begin()).second);
-        XCTAssertEqual(data_raw.size(), 1);
-        XCTAssertEqual(data_raw[0], 1);
+        auto &buffers = stream.channel(0).buffers();
+        XCTAssertEqual(buffers.size(), 1);
+        auto const &vec = get_vector<int16_t>((*buffers.begin()).second);
+        XCTAssertEqual(vec.size(), 1);
+        XCTAssertEqual(vec[0], 1);
     }
-    
+
     clear();
-    
+
     {
         stream stream{{.start_frame = 3, .length = 2}};
-        
+
         timeline.process(stream);
-        
+
         XCTAssertFalse(stream.has_channel(0));
     }
 }

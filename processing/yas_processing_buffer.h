@@ -1,5 +1,5 @@
 //
-//  yas_processing_data.h
+//  yas_processing_buffer.h
 //
 
 #pragma once
@@ -9,7 +9,7 @@
 
 namespace yas {
 namespace processing {
-    class data : public base {
+    class buffer : public base {
         class impl_base;
 
        public:
@@ -17,9 +17,9 @@ namespace processing {
         class impl;
 
         template <typename T>
-        data(std::vector<T> &&bytes);
+        buffer(std::vector<T> &&bytes);
         template <typename T>
-        data(std::vector<T> &bytes);
+        buffer(std::vector<T> &bytes);
 
         std::type_info const &sample_type() const;
         std::size_t sample_byte_count() const;
@@ -27,13 +27,13 @@ namespace processing {
     };
 
     template <typename T>
-    processing::data make_data(std::size_t const);
+    processing::buffer make_buffer(std::size_t const);
 
     template <typename T>
-    std::vector<T> const &get_raw(data const &);
+    std::vector<T> const &get_vector(buffer const &);
     template <typename T>
-    std::vector<T> &get_raw(data &);
+    std::vector<T> &get_vector(buffer &);
 }
 }
 
-#include "yas_processing_data_private.h"
+#include "yas_processing_buffer_private.h"
