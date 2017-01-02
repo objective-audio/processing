@@ -67,16 +67,16 @@ using namespace yas::processing;
     stream.insert_channel(2);
 
     auto &channel = stream.channel(2);
-    channel.insert_data({}, {std::vector<int8_t>{5, 6}});
+    channel.insert_buffer({}, {std::vector<int8_t>{5, 6}});
 
     auto const &const_stream = stream;
     auto const &const_channel = const_stream.channel(2);
 
-    XCTAssertEqual(const_channel.datas().size(), 1);
+    XCTAssertEqual(const_channel.buffers().size(), 1);
     
-    auto const &const_data = (*const_channel.datas().begin()).second;
-    XCTAssertEqual(get_raw<int8_t>(const_data)[0], 5);
-    XCTAssertEqual(get_raw<int8_t>(const_data)[1], 6);
+    auto const &const_buffer = (*const_channel.buffers().begin()).second;
+    XCTAssertEqual(get_vector<int8_t>(const_buffer)[0], 5);
+    XCTAssertEqual(get_vector<int8_t>(const_buffer)[1], 6);
 }
 
 @end

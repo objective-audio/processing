@@ -6,7 +6,7 @@
 
 namespace yas {
 template <typename P>
-void processing::channel::erase_data_if(P predicate) {
-    erase_if(this->datas(), predicate);
+void processing::channel::erase_buffer_if(P predicate) {
+    erase_if(this->buffers(), predicate);
 }
 }

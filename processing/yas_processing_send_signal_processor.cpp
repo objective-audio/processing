@@ -6,7 +6,7 @@
 #include "yas_processing_processor.h"
 #include "yas_processing_module.h"
 #include "yas_processing_channel.h"
-#include "yas_processing_data.h"
+#include "yas_processing_buffer.h"
 #include "yas_stl_utils.h"
 
 using namespace yas;
@@ -38,24 +38,24 @@ namespace processing {
                             return false;
                         };
 
-                        auto const filtered_datas = filter(channel.datas(), predicate);
+                        auto const filtered_buffers = filter(channel.buffers(), predicate);
 
-                        if (filtered_datas.size() > 0) {
+                        if (filtered_buffers.size() > 0) {
                             std::vector<T> vec(combined_time_range.length);
-                            for (auto const &pair : filtered_datas) {
+                            for (auto const &pair : filtered_buffers) {
                                 auto const length = pair.first.length;
                                 auto const dst_idx = pair.first.start_frame - combined_time_range.start_frame;
                                 auto *dst_ptr = &vec[dst_idx];
-                                auto const *src_ptr = get_raw<T>(pair.second).data();
+                                auto const *src_ptr = get_vector<T>(pair.second).data();
                                 memcpy(dst_ptr, src_ptr, length * sizeof(T));
                             }
 
-                            channel.erase_data_if(std::move(predicate));
+                            channel.erase_buffer_if(std::move(predicate));
 
                             _handler(current_time_range, ch_idx, connector_key,
                                      &vec[current_time_range.start_frame - combined_time_range.start_frame]);
 
-                            channel.insert_data(combined_time_range, std::move(vec));
+                            channel.insert_buffer(combined_time_range, std::move(vec));
 
                             return;
                         }
@@ -68,7 +68,7 @@ namespace processing {
                     _handler(current_time_range, ch_idx, connector_key, vec.data());
 
                     auto &channel = stream.channel(ch_idx);
-                    channel.insert_data(current_time_range, std::move(vec));
+                    channel.insert_buffer(current_time_range, std::move(vec));
                 }
             }
         }

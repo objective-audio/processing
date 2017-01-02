@@ -10,7 +10,7 @@
 namespace yas {
 namespace processing {
     class time_range;
-    class data;
+    class buffer;
 
     class channel : public base {
         class impl;
@@ -19,13 +19,13 @@ namespace processing {
         channel();
         channel(std::nullptr_t);
 
-        std::multimap<time_range, data> const &datas() const;
-        std::multimap<time_range, data> &datas();
+        std::multimap<time_range, buffer> const &buffers() const;
+        std::multimap<time_range, buffer> &buffers();
 
-        void insert_data(time_range, data);
+        void insert_buffer(time_range, buffer);
 
         template <typename P>
-        void erase_data_if(P predicate);
+        void erase_buffer_if(P predicate);
     };
 }
 }
