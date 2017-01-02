@@ -12,7 +12,7 @@ namespace yas {
 namespace processing {
     class time_range;
     class processor;
-    
+
     template <typename T>
     using receive_signal_f =
         std::function<void(processing::time_range const &, channel_index_t const, std::string const &, T const *const)>;
