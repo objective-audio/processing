@@ -90,6 +90,8 @@
 		B650E3E41DD810B300E423C7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B650E3E71DD810B300E423C7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B650E3E91DD810B300E423C7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B6E0CB431E19F2E700329906 /* yas_ptr_enumerator_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yas_ptr_enumerator_private.h; sourceTree = "<group>"; };
+		B6E0CB441E19F2E700329906 /* yas_ptr_enumerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yas_ptr_enumerator.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +146,8 @@
 				B63674681DD9DFE900C724DB /* yas_protocol.cpp */,
 				B63674691DD9DFE900C724DB /* yas_protocol.h */,
 				B636746A1DD9DFE900C724DB /* yas_protocol_private.h */,
+				B6E0CB431E19F2E700329906 /* yas_ptr_enumerator_private.h */,
+				B6E0CB441E19F2E700329906 /* yas_ptr_enumerator.h */,
 				B636746B1DD9DFE900C724DB /* yas_result.h */,
 				B636746C1DD9DFE900C724DB /* yas_result_private.h */,
 				B636746D1DD9DFE900C724DB /* yas_stl_utils.cpp */,
