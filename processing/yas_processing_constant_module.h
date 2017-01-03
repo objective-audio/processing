@@ -7,7 +7,6 @@
 namespace yas {
 namespace processing {
     class module;
-    class time_range;
 
     namespace constant {
         static auto constexpr out_connector_key = "out";

@@ -5,7 +5,7 @@
 #include "yas_processing_constant_module.h"
 #include "yas_processing_send_signal_processor.h"
 #include "yas_processing_module.h"
-#include "yas_ptr_enumerator.h"
+#include "yas_fast_each.h"
 
 using namespace yas;
 
@@ -13,11 +13,10 @@ template <typename T>
 processing::module processing::constant::make_signal_module(T value) {
     auto processor = processing::make_send_signal_processor<T>([value = std::move(value)](
         processing::time_range const &time_range, channel_index_t const, std::string const &key, T *const signal_ptr) {
-        ptr_enumerator<T> ptr_enum{signal_ptr, time_range.length};
+        auto each = make_fast_each(signal_ptr, time_range.length);
 
-        while (yas_ptr_enumerator_has_value(ptr_enum)) {
-            yas_ptr_enumerator_value(ptr_enum) = value;
-            yas_ptr_enumerator_move(ptr_enum);
+        while (yas_fast_each_next(each)) {
+            yas_fast_each_value(each) = value;
         }
     });
 
