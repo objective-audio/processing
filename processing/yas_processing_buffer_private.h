@@ -49,8 +49,15 @@ processing::buffer::buffer(std::vector<T> &bytes) : base(std::make_shared<impl<T
 }
 
 template <typename T>
-processing::buffer processing::make_buffer(std::size_t const length) {
-    return processing::buffer{std::vector<T>(length)};
+processing::buffer processing::make_buffer(std::size_t const size) {
+    return processing::buffer{std::vector<T>(size)};
+}
+
+template <typename T>
+processing::buffer processing::make_buffer(std::size_t const size, std::size_t const reserve) {
+    auto vec = std::vector<T>(size);
+    vec.reserve(reserve);
+    return processing::buffer{std::move(vec)};
 }
 
 template <typename T>
