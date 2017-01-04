@@ -36,7 +36,7 @@ using namespace yas;
     
     processing::stream stream;
     
-    module.process({.start_frame = 0, .length = 2}, stream);
+    module.process({.frame = 0, .length = 2}, stream);
     
     XCTAssertTrue(stream.has_channel(0));
     
@@ -48,7 +48,7 @@ using namespace yas;
     auto const &time_range = buffer_pair.first;
     auto const &buffer = buffer_pair.second;
     
-    XCTAssertEqual(time_range.start_frame, 0);
+    XCTAssertEqual(time_range.frame, 0);
     XCTAssertEqual(time_range.length, 2);
     XCTAssertEqual(buffer.size(), 2);
     

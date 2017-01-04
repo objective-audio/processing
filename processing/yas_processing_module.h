@@ -7,7 +7,7 @@
 #include "yas_base.h"
 #include "yas_processing_connector.h"
 #include "yas_processing_processor.h"
-#include "yas_processing_time_range.h"
+#include "yas_processing_time.h"
 #include "yas_processing_stream.h"
 #include <vector>
 
@@ -22,7 +22,7 @@ namespace processing {
         explicit module(processors_t);
         module(std::nullptr_t);
 
-        void process(time_range const &, stream &);
+        void process(time::range const &, stream &);
 
         connector_map_t const &input_connectors() const;
         connector_map_t const &output_connectors() const;

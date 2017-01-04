@@ -12,7 +12,7 @@ using namespace yas;
 struct processing::timeline::impl : base::impl {
     track_map_t _tracks;
 
-    void process(time_range const &time_range, stream &stream) {
+    void process(time::range const &time_range, stream &stream) {
         for (auto &track_pair : _tracks) {
             track_pair.second.process(time_range, stream);
         }
@@ -55,6 +55,6 @@ processing::track &processing::timeline::track(track_index_t const trk_idx) {
     return impl_ptr<impl>()->_tracks.at(trk_idx);
 }
 
-void processing::timeline::process(time_range const &time_range, stream &stream) {
+void processing::timeline::process(time::range const &time_range, stream &stream) {
     impl_ptr<impl>()->process(time_range, stream);
 }

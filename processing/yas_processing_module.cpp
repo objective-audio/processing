@@ -4,7 +4,6 @@
 
 #include "yas_processing_module.h"
 #include "yas_processing_connector.h"
-#include "yas_processing_time_range.h"
 
 using namespace yas;
 
@@ -31,7 +30,7 @@ processing::module::module(processors_t processors) : base(std::make_shared<impl
 processing::module::module(std::nullptr_t) : base(nullptr) {
 }
 
-void processing::module::process(time_range const &time_range, stream &stream) {
+void processing::module::process(time::range const &time_range, stream &stream) {
     impl_ptr<impl>()->process(time_range, stream);
 }
 

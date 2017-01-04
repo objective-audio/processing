@@ -5,11 +5,11 @@
 #pragma once
 
 #include "yas_base.h"
+#include "yas_processing_time.h"
 #include <map>
 
 namespace yas {
 namespace processing {
-    class time_range;
     class module;
     class stream;
 
@@ -20,12 +20,12 @@ namespace processing {
         track();
         track(std::nullptr_t);
 
-        std::multimap<time_range, module> const &modules() const;
-        std::multimap<time_range, module> &modules();
+        std::multimap<time::range, module> const &modules() const;
+        std::multimap<time::range, module> &modules();
 
-        void insert_module(time_range, module);
+        void insert_module(time::range, module);
 
-        void process(time_range const &, stream &);
+        void process(time::range const &, stream &);
     };
 }
 }

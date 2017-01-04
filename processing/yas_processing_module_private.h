@@ -21,7 +21,7 @@ struct processing::module::impl : base::impl {
         return _processors;
     }
 
-    void process(processing::time_range const &time_range, stream &stream) {
+    void process(processing::time::range const &time_range, stream &stream) {
         for (auto &processor : _processors) {
             processor.process(time_range, _input_connectors, _output_connectors, stream);
         }

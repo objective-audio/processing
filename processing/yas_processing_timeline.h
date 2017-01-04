@@ -5,6 +5,7 @@
 #pragma once
 
 #include "yas_base.h"
+#include "yas_processing_time.h"
 #include "yas_processing_types.h"
 #include <experimental/optional>
 
@@ -12,7 +13,6 @@ namespace yas {
 namespace processing {
     class track;
     class stream;
-    class time_range;
     
     class timeline : public base {
         class impl;
@@ -32,7 +32,7 @@ namespace processing {
         processing::track const &track(track_index_t const) const;
         processing::track &track(track_index_t const);
         
-        void process(time_range const &, stream &);
+        void process(time::range const &, stream &);
     };
 }
 }
