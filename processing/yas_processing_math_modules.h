@@ -17,6 +17,10 @@ namespace processing {
         module make_plus_signal_module();
         template <typename T>
         module make_minus_signal_module();
+        template <typename T>
+        module make_multiply_signal_module();
+        template <typename T>
+        module make_divide_signal_module();
     }
 }
 }
