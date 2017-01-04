@@ -69,4 +69,14 @@ template <typename T>
 std::vector<T> &processing::get_vector(buffer &buffer) {
     return buffer.impl_ptr<buffer::impl<T>>()->vector();
 }
+
+template <typename T>
+T const *processing::get_data(buffer const &buffer) {
+    return buffer.impl_ptr<buffer::impl<T>>()->vector().data();
+}
+
+template <typename T>
+T *processing::get_data(buffer &buffer) {
+    return buffer.impl_ptr<buffer::impl<T>>()->vector().data();
+}
 }

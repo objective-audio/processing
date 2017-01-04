@@ -35,6 +35,10 @@ namespace processing {
     std::vector<T> const &get_vector(buffer const &);
     template <typename T>
     std::vector<T> &get_vector(buffer &);
+    template <typename T>
+    T const *get_data(buffer const &);
+    template <typename T>
+    T *get_data(buffer &);
 }
 }
 
