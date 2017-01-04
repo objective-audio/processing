@@ -105,4 +105,16 @@ using namespace yas::processing;
     XCTAssertEqual(get_vector<element>(buffer)[1].value, 200);
 }
 
+- (void)test_get_data {
+    auto buffer = make_buffer<int16_t>(2);
+    
+    auto *data = get_data<int16_t>(buffer);
+    data[0] = 1000;
+    data[1] = 1001;
+    
+    auto const *const_data = get_data<int16_t>(buffer);
+    XCTAssertEqual(const_data[0], 1000);
+    XCTAssertEqual(const_data[1], 1001);
+}
+
 @end
