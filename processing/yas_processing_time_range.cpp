@@ -8,23 +8,23 @@
 using namespace yas;
 
 bool processing::time_range::operator==(time_range const &rhs) const {
-    return start_frame == rhs.start_frame && length == rhs.length;
+    return frame == rhs.frame && length == rhs.length;
 }
 
 bool processing::time_range::operator!=(time_range const &rhs) const {
-    return start_frame != rhs.start_frame || length != rhs.length;
+    return frame != rhs.frame || length != rhs.length;
 }
 
 bool processing::time_range::operator<(time_range const &rhs) const {
-    if (start_frame != rhs.start_frame) {
-        return start_frame < rhs.start_frame;
+    if (frame != rhs.frame) {
+        return frame < rhs.frame;
     }
 
     return length < rhs.length;
 }
 
 processing::frame_index_t processing::time_range::next_frame() const {
-    return start_frame + length;
+    return frame + length;
 }
 
 bool processing::time_range::is_contain(time_range const &other) const {
@@ -32,14 +32,14 @@ bool processing::time_range::is_contain(time_range const &other) const {
         return false;
     }
 
-    if (start_frame > other.start_frame) {
+    if (frame > other.frame) {
         return false;
     }
 
     if (other.length > 0) {
         return other.next_frame() <= next_frame();
     } else {
-        return other.start_frame < next_frame();
+        return other.frame < next_frame();
     }
 }
 
@@ -48,7 +48,7 @@ bool processing::time_range::is_overlap(time_range const &other) const {
         return false;
     }
 
-    return std::max(start_frame, other.start_frame) < std::min(next_frame(), other.next_frame());
+    return std::max(frame, other.frame) < std::min(next_frame(), other.next_frame());
 }
 
 bool processing::time_range::can_combine(time_range const &other) const {
@@ -56,18 +56,18 @@ bool processing::time_range::can_combine(time_range const &other) const {
         return false;
     }
 
-    bool const is_this_lower = start_frame <= other.start_frame;
+    bool const is_this_lower = frame <= other.frame;
     auto const &lower_range = is_this_lower ? *this : other;
     auto const &higher_range = is_this_lower ? other : *this;
-    return lower_range.next_frame() >= higher_range.start_frame;
+    return lower_range.next_frame() >= higher_range.frame;
 }
 
 std::experimental::optional<processing::time_range> processing::time_range::intersect(time_range const &other) const {
-    auto const start = std::max(start_frame, other.start_frame);
+    auto const start = std::max(frame, other.frame);
     auto const next = std::min(next_frame(), other.next_frame());
 
     if (start <= next) {
-        return time_range{.start_frame = start, .length = static_cast<length_t>(next - start)};
+        return time_range{.frame = start, .length = static_cast<length_t>(next - start)};
     } else {
         return std::experimental::nullopt;
     }
@@ -78,8 +78,8 @@ std::experimental::optional<processing::time_range> processing::time_range::comb
         return std::experimental::nullopt;
     }
 
-    auto const start = std::min(start_frame, other.start_frame);
+    auto const start = std::min(frame, other.frame);
     auto const next = std::max(next_frame(), other.next_frame());
 
-    return time_range{.start_frame = start, .length = static_cast<length_t>(next - start)};
+    return time_range{.frame = start, .length = static_cast<length_t>(next - start)};
 }

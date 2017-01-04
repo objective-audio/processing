@@ -45,9 +45,9 @@ using namespace yas;
                                                   processing::stream &stream) { called_time_range = time_range; });
     processing::module module{{std::move(processor)}};
 
-    module.process({.start_frame = 23, .length = 456}, stream);
+    module.process({.frame = 23, .length = 456}, stream);
 
-    XCTAssertEqual(called_time_range.start_frame, 23);
+    XCTAssertEqual(called_time_range.frame, 23);
     XCTAssertEqual(called_time_range.length, 456);
 }
 

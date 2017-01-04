@@ -96,7 +96,7 @@ using namespace yas::processing;
     auto module1 = module{{std::move(processor1)}};
     module1.connect_output("out", 0);
 
-    track1.insert_module({.start_frame = 0, .length = 2}, module1);
+    track1.insert_module({.frame = 0, .length = 2}, module1);
 
     // setup track2 > +1する
 
@@ -136,15 +136,15 @@ using namespace yas::processing;
     module2.connect_input("in", 0);
     module2.connect_output("out", 0);
 
-    track2.insert_module({.start_frame = 0, .length = 2}, module2);
+    track2.insert_module({.frame = 0, .length = 2}, module2);
 
     {
         stream stream;
 
-        timeline.process({.start_frame = 0, .length = 2}, stream);
+        timeline.process({.frame = 0, .length = 2}, stream);
 
-        XCTAssertTrue((called_send_time_range == time_range{.start_frame = 0, .length = 2}));
-        XCTAssertTrue((called_receive_time_range == time_range{.start_frame = 0, .length = 2}));
+        XCTAssertTrue((called_send_time_range == time_range{.frame = 0, .length = 2}));
+        XCTAssertTrue((called_receive_time_range == time_range{.frame = 0, .length = 2}));
 
         XCTAssertTrue(stream.has_channel(0));
         auto &buffers = stream.channel(0).buffers();
@@ -160,28 +160,10 @@ using namespace yas::processing;
     {
         stream stream;
 
-        timeline.process({.start_frame = -1, .length = 2}, stream);
+        timeline.process({.frame = -1, .length = 2}, stream);
 
-        XCTAssertTrue((called_send_time_range == time_range{.start_frame = 0, .length = 1}));
-        XCTAssertTrue((called_receive_time_range == time_range{.start_frame = 0, .length = 1}));
-
-        XCTAssertTrue(stream.has_channel(0));
-        auto &buffers = stream.channel(0).buffers();
-        XCTAssertEqual(buffers.size(), 1);
-        auto const &vec = get_vector<int16_t>((*buffers.begin()).second);
-        XCTAssertEqual(vec.size(), 1);
-        XCTAssertEqual(vec[0], 1);
-    }
-
-    clear();
-
-    {
-        stream stream;
-
-        timeline.process({.start_frame = 1, .length = 2}, stream);
-
-        XCTAssertTrue((called_send_time_range == time_range{.start_frame = 1, .length = 1}));
-        XCTAssertTrue((called_receive_time_range == time_range{.start_frame = 1, .length = 1}));
+        XCTAssertTrue((called_send_time_range == time_range{.frame = 0, .length = 1}));
+        XCTAssertTrue((called_receive_time_range == time_range{.frame = 0, .length = 1}));
 
         XCTAssertTrue(stream.has_channel(0));
         auto &buffers = stream.channel(0).buffers();
@@ -196,7 +178,25 @@ using namespace yas::processing;
     {
         stream stream;
 
-        timeline.process({.start_frame = 3, .length = 2}, stream);
+        timeline.process({.frame = 1, .length = 2}, stream);
+
+        XCTAssertTrue((called_send_time_range == time_range{.frame = 1, .length = 1}));
+        XCTAssertTrue((called_receive_time_range == time_range{.frame = 1, .length = 1}));
+
+        XCTAssertTrue(stream.has_channel(0));
+        auto &buffers = stream.channel(0).buffers();
+        XCTAssertEqual(buffers.size(), 1);
+        auto const &vec = get_vector<int16_t>((*buffers.begin()).second);
+        XCTAssertEqual(vec.size(), 1);
+        XCTAssertEqual(vec[0], 1);
+    }
+
+    clear();
+
+    {
+        stream stream;
+
+        timeline.process({.frame = 3, .length = 2}, stream);
 
         XCTAssertFalse(stream.has_channel(0));
     }

@@ -69,8 +69,8 @@ processing::module processing::math::make_plus_signal_module() {
             auto out_each = make_fast_each(signal_ptr, time_range.length);
             auto const *left_ptr = get_data<T>(context->left_buffer);
             auto const *right_ptr = get_data<T>(context->right_buffer);
-            auto const left_offset = time_range.start_frame - context->left_time_range.start_frame;
-            auto const right_offset = time_range.start_frame - context->right_time_range.start_frame;
+            auto const left_offset = time_range.frame - context->left_time_range.frame;
+            auto const right_offset = time_range.frame - context->right_time_range.frame;
             auto const &left_length = context->left_time_range.length;
             auto const &right_length = context->right_time_range.length;
 
@@ -111,8 +111,8 @@ processing::module processing::math::make_minus_signal_module() {
             auto out_each = make_fast_each(signal_ptr, time_range.length);
             auto const *left_ptr = get_data<T>(context->left_buffer);
             auto const *right_ptr = get_data<T>(context->right_buffer);
-            auto const left_offset = time_range.start_frame - context->left_time_range.start_frame;
-            auto const right_offset = time_range.start_frame - context->right_time_range.start_frame;
+            auto const left_offset = time_range.frame - context->left_time_range.frame;
+            auto const right_offset = time_range.frame - context->right_time_range.frame;
             auto const &left_length = context->left_time_range.length;
             auto const &right_length = context->right_time_range.length;
 
@@ -153,8 +153,8 @@ processing::module processing::math::make_multiply_signal_module() {
             auto out_each = make_fast_each(signal_ptr, time_range.length);
             auto const *left_ptr = get_data<T>(context->left_buffer);
             auto const *right_ptr = get_data<T>(context->right_buffer);
-            auto const left_offset = time_range.start_frame - context->left_time_range.start_frame;
-            auto const right_offset = time_range.start_frame - context->right_time_range.start_frame;
+            auto const left_offset = time_range.frame - context->left_time_range.frame;
+            auto const right_offset = time_range.frame - context->right_time_range.frame;
             auto const &left_length = context->left_time_range.length;
             auto const &right_length = context->right_time_range.length;
 
@@ -195,8 +195,8 @@ processing::module processing::math::make_divide_signal_module() {
             auto out_each = make_fast_each(signal_ptr, time_range.length);
             auto const *left_ptr = get_data<T>(context->left_buffer);
             auto const *right_ptr = get_data<T>(context->right_buffer);
-            auto const left_offset = time_range.start_frame - context->left_time_range.start_frame;
-            auto const right_offset = time_range.start_frame - context->right_time_range.start_frame;
+            auto const left_offset = time_range.frame - context->left_time_range.frame;
+            auto const right_offset = time_range.frame - context->right_time_range.frame;
             auto const &left_length = context->left_time_range.length;
             auto const &right_length = context->right_time_range.length;
 

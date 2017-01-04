@@ -40,8 +40,8 @@ using namespace yas;
     processing::module module1{processing::module::processors_t{}};
     processing::module module2{processing::module::processors_t{}};
 
-    track.insert_module({.start_frame = 0}, std::move(module1));
-    track.insert_module({.start_frame = 1}, std::move(module2));
+    track.insert_module({.frame = 0}, std::move(module1));
+    track.insert_module({.frame = 1}, std::move(module2));
 
     XCTAssertEqual(track.modules().size(), 2);
 
@@ -54,9 +54,9 @@ using namespace yas;
             XCTAssertTrue(module);
 
             if (idx == 0) {
-                XCTAssertTrue((time_range == processing::time_range{.start_frame = 0}));
+                XCTAssertTrue((time_range == processing::time_range{.frame = 0}));
             } else if (idx == 1) {
-                XCTAssertTrue((time_range == processing::time_range{.start_frame = 1}));
+                XCTAssertTrue((time_range == processing::time_range{.frame = 1}));
             } else {
                 XCTFail();
             }

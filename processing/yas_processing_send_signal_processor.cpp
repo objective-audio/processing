@@ -45,7 +45,7 @@ namespace processing {
                             std::vector<T> vec(combined_time_range.length);
                             for (auto const &pair : filtered_buffers) {
                                 auto const length = pair.first.length;
-                                auto const dst_idx = pair.first.start_frame - combined_time_range.start_frame;
+                                auto const dst_idx = pair.first.frame - combined_time_range.frame;
                                 auto *dst_ptr = &vec[dst_idx];
                                 auto const *src_ptr = get_data<T>(pair.second);
                                 memcpy(dst_ptr, src_ptr, length * sizeof(T));
@@ -54,7 +54,7 @@ namespace processing {
                             channel.erase_buffer_if(std::move(predicate));
 
                             _handler(current_time_range, ch_idx, connector_key,
-                                     &vec[current_time_range.start_frame - combined_time_range.start_frame]);
+                                     &vec[current_time_range.frame - combined_time_range.frame]);
 
                             channel.insert_buffer(combined_time_range, std::move(vec));
 
