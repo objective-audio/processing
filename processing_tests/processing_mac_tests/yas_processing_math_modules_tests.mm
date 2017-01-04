@@ -22,7 +22,7 @@ using namespace yas;
 }
 
 - (void)test_create_plus_signal_module {
-    auto module =  processing::plus::make_signal_module<int16_t>();
+    auto module =  processing::math::make_plus_signal_module<int16_t>();
     
     XCTAssertTrue(module);
 }
@@ -30,13 +30,13 @@ using namespace yas;
 - (void)test_plus_process {
     auto left_in_module = processing::constant::make_signal_module<int16_t>(1);
     auto right_in_module = processing::constant::make_signal_module<int16_t>(10);
-    auto plus_module = processing::plus::make_signal_module<int16_t>();
+    auto plus_module = processing::math::make_plus_signal_module<int16_t>();
     auto stream = processing::stream{{.start_frame = 0, .length = 5}};
     
     left_in_module.connect_output(processing::constant::out_connector_key, 0);
     right_in_module.connect_output(processing::constant::out_connector_key, 1);
-    plus_module.connect_input(processing::plus::left_in_connector_key, 0);
-    plus_module.connect_input(processing::plus::right_in_connector_key, 1);
+    plus_module.connect_input(processing::math::left_in_connector_key, 0);
+    plus_module.connect_input(processing::math::right_in_connector_key, 1);
     plus_module.connect_output(processing::constant::out_connector_key, 2);
     
     left_in_module.process({.start_frame = 1, .length = 2}, stream);
