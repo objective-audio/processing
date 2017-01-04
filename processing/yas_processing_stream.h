@@ -14,10 +14,8 @@ namespace processing {
 
     class stream : public base {
        public:
-        explicit stream(processing::time_range);
+        stream();
         stream(std::nullptr_t);
-
-        processing::time_range const &time_range() const;
 
         void insert_channel(channel_index_t const);
         bool has_channel(channel_index_t const);
