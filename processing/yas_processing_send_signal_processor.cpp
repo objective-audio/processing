@@ -46,7 +46,7 @@ namespace processing {
                                 auto const length = pair.first.length;
                                 auto const dst_idx = pair.first.start_frame - combined_time_range.start_frame;
                                 auto *dst_ptr = &vec[dst_idx];
-                                auto const *src_ptr = get_vector<T>(pair.second).data();
+                                auto const *src_ptr = get_data<T>(pair.second);
                                 memcpy(dst_ptr, src_ptr, length * sizeof(T));
                             }
 
