@@ -40,8 +40,9 @@ using namespace yas;
 
     processing::time_range called_time_range;
 
-    auto processor = test::make_processor([&called_time_range](
-        processing::time_range const &time_range, processing::stream &stream) { called_time_range = time_range; });
+    auto processor =
+        test::make_processor([&called_time_range](processing::time_range const &time_range, auto const &, auto const &,
+                                                  processing::stream &stream) { called_time_range = time_range; });
     processing::module module{{std::move(processor)}};
 
     module.process({.start_frame = 23, .length = 456}, stream);
