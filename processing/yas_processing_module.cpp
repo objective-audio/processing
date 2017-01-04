@@ -4,7 +4,6 @@
 
 #include "yas_processing_module.h"
 #include "yas_processing_connector.h"
-#include "yas_processing_time_range.h"
 
 using namespace yas;
 

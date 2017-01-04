@@ -5,7 +5,7 @@
 #pragma once
 
 #include "yas_base.h"
-#include "yas_processing_time_range.h"
+#include "yas_processing_time.h"
 #include "yas_processing_types.h"
 #include <experimental/optional>
 

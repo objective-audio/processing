@@ -2,7 +2,7 @@
 //  yas_processing_time::range.cpp
 //
 
-#include "yas_processing_time_range.h"
+#include "yas_processing_time.h"
 #include <string>
 
 using namespace yas;

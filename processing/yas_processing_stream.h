@@ -5,8 +5,8 @@
 #pragma once
 
 #include "yas_base.h"
-#include "yas_processing_time_range.h"
 #include "yas_processing_types.h"
+#include "yas_processing_time.h"
 
 namespace yas {
 namespace processing {

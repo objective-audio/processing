@@ -3,7 +3,7 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "yas_processing_time_range.h"
+#import "yas_processing.h"
 
 using namespace yas;
 using namespace yas::processing;
@@ -78,7 +78,7 @@ using namespace yas::processing;
     XCTAssertTrue(range1a < range5);
 }
 
-- (void)test_can_combine {
+- (void)test_can_combine_time_range {
     auto range1 = time::range{.frame = 0, .length = 2};
     auto range2 = time::range{.frame = 2, .length = 2};
     auto range3 = time::range{.frame = 3, .length = 2};
@@ -101,7 +101,7 @@ using namespace yas::processing;
     XCTAssertFalse(range6.can_combine(range1));
 }
 
-- (void)test_combine {
+- (void)test_combine_time_range {
     auto range1 = time::range{.frame = 0, .length = 2};
     auto range2 = time::range{.frame = 2, .length = 2};
     auto range3 = time::range{.frame = 3, .length = 2};
@@ -119,7 +119,7 @@ using namespace yas::processing;
     XCTAssertTrue((range5.combine(range1) == time::range{.frame = -1, .length = 4}));
 }
 
-- (void)test_is_contain {
+- (void)test_is_contain_time_range {
     auto range1 = time::range{.frame = 5, .length = 2};
     
     XCTAssertTrue(range1.is_contain({.frame = 5, .length = 2}));
@@ -141,7 +141,7 @@ using namespace yas::processing;
     XCTAssertFalse(range2.is_contain({.frame = 9, .length = 2}));
 }
 
-- (void)test_is_overlap {
+- (void)test_is_overlap_time_range {
     auto range1 = time::range{.frame = 7, .length = 2};
     
     XCTAssertTrue(range1.is_overlap({.frame = 7, .length = 2}));
