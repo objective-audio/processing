@@ -44,8 +44,12 @@ using namespace yas;
     
     XCTAssertEqual(channel.buffers().size(), 1);
     
-    auto const &buffer = channel.buffers().begin()->second;
+    auto const &buffer_pair = *channel.buffers().begin();
+    auto const &time_range = buffer_pair.first;
+    auto const &buffer = buffer_pair.second;
     
+    XCTAssertEqual(time_range.start_frame, 0);
+    XCTAssertEqual(time_range.length, 2);
     XCTAssertEqual(buffer.size(), 2);
     
     auto const &vec = processing::get_vector<int64_t>(buffer);
