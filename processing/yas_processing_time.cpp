@@ -144,6 +144,24 @@ processing::time::time() : base(std::make_shared<impl<time::any>>(any{})) {
 processing::time::time(std::nullptr_t) : base(nullptr) {
 }
 
+std::type_info const &processing::time::type() const {
+    return impl_ptr<impl_base>()->type();
+}
+
+template <typename T>
+typename T::type const &processing::time::get() const {
+    if (auto ip = std::dynamic_pointer_cast<impl<T>>(impl_ptr())) {
+        return ip->_value;
+    }
+    
+    static const typename T::type _default{};
+    return _default;
+}
+
+template processing::time::range::type const &processing::time::get<processing::time::range>() const;
+template processing::time::frame::type const &processing::time::get<processing::time::frame>() const;
+template processing::time::any::type const &processing::time::get<processing::time::any>() const;
+
 #pragma mark - make
 
 processing::time processing::make_range_time(frame_index_t const frame, length_t const length) {

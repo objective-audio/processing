@@ -43,15 +43,20 @@ namespace processing {
 
         struct any {
             using type = any;
-            
+
             bool operator==(any const &) const;
             bool operator!=(any const &) const;
         };
-        
+
         time(frame_index_t const, length_t const);
         explicit time(frame_index_t const);
         time();
         time(std::nullptr_t);
+        
+        std::type_info const &type() const;
+        
+        template <typename T>
+        typename T::type const &get() const;
     };
 
     time make_range_time(frame_index_t const, length_t const);
