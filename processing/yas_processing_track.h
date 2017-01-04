@@ -25,7 +25,7 @@ namespace processing {
 
         void insert_module(time_range, module);
 
-        void process(stream &);
+        void process(time_range const &, stream &);
     };
 }
 }
