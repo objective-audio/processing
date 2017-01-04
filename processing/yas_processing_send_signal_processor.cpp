@@ -18,7 +18,7 @@ namespace processing {
         send_signal_processor_impl(processing::send_signal_f<T> &&handler) : _handler(std::move(handler)) {
         }
 
-        void process(time_range const &current_time_range, connector_map_t const &,
+        void process(time::range const &current_time_range, connector_map_t const &,
                      connector_map_t const &output_connectors, stream &stream) override {
             if (_handler) {
                 for (auto const &connector_pair : output_connectors) {
@@ -29,7 +29,7 @@ namespace processing {
 
                     if (stream.has_channel(ch_idx)) {
                         auto &channel = stream.channel(ch_idx);
-                        processing::time_range combined_time_range = current_time_range;
+                        processing::time::range combined_time_range = current_time_range;
 
                         auto predicate = [&current_time_range, &combined_time_range](auto const &pair) {
                             if (pair.second.sample_type() == typeid(T) && pair.first.can_combine(current_time_range)) {

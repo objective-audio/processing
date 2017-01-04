@@ -22,7 +22,7 @@ namespace processing {
         explicit module(processors_t);
         module(std::nullptr_t);
 
-        void process(time_range const &, stream &);
+        void process(time::range const &, stream &);
 
         connector_map_t const &input_connectors() const;
         connector_map_t const &output_connectors() const;

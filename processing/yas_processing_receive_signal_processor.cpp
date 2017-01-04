@@ -18,7 +18,7 @@ namespace processing {
         receive_signal_processor_impl(processing::receive_signal_f<T> &&handler) : _handler(std::move(handler)) {
         }
 
-        void process(time_range const &current_time_range, connector_map_t const &input_connectors,
+        void process(time::range const &current_time_range, connector_map_t const &input_connectors,
                      connector_map_t const &, stream &stream) override {
             if (_handler) {
                 for (auto const &connector_pair : input_connectors) {

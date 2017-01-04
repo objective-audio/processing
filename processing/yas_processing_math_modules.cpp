@@ -17,8 +17,8 @@ namespace processing {
         struct context {
             buffer left_buffer;
             buffer right_buffer;
-            time_range left_time_range;
-            time_range right_time_range;
+            time::range left_time_range;
+            time::range right_time_range;
 
             context(buffer &&left_buffer, buffer &&right_buffer)
                 : left_buffer(std::move(left_buffer)), right_buffer(std::move(right_buffer)) {
@@ -35,7 +35,7 @@ namespace processing {
 
         template <typename T>
         processor make_receive_signal_processor(context_sptr const &context) {
-            return processing::make_receive_signal_processor<T>([context](processing::time_range const &time_range,
+            return processing::make_receive_signal_processor<T>([context](processing::time::range const &time_range,
                                                                           channel_index_t const, std::string const &key,
                                                                           T const *const signal_ptr) mutable {
                 if (key == left_in_connector_key) {
@@ -64,7 +64,7 @@ processing::module processing::math::make_plus_signal_module() {
     auto receive_processor = make_receive_signal_processor<T>(context);
 
     auto send_processor = processing::make_send_signal_processor<T>([context](
-        processing::time_range const &time_range, channel_index_t const, std::string const &key, T *const signal_ptr) {
+        processing::time::range const &time_range, channel_index_t const, std::string const &key, T *const signal_ptr) {
         if (key == out_connector_key) {
             auto out_each = make_fast_each(signal_ptr, time_range.length);
             auto const *left_ptr = get_data<T>(context->left_buffer);
@@ -106,7 +106,7 @@ processing::module processing::math::make_minus_signal_module() {
     auto receive_processor = make_receive_signal_processor<T>(context);
 
     auto send_processor = processing::make_send_signal_processor<T>([context](
-        processing::time_range const &time_range, channel_index_t const, std::string const &key, T *const signal_ptr) {
+        processing::time::range const &time_range, channel_index_t const, std::string const &key, T *const signal_ptr) {
         if (key == out_connector_key) {
             auto out_each = make_fast_each(signal_ptr, time_range.length);
             auto const *left_ptr = get_data<T>(context->left_buffer);
@@ -148,7 +148,7 @@ processing::module processing::math::make_multiply_signal_module() {
     auto receive_processor = make_receive_signal_processor<T>(context);
 
     auto send_processor = processing::make_send_signal_processor<T>([context](
-        processing::time_range const &time_range, channel_index_t const, std::string const &key, T *const signal_ptr) {
+        processing::time::range const &time_range, channel_index_t const, std::string const &key, T *const signal_ptr) {
         if (key == out_connector_key) {
             auto out_each = make_fast_each(signal_ptr, time_range.length);
             auto const *left_ptr = get_data<T>(context->left_buffer);
@@ -190,7 +190,7 @@ processing::module processing::math::make_divide_signal_module() {
     auto receive_processor = make_receive_signal_processor<T>(context);
 
     auto send_processor = processing::make_send_signal_processor<T>([context](
-        processing::time_range const &time_range, channel_index_t const, std::string const &key, T *const signal_ptr) {
+        processing::time::range const &time_range, channel_index_t const, std::string const &key, T *const signal_ptr) {
         if (key == out_connector_key) {
             auto out_each = make_fast_each(signal_ptr, time_range.length);
             auto const *left_ptr = get_data<T>(context->left_buffer);

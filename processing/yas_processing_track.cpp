@@ -13,9 +13,9 @@ using namespace yas;
 #pragma mark - processing::track::impl
 
 struct processing::track::impl : base::impl {
-    std::multimap<time_range, module> _modules;
+    std::multimap<time::range, module> _modules;
 
-    void process(time_range const &time_range, stream &stream) {
+    void process(time::range const &time_range, stream &stream) {
         for (auto &pair : _modules) {
             if (auto const current_time_range = pair.first.intersect(time_range)) {
                 pair.second.process(*current_time_range, stream);
@@ -32,18 +32,18 @@ processing::track::track() : base(std::make_shared<impl>()) {
 processing::track::track(std::nullptr_t) : base(nullptr) {
 }
 
-std::multimap<processing::time_range, processing::module> const &processing::track::modules() const {
+std::multimap<processing::time::range, processing::module> const &processing::track::modules() const {
     return impl_ptr<impl>()->_modules;
 }
 
-std::multimap<processing::time_range, processing::module> &processing::track::modules() {
+std::multimap<processing::time::range, processing::module> &processing::track::modules() {
     return impl_ptr<impl>()->_modules;
 }
 
-void processing::track::insert_module(processing::time_range time_range, module module) {
+void processing::track::insert_module(processing::time::range time_range, module module) {
     impl_ptr<impl>()->_modules.emplace(std::move(time_range), std::move(module));
 }
 
-void processing::track::process(time_range const &time_range, stream &stream) {
+void processing::track::process(time::range const &time_range, stream &stream) {
     impl_ptr<impl>()->process(time_range, stream);
 }

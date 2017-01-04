@@ -54,9 +54,9 @@ using namespace yas;
             XCTAssertTrue(module);
 
             if (idx == 0) {
-                XCTAssertTrue((time_range == processing::time_range{.frame = 0}));
+                XCTAssertTrue((time_range == processing::time::range{.frame = 0}));
             } else if (idx == 1) {
-                XCTAssertTrue((time_range == processing::time_range{.frame = 1}));
+                XCTAssertTrue((time_range == processing::time::range{.frame = 1}));
             } else {
                 XCTFail();
             }

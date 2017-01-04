@@ -5,11 +5,11 @@
 #pragma once
 
 #include "yas_base.h"
+#include "yas_processing_time_range.h"
 #include <map>
 
 namespace yas {
 namespace processing {
-    class time_range;
     class buffer;
 
     class channel : public base {
@@ -19,10 +19,10 @@ namespace processing {
         channel();
         channel(std::nullptr_t);
 
-        std::multimap<time_range, buffer> const &buffers() const;
-        std::multimap<time_range, buffer> &buffers();
+        std::multimap<time::range, buffer> const &buffers() const;
+        std::multimap<time::range, buffer> &buffers();
 
-        void insert_buffer(time_range, buffer);
+        void insert_buffer(time::range, buffer);
 
         template <typename P>
         void erase_buffer_if(P predicate);
