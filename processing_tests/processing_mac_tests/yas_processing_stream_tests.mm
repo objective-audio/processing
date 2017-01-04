@@ -73,8 +73,8 @@ using namespace yas::processing;
     XCTAssertEqual(const_channel.buffers().size(), 1);
     
     auto const &const_buffer = (*const_channel.buffers().begin()).second;
-    XCTAssertEqual(get_vector<int8_t>(const_buffer)[0], 5);
-    XCTAssertEqual(get_vector<int8_t>(const_buffer)[1], 6);
+    XCTAssertEqual(const_buffer.vector<int8_t>()[0], 5);
+    XCTAssertEqual(const_buffer.vector<int8_t>()[1], 6);
 }
 
 @end

@@ -52,7 +52,7 @@ using namespace yas;
     XCTAssertEqual(time_range.length, 2);
     XCTAssertEqual(buffer.size(), 2);
     
-    auto const &vec = processing::get_vector<int64_t>(buffer);
+    auto const &vec = buffer.vector<int64_t>();
     
     XCTAssertEqual(vec[0], 5);
     XCTAssertEqual(vec[1], 5);
