@@ -10,7 +10,6 @@
 #include "yas_processing_time_range.h"
 #include "yas_processing_stream.h"
 #include <vector>
-#include <unordered_map>
 
 namespace yas {
 namespace processing {
@@ -18,7 +17,6 @@ namespace processing {
        public:
         class impl;
 
-        using connector_map_t = std::unordered_map<std::string, connector>;
         using processors_t = std::vector<processor>;
 
         explicit module(processors_t);

@@ -10,14 +10,14 @@ using namespace yas;
 
 namespace yas {
 namespace processing {
-    static void connect(module::connector_map_t &connectors, std::string const &key, channel_index_t const ch_idx) {
+    static void connect(connector_map_t &connectors, std::string const &key, channel_index_t const ch_idx) {
         if (connectors.count(key) == 0) {
             connectors.erase(key);
         }
         connectors.emplace(key, connector{.channel_index = ch_idx});
     }
 
-    static void disconnect(module::connector_map_t &connectors, std::string const &key) {
+    static void disconnect(connector_map_t &connectors, std::string const &key) {
         if (connectors.count(key) > 0) {
             connectors.erase(key);
         }
@@ -35,11 +35,11 @@ void processing::module::process(time_range const &time_range, stream &stream) {
     impl_ptr<impl>()->process(time_range, stream);
 }
 
-processing::module::connector_map_t const &processing::module::input_connectors() const {
+processing::connector_map_t const &processing::module::input_connectors() const {
     return impl_ptr<impl>()->input_connectors();
 }
 
-processing::module::connector_map_t const &processing::module::output_connectors() const {
+processing::connector_map_t const &processing::module::output_connectors() const {
     return impl_ptr<impl>()->output_connectors();
 }
 

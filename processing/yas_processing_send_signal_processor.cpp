@@ -18,9 +18,10 @@ namespace processing {
         send_signal_processor_impl(processing::send_signal_f<T> &&handler) : _handler(std::move(handler)) {
         }
 
-        void process(time_range const &current_time_range, module const &module, stream &stream) override {
+        void process(time_range const &current_time_range, connector_map_t const &,
+                     connector_map_t const &output_connectors, stream &stream) override {
             if (_handler) {
-                for (auto const &connector_pair : module.output_connectors()) {
+                for (auto const &connector_pair : output_connectors) {
                     auto const &connector_key = connector_pair.first;
                     auto const &connector = connector_pair.second;
 
