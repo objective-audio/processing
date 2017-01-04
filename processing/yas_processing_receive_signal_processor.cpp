@@ -37,7 +37,7 @@ namespace processing {
                             auto const &buf_time_range = pair.first;
                             if (auto const time_range_opt = current_time_range.intersect(buf_time_range)) {
                                 auto const &time_range = *time_range_opt;
-                                auto const *ptr = get_vector<T>(pair.second).data();
+                                auto const *ptr = get_data<T>(pair.second);
                                 auto const idx = time_range.start_frame - buf_time_range.start_frame;
                                 _handler(time_range, ch_idx, connector_key, &ptr[idx]);
                             }
