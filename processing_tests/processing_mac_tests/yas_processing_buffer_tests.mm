@@ -107,14 +107,26 @@ using namespace yas::processing;
 
 - (void)test_get_data {
     auto buffer = make_buffer<int16_t>(2);
-    
-    auto *data = get_data<int16_t>(buffer);
+
+    auto *data = buffer.data<int16_t>();
     data[0] = 1000;
     data[1] = 1001;
-    
-    auto const *const_data = get_data<int16_t>(buffer);
+
+    auto const *const_data = buffer.data<int16_t>();
     XCTAssertEqual(const_data[0], 1000);
     XCTAssertEqual(const_data[1], 1001);
+}
+
+- (void)test_get_vector {
+    auto buffer = make_buffer<int16_t>(2);
+
+    auto &vec = buffer.vector<int16_t>();
+    vec[0] = 200;
+    vec[1] = 210;
+
+    auto const &const_vec = buffer.vector<int16_t>();
+    XCTAssertEqual(const_vec[0], 200);
+    XCTAssertEqual(const_vec[1], 210);
 }
 
 @end
