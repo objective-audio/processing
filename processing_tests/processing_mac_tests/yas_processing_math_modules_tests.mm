@@ -39,7 +39,7 @@ using namespace yas;
     auto left_in_module = processing::constant::make_signal_module<int16_t>(1);
     auto right_in_module = processing::constant::make_signal_module<int16_t>(10);
     auto plus_module = processing::math::make_plus_signal_module<int16_t>();
-    auto stream = processing::stream{{.start_frame = 0, .length = 5}};
+    processing::stream stream;
 
     left_in_module.connect_output(processing::constant::out_connector_key, 0);
     right_in_module.connect_output(processing::constant::out_connector_key, 1);
@@ -72,7 +72,7 @@ using namespace yas;
     auto left_in_module = processing::constant::make_signal_module<int16_t>(100);
     auto right_in_module = processing::constant::make_signal_module<int16_t>(10);
     auto plus_module = processing::math::make_minus_signal_module<int16_t>();
-    auto stream = processing::stream{{.start_frame = 0, .length = 5}};
+    processing::stream stream;
     
     left_in_module.connect_output(processing::constant::out_connector_key, 0);
     right_in_module.connect_output(processing::constant::out_connector_key, 1);
@@ -105,7 +105,7 @@ using namespace yas;
     auto left_in_module = processing::constant::make_signal_module<int16_t>(2);
     auto right_in_module = processing::constant::make_signal_module<int16_t>(4);
     auto plus_module = processing::math::make_multiply_signal_module<int16_t>();
-    auto stream = processing::stream{{.start_frame = 0, .length = 5}};
+    processing::stream stream;
     
     left_in_module.connect_output(processing::constant::out_connector_key, 0);
     right_in_module.connect_output(processing::constant::out_connector_key, 1);
@@ -138,7 +138,7 @@ using namespace yas;
     auto left_in_module = processing::constant::make_signal_module<int16_t>(4);
     auto right_in_module = processing::constant::make_signal_module<int16_t>(2);
     auto plus_module = processing::math::make_divide_signal_module<int16_t>();
-    auto stream = processing::stream{{.start_frame = 0, .length = 5}};
+    processing::stream stream;
     
     left_in_module.connect_output(processing::constant::out_connector_key, 0);
     right_in_module.connect_output(processing::constant::out_connector_key, 1);

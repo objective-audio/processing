@@ -9,7 +9,7 @@
 
 namespace yas {
 namespace test {
-    using process_f = std::function<void(processing::stream &)>;
+    using process_f = std::function<void(processing::time_range const &, processing::stream &)>;
 
     struct processor_impl;
 

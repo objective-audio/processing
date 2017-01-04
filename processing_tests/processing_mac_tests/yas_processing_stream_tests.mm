@@ -23,7 +23,7 @@ using namespace yas::processing;
 }
 
 - (void)test_create_stream {
-    processing::stream stream{{.start_frame = 123, .length = 4567}};
+    processing::stream stream;
 
     XCTAssertTrue(stream);
     XCTAssertEqual(stream.channel_count(), 0);
@@ -36,7 +36,7 @@ using namespace yas::processing;
 }
 
 - (void)test_insert_channel {
-    processing::stream stream{{.start_frame = 0, .length = 0}};
+    processing::stream stream;
 
     stream.insert_channel(1);
 
@@ -60,7 +60,7 @@ using namespace yas::processing;
 }
 
 - (void)test_channel {
-    processing::stream stream{{.start_frame = 0, .length = 0}};
+    processing::stream stream;
 
     stream.insert_channel(2);
 

@@ -139,9 +139,9 @@ using namespace yas::processing;
     track2.insert_module({.start_frame = 0, .length = 2}, module2);
 
     {
-        stream stream{{.start_frame = 0, .length = 2}};
+        stream stream;
 
-        timeline.process(stream);
+        timeline.process({.start_frame = 0, .length = 2}, stream);
 
         XCTAssertTrue((called_send_time_range == time_range{.start_frame = 0, .length = 2}));
         XCTAssertTrue((called_receive_time_range == time_range{.start_frame = 0, .length = 2}));
@@ -158,9 +158,9 @@ using namespace yas::processing;
     clear();
 
     {
-        stream stream{{.start_frame = -1, .length = 2}};
+        stream stream;
 
-        timeline.process(stream);
+        timeline.process({.start_frame = -1, .length = 2}, stream);
 
         XCTAssertTrue((called_send_time_range == time_range{.start_frame = 0, .length = 1}));
         XCTAssertTrue((called_receive_time_range == time_range{.start_frame = 0, .length = 1}));
@@ -176,9 +176,9 @@ using namespace yas::processing;
     clear();
 
     {
-        stream stream{{.start_frame = 1, .length = 2}};
+        stream stream;
 
-        timeline.process(stream);
+        timeline.process({.start_frame = 1, .length = 2}, stream);
 
         XCTAssertTrue((called_send_time_range == time_range{.start_frame = 1, .length = 1}));
         XCTAssertTrue((called_receive_time_range == time_range{.start_frame = 1, .length = 1}));
@@ -194,9 +194,9 @@ using namespace yas::processing;
     clear();
 
     {
-        stream stream{{.start_frame = 3, .length = 2}};
+        stream stream;
 
-        timeline.process(stream);
+        timeline.process({.start_frame = 3, .length = 2}, stream);
 
         XCTAssertFalse(stream.has_channel(0));
     }

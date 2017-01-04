@@ -34,7 +34,7 @@ using namespace yas;
     auto module = processing::constant::make_signal_module(value);
     module.connect_output(processing::constant::out_connector_key, 0);
     
-    processing::stream stream{{.start_frame = 0, .length = 2}};
+    processing::stream stream;
     
     module.process({.start_frame = 0, .length = 2}, stream);
     

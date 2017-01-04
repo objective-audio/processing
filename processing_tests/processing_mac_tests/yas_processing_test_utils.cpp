@@ -10,10 +10,10 @@ struct test::processor_impl : processing::processor::impl {
     processor_impl(process_f &&handler) : _handler(std::move(handler)) {
     }
 
-    virtual void process(processing::time_range const &, processing::module const &,
+    virtual void process(processing::time_range const &time_range, processing::module const &,
                          processing::stream &stream) override {
         if (_handler) {
-            _handler(stream);
+            _handler(time_range, stream);
         }
     }
 

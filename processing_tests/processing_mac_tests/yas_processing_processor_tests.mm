@@ -63,9 +63,9 @@ using namespace yas::processing;
     {
         clear();
         
-        auto stream = processing::stream{{.start_frame = 0, .length = 2}};
+        processing::stream stream;
         
-        XCTAssertNoThrow(module.process({.start_frame = 0, .length = 2}, stream));
+        module.process({.start_frame = 0, .length = 2}, stream);
         
         XCTAssertEqual(called_time_range.start_frame, 0);
         XCTAssertEqual(called_time_range.length, 2);
@@ -82,9 +82,9 @@ using namespace yas::processing;
     {
         clear();
 
-        auto stream = processing::stream{{.start_frame = 0, .length = 2}};
+        processing::stream stream;
 
-        XCTAssertNoThrow(module.process({.start_frame = 1, .length = 1}, stream));
+        module.process({.start_frame = 1, .length = 1}, stream);
 
         XCTAssertEqual(called_time_range.start_frame, 1);
         XCTAssertEqual(called_time_range.length, 1);
@@ -100,9 +100,9 @@ using namespace yas::processing;
     {
         clear();
 
-        auto stream = processing::stream{{.start_frame = 0, .length = 2}};
+        processing::stream stream;
 
-        XCTAssertNoThrow(module.process({.start_frame = 0, .length = 1}, stream));
+        module.process({.start_frame = 0, .length = 1}, stream);
 
         XCTAssertEqual(called_time_range.start_frame, 0);
         XCTAssertEqual(called_time_range.length, 1);
@@ -113,16 +113,6 @@ using namespace yas::processing;
         auto const &vec = get_vector<int64_t>((*stream.channel(ch_idx).buffers().begin()).second);
         XCTAssertEqual(vec.size(), 1);
         XCTAssertEqual(vec.at(0), 0);
-    }
-    
-    {
-        clear();
-        
-        auto stream = processing::stream{{.start_frame = 0, .length = 2}};
-        
-        XCTAssertThrows(module.process({.start_frame = -1, .length = 2}, stream));
-        XCTAssertThrows(module.process({.start_frame = 1, .length = 2}, stream));
-        XCTAssertThrows(module.process({.start_frame = 2, .length = 1}, stream));
     }
 }
 
@@ -150,7 +140,7 @@ using namespace yas::processing;
     };
 
     auto make_stream = [&stream_buffer, &ch_idx](time_range const &time_range) {
-        auto stream = processing::stream{time_range};
+        processing::stream stream;
         stream.insert_channel(ch_idx);
 
         auto &channel = stream.channel(ch_idx);
@@ -222,16 +212,6 @@ using namespace yas::processing;
         XCTAssertEqual(called_signal[0], 11);
         XCTAssertEqual(called_signal[1], 0);
     }
-    
-    {
-        clear();
-        
-        auto stream = make_stream({.start_frame = 0, .length = 2});
-        
-        XCTAssertThrows(module.process({.start_frame = -1, .length = 2}, stream));
-        XCTAssertThrows(module.process({.start_frame = 1, .length = 2}, stream));
-        XCTAssertThrows(module.process({.start_frame = 2, .length = 1}, stream));
-    }
 }
 
 - (void)test_process_receive_and_send_signal {
@@ -242,7 +222,7 @@ using namespace yas::processing;
 
     time_range process_time_range{.start_frame = 0, .length = 2};
 
-    auto stream = processing::stream{process_time_range};
+    processing::stream stream;
     stream.insert_channel(receive_ch_idx);
 
     auto input_stream_buffer = processing::make_buffer<int16_t>(2);
