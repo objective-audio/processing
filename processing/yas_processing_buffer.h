@@ -27,7 +27,9 @@ namespace processing {
     };
 
     template <typename T>
-    processing::buffer make_buffer(std::size_t const);
+    processing::buffer make_buffer(std::size_t const size);
+    template <typename T>
+    processing::buffer make_buffer(std::size_t const size, std::size_t const reserve);
 
     template <typename T>
     std::vector<T> const &get_vector(buffer const &);

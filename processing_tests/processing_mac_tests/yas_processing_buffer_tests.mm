@@ -41,6 +41,13 @@ using namespace yas::processing;
     }
 }
 
+- (void)test_make_buffer_with_reserve {
+    auto buffer = processing::make_buffer<float>(8, 16);
+
+    XCTAssertEqual(get_vector<float>(buffer).size(), 8);
+    XCTAssertEqual(get_vector<float>(buffer).capacity(), 16);
+}
+
 - (void)test_create_buffer_with_moved_vector {
     buffer buffer{std::vector<double>{0.0, 2.0, 4.0, 8.0}};
 
