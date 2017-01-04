@@ -25,6 +25,9 @@ struct processing::module::impl : base::impl {
         auto const module = cast<processing::module>();
 
         for (auto &processor : _processors) {
+            if (!stream.time_range().is_contain(current_time_range)) {
+                throw "out of range.";
+            }
             processor.process(current_time_range, module, stream);
         }
     }
