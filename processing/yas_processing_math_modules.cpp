@@ -162,9 +162,9 @@ processing::module processing::math::make_multiply_signal_module() {
                 auto const &idx = yas_fast_each_index(out_each);
                 auto const left_idx = idx + left_offset;
                 auto const right_idx = idx + right_offset;
-                auto const &left_value = (left_idx >= 0 && left_idx < left_length) ? left_ptr[left_idx] : 1;
-                auto const &right_value = (right_idx >= 0 && right_idx < right_length) ? right_ptr[right_idx] : 1;
-                yas_fast_each_value(out_each) = left_value / right_value;
+                auto const &left_value = (left_idx >= 0 && left_idx < left_length) ? left_ptr[left_idx] : 0;
+                auto const &right_value = (right_idx >= 0 && right_idx < right_length) ? right_ptr[right_idx] : 0;
+                yas_fast_each_value(out_each) = left_value * right_value;
             }
         }
     });
@@ -204,9 +204,9 @@ processing::module processing::math::make_divide_signal_module() {
                 auto const &idx = yas_fast_each_index(out_each);
                 auto const left_idx = idx + left_offset;
                 auto const right_idx = idx + right_offset;
-                auto const &left_value = (left_idx >= 0 && left_idx < left_length) ? left_ptr[left_idx] : 1;
-                auto const &right_value = (right_idx >= 0 && right_idx < right_length) ? right_ptr[right_idx] : 1;
-                yas_fast_each_value(out_each) = left_value * right_value;
+                auto const &left_value = (left_idx >= 0 && left_idx < left_length) ? left_ptr[left_idx] : 0;
+                auto const &right_value = (right_idx >= 0 && right_idx < right_length) ? right_ptr[right_idx] : 0;
+                yas_fast_each_value(out_each) = (left_value == 0 || right_value == 0) ? 0 : left_value / right_value;
             }
         }
     });
