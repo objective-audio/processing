@@ -26,8 +26,6 @@ using namespace yas::processing;
     processing::stream stream{{.start_frame = 123, .length = 4567}};
 
     XCTAssertTrue(stream);
-    XCTAssertEqual(stream.time_range().start_frame, 123);
-    XCTAssertEqual(stream.time_range().length, 4567);
     XCTAssertEqual(stream.channel_count(), 0);
 }
 
