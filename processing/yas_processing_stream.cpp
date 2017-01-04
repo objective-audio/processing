@@ -26,10 +26,6 @@ processing::stream::stream(processing::time_range time_range) : base(std::make_s
 processing::stream::stream(std::nullptr_t) : base(nullptr) {
 }
 
-processing::time_range const &processing::stream::time_range() const {
-    return impl_ptr<impl>()->_time_range;
-}
-
 void processing::stream::insert_channel(channel_index_t const channel) {
     impl_ptr<impl>()->_channels.emplace(channel, processing::channel());
 }

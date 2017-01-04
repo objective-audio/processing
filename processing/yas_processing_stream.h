@@ -17,8 +17,6 @@ namespace processing {
         explicit stream(processing::time_range);
         stream(std::nullptr_t);
 
-        processing::time_range const &time_range() const;
-
         void insert_channel(channel_index_t const);
         bool has_channel(channel_index_t const);
         processing::channel const &channel(channel_index_t const) const;
