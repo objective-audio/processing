@@ -44,9 +44,9 @@ using namespace yas::processing;
         called_ch_idx = 0;
     };
 
-    auto handler = [&called_time_range, &called_key, &called_ch_idx](processing::time::range const &time_range,
-                                                                     channel_index_t const ch_idx,
-                                                                     std::string const &key, int64_t *const signal_ptr) {
+    auto handler = [&called_time_range, &called_key, &called_ch_idx](
+        processing::time::range const &time_range, channel_index_t const ch_idx, std::string const &key,
+        int64_t *const signal_ptr) {
         called_time_range = time_range;
         called_key = key;
         called_ch_idx = ch_idx;
@@ -62,23 +62,23 @@ using namespace yas::processing;
 
     {
         clear();
-        
+
         processing::stream stream;
-        
+
         module.process({.frame = 0, .length = 2}, stream);
-        
+
         XCTAssertEqual(called_time_range.frame, 0);
         XCTAssertEqual(called_time_range.length, 2);
         XCTAssertEqual(called_key, output_connector_key);
         XCTAssertEqual(called_ch_idx, ch_idx);
-        
+
         XCTAssertTrue(stream.has_channel(ch_idx));
         auto const &vec = (*stream.channel(ch_idx).buffers().begin()).second.vector<int64_t>();
         XCTAssertEqual(vec.size(), 2);
         XCTAssertEqual(vec.at(0), 0);
         XCTAssertEqual(vec.at(1), 1);
     }
-    
+
     {
         clear();
 
@@ -141,7 +141,7 @@ using namespace yas::processing;
 
     auto make_stream = [&stream_buffer, &ch_idx](time::range const &time_range) {
         processing::stream stream;
-        stream.insert_channel(ch_idx);
+        stream.add_channel(ch_idx);
 
         auto &channel = stream.channel(ch_idx);
         channel.insert_buffer(processing::time{time_range}, stream_buffer);
@@ -167,20 +167,20 @@ using namespace yas::processing;
 
     {
         clear();
-        
+
         auto stream = make_stream({.frame = 0, .length = 2});
-        
+
         XCTAssertNoThrow(module.process({.frame = 0, .length = 2}, stream));
-        
+
         XCTAssertEqual(called_time_range.frame, 0);
         XCTAssertEqual(called_time_range.length, 2);
         XCTAssertEqual(called_key, input_connector_key);
         XCTAssertEqual(called_ch_idx, ch_idx);
-        
+
         XCTAssertEqual(called_signal[0], 10);
         XCTAssertEqual(called_signal[1], 11);
     }
-    
+
     {
         clear();
 
@@ -223,7 +223,7 @@ using namespace yas::processing;
     processing::time process_time{0, 2};
 
     processing::stream stream;
-    stream.insert_channel(receive_ch_idx);
+    stream.add_channel(receive_ch_idx);
 
     auto input_stream_buffer = processing::make_buffer<int16_t>(2);
     auto &input_stream_vec = input_stream_buffer.vector<int16_t>();

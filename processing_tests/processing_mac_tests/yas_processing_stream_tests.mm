@@ -35,25 +35,25 @@ using namespace yas::processing;
     XCTAssertFalse(stream);
 }
 
-- (void)test_insert_channel {
+- (void)test_add_channel {
     processing::stream stream;
 
-    stream.insert_channel(1);
+    stream.add_channel(1);
 
     XCTAssertTrue(stream.has_channel(1));
     XCTAssertEqual(stream.channel_count(), 1);
 
-    stream.insert_channel(5);
+    stream.add_channel(5);
 
     XCTAssertTrue(stream.has_channel(5));
     XCTAssertEqual(stream.channel_count(), 2);
 
-    stream.insert_channel(100);
+    stream.add_channel(100);
 
     XCTAssertTrue(stream.has_channel(100));
     XCTAssertEqual(stream.channel_count(), 3);
 
-    stream.insert_channel(1);
+    stream.add_channel(1);
 
     XCTAssertEqual(stream.channel_count(), 3);
     XCTAssertFalse(stream.has_channel(0));
@@ -62,7 +62,7 @@ using namespace yas::processing;
 - (void)test_channel {
     processing::stream stream;
 
-    stream.insert_channel(2);
+    stream.add_channel(2);
 
     auto &channel = stream.channel(2);
     channel.insert_buffer({0, 2}, {std::vector<int8_t>{5, 6}});
@@ -71,7 +71,7 @@ using namespace yas::processing;
     auto const &const_channel = const_stream.channel(2);
 
     XCTAssertEqual(const_channel.buffers().size(), 1);
-    
+
     auto const &const_buffer = (*const_channel.buffers().begin()).second;
     XCTAssertEqual(const_buffer.vector<int8_t>()[0], 5);
     XCTAssertEqual(const_buffer.vector<int8_t>()[1], 6);
