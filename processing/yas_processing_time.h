@@ -68,6 +68,9 @@ namespace processing {
 
         template <typename T>
         typename T::type const &get() const;
+
+       private:
+        static std::shared_ptr<processing::time::impl<time::any>> const &any_impl_ptr();
     };
 
     time make_range_time(frame_index_t const, length_t const);
