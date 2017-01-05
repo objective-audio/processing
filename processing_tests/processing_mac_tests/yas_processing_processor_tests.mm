@@ -44,9 +44,9 @@ using namespace yas::processing;
         called_ch_idx = 0;
     };
 
-    auto handler = [&called_time, &called_key, &called_ch_idx](
-        processing::time::range const &time_range, channel_index_t const ch_idx, std::string const &key,
-        int64_t *const signal_ptr) {
+    auto handler = [&called_time, &called_key, &called_ch_idx](processing::time::range const &time_range,
+                                                               channel_index_t const ch_idx, std::string const &key,
+                                                               int64_t *const signal_ptr) {
         called_time = processing::time{time_range};
         called_key = key;
         called_ch_idx = ch_idx;
