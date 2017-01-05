@@ -147,7 +147,7 @@ processing::time::time(range range) : base(std::make_shared<impl<time::range>>(s
 processing::time::time(frame_index_t const frame) : base(std::make_shared<impl<time::frame>>(frame)) {
 }
 
-processing::time::time() : base(std::make_shared<impl<time::any>>(any{})) {
+processing::time::time() : base(any_impl_ptr()) {
 }
 
 processing::time::time(std::nullptr_t) : base(nullptr) {
@@ -219,6 +219,11 @@ typename T::type const &processing::time::get() const {
 template processing::time::range::type const &processing::time::get<processing::time::range>() const;
 template processing::time::frame::type const &processing::time::get<processing::time::frame>() const;
 template processing::time::any::type const &processing::time::get<processing::time::any>() const;
+
+std::shared_ptr<processing::time::impl<processing::time::any>> const &processing::time::any_impl_ptr() {
+    static auto impl_ptr = std::make_shared<time::impl<time::any>>(time::any{});
+    return impl_ptr;
+}
 
 #pragma mark - make
 
