@@ -65,7 +65,7 @@ using namespace yas::processing;
     stream.insert_channel(2);
 
     auto &channel = stream.channel(2);
-    channel.insert_buffer({}, {std::vector<int8_t>{5, 6}});
+    channel.insert_buffer({0, 2}, {std::vector<int8_t>{5, 6}});
 
     auto const &const_stream = stream;
     auto const &const_channel = const_stream.channel(2);

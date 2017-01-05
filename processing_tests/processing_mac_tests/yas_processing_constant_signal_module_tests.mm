@@ -45,8 +45,12 @@ using namespace yas;
     XCTAssertEqual(channel.buffers().size(), 1);
     
     auto const &buffer_pair = *channel.buffers().begin();
-    auto const &time_range = buffer_pair.first;
+    auto const &time = buffer_pair.first;
     auto const &buffer = buffer_pair.second;
+    
+    XCTAssertTrue(time.type() == typeid(processing::time::range));
+    
+    auto const &time_range = time.get<processing::time::range>();
     
     XCTAssertEqual(time_range.frame, 0);
     XCTAssertEqual(time_range.length, 2);
