@@ -129,4 +129,18 @@ using namespace yas::processing;
     XCTAssertEqual(const_vec[1], 210);
 }
 
+- (void)test_resize {
+    auto buffer = make_buffer<int16_t>(2);
+    
+    XCTAssertEqual(buffer.size(), 2);
+    
+    buffer.resize(16);
+    
+    XCTAssertEqual(buffer.size(), 16);
+    
+    buffer.resize(0);
+    
+    XCTAssertEqual(buffer.size(), 0);
+}
+
 @end

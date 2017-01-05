@@ -17,3 +17,7 @@ std::size_t processing::buffer::sample_byte_count() const {
 std::size_t processing::buffer::size() const {
     return impl_ptr<impl_base>()->size();
 }
+
+void processing::buffer::resize(std::size_t const size) {
+    return impl_ptr<impl_base>()->resize(size);
+}
