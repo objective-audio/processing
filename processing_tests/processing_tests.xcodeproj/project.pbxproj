@@ -165,13 +165,13 @@
 			children = (
 				B6E0CB301E17721F00329906 /* module */,
 				B6E0CB231E17628100329906 /* processor */,
+				B64C09601DEBC1E000B9DCB1 /* yas_processing_buffer_private.h */,
+				B64C09631DEC536D00B9DCB1 /* yas_processing_buffer.cpp */,
+				B65947F31DE6AA4C009D5E34 /* yas_processing_buffer.h */,
 				B628EDF61E00DDE200445DA8 /* yas_processing_channel_private.h */,
 				B64C09681DEFCD2200B9DCB1 /* yas_processing_channel.cpp */,
 				B64C09691DEFCD2200B9DCB1 /* yas_processing_channel.h */,
 				B62D02A31DFA438F007CFDDA /* yas_processing_connector.h */,
-				B64C09601DEBC1E000B9DCB1 /* yas_processing_buffer_private.h */,
-				B64C09631DEC536D00B9DCB1 /* yas_processing_buffer.cpp */,
-				B65947F31DE6AA4C009D5E34 /* yas_processing_buffer.h */,
 				B6C4DAD71DF6505700621F80 /* yas_processing_module_private.h */,
 				B6C4DAD41DF6501400621F80 /* yas_processing_module.cpp */,
 				B6C4DAD51DF6501400621F80 /* yas_processing_module.h */,
@@ -312,10 +312,10 @@
 		B6E0CB231E17628100329906 /* processor */ = {
 			isa = PBXGroup;
 			children = (
-				B6E0CB241E1762A100329906 /* yas_processing_send_signal_processor.cpp */,
-				B6E0CB251E1762A100329906 /* yas_processing_send_signal_processor.h */,
 				B6E0CB271E1762B500329906 /* yas_processing_receive_signal_processor.cpp */,
 				B6E0CB281E1762B500329906 /* yas_processing_receive_signal_processor.h */,
+				B6E0CB241E1762A100329906 /* yas_processing_send_signal_processor.cpp */,
+				B6E0CB251E1762A100329906 /* yas_processing_send_signal_processor.h */,
 			);
 			name = processor;
 			sourceTree = "<group>";
