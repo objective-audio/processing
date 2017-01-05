@@ -81,6 +81,14 @@ using namespace yas::processing;
     XCTAssertTrue(time.type() == typeid(time::any));
 }
 
+- (void)test_assign_range {
+    auto time = make_any_time();
+    
+    time = time::range{0, 1};
+    
+    XCTAssertTrue(time.type() == typeid(time::range));
+}
+
 - (void)test_get_range_time {
     processing::time time{1, 2};
 

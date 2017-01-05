@@ -9,6 +9,12 @@ using namespace yas;
 
 #pragma mark - time::range
 
+processing::time::range::range(frame_index_t const frame, length_t const length) : frame(frame), length(length) {
+    if (length == 0) {
+        throw "length is zero.";
+    }
+}
+
 bool processing::time::range::operator==(time::range const &rhs) const {
     return frame == rhs.frame && length == rhs.length;
 }
@@ -70,7 +76,7 @@ std::experimental::optional<processing::time::range> processing::time::range::in
     auto const next = std::min(next_frame(), other.next_frame());
 
     if (start <= next) {
-        return time::range{.frame = start, .length = static_cast<length_t>(next - start)};
+        return time::range{start, static_cast<length_t>(next - start)};
     } else {
         return std::experimental::nullopt;
     }
@@ -84,7 +90,7 @@ std::experimental::optional<processing::time::range> processing::time::range::co
     auto const start = std::min(frame, other.frame);
     auto const next = std::max(next_frame(), other.next_frame());
 
-    return time::range{.frame = start, .length = static_cast<length_t>(next - start)};
+    return time::range{start, static_cast<length_t>(next - start)};
 }
 
 #pragma mark - time::any
@@ -147,6 +153,16 @@ processing::time::time() : base(std::make_shared<impl<time::any>>(any{})) {
 processing::time::time(std::nullptr_t) : base(nullptr) {
 }
 
+processing::time &processing::time::operator=(time::range const &range) {
+    set_impl_ptr(std::make_shared<impl<time::range>>(range));
+    return *this;
+}
+
+processing::time &processing::time::operator=(time::range &&range) {
+    set_impl_ptr(std::make_shared<impl<time::range>>(std::move(range)));
+    return *this;
+}
+
 bool processing::time::operator<(time const &rhs) const {
     if (is_any_type()) {
         if (rhs.is_any_type()) {
@@ -197,8 +213,7 @@ typename T::type const &processing::time::get() const {
         return ip->_value;
     }
 
-    static const typename T::type _default{};
-    return _default;
+    throw "unreachable code.";
 }
 
 template processing::time::range::type const &processing::time::get<processing::time::range>() const;

@@ -47,9 +47,9 @@ using namespace yas;
     plus_module.connect_input(processing::math::right_in_connector_key, 1);
     plus_module.connect_output(processing::constant::out_connector_key, 2);
 
-    left_in_module.process({.frame = 1, .length = 2}, stream);
-    right_in_module.process({.frame = 2, .length = 2}, stream);
-    plus_module.process({.frame = 0, .length = 5}, stream);
+    left_in_module.process({1, 2}, stream);
+    right_in_module.process({2, 2}, stream);
+    plus_module.process({0, 5}, stream);
 
     XCTAssertTrue(stream.has_channel(2));
 
@@ -80,9 +80,9 @@ using namespace yas;
     plus_module.connect_input(processing::math::right_in_connector_key, 1);
     plus_module.connect_output(processing::constant::out_connector_key, 2);
     
-    left_in_module.process({.frame = 1, .length = 2}, stream);
-    right_in_module.process({.frame = 2, .length = 2}, stream);
-    plus_module.process({.frame = 0, .length = 5}, stream);
+    left_in_module.process({1, 2}, stream);
+    right_in_module.process({2, 2}, stream);
+    plus_module.process({0, 5}, stream);
     
     XCTAssertTrue(stream.has_channel(2));
     
@@ -113,9 +113,9 @@ using namespace yas;
     plus_module.connect_input(processing::math::right_in_connector_key, 1);
     plus_module.connect_output(processing::constant::out_connector_key, 2);
     
-    left_in_module.process({.frame = 1, .length = 2}, stream);
-    right_in_module.process({.frame = 2, .length = 2}, stream);
-    plus_module.process({.frame = 0, .length = 5}, stream);
+    left_in_module.process({1, 2}, stream);
+    right_in_module.process({2, 2}, stream);
+    plus_module.process({0, 5}, stream);
     
     XCTAssertTrue(stream.has_channel(2));
     
@@ -146,9 +146,9 @@ using namespace yas;
     plus_module.connect_input(processing::math::right_in_connector_key, 1);
     plus_module.connect_output(processing::constant::out_connector_key, 2);
     
-    left_in_module.process({.frame = 1, .length = 2}, stream);
-    right_in_module.process({.frame = 2, .length = 2}, stream);
-    plus_module.process({.frame = 0, .length = 5}, stream);
+    left_in_module.process({1, 2}, stream);
+    right_in_module.process({2, 2}, stream);
+    plus_module.process({0, 5}, stream);
     
     XCTAssertTrue(stream.has_channel(2));
     

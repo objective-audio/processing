@@ -33,21 +33,21 @@ using namespace yas::processing;
     auto const ch_idx = 5;
     auto const output_connector_key = "output";
 
-    time::range called_time_range;
+    processing::time called_time;
     std::string called_key;
     channel_index_t called_ch_idx;
 
-    auto clear = [&called_time_range, &called_key, &called_ch_idx]() {
-        called_time_range.frame = 0;
-        called_time_range.length = 0;
+    auto clear = [&called_time, &called_key, &called_ch_idx]() {
+        called_time = make_any_time();
+        called_time = make_any_time();
         called_key.clear();
         called_ch_idx = 0;
     };
 
-    auto handler = [&called_time_range, &called_key, &called_ch_idx](
+    auto handler = [&called_time, &called_key, &called_ch_idx](
         processing::time::range const &time_range, channel_index_t const ch_idx, std::string const &key,
         int64_t *const signal_ptr) {
-        called_time_range = time_range;
+        called_time = processing::time{time_range};
         called_key = key;
         called_ch_idx = ch_idx;
         for (auto const &idx : make_each(time_range.length)) {
@@ -65,10 +65,10 @@ using namespace yas::processing;
 
         processing::stream stream;
 
-        module.process({.frame = 0, .length = 2}, stream);
+        module.process({0, 2}, stream);
 
-        XCTAssertEqual(called_time_range.frame, 0);
-        XCTAssertEqual(called_time_range.length, 2);
+        XCTAssertEqual(called_time.get<time::range>().frame, 0);
+        XCTAssertEqual(called_time.get<time::range>().length, 2);
         XCTAssertEqual(called_key, output_connector_key);
         XCTAssertEqual(called_ch_idx, ch_idx);
 
@@ -84,10 +84,10 @@ using namespace yas::processing;
 
         processing::stream stream;
 
-        module.process({.frame = 1, .length = 1}, stream);
+        module.process({1, 1}, stream);
 
-        XCTAssertEqual(called_time_range.frame, 1);
-        XCTAssertEqual(called_time_range.length, 1);
+        XCTAssertEqual(called_time.get<time::range>().frame, 1);
+        XCTAssertEqual(called_time.get<time::range>().length, 1);
         XCTAssertEqual(called_key, output_connector_key);
         XCTAssertEqual(called_ch_idx, ch_idx);
 
@@ -102,10 +102,10 @@ using namespace yas::processing;
 
         processing::stream stream;
 
-        module.process({.frame = 0, .length = 1}, stream);
+        module.process({0, 1}, stream);
 
-        XCTAssertEqual(called_time_range.frame, 0);
-        XCTAssertEqual(called_time_range.length, 1);
+        XCTAssertEqual(called_time.get<time::range>().frame, 0);
+        XCTAssertEqual(called_time.get<time::range>().length, 1);
         XCTAssertEqual(called_key, output_connector_key);
         XCTAssertEqual(called_ch_idx, ch_idx);
 
@@ -120,7 +120,7 @@ using namespace yas::processing;
     auto const ch_idx = 7;
     auto const input_connector_key = "input";
 
-    time::range called_time_range;
+    processing::time called_time;
     std::string called_key;
     channel_index_t called_ch_idx;
     int64_t called_signal[2];
@@ -130,9 +130,8 @@ using namespace yas::processing;
     stream_vec[0] = 10;
     stream_vec[1] = 11;
 
-    auto clear = [&called_time_range, &called_key, &called_ch_idx, &called_signal]() {
-        called_time_range.frame = 0;
-        called_time_range.length = 0;
+    auto clear = [&called_time, &called_key, &called_ch_idx, &called_signal]() {
+        called_time = make_any_time();
         called_key.clear();
         called_ch_idx = 0;
         called_signal[0] = 0.0;
@@ -149,10 +148,10 @@ using namespace yas::processing;
         return stream;
     };
 
-    auto handler = [&called_time_range, &called_key, &called_ch_idx, &called_signal](
+    auto handler = [&called_time, &called_key, &called_ch_idx, &called_signal](
         processing::time::range const &time_range, channel_index_t const ch_idx, std::string const &key,
         int64_t const *const signal_ptr) {
-        called_time_range = time_range;
+        called_time = processing::time{time_range};
         called_key = key;
         called_ch_idx = ch_idx;
         for (auto const &idx : make_each(time_range.length)) {
@@ -168,12 +167,12 @@ using namespace yas::processing;
     {
         clear();
 
-        auto stream = make_stream({.frame = 0, .length = 2});
+        auto stream = make_stream({0, 2});
 
-        XCTAssertNoThrow(module.process({.frame = 0, .length = 2}, stream));
+        XCTAssertNoThrow(module.process({0, 2}, stream));
 
-        XCTAssertEqual(called_time_range.frame, 0);
-        XCTAssertEqual(called_time_range.length, 2);
+        XCTAssertEqual(called_time.get<time::range>().frame, 0);
+        XCTAssertEqual(called_time.get<time::range>().length, 2);
         XCTAssertEqual(called_key, input_connector_key);
         XCTAssertEqual(called_ch_idx, ch_idx);
 
@@ -184,12 +183,12 @@ using namespace yas::processing;
     {
         clear();
 
-        auto stream = make_stream({.frame = 0, .length = 2});
+        auto stream = make_stream({0, 2});
 
-        XCTAssertNoThrow(module.process({.frame = 0, .length = 1}, stream));
+        XCTAssertNoThrow(module.process({0, 1}, stream));
 
-        XCTAssertEqual(called_time_range.frame, 0);
-        XCTAssertEqual(called_time_range.length, 1);
+        XCTAssertEqual(called_time.get<time::range>().frame, 0);
+        XCTAssertEqual(called_time.get<time::range>().length, 1);
         XCTAssertEqual(called_key, input_connector_key);
         XCTAssertEqual(called_ch_idx, ch_idx);
 
@@ -200,12 +199,12 @@ using namespace yas::processing;
     {
         clear();
 
-        auto stream = make_stream({.frame = 0, .length = 2});
+        auto stream = make_stream({0, 2});
 
-        XCTAssertNoThrow(module.process({.frame = 1, .length = 1}, stream));
+        XCTAssertNoThrow(module.process({1, 1}, stream));
 
-        XCTAssertEqual(called_time_range.frame, 1);
-        XCTAssertEqual(called_time_range.length, 1);
+        XCTAssertEqual(called_time.get<time::range>().frame, 1);
+        XCTAssertEqual(called_time.get<time::range>().length, 1);
         XCTAssertEqual(called_key, input_connector_key);
         XCTAssertEqual(called_ch_idx, ch_idx);
 

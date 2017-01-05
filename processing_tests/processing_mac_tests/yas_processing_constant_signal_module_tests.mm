@@ -36,7 +36,7 @@ using namespace yas;
     
     processing::stream stream;
     
-    module.process({.frame = 0, .length = 2}, stream);
+    module.process({0, 2}, stream);
     
     XCTAssertTrue(stream.has_channel(0));
     

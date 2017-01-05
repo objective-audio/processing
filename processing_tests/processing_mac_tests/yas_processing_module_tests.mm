@@ -6,6 +6,7 @@
 #import "yas_processing_test_utils.h"
 
 using namespace yas;
+using namespace yas::processing;
 
 @interface yas_processing_module_tests : XCTestCase
 
@@ -38,17 +39,17 @@ using namespace yas;
 - (void)test_process_called {
     processing::stream stream;
 
-    processing::time::range called_time_range;
+    processing::time called_time;
 
-    auto processor =
-        test::make_processor([&called_time_range](processing::time::range const &time_range, auto const &, auto const &,
-                                                  processing::stream &stream) { called_time_range = time_range; });
+    auto processor = test::make_processor(
+        [&called_time](processing::time::range const &time_range, auto const &, auto const &,
+                       processing::stream &stream) { called_time = processing::time{time_range}; });
     processing::module module{{std::move(processor)}};
 
-    module.process({.frame = 23, .length = 456}, stream);
+    module.process({23, 456}, stream);
 
-    XCTAssertEqual(called_time_range.frame, 23);
-    XCTAssertEqual(called_time_range.length, 456);
+    XCTAssertEqual(called_time.get<time::range>().frame, 23);
+    XCTAssertEqual(called_time.get<time::range>().length, 456);
 }
 
 - (void)test_connect_input {
