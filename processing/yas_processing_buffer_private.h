@@ -9,6 +9,7 @@ struct processing::buffer::impl_base : base::impl {
     virtual std::type_info const &type() const = 0;
     virtual std::size_t sample_byte_count() const = 0;
     virtual std::size_t size() const = 0;
+    virtual void resize(std::size_t const) = 0;
 };
 
 template <typename T>
@@ -29,6 +30,10 @@ struct processing::buffer::impl : impl_base {
 
     std::size_t size() const override {
         return _vector_ref.size();
+    }
+    
+    void resize(std::size_t const size) override {
+        _vector_ref.resize(size);
     }
 
     std::vector<T> &vector() {

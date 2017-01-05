@@ -39,7 +39,7 @@ using namespace yas::processing;
 - (void)test_process_called {
     processing::stream stream;
 
-    processing::time called_time;
+    processing::time called_time = nullptr;
 
     auto processor = test::make_processor(
         [&called_time](processing::time::range const &time_range, auto const &, auto const &,
