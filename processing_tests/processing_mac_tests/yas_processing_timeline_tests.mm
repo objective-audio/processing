@@ -64,8 +64,8 @@ using namespace yas::processing;
 - (void)test_process {
     timeline timeline;
 
-    processing::time called_send_time;
-    processing::time called_receive_time;
+    processing::time called_send_time = nullptr;
+    processing::time called_receive_time = nullptr;
 
     auto process_buffer = make_buffer<int16_t>(2);
 

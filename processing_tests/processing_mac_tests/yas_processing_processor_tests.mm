@@ -33,7 +33,7 @@ using namespace yas::processing;
     auto const ch_idx = 5;
     auto const output_connector_key = "output";
 
-    processing::time called_time;
+    processing::time called_time = nullptr;
     std::string called_key;
     channel_index_t called_ch_idx;
 
@@ -120,7 +120,7 @@ using namespace yas::processing;
     auto const ch_idx = 7;
     auto const input_connector_key = "input";
 
-    processing::time called_time;
+    processing::time called_time = nullptr;
     std::string called_key;
     channel_index_t called_ch_idx;
     int64_t called_signal[2];
