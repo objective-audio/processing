@@ -15,7 +15,7 @@ namespace yas {
 namespace processing {
     template <typename T>
     struct send_signal_processor_impl : processor::impl {
-        send_signal_processor_impl(processing::send_signal_f<T> &&handler) : _handler(std::move(handler)) {
+        send_signal_processor_impl(processing::send_signal_process_f<T> &&handler) : _handler(std::move(handler)) {
         }
 
         void process(time::range const &current_time_range, connector_map_t const &,
@@ -83,23 +83,23 @@ namespace processing {
         }
 
        private:
-        processing::send_signal_f<T> _handler;
+        processing::send_signal_process_f<T> _handler;
     };
 }
 }
 
 template <typename T>
-processing::processor processing::make_send_signal_processor(processing::send_signal_f<T> handler) {
+processing::processor processing::make_send_signal_processor(processing::send_signal_process_f<T> handler) {
     return processing::processor{std::make_shared<send_signal_processor_impl<T>>(std::move(handler))};
 }
 
-template processing::processor processing::make_send_signal_processor(processing::send_signal_f<double>);
-template processing::processor processing::make_send_signal_processor(processing::send_signal_f<float>);
-template processing::processor processing::make_send_signal_processor(processing::send_signal_f<int64_t>);
-template processing::processor processing::make_send_signal_processor(processing::send_signal_f<int32_t>);
-template processing::processor processing::make_send_signal_processor(processing::send_signal_f<int16_t>);
-template processing::processor processing::make_send_signal_processor(processing::send_signal_f<int8_t>);
-template processing::processor processing::make_send_signal_processor(processing::send_signal_f<uint64_t>);
-template processing::processor processing::make_send_signal_processor(processing::send_signal_f<uint32_t>);
-template processing::processor processing::make_send_signal_processor(processing::send_signal_f<uint16_t>);
-template processing::processor processing::make_send_signal_processor(processing::send_signal_f<uint8_t>);
+template processing::processor processing::make_send_signal_processor(processing::send_signal_process_f<double>);
+template processing::processor processing::make_send_signal_processor(processing::send_signal_process_f<float>);
+template processing::processor processing::make_send_signal_processor(processing::send_signal_process_f<int64_t>);
+template processing::processor processing::make_send_signal_processor(processing::send_signal_process_f<int32_t>);
+template processing::processor processing::make_send_signal_processor(processing::send_signal_process_f<int16_t>);
+template processing::processor processing::make_send_signal_processor(processing::send_signal_process_f<int8_t>);
+template processing::processor processing::make_send_signal_processor(processing::send_signal_process_f<uint64_t>);
+template processing::processor processing::make_send_signal_processor(processing::send_signal_process_f<uint32_t>);
+template processing::processor processing::make_send_signal_processor(processing::send_signal_process_f<uint16_t>);
+template processing::processor processing::make_send_signal_processor(processing::send_signal_process_f<uint8_t>);
