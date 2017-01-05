@@ -19,10 +19,10 @@ namespace processing {
         channel();
         channel(std::nullptr_t);
 
-        std::multimap<time::range, buffer> const &buffers() const;
-        std::multimap<time::range, buffer> &buffers();
+        std::multimap<time, buffer> const &buffers() const;
+        std::multimap<time, buffer> &buffers();
 
-        void insert_buffer(time::range, buffer);
+        void insert_buffer(time, buffer);
 
         template <typename P>
         void erase_buffer_if(P predicate);

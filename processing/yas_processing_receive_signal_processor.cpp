@@ -35,7 +35,8 @@ namespace processing {
                         auto const filtered_buffers = filter(channel.buffers(), predicate);
 
                         for (auto const &pair : filtered_buffers) {
-                            auto const &buf_time_range = pair.first;
+                            time const &buf_time = pair.first;
+                            auto const &buf_time_range = buf_time.get<time::range>();
                             if (auto const time_range_opt = current_time_range.intersect(buf_time_range)) {
                                 auto const &time_range = *time_range_opt;
                                 processing::buffer const &buffer = pair.second;

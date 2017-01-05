@@ -50,25 +50,25 @@ using namespace yas::processing;
     float_vec[0] = 2.0f;
     float_vec[1] = 4.0f;
 
-    processing::time::range uint_time_range{.frame = 16, .length = 4};
-    processing::time::range float_time_range{.frame = 8, .length = 2};
+    processing::time uint_range_time{16, 4};
+    processing::time float_range_time{8, 2};
 
-    channel.insert_buffer(std::move(uint_time_range), std::move(uint_vec));
-    channel.insert_buffer(std::move(float_time_range), std::move(float_buffer));
+    channel.insert_buffer(std::move(uint_range_time), std::move(uint_vec));
+    channel.insert_buffer(std::move(float_range_time), std::move(float_buffer));
 
     std::size_t idx = 0;
     for (auto &pair : channel.buffers()) {
-        auto const &time_range = pair.first;
+        auto const &time = pair.first;
         auto const &buffer = pair.second;
         if (idx == 0) {
-            XCTAssertTrue((time_range == processing::time::range{.frame = 8, .length = 2}));
+            XCTAssertTrue((time == processing::time{8, 2}));
             XCTAssertTrue(buffer.sample_type() == typeid(float));
             auto const &vec = buffer.vector<float>();
             XCTAssertEqual(vec.size(), 2);
             XCTAssertEqual(vec[0], 2.0f);
             XCTAssertEqual(vec[1], 4.0f);
         } else if (idx == 1) {
-            XCTAssertTrue((time_range == processing::time::range{.frame = 16, .length = 4}));
+            XCTAssertTrue((time == processing::time{16, 4}));
             XCTAssertTrue(buffer.sample_type() == typeid(uint32_t));
             auto const &vec = buffer.vector<uint32_t>();
             XCTAssertEqual(vec.size(), 4);
@@ -86,13 +86,13 @@ using namespace yas::processing;
     processing::channel channel;
 
     auto uint_buffer = make_buffer<uint32_t>(2);
-    processing::time::range uint_time_range{.frame = 1, .length = 2};
+    processing::time uint_range_time{1, 2};
 
     auto float_buffer = make_buffer<float>(2);
-    processing::time::range float_time_range{.frame = 1, .length = 2};
+    processing::time float_range_time{1, 2};
 
-    channel.insert_buffer(uint_time_range, uint_buffer);
-    channel.insert_buffer(float_time_range, float_buffer);
+    channel.insert_buffer(uint_range_time, uint_buffer);
+    channel.insert_buffer(float_range_time, float_buffer);
 
     XCTAssertEqual(channel.buffers().size(), 2);
 }
@@ -103,17 +103,17 @@ using namespace yas::processing;
     auto buffer = make_buffer<float>(1);
     buffer.vector<float>()[0] = 1.0f;
 
-    channel.insert_buffer(processing::time::range{.frame = 10, .length = 1}, std::move(buffer));
+    channel.insert_buffer(processing::time{10, 1}, std::move(buffer));
 
     processing::channel const &const_channel = channel;
 
     XCTAssertEqual(const_channel.buffers().size(), 1);
 
     for (auto const &pair : const_channel.buffers()) {
-        auto const &const_time_range = pair.first;
+        auto const &const_time = pair.first;
         auto const &const_buffer = pair.second;
 
-        XCTAssertTrue((const_time_range == processing::time::range{.frame = 10, .length = 1}));
+        XCTAssertTrue((const_time == processing::time{10, 1}));
         XCTAssertEqual(const_buffer.vector<float>()[0], 1.0f);
     }
 }
@@ -123,7 +123,7 @@ using namespace yas::processing;
 
     auto buffer = make_buffer<float>(2);
 
-    XCTAssertThrows(channel.insert_buffer(processing::time::range{.length = 1}, std::move(buffer)));
+    XCTAssertThrows(channel.insert_buffer(processing::time{0, 1}, std::move(buffer)));
 }
 
 @end

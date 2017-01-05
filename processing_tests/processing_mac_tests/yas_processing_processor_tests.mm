@@ -144,7 +144,7 @@ using namespace yas::processing;
         stream.insert_channel(ch_idx);
 
         auto &channel = stream.channel(ch_idx);
-        channel.insert_buffer(time_range, stream_buffer);
+        channel.insert_buffer(processing::time{time_range}, stream_buffer);
 
         return stream;
     };
@@ -220,7 +220,7 @@ using namespace yas::processing;
     auto const output_connector_key = "output";
     auto const input_connector_key = "input";
 
-    time::range process_time_range{.frame = 0, .length = 2};
+    processing::time process_time{0, 2};
 
     processing::stream stream;
     stream.insert_channel(receive_ch_idx);
@@ -231,7 +231,7 @@ using namespace yas::processing;
     input_stream_vec[1] = 2;
 
     auto &channel = stream.channel(receive_ch_idx);
-    channel.insert_buffer(process_time_range, input_stream_buffer);
+    channel.insert_buffer(process_time, input_stream_buffer);
 
     auto process_buffer = processing::make_buffer<int16_t>(2);
 
@@ -258,7 +258,7 @@ using namespace yas::processing;
     module.connect_input(input_connector_key, receive_ch_idx);
     module.connect_output(output_connector_key, send_ch_idx);
 
-    module.process(process_time_range, stream);
+    module.process(process_time.get<time::range>(), stream);
 
     XCTAssertTrue(stream.has_channel(send_ch_idx));
 
