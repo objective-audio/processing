@@ -24,6 +24,8 @@ namespace processing {
             frame_index_t frame = 0;
             length_t length = 0;
 
+            range(frame_index_t const, length_t const);
+
             bool operator==(range const &) const;
             bool operator!=(range const &) const;
             bool operator<(range const &) const;
@@ -53,14 +55,17 @@ namespace processing {
         explicit time(frame_index_t const);
         time();
         time(std::nullptr_t);
-        
+
+        time &operator=(range const &);
+        time &operator=(range &&);
+
         bool operator<(time const &) const;
-        
+
         std::type_info const &type() const;
         bool is_range_type() const;
         bool is_frame_type() const;
         bool is_any_type() const;
-        
+
         template <typename T>
         typename T::type const &get() const;
     };
