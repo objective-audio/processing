@@ -135,6 +135,9 @@ processing::time::time(frame_index_t const frame, length_t const length)
     : base(std::make_shared<impl<time::range>>(time::range{frame, length})) {
 }
 
+processing::time::time(range range) : base(std::make_shared<impl<time::range>>(std::move(range))) {
+}
+
 processing::time::time(frame_index_t const frame) : base(std::make_shared<impl<time::frame>>(frame)) {
 }
 
@@ -144,8 +147,48 @@ processing::time::time() : base(std::make_shared<impl<time::any>>(any{})) {
 processing::time::time(std::nullptr_t) : base(nullptr) {
 }
 
+bool processing::time::operator<(time const &rhs) const {
+    if (is_any_type()) {
+        if (rhs.is_any_type()) {
+            return false;
+        } else {
+            return true;
+        }
+    } else if (rhs.is_any_type()) {
+        return false;
+    }
+
+    if (is_frame_type()) {
+        if (rhs.is_frame_type()) {
+            return get<frame>() < rhs.get<frame>();
+        } else if (rhs.is_range_type()) {
+            return true;
+        }
+    } else if (is_range_type()) {
+        if (rhs.is_frame_type()) {
+            return false;
+        } else if (rhs.is_range_type()) {
+            return get<range>() < rhs.get<range>();
+        }
+    }
+
+    throw "unreachable code.";
+}
+
 std::type_info const &processing::time::type() const {
     return impl_ptr<impl_base>()->type();
+}
+
+bool processing::time::is_range_type() const {
+    return type() == typeid(range);
+}
+
+bool processing::time::is_frame_type() const {
+    return type() == typeid(frame);
+}
+
+bool processing::time::is_any_type() const {
+    return type() == typeid(any);
 }
 
 template <typename T>
@@ -153,7 +196,7 @@ typename T::type const &processing::time::get() const {
     if (auto ip = std::dynamic_pointer_cast<impl<T>>(impl_ptr())) {
         return ip->_value;
     }
-    
+
     static const typename T::type _default{};
     return _default;
 }
