@@ -49,6 +49,26 @@ processing::buffer::buffer(std::vector<T> &bytes) : base(std::make_shared<impl<T
 }
 
 template <typename T>
+std::vector<T> const &processing::buffer::vector() const {
+    return impl_ptr<buffer::impl<T>>()->vector();
+}
+
+template <typename T>
+std::vector<T> &processing::buffer::vector() {
+    return impl_ptr<buffer::impl<T>>()->vector();
+}
+
+template <typename T>
+T const *processing::buffer::data() const {
+    return impl_ptr<buffer::impl<T>>()->vector().data();
+}
+
+template <typename T>
+T *processing::buffer::data() {
+    return impl_ptr<buffer::impl<T>>()->vector().data();
+}
+
+template <typename T>
 processing::buffer processing::make_buffer(std::size_t const size) {
     return processing::buffer{std::vector<T>(size)};
 }
@@ -58,25 +78,5 @@ processing::buffer processing::make_buffer(std::size_t const size, std::size_t c
     auto vec = std::vector<T>(size);
     vec.reserve(reserve);
     return processing::buffer{std::move(vec)};
-}
-
-template <typename T>
-std::vector<T> const &processing::get_vector(buffer const &buffer) {
-    return buffer.impl_ptr<buffer::impl<T>>()->vector();
-}
-
-template <typename T>
-std::vector<T> &processing::get_vector(buffer &buffer) {
-    return buffer.impl_ptr<buffer::impl<T>>()->vector();
-}
-
-template <typename T>
-T const *processing::get_data(buffer const &buffer) {
-    return buffer.impl_ptr<buffer::impl<T>>()->vector().data();
-}
-
-template <typename T>
-T *processing::get_data(buffer &buffer) {
-    return buffer.impl_ptr<buffer::impl<T>>()->vector().data();
 }
 }

@@ -58,7 +58,7 @@ using namespace yas;
     XCTAssertEqual(buffers.size(), 1);
 
     auto const &buffer = (*buffers.begin()).second;
-    auto const &vec = processing::get_vector<int16_t>(buffer);
+    auto const &vec = buffer.vector<int16_t>();
 
     XCTAssertEqual(vec.size(), 5);
     XCTAssertEqual(vec[0], 0);
@@ -91,7 +91,7 @@ using namespace yas;
     XCTAssertEqual(buffers.size(), 1);
     
     auto const &buffer = (*buffers.begin()).second;
-    auto const &vec = processing::get_vector<int16_t>(buffer);
+    auto const &vec = buffer.vector<int16_t>();
     
     XCTAssertEqual(vec.size(), 5);
     XCTAssertEqual(vec[0], 0);
@@ -124,7 +124,7 @@ using namespace yas;
     XCTAssertEqual(buffers.size(), 1);
     
     auto const &buffer = (*buffers.begin()).second;
-    auto const &vec = processing::get_vector<int16_t>(buffer);
+    auto const &vec = buffer.vector<int16_t>();
     
     XCTAssertEqual(vec.size(), 5);
     XCTAssertEqual(vec[0], 0);
@@ -157,7 +157,7 @@ using namespace yas;
     XCTAssertEqual(buffers.size(), 1);
     
     auto const &buffer = (*buffers.begin()).second;
-    auto const &vec = processing::get_vector<int16_t>(buffer);
+    auto const &vec = buffer.vector<int16_t>();
     
     XCTAssertEqual(vec.size(), 5);
     XCTAssertEqual(vec[0], 0);

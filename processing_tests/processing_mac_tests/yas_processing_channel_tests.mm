@@ -39,14 +39,14 @@ using namespace yas::processing;
     processing::channel channel;
 
     auto uint_buffer = make_buffer<uint32_t>(4);
-    auto &uint_vec = get_vector<uint32_t>(uint_buffer);
+    auto &uint_vec = uint_buffer.vector<uint32_t>();
     uint_vec[0] = 10;
     uint_vec[1] = 11;
     uint_vec[2] = 12;
     uint_vec[3] = 13;
 
     auto float_buffer = make_buffer<float>(2);
-    auto &float_vec = get_vector<float>(float_buffer);
+    auto &float_vec = float_buffer.vector<float>();
     float_vec[0] = 2.0f;
     float_vec[1] = 4.0f;
 
@@ -63,14 +63,14 @@ using namespace yas::processing;
         if (idx == 0) {
             XCTAssertTrue((time_range == processing::time::range{.frame = 8, .length = 2}));
             XCTAssertTrue(buffer.sample_type() == typeid(float));
-            auto const &vec = get_vector<float>(buffer);
+            auto const &vec = buffer.vector<float>();
             XCTAssertEqual(vec.size(), 2);
             XCTAssertEqual(vec[0], 2.0f);
             XCTAssertEqual(vec[1], 4.0f);
         } else if (idx == 1) {
             XCTAssertTrue((time_range == processing::time::range{.frame = 16, .length = 4}));
             XCTAssertTrue(buffer.sample_type() == typeid(uint32_t));
-            auto const &vec = get_vector<uint32_t>(buffer);
+            auto const &vec = buffer.vector<uint32_t>();
             XCTAssertEqual(vec.size(), 4);
             XCTAssertEqual(vec[0], 10);
             XCTAssertEqual(vec[1], 11);
@@ -101,7 +101,7 @@ using namespace yas::processing;
     processing::channel channel;
 
     auto buffer = make_buffer<float>(1);
-    get_vector<float>(buffer)[0] = 1.0f;
+    buffer.vector<float>()[0] = 1.0f;
 
     channel.insert_buffer(processing::time::range{.frame = 10, .length = 1}, std::move(buffer));
 
@@ -114,7 +114,7 @@ using namespace yas::processing;
         auto const &const_buffer = pair.second;
 
         XCTAssertTrue((const_time_range == processing::time::range{.frame = 10, .length = 1}));
-        XCTAssertEqual(get_vector<float>(const_buffer)[0], 1.0f);
+        XCTAssertEqual(const_buffer.vector<float>()[0], 1.0f);
     }
 }
 

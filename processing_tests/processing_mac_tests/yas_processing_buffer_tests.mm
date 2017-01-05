@@ -30,22 +30,22 @@ using namespace yas::processing;
     XCTAssertEqual(buffer.sample_byte_count(), 4);
     XCTAssertEqual(buffer.size(), 16);
 
-    XCTAssertEqual(get_vector<float>(buffer).size(), 16);
+    XCTAssertEqual(buffer.vector<float>().size(), 16);
 
     for (auto const &idx : make_each(16)) {
-        get_vector<float>(buffer)[idx] = static_cast<float>(idx);
+        buffer.vector<float>()[idx] = static_cast<float>(idx);
     }
 
     for (auto const &idx : make_each(16)) {
-        XCTAssertEqual(get_vector<float>(buffer)[idx], static_cast<float>(idx));
+        XCTAssertEqual(buffer.vector<float>()[idx], static_cast<float>(idx));
     }
 }
 
 - (void)test_make_buffer_with_reserve {
     auto buffer = processing::make_buffer<float>(8, 16);
 
-    XCTAssertEqual(get_vector<float>(buffer).size(), 8);
-    XCTAssertEqual(get_vector<float>(buffer).capacity(), 16);
+    XCTAssertEqual(buffer.vector<float>().size(), 8);
+    XCTAssertEqual(buffer.vector<float>().capacity(), 16);
 }
 
 - (void)test_create_buffer_with_moved_vector {
@@ -54,12 +54,12 @@ using namespace yas::processing;
     XCTAssertEqual(buffer.sample_byte_count(), 8);
     XCTAssertEqual(buffer.size(), 4);
 
-    XCTAssertEqual(get_vector<double>(buffer).size(), 4);
+    XCTAssertEqual(buffer.vector<double>().size(), 4);
 
-    XCTAssertEqual(get_vector<double>(buffer)[0], 0.0);
-    XCTAssertEqual(get_vector<double>(buffer)[1], 2.0);
-    XCTAssertEqual(get_vector<double>(buffer)[2], 4.0);
-    XCTAssertEqual(get_vector<double>(buffer)[3], 8.0);
+    XCTAssertEqual(buffer.vector<double>()[0], 0.0);
+    XCTAssertEqual(buffer.vector<double>()[1], 2.0);
+    XCTAssertEqual(buffer.vector<double>()[2], 4.0);
+    XCTAssertEqual(buffer.vector<double>()[3], 8.0);
 }
 
 - (void)test_create_buffer_with_reference_vector {
@@ -74,12 +74,12 @@ using namespace yas::processing;
     XCTAssertEqual(buffer.sample_byte_count(), 4);
     XCTAssertEqual(buffer.size(), 3);
 
-    XCTAssertEqual(get_vector<int32_t>(buffer).size(), 3);
-    XCTAssertTrue(vec.data() == get_vector<int32_t>(buffer).data());
+    XCTAssertEqual(buffer.vector<int32_t>().size(), 3);
+    XCTAssertTrue(vec.data() == buffer.vector<int32_t>().data());
 
-    XCTAssertEqual(get_vector<int32_t>(buffer)[0], 5);
-    XCTAssertEqual(get_vector<int32_t>(buffer)[1], 6);
-    XCTAssertEqual(get_vector<int32_t>(buffer)[2], 7);
+    XCTAssertEqual(buffer.vector<int32_t>()[0], 5);
+    XCTAssertEqual(buffer.vector<int32_t>()[1], 6);
+    XCTAssertEqual(buffer.vector<int32_t>()[2], 7);
 }
 
 - (void)test_create_buffer_with_struct {
@@ -89,32 +89,44 @@ using namespace yas::processing;
     };
 
     auto buffer = make_buffer<element>(2);
-    get_vector<element>(buffer)[0].key = "zero";
-    get_vector<element>(buffer)[0].value = 100;
-    get_vector<element>(buffer)[1].key = "one";
-    get_vector<element>(buffer)[1].value = 200;
+    buffer.vector<element>()[0].key = "zero";
+    buffer.vector<element>()[0].value = 100;
+    buffer.vector<element>()[1].key = "one";
+    buffer.vector<element>()[1].value = 200;
 
     XCTAssertEqual(buffer.sample_byte_count(), sizeof(element));
     XCTAssertEqual(buffer.size(), 2);
 
-    XCTAssertEqual(get_vector<element>(buffer).size(), 2);
+    XCTAssertEqual(buffer.vector<element>().size(), 2);
 
-    XCTAssertEqual(get_vector<element>(buffer)[0].key, "zero");
-    XCTAssertEqual(get_vector<element>(buffer)[0].value, 100);
-    XCTAssertEqual(get_vector<element>(buffer)[1].key, "one");
-    XCTAssertEqual(get_vector<element>(buffer)[1].value, 200);
+    XCTAssertEqual(buffer.vector<element>()[0].key, "zero");
+    XCTAssertEqual(buffer.vector<element>()[0].value, 100);
+    XCTAssertEqual(buffer.vector<element>()[1].key, "one");
+    XCTAssertEqual(buffer.vector<element>()[1].value, 200);
 }
 
 - (void)test_get_data {
     auto buffer = make_buffer<int16_t>(2);
-    
-    auto *data = get_data<int16_t>(buffer);
+
+    auto *data = buffer.data<int16_t>();
     data[0] = 1000;
     data[1] = 1001;
-    
-    auto const *const_data = get_data<int16_t>(buffer);
+
+    auto const *const_data = buffer.data<int16_t>();
     XCTAssertEqual(const_data[0], 1000);
     XCTAssertEqual(const_data[1], 1001);
+}
+
+- (void)test_get_vector {
+    auto buffer = make_buffer<int16_t>(2);
+
+    auto &vec = buffer.vector<int16_t>();
+    vec[0] = 200;
+    vec[1] = 210;
+
+    auto const &const_vec = buffer.vector<int16_t>();
+    XCTAssertEqual(const_vec[0], 200);
+    XCTAssertEqual(const_vec[1], 210);
 }
 
 @end
