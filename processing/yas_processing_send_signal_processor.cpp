@@ -69,7 +69,7 @@ namespace processing {
                             return;
                         }
                     } else {
-                        stream.insert_channel(ch_idx);
+                        stream.add_channel(ch_idx);
                     }
 
                     std::vector<T> vec(current_time_range.length);

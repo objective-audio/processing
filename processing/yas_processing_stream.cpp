@@ -22,8 +22,9 @@ processing::stream::stream() : base(std::make_shared<impl>()) {
 processing::stream::stream(std::nullptr_t) : base(nullptr) {
 }
 
-void processing::stream::insert_channel(channel_index_t const channel) {
+processing::channel &processing::stream::add_channel(channel_index_t const channel) {
     impl_ptr<impl>()->_channels.emplace(channel, processing::channel());
+    return impl_ptr<impl>()->_channels.at(channel);
 }
 
 bool processing::stream::has_channel(channel_index_t const channel) {
