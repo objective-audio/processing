@@ -59,6 +59,15 @@ using namespace yas::processing;
     XCTAssertFalse(stream.has_channel(0));
 }
 
+- (void)test_add_channel_return {
+    processing::stream stream;
+
+    auto &returned_channel = stream.add_channel(1);
+
+    XCTAssertTrue(returned_channel);
+    XCTAssertEqual(returned_channel, stream.channel(1));
+}
+
 - (void)test_channel {
     processing::stream stream;
 
