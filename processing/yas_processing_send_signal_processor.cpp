@@ -32,9 +32,14 @@ namespace processing {
                         processing::time::range combined_time_range = current_time_range;
 
                         auto predicate = [&current_time_range, &combined_time_range](auto const &pair) {
-                            if (pair.second.sample_type() == typeid(T) && pair.first.can_combine(current_time_range)) {
-                                combined_time_range = *combined_time_range.combine(pair.first);
-                                return true;
+                            time const &time = pair.first;
+                            if (time.type() == typeid(time::range)) {
+                                auto const &time_range = time.get<time::range>();
+                                if (pair.second.sample_type() == typeid(T) &&
+                                    time_range.can_combine(current_time_range)) {
+                                    combined_time_range = *combined_time_range.combine(time_range);
+                                    return true;
+                                }
                             }
                             return false;
                         };
@@ -44,8 +49,10 @@ namespace processing {
                         if (filtered_buffers.size() > 0) {
                             std::vector<T> vec(combined_time_range.length);
                             for (auto const &pair : filtered_buffers) {
-                                auto const length = pair.first.length;
-                                auto const dst_idx = pair.first.frame - combined_time_range.frame;
+                                time const &time = pair.first;
+                                auto const &time_range = time.get<time::range>();
+                                auto const length = time_range.length;
+                                auto const dst_idx = time_range.frame - combined_time_range.frame;
                                 auto *dst_ptr = &vec[dst_idx];
                                 processing::buffer const &buffer = pair.second;
                                 auto const *src_ptr = buffer.data<T>();
@@ -57,7 +64,7 @@ namespace processing {
                             _handler(current_time_range, ch_idx, connector_key,
                                      &vec[current_time_range.frame - combined_time_range.frame]);
 
-                            channel.insert_buffer(combined_time_range, std::move(vec));
+                            channel.insert_buffer(time{combined_time_range}, std::move(vec));
 
                             return;
                         }
@@ -70,7 +77,7 @@ namespace processing {
                     _handler(current_time_range, ch_idx, connector_key, vec.data());
 
                     auto &channel = stream.channel(ch_idx);
-                    channel.insert_buffer(current_time_range, std::move(vec));
+                    channel.insert_buffer(time{current_time_range}, std::move(vec));
                 }
             }
         }
