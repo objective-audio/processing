@@ -49,11 +49,17 @@ namespace processing {
         };
 
         time(frame_index_t const, length_t const);
+        explicit time(range);
         explicit time(frame_index_t const);
         time();
         time(std::nullptr_t);
         
+        bool operator<(time const &) const;
+        
         std::type_info const &type() const;
+        bool is_range_type() const;
+        bool is_frame_type() const;
+        bool is_any_type() const;
         
         template <typename T>
         typename T::type const &get() const;
