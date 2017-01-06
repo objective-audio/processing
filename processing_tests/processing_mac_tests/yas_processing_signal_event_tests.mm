@@ -143,4 +143,14 @@ using namespace yas::processing;
     XCTAssertEqual(signal_event.size(), 0);
 }
 
+- (void)test_sample_byte_count {
+    XCTAssertEqual(processing::make_signal_event<int8_t>(1).sample_byte_count(), 1);
+    XCTAssertEqual(processing::make_signal_event<double>(1).sample_byte_count(), 8);
+}
+
+- (void)test_sample_type {
+    XCTAssertTrue(processing::make_signal_event<int8_t>(1).sample_type() == typeid(int8_t));
+    XCTAssertTrue(processing::make_signal_event<double>(0.0).sample_type() == typeid(double));
+}
+
 @end
