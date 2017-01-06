@@ -10,7 +10,6 @@
 namespace yas {
 namespace processing {
     class event;
-    class buffer;
 
     class channel : public base {
         class impl;

@@ -1,5 +1,5 @@
 //
-//  yas_processing_buffer_private.h
+//  yas_processing_signal_event_private.h
 //
 
 #pragma once
@@ -7,7 +7,7 @@
 #include "yas_processing_time.h"
 
 namespace yas {
-struct processing::buffer::impl : event::impl {
+struct processing::signal_event::impl : event::impl {
     virtual std::type_info const &type() const = 0;
     virtual std::size_t sample_byte_count() const = 0;
     virtual std::size_t size() const = 0;
@@ -23,7 +23,7 @@ struct processing::buffer::impl : event::impl {
 };
 
 template <typename T>
-struct processing::buffer::type_impl : impl {
+struct processing::signal_event::type_impl : impl {
     type_impl(std::vector<T> &&bytes) : _vector(std::move(bytes)), _vector_ref(_vector) {
     }
 
@@ -56,42 +56,43 @@ struct processing::buffer::type_impl : impl {
 };
 
 template <typename T>
-processing::buffer::buffer(std::vector<T> &&bytes) : event(std::make_shared<type_impl<T>>(std::move(bytes))) {
+processing::signal_event::signal_event(std::vector<T> &&bytes)
+    : event(std::make_shared<type_impl<T>>(std::move(bytes))) {
 }
 
 template <typename T>
-processing::buffer::buffer(std::vector<T> &bytes) : event(std::make_shared<type_impl<T>>(bytes)) {
+processing::signal_event::signal_event(std::vector<T> &bytes) : event(std::make_shared<type_impl<T>>(bytes)) {
 }
 
 template <typename T>
-std::vector<T> const &processing::buffer::vector() const {
-    return impl_ptr<buffer::type_impl<T>>()->vector();
+std::vector<T> const &processing::signal_event::vector() const {
+    return impl_ptr<signal_event::type_impl<T>>()->vector();
 }
 
 template <typename T>
-std::vector<T> &processing::buffer::vector() {
-    return impl_ptr<buffer::type_impl<T>>()->vector();
+std::vector<T> &processing::signal_event::vector() {
+    return impl_ptr<signal_event::type_impl<T>>()->vector();
 }
 
 template <typename T>
-T const *processing::buffer::data() const {
-    return impl_ptr<buffer::type_impl<T>>()->vector().data();
+T const *processing::signal_event::data() const {
+    return impl_ptr<signal_event::type_impl<T>>()->vector().data();
 }
 
 template <typename T>
-T *processing::buffer::data() {
-    return impl_ptr<buffer::type_impl<T>>()->vector().data();
+T *processing::signal_event::data() {
+    return impl_ptr<signal_event::type_impl<T>>()->vector().data();
 }
 
 template <typename T>
-processing::buffer processing::make_buffer(std::size_t const size) {
-    return processing::buffer{std::vector<T>(size)};
+processing::signal_event processing::make_signal_event(std::size_t const size) {
+    return processing::signal_event{std::vector<T>(size)};
 }
 
 template <typename T>
-processing::buffer processing::make_buffer(std::size_t const size, std::size_t const reserve) {
+processing::signal_event processing::make_signal_event(std::size_t const size, std::size_t const reserve) {
     auto vec = std::vector<T>(size);
     vec.reserve(reserve);
-    return processing::buffer{std::move(vec)};
+    return processing::signal_event{std::move(vec)};
 }
 }

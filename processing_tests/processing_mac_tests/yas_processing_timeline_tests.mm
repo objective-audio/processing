@@ -67,12 +67,12 @@ using namespace yas::processing;
     processing::time called_send_time = nullptr;
     processing::time called_receive_time = nullptr;
 
-    auto process_buffer = make_buffer<int16_t>(2);
+    auto process_signal = make_signal_event<int16_t>(2);
 
-    auto clear = [&called_send_time, &called_receive_time, &process_buffer]() {
+    auto clear = [&called_send_time, &called_receive_time, &process_signal]() {
         called_send_time = {};
         called_receive_time = {};
-        auto &vec = process_buffer.vector<int16_t>();
+        auto &vec = process_signal.vector<int16_t>();
         for (auto const &idx : make_each(2)) {
             vec[idx] = 0;
         }
@@ -103,26 +103,26 @@ using namespace yas::processing;
     track track2;
     timeline.insert_track(2, track2);
 
-    auto send_handler2 = [&process_buffer, &called_send_time](processing::time::range const &time_range,
+    auto send_handler2 = [&process_signal, &called_send_time](processing::time::range const &time_range,
                                                               channel_index_t const ch_idx, std::string const &key,
                                                               int16_t *const signal_ptr) {
         called_send_time = processing::time{time_range};
 
         if (key == "out") {
-            auto &vec = process_buffer.vector<int16_t>();
+            auto &vec = process_signal.vector<int16_t>();
             for (auto const &idx : make_each(time_range.length)) {
                 signal_ptr[idx] = vec[idx];
             }
         }
     };
 
-    auto receive_handler2 = [&process_buffer, &called_receive_time](
+    auto receive_handler2 = [&process_signal, &called_receive_time](
         processing::time::range const &time_range, channel_index_t const ch_idx, std::string const &key,
         int16_t const *const signal_ptr) {
         called_receive_time = processing::time{time_range};
 
         if (key == "in") {
-            auto &vec = process_buffer.vector<int16_t>();
+            auto &vec = process_signal.vector<int16_t>();
             for (auto const &idx : make_each(time_range.length)) {
                 vec[idx] = signal_ptr[idx] + 1;
             }
@@ -147,9 +147,9 @@ using namespace yas::processing;
         XCTAssertTrue((called_receive_time == processing::time{0, 2}));
 
         XCTAssertTrue(stream.has_channel(0));
-        auto &buffers = stream.channel(0).events();
-        XCTAssertEqual(buffers.size(), 1);
-        auto const &vec = cast<processing::buffer>((*buffers.begin()).second).vector<int16_t>();
+        auto &events = stream.channel(0).events();
+        XCTAssertEqual(events.size(), 1);
+        auto const &vec = cast<processing::signal_event>((*events.begin()).second).vector<int16_t>();
         XCTAssertEqual(vec.size(), 2);
         XCTAssertEqual(vec[0], 1);
         XCTAssertEqual(vec[1], 2);
@@ -166,9 +166,9 @@ using namespace yas::processing;
         XCTAssertTrue((called_receive_time == processing::time{0, 1}));
 
         XCTAssertTrue(stream.has_channel(0));
-        auto &buffers = stream.channel(0).events();
-        XCTAssertEqual(buffers.size(), 1);
-        auto const &vec = cast<processing::buffer>((*buffers.begin()).second).vector<int16_t>();
+        auto &events = stream.channel(0).events();
+        XCTAssertEqual(events.size(), 1);
+        auto const &vec = cast<processing::signal_event>((*events.begin()).second).vector<int16_t>();
         XCTAssertEqual(vec.size(), 1);
         XCTAssertEqual(vec[0], 1);
     }
@@ -184,9 +184,9 @@ using namespace yas::processing;
         XCTAssertTrue((called_receive_time == processing::time{1, 1}));
 
         XCTAssertTrue(stream.has_channel(0));
-        auto &buffers = stream.channel(0).events();
-        XCTAssertEqual(buffers.size(), 1);
-        auto const &vec = cast<processing::buffer>((*buffers.begin()).second).vector<int16_t>();
+        auto &events = stream.channel(0).events();
+        XCTAssertEqual(events.size(), 1);
+        auto const &vec = cast<processing::signal_event>((*events.begin()).second).vector<int16_t>();
         XCTAssertEqual(vec.size(), 1);
         XCTAssertEqual(vec[0], 1);
     }

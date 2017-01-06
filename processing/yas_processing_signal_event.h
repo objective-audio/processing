@@ -1,5 +1,5 @@
 //
-//  yas_processing_buffer.h
+//  yas_processing_signal_event.h
 //
 
 #pragma once
@@ -9,7 +9,7 @@
 
 namespace yas {
 namespace processing {
-    class buffer : public event {
+    class signal_event : public event {
        public:
         class impl;
 
@@ -17,11 +17,11 @@ namespace processing {
         class type_impl;
 
         template <typename T>
-        explicit buffer(std::vector<T> &&bytes);
+        explicit signal_event(std::vector<T> &&bytes);
         template <typename T>
-        explicit buffer(std::vector<T> &bytes);
+        explicit signal_event(std::vector<T> &bytes);
 
-        buffer(std::nullptr_t);
+        signal_event(std::nullptr_t);
 
         std::type_info const &sample_type() const;
         std::size_t sample_byte_count() const;
@@ -40,10 +40,10 @@ namespace processing {
     };
 
     template <typename T>
-    processing::buffer make_buffer(std::size_t const size);
+    processing::signal_event make_signal_event(std::size_t const size);
     template <typename T>
-    processing::buffer make_buffer(std::size_t const size, std::size_t const reserve);
+    processing::signal_event make_signal_event(std::size_t const size, std::size_t const reserve);
 }
 }
 
-#include "yas_processing_buffer_private.h"
+#include "yas_processing_signal_event_private.h"

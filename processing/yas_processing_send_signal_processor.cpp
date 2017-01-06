@@ -6,7 +6,7 @@
 #include "yas_processing_processor.h"
 #include "yas_processing_module.h"
 #include "yas_processing_channel.h"
-#include "yas_processing_buffer.h"
+#include "yas_processing_signal_event.h"
 #include "yas_stl_utils.h"
 
 using namespace yas;
@@ -31,8 +31,8 @@ processing::processor_f processing::make_send_signal_processor(processing::send_
                         time const &time = pair.first;
                         if (time.type() == typeid(time::range)) {
                             auto const &time_range = time.get<time::range>();
-                            auto const buffer = cast<processing::buffer>(pair.second);
-                            if (buffer.sample_type() == typeid(T) && time_range.can_combine(current_time_range)) {
+                            auto const signal = cast<processing::signal_event>(pair.second);
+                            if (signal.sample_type() == typeid(T) && time_range.can_combine(current_time_range)) {
                                 combined_time_range = *combined_time_range.combine(time_range);
                                 return true;
                             }
@@ -50,17 +50,17 @@ processing::processor_f processing::make_send_signal_processor(processing::send_
                             auto const length = time_range.length;
                             auto const dst_idx = time_range.frame - combined_time_range.frame;
                             auto *dst_ptr = &vec[dst_idx];
-                            processing::buffer const buffer = cast<processing::buffer>(pair.second);
-                            auto const *src_ptr = buffer.data<T>();
+                            signal_event const signal = cast<processing::signal_event>(pair.second);
+                            auto const *src_ptr = signal.data<T>();
                             memcpy(dst_ptr, src_ptr, length * sizeof(T));
                         }
 
                         channel.erase_event_if(std::move(predicate));
 
                         handler(current_time_range, ch_idx, connector_key,
-                                 &vec[current_time_range.frame - combined_time_range.frame]);
+                                &vec[current_time_range.frame - combined_time_range.frame]);
 
-                        channel.insert_event(time{combined_time_range}, buffer{std::move(vec)});
+                        channel.insert_event(time{combined_time_range}, signal_event{std::move(vec)});
 
                         return;
                     }
@@ -73,7 +73,7 @@ processing::processor_f processing::make_send_signal_processor(processing::send_
                 handler(current_time_range, ch_idx, connector_key, vec.data());
 
                 auto &channel = stream.channel(ch_idx);
-                channel.insert_event(time{current_time_range}, buffer{std::move(vec)});
+                channel.insert_event(time{current_time_range}, signal_event{std::move(vec)});
             }
         }
     };
