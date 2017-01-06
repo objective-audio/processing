@@ -41,9 +41,8 @@ using namespace yas::processing;
 
     processing::time called_time = nullptr;
 
-    auto processor = test::make_processor(
-        [&called_time](processing::time::range const &time_range, auto const &, auto const &,
-                       processing::stream &stream) { called_time = processing::time{time_range}; });
+    auto processor = [&called_time](processing::time::range const &time_range, auto const &, auto const &,
+                                    processing::stream &stream) { called_time = processing::time{time_range}; };
     processing::module module{{std::move(processor)}};
 
     module.process({23, 456}, stream);

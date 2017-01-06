@@ -17,7 +17,7 @@ namespace processing {
        public:
         class impl;
 
-        using processors_t = std::vector<processor>;
+        using processors_t = std::vector<processor_f>;
 
         explicit module(processors_t);
         module(std::nullptr_t);

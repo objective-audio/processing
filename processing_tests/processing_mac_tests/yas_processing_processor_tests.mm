@@ -23,12 +23,6 @@ using namespace yas::processing;
     [super tearDown];
 }
 
-- (void)test_create_null {
-    processing::processor processor = nullptr;
-
-    XCTAssertFalse(processor);
-}
-
 - (void)test_process_send_signal {
     auto const ch_idx = 5;
     auto const output_connector_key = "output";
@@ -276,21 +270,6 @@ using namespace yas::processing;
     XCTAssertEqual(receive_vec.size(), 2);
     XCTAssertEqual(receive_vec[0], 1);
     XCTAssertEqual(receive_vec[1], 2);
-}
-
-- (void)test_notify_processor {
-    processing::time called_time = nullptr;
-
-    auto processor = make_notify_processor([&called_time](time::range const &time_range) { called_time = time_range; });
-
-    processing::module module{{processor}};
-
-    processing::stream stream;
-
-    module.process({0, 1}, stream);
-
-    XCTAssertTrue(called_time);
-    XCTAssertTrue((called_time == processing::time{0, 1}));
 }
 
 @end

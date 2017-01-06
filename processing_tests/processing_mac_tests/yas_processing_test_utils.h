@@ -11,9 +11,5 @@ namespace yas {
 namespace test {
     using process_f = std::function<void(processing::time::range const &, processing::connector_map_t const &,
                                          processing::connector_map_t const &, processing::stream &)>;
-
-    struct processor_impl;
-
-    processing::processor make_processor(process_f);
 }
 }
