@@ -114,16 +114,30 @@ using namespace yas::processing;
 }
 
 - (void)test_is_contain_time_range {
-    auto range1 = time::range{5, 2};
+    auto range = time::range{5, 2};
 
-    XCTAssertTrue(range1.is_contain({5, 2}));
-    XCTAssertFalse(range1.is_contain({4, 4}));
-    XCTAssertFalse(range1.is_contain({4, 3}));
-    XCTAssertFalse(range1.is_contain({6, 3}));
-    XCTAssertFalse(range1.is_contain({3, 1}));
-    XCTAssertFalse(range1.is_contain({4, 1}));
-    XCTAssertTrue(range1.is_contain({5, 1}));
-    XCTAssertFalse(range1.is_contain({7, 1}));
+    XCTAssertTrue(range.is_contain({5, 2}));
+    XCTAssertFalse(range.is_contain({4, 4}));
+    XCTAssertFalse(range.is_contain({4, 3}));
+    XCTAssertFalse(range.is_contain({6, 3}));
+    XCTAssertFalse(range.is_contain({3, 1}));
+    XCTAssertFalse(range.is_contain({4, 1}));
+    XCTAssertTrue(range.is_contain({5, 1}));
+    XCTAssertFalse(range.is_contain({7, 1}));
+}
+
+- (void)test_is_contain_frame {
+    auto range = time::range{0, 2};
+
+    XCTAssertTrue(range.is_contain(time::frame::type{0}));
+    XCTAssertTrue(range.is_contain(time::frame::type{1}));
+    XCTAssertFalse(range.is_contain(time::frame::type{2}));
+}
+
+- (void)test_is_contain_any {
+    auto range = time::range{0, 2};
+
+    XCTAssertTrue(range.is_contain(time::any::type{}));
 }
 
 - (void)test_is_overlap_time_range {
