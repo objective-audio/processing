@@ -104,8 +104,8 @@ using namespace yas::processing;
     timeline.insert_track(2, track2);
 
     auto send_handler2 = [&process_buffer, &called_send_time](processing::time::range const &time_range,
-                                                                    channel_index_t const ch_idx,
-                                                                    std::string const &key, int16_t *const signal_ptr) {
+                                                              channel_index_t const ch_idx, std::string const &key,
+                                                              int16_t *const signal_ptr) {
         called_send_time = processing::time{time_range};
 
         if (key == "out") {
@@ -147,17 +147,17 @@ using namespace yas::processing;
         XCTAssertTrue((called_receive_time == processing::time{0, 2}));
 
         XCTAssertTrue(stream.has_channel(0));
-        auto &buffers = stream.channel(0).buffers();
+        auto &buffers = stream.channel(0).events();
         XCTAssertEqual(buffers.size(), 1);
-        auto const &vec = (*buffers.begin()).second.vector<int16_t>();
+        auto const &vec = cast<processing::buffer>((*buffers.begin()).second).vector<int16_t>();
         XCTAssertEqual(vec.size(), 2);
         XCTAssertEqual(vec[0], 1);
         XCTAssertEqual(vec[1], 2);
     }
 
-    clear();
-
     {
+        clear();
+
         stream stream;
 
         timeline.process({-1, 2}, stream);
@@ -166,16 +166,16 @@ using namespace yas::processing;
         XCTAssertTrue((called_receive_time == processing::time{0, 1}));
 
         XCTAssertTrue(stream.has_channel(0));
-        auto &buffers = stream.channel(0).buffers();
+        auto &buffers = stream.channel(0).events();
         XCTAssertEqual(buffers.size(), 1);
-        auto const &vec = (*buffers.begin()).second.vector<int16_t>();
+        auto const &vec = cast<processing::buffer>((*buffers.begin()).second).vector<int16_t>();
         XCTAssertEqual(vec.size(), 1);
         XCTAssertEqual(vec[0], 1);
     }
 
-    clear();
-
     {
+        clear();
+
         stream stream;
 
         timeline.process({1, 2}, stream);
@@ -184,16 +184,16 @@ using namespace yas::processing;
         XCTAssertTrue((called_receive_time == processing::time{1, 1}));
 
         XCTAssertTrue(stream.has_channel(0));
-        auto &buffers = stream.channel(0).buffers();
+        auto &buffers = stream.channel(0).events();
         XCTAssertEqual(buffers.size(), 1);
-        auto const &vec = (*buffers.begin()).second.vector<int16_t>();
+        auto const &vec = cast<processing::buffer>((*buffers.begin()).second).vector<int16_t>();
         XCTAssertEqual(vec.size(), 1);
         XCTAssertEqual(vec[0], 1);
     }
 
-    clear();
-
     {
+        clear();
+
         stream stream;
 
         timeline.process({3, 2}, stream);

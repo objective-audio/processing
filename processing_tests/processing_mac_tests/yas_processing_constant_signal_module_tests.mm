@@ -42,11 +42,11 @@ using namespace yas;
     
     auto const &channel = stream.channel(0);
     
-    XCTAssertEqual(channel.buffers().size(), 1);
+    XCTAssertEqual(channel.events().size(), 1);
     
-    auto const &buffer_pair = *channel.buffers().begin();
+    auto const &buffer_pair = *channel.events().begin();
     auto const &time = buffer_pair.first;
-    auto const &buffer = buffer_pair.second;
+    auto const buffer = cast<processing::buffer>(buffer_pair.second);
     
     XCTAssertTrue(time.type() == typeid(processing::time::range));
     

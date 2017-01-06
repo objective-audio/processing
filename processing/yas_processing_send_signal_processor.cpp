@@ -31,7 +31,8 @@ processing::processor_f processing::make_send_signal_processor(processing::send_
                         time const &time = pair.first;
                         if (time.type() == typeid(time::range)) {
                             auto const &time_range = time.get<time::range>();
-                            if (pair.second.sample_type() == typeid(T) && time_range.can_combine(current_time_range)) {
+                            auto const buffer = cast<processing::buffer>(pair.second);
+                            if (buffer.sample_type() == typeid(T) && time_range.can_combine(current_time_range)) {
                                 combined_time_range = *combined_time_range.combine(time_range);
                                 return true;
                             }
@@ -39,27 +40,27 @@ processing::processor_f processing::make_send_signal_processor(processing::send_
                         return false;
                     };
 
-                    auto const filtered_buffers = filter(channel.buffers(), predicate);
+                    auto const filtered_events = filter(channel.events(), predicate);
 
-                    if (filtered_buffers.size() > 0) {
+                    if (filtered_events.size() > 0) {
                         std::vector<T> vec(combined_time_range.length);
-                        for (auto const &pair : filtered_buffers) {
+                        for (auto const &pair : filtered_events) {
                             time const &time = pair.first;
                             auto const &time_range = time.get<time::range>();
                             auto const length = time_range.length;
                             auto const dst_idx = time_range.frame - combined_time_range.frame;
                             auto *dst_ptr = &vec[dst_idx];
-                            processing::buffer const &buffer = pair.second;
+                            processing::buffer const buffer = cast<processing::buffer>(pair.second);
                             auto const *src_ptr = buffer.data<T>();
                             memcpy(dst_ptr, src_ptr, length * sizeof(T));
                         }
 
-                        channel.erase_buffer_if(std::move(predicate));
+                        channel.erase_event_if(std::move(predicate));
 
                         handler(current_time_range, ch_idx, connector_key,
                                  &vec[current_time_range.frame - combined_time_range.frame]);
 
-                        channel.insert_buffer(time{combined_time_range}, std::move(vec));
+                        channel.insert_event(time{combined_time_range}, buffer{std::move(vec)});
 
                         return;
                     }
@@ -72,7 +73,7 @@ processing::processor_f processing::make_send_signal_processor(processing::send_
                 handler(current_time_range, ch_idx, connector_key, vec.data());
 
                 auto &channel = stream.channel(ch_idx);
-                channel.insert_buffer(time{current_time_range}, std::move(vec));
+                channel.insert_event(time{current_time_range}, buffer{std::move(vec)});
             }
         }
     };

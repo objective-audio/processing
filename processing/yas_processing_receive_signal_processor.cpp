@@ -26,19 +26,27 @@ processing::processor_f processing::make_receive_signal_processor(processing::re
                 if (stream.has_channel(ch_idx)) {
                     auto const &channel = stream.channel(ch_idx);
 
-                    auto predicate = [](auto const &pair) { return pair.second.sample_type() == typeid(T); };
+                    auto predicate = [](auto const &pair) {
+                        if (pair.first.type() == typeid(time::range)) {
+                            if (auto const buffer = cast<processing::buffer>(pair.second)) {
+                                return buffer.sample_type() == typeid(T);
+                            }
+                        }
+                        return false;
+                    };
 
-                    auto const filtered_buffers = filter(channel.buffers(), predicate);
+                    auto const filtered_buffers = filter(channel.events(), predicate);
 
                     for (auto const &pair : filtered_buffers) {
                         time const &buf_time = pair.first;
                         auto const &buf_time_range = buf_time.get<time::range>();
                         if (auto const time_range_opt = current_time_range.intersect(buf_time_range)) {
                             auto const &time_range = *time_range_opt;
-                            processing::buffer const &buffer = pair.second;
-                            auto const *ptr = buffer.data<T>();
-                            auto const idx = time_range.frame - buf_time_range.frame;
-                            handler(time_range, ch_idx, connector_key, &ptr[idx]);
+                            if (processing::buffer const buffer = cast<processing::buffer>(pair.second)) {
+                                auto const *ptr = buffer.data<T>();
+                                auto const idx = time_range.frame - buf_time_range.frame;
+                                handler(time_range, ch_idx, connector_key, &ptr[idx]);
+                            }
                         }
                     }
                 }
