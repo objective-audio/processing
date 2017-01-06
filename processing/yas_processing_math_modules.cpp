@@ -3,7 +3,6 @@
 //
 
 #include "yas_processing_math_modules.h"
-#include "yas_processing_notify_processor.h"
 #include "yas_processing_send_signal_processor.h"
 #include "yas_processing_receive_signal_processor.h"
 #include "yas_processing_module.h"
@@ -42,8 +41,9 @@ namespace processing {
         }
 
         processor_f make_prepare_processor(context_sptr &context) {
-            return processing::make_notify_processor(
-                [context](processing::time::range const &) mutable { context->reset(); });
+            return [context](time::range const &, connector_map_t const &, connector_map_t const &, stream &) mutable {
+                context->reset();
+            };
         }
 
         template <typename T>
