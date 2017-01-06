@@ -14,8 +14,8 @@ using namespace yas;
 template <typename T>
 processing::processor_f processing::make_receive_signal_processor(processing::receive_signal_process_f<T> handler) {
     return [handler = std::move(handler)](time::range const &current_time_range,
-                                          connector_map_t const &input_connectors,
-                                          connector_map_t const &output_connectors, stream &stream) {
+                                          connector_map_t const &input_connectors, connector_map_t const &,
+                                          stream &stream) {
         if (handler) {
             for (auto const &connector_pair : input_connectors) {
                 auto const &connector_key = connector_pair.first;
@@ -38,13 +38,13 @@ processing::processor_f processing::make_receive_signal_processor(processing::re
                     auto const filtered_events = filter(channel.events(), predicate);
 
                     for (auto const &pair : filtered_events) {
-                        time const &buf_time = pair.first;
-                        auto const &buf_time_range = buf_time.get<time::range>();
-                        if (auto const time_range_opt = current_time_range.intersect(buf_time_range)) {
+                        time const &event_time = pair.first;
+                        auto const &event_time_range = event_time.get<time::range>();
+                        if (auto const time_range_opt = current_time_range.intersect(event_time_range)) {
                             auto const &time_range = *time_range_opt;
                             if (signal_event const signal = cast<processing::signal_event>(pair.second)) {
                                 auto const *ptr = signal.data<T>();
-                                auto const idx = time_range.frame - buf_time_range.frame;
+                                auto const idx = time_range.frame - event_time_range.frame;
                                 handler(time_range, ch_idx, connector_key, &ptr[idx]);
                             }
                         }
