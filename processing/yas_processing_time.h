@@ -11,7 +11,7 @@
 
 namespace yas {
 namespace processing {
-    struct time : public base {
+    class time : public base {
         template <typename T>
         class impl;
 
