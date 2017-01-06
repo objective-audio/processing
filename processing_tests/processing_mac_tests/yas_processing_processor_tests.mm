@@ -23,12 +23,6 @@ using namespace yas::processing;
     [super tearDown];
 }
 
-- (void)test_create_null {
-    processing::processor processor = nullptr;
-
-    XCTAssertFalse(processor);
-}
-
 - (void)test_process_send_signal {
     auto const ch_idx = 5;
     auto const output_connector_key = "output";
