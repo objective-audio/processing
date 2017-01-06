@@ -67,7 +67,7 @@ using namespace yas::processing;
         XCTAssertEqual(called_ch_idx, ch_idx);
 
         XCTAssertTrue(stream.has_channel(ch_idx));
-        auto const &vec = cast<processing::buffer>((*stream.channel(ch_idx).events().begin()).second).vector<int64_t>();
+        auto const &vec = cast<processing::signal_event>((*stream.channel(ch_idx).events().begin()).second).vector<int64_t>();
         XCTAssertEqual(vec.size(), 2);
         XCTAssertEqual(vec.at(0), 0);
         XCTAssertEqual(vec.at(1), 1);
@@ -86,7 +86,7 @@ using namespace yas::processing;
         XCTAssertEqual(called_ch_idx, ch_idx);
 
         XCTAssertTrue(stream.has_channel(ch_idx));
-        auto const &vec = cast<processing::buffer>((*stream.channel(ch_idx).events().begin()).second).vector<int64_t>();
+        auto const &vec = cast<processing::signal_event>((*stream.channel(ch_idx).events().begin()).second).vector<int64_t>();
         XCTAssertEqual(vec.size(), 1);
         XCTAssertEqual(vec.at(0), 1);
     }
@@ -104,7 +104,7 @@ using namespace yas::processing;
         XCTAssertEqual(called_ch_idx, ch_idx);
 
         XCTAssertTrue(stream.has_channel(ch_idx));
-        auto const &vec = cast<processing::buffer>((*stream.channel(ch_idx).events().begin()).second).vector<int64_t>();
+        auto const &vec = cast<processing::signal_event>((*stream.channel(ch_idx).events().begin()).second).vector<int64_t>();
         XCTAssertEqual(vec.size(), 1);
         XCTAssertEqual(vec.at(0), 0);
     }
@@ -119,8 +119,8 @@ using namespace yas::processing;
     channel_index_t called_ch_idx;
     int64_t called_signal[2];
 
-    auto stream_buffer = processing::make_buffer<int64_t>(2);
-    auto &stream_vec = stream_buffer.vector<int64_t>();
+    auto stream_signal = processing::make_signal_event<int64_t>(2);
+    auto &stream_vec = stream_signal.vector<int64_t>();
     stream_vec[0] = 10;
     stream_vec[1] = 11;
 
@@ -132,12 +132,12 @@ using namespace yas::processing;
         called_signal[1] = 0.0;
     };
 
-    auto make_stream = [&stream_buffer, &ch_idx](time::range const &time_range) {
+    auto make_stream = [&stream_signal, &ch_idx](time::range const &time_range) {
         processing::stream stream;
         stream.add_channel(ch_idx);
 
         auto &channel = stream.channel(ch_idx);
-        channel.insert_event(processing::time{time_range}, stream_buffer);
+        channel.insert_event(processing::time{time_range}, stream_signal);
 
         return stream;
     };
@@ -218,28 +218,28 @@ using namespace yas::processing;
     processing::stream stream;
     stream.add_channel(receive_ch_idx);
 
-    auto input_stream_buffer = processing::make_buffer<int16_t>(2);
-    auto &input_stream_vec = input_stream_buffer.vector<int16_t>();
+    auto input_stream_signal = processing::make_signal_event<int16_t>(2);
+    auto &input_stream_vec = input_stream_signal.vector<int16_t>();
     input_stream_vec[0] = 1;
     input_stream_vec[1] = 2;
 
     auto &channel = stream.channel(receive_ch_idx);
-    channel.insert_event(process_time, input_stream_buffer);
+    channel.insert_event(process_time, input_stream_signal);
 
-    auto process_buffer = processing::make_buffer<int16_t>(2);
+    auto process_signal = processing::make_signal_event<int16_t>(2);
 
-    auto receive_handler = [&process_buffer, &input_connector_key](processing::time::range const &time_range,
+    auto receive_handler = [&process_signal, &input_connector_key](processing::time::range const &time_range,
                                                                    channel_index_t const ch_idx, std::string const &key,
                                                                    int16_t const *const signal_ptr) {
-        auto &process_vec = process_buffer.vector<int16_t>();
+        auto &process_vec = process_signal.vector<int16_t>();
         for (auto const &idx : make_each(time_range.length)) {
             process_vec[idx] = signal_ptr[idx] * 2;
         }
     };
 
-    auto send_handler = [&process_buffer](processing::time::range const &time_range, channel_index_t const ch_idx,
+    auto send_handler = [&process_signal](processing::time::range const &time_range, channel_index_t const ch_idx,
                                           std::string const &key, int16_t *const signal_ptr) {
-        auto &process_vec = process_buffer.vector<int16_t>();
+        auto &process_vec = process_signal.vector<int16_t>();
         for (auto const &idx : make_each(time_range.length)) {
             signal_ptr[idx] = process_vec[idx];
         }
@@ -256,7 +256,7 @@ using namespace yas::processing;
     XCTAssertTrue(stream.has_channel(send_ch_idx));
 
     auto const &send_channel = stream.channel(send_ch_idx);
-    auto const &send_vec = cast<processing::buffer>((*send_channel.events().begin()).second).vector<int16_t>();
+    auto const &send_vec = cast<processing::signal_event>((*send_channel.events().begin()).second).vector<int16_t>();
 
     XCTAssertEqual(send_vec.size(), 2);
     XCTAssertEqual(send_vec[0], 2);
@@ -265,7 +265,7 @@ using namespace yas::processing;
     XCTAssertTrue(stream.has_channel(receive_ch_idx));
 
     auto const &receive_channel = stream.channel(receive_ch_idx);
-    auto const &receive_vec = cast<processing::buffer>((*receive_channel.events().begin()).second).vector<int16_t>();
+    auto const &receive_vec = cast<processing::signal_event>((*receive_channel.events().begin()).second).vector<int16_t>();
 
     XCTAssertEqual(receive_vec.size(), 2);
     XCTAssertEqual(receive_vec[0], 1);

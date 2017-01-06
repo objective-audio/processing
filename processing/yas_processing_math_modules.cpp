@@ -6,7 +6,7 @@
 #include "yas_processing_send_signal_processor.h"
 #include "yas_processing_receive_signal_processor.h"
 #include "yas_processing_module.h"
-#include "yas_processing_buffer.h"
+#include "yas_processing_signal_event.h"
 #include "yas_fast_each.h"
 
 using namespace yas;
@@ -15,18 +15,18 @@ namespace yas {
 namespace processing {
     namespace math {
         struct context {
-            buffer left_buffer;
-            buffer right_buffer;
+            signal_event left_signal;
+            signal_event right_signal;
             time left_time;
             time right_time;
 
-            context(buffer &&left_buffer, buffer &&right_buffer)
-                : left_buffer(std::move(left_buffer)), right_buffer(std::move(right_buffer)) {
+            context(signal_event &&left_signal, signal_event &&right_signal)
+                : left_signal(std::move(left_signal)), right_signal(std::move(right_signal)) {
             }
 
             void reset() {
-                left_buffer.resize(0);
-                right_buffer.resize(0);
+                left_signal.resize(0);
+                right_signal.resize(0);
                 left_time = nullptr;
                 right_time = nullptr;
             }
@@ -36,8 +36,8 @@ namespace processing {
 
         template <typename T>
         context_sptr make_context() {
-            return std::make_shared<context>(make_buffer<T>(0, reserved_buffer_size),
-                                             make_buffer<T>(0, reserved_buffer_size));
+            return std::make_shared<context>(make_signal_event<T>(0, reserved_signal_size),
+                                             make_signal_event<T>(0, reserved_signal_size));
         }
 
         processor_f make_prepare_processor(context_sptr &context) {
@@ -54,13 +54,13 @@ namespace processing {
                 if (key == left_in_connector_key) {
                     context->left_time = time_range;
                     auto const &length = time_range.length;
-                    context->left_buffer.resize(length);
-                    memcpy(context->left_buffer.data<T>(), signal_ptr, length * sizeof(T));
+                    context->left_signal.resize(length);
+                    memcpy(context->left_signal.data<T>(), signal_ptr, length * sizeof(T));
                 } else if (key == right_in_connector_key) {
                     context->right_time = time_range;
                     auto const &length = time_range.length;
-                    context->right_buffer.resize(length);
-                    memcpy(context->right_buffer.data<T>(), signal_ptr, length * sizeof(T));
+                    context->right_signal.resize(length);
+                    memcpy(context->right_signal.data<T>(), signal_ptr, length * sizeof(T));
                 }
             });
         }
@@ -78,10 +78,10 @@ processing::module processing::math::make_plus_signal_module() {
         processing::time::range const &time_range, channel_index_t const, std::string const &key, T *const signal_ptr) {
         if (key == out_connector_key) {
             auto out_each = make_fast_each(signal_ptr, time_range.length);
-            processing::buffer &left_buffer = context->left_buffer;
-            processing::buffer &right_buffer = context->right_buffer;
-            auto const *left_ptr = left_buffer.data<T>();
-            auto const *right_ptr = right_buffer.data<T>();
+            processing::signal_event &left_signal = context->left_signal;
+            processing::signal_event &right_signal = context->right_signal;
+            auto const *left_ptr = left_signal.data<T>();
+            auto const *right_ptr = right_signal.data<T>();
             processing::time const &left_time = context->left_time;
             processing::time const &right_time = context->right_time;
             auto const left_offset = left_time ? time_range.frame - left_time.get<time::range>().frame : 0;
@@ -124,10 +124,10 @@ processing::module processing::math::make_minus_signal_module() {
         processing::time::range const &time_range, channel_index_t const, std::string const &key, T *const signal_ptr) {
         if (key == out_connector_key) {
             auto out_each = make_fast_each(signal_ptr, time_range.length);
-            processing::buffer &left_buffer = context->left_buffer;
-            processing::buffer &right_buffer = context->right_buffer;
-            auto const *left_ptr = left_buffer.data<T>();
-            auto const *right_ptr = right_buffer.data<T>();
+            processing::signal_event &left_signal = context->left_signal;
+            processing::signal_event &right_signal = context->right_signal;
+            auto const *left_ptr = left_signal.data<T>();
+            auto const *right_ptr = right_signal.data<T>();
             processing::time const &left_time = context->left_time;
             processing::time const &right_time = context->right_time;
             auto const left_offset = left_time ? time_range.frame - left_time.get<time::range>().frame : 0;
@@ -170,10 +170,10 @@ processing::module processing::math::make_multiply_signal_module() {
         processing::time::range const &time_range, channel_index_t const, std::string const &key, T *const signal_ptr) {
         if (key == out_connector_key) {
             auto out_each = make_fast_each(signal_ptr, time_range.length);
-            processing::buffer &left_buffer = context->left_buffer;
-            processing::buffer &right_buffer = context->right_buffer;
-            auto const *left_ptr = left_buffer.data<T>();
-            auto const *right_ptr = right_buffer.data<T>();
+            processing::signal_event &left_signal = context->left_signal;
+            processing::signal_event &right_signal = context->right_signal;
+            auto const *left_ptr = left_signal.data<T>();
+            auto const *right_ptr = right_signal.data<T>();
             processing::time const &left_time = context->left_time;
             processing::time const &right_time = context->right_time;
             auto const left_offset = left_time ? time_range.frame - left_time.get<time::range>().frame : 0;
@@ -216,10 +216,10 @@ processing::module processing::math::make_divide_signal_module() {
         processing::time::range const &time_range, channel_index_t const, std::string const &key, T *const signal_ptr) {
         if (key == out_connector_key) {
             auto out_each = make_fast_each(signal_ptr, time_range.length);
-            processing::buffer &left_buffer = context->left_buffer;
-            processing::buffer &right_buffer = context->right_buffer;
-            auto const *left_ptr = left_buffer.data<T>();
-            auto const *right_ptr = right_buffer.data<T>();
+            processing::signal_event &left_signal = context->left_signal;
+            processing::signal_event &right_signal = context->right_signal;
+            auto const *left_ptr = left_signal.data<T>();
+            auto const *right_ptr = right_signal.data<T>();
             processing::time const &left_time = context->left_time;
             processing::time const &right_time = context->right_time;
             auto const left_offset = left_time ? time_range.frame - left_time.get<time::range>().frame : 0;

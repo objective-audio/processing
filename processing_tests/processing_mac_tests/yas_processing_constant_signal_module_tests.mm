@@ -44,9 +44,9 @@ using namespace yas;
     
     XCTAssertEqual(channel.events().size(), 1);
     
-    auto const &buffer_pair = *channel.events().begin();
-    auto const &time = buffer_pair.first;
-    auto const buffer = cast<processing::buffer>(buffer_pair.second);
+    auto const &event_pair = *channel.events().begin();
+    auto const &time = event_pair.first;
+    auto const signal = cast<processing::signal_event>(event_pair.second);
     
     XCTAssertTrue(time.type() == typeid(processing::time::range));
     
@@ -54,9 +54,9 @@ using namespace yas;
     
     XCTAssertEqual(time_range.frame, 0);
     XCTAssertEqual(time_range.length, 2);
-    XCTAssertEqual(buffer.size(), 2);
+    XCTAssertEqual(signal.size(), 2);
     
-    auto const &vec = buffer.vector<int64_t>();
+    auto const &vec = signal.vector<int64_t>();
     
     XCTAssertEqual(vec[0], 5);
     XCTAssertEqual(vec[1], 5);

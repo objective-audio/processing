@@ -4,7 +4,7 @@
 
 #include "yas_processing_channel.h"
 #include "yas_processing_event.h"
-#include "yas_processing_buffer.h"
+#include "yas_processing_signal_event.h"
 
 using namespace yas;
 

@@ -53,12 +53,12 @@ using namespace yas;
 
     XCTAssertTrue(stream.has_channel(2));
 
-    auto const &buffers = stream.channel(2).events();
+    auto const &events = stream.channel(2).events();
 
-    XCTAssertEqual(buffers.size(), 1);
+    XCTAssertEqual(events.size(), 1);
 
-    auto const buffer = cast<processing::buffer>((*buffers.begin()).second);
-    auto const &vec = buffer.vector<int16_t>();
+    auto const signal = cast<processing::signal_event>((*events.begin()).second);
+    auto const &vec = signal.vector<int16_t>();
 
     XCTAssertEqual(vec.size(), 5);
     XCTAssertEqual(vec[0], 0);
@@ -86,12 +86,12 @@ using namespace yas;
     
     XCTAssertTrue(stream.has_channel(2));
     
-    auto const &buffers = stream.channel(2).events();
+    auto const &events = stream.channel(2).events();
     
-    XCTAssertEqual(buffers.size(), 1);
+    XCTAssertEqual(events.size(), 1);
     
-    auto const &buffer = cast<processing::buffer>((*buffers.begin()).second);
-    auto const &vec = buffer.vector<int16_t>();
+    auto const &signal = cast<processing::signal_event>((*events.begin()).second);
+    auto const &vec = signal.vector<int16_t>();
     
     XCTAssertEqual(vec.size(), 5);
     XCTAssertEqual(vec[0], 0);
@@ -119,12 +119,12 @@ using namespace yas;
     
     XCTAssertTrue(stream.has_channel(2));
     
-    auto const &buffers = stream.channel(2).events();
+    auto const &events = stream.channel(2).events();
     
-    XCTAssertEqual(buffers.size(), 1);
+    XCTAssertEqual(events.size(), 1);
     
-    auto const &buffer = cast<processing::buffer>((*buffers.begin()).second);
-    auto const &vec = buffer.vector<int16_t>();
+    auto const &signal = cast<processing::signal_event>((*events.begin()).second);
+    auto const &vec = signal.vector<int16_t>();
     
     XCTAssertEqual(vec.size(), 5);
     XCTAssertEqual(vec[0], 0);
@@ -152,12 +152,12 @@ using namespace yas;
     
     XCTAssertTrue(stream.has_channel(2));
     
-    auto const &buffers = stream.channel(2).events();
+    auto const &events = stream.channel(2).events();
     
-    XCTAssertEqual(buffers.size(), 1);
+    XCTAssertEqual(events.size(), 1);
     
-    auto const &buffer = cast<processing::buffer>((*buffers.begin()).second);
-    auto const &vec = buffer.vector<int16_t>();
+    auto const &signal = cast<processing::signal_event>((*events.begin()).second);
+    auto const &vec = signal.vector<int16_t>();
     
     XCTAssertEqual(vec.size(), 5);
     XCTAssertEqual(vec[0], 0);
