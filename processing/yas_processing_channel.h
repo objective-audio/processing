@@ -6,10 +6,10 @@
 
 #include "yas_base.h"
 #include "yas_processing_time.h"
-#include <map>
 
 namespace yas {
 namespace processing {
+    class event;
     class buffer;
 
     class channel : public base {
@@ -19,13 +19,13 @@ namespace processing {
         channel();
         channel(std::nullptr_t);
 
-        std::multimap<time, buffer> const &buffers() const;
-        std::multimap<time, buffer> &buffers();
+        std::multimap<time, event> const &events() const;
+        std::multimap<time, event> &events();
 
-        void insert_buffer(time, buffer);
+        void insert_event(time, event);
 
         template <typename P>
-        void erase_buffer_if(P predicate);
+        void erase_event_if(P predicate);
     };
 }
 }
