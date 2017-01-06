@@ -12,6 +12,7 @@
 		B60E73961E1D37A5007957E2 /* yas_processing_time_tests.mm in Sources */ = {isa = PBXBuildFile; fileRef = B60E73951E1D37A5007957E2 /* yas_processing_time_tests.mm */; };
 		B60E73A71E1F83FD007957E2 /* yas_processing_event.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B60E73A61E1F83FD007957E2 /* yas_processing_event.cpp */; };
 		B60E73AA1E1FC939007957E2 /* yas_processing_number_event.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B60E73A81E1FC939007957E2 /* yas_processing_number_event.cpp */; };
+		B60E73AD1E1FCD9C007957E2 /* yas_processing_number_event_tests.mm in Sources */ = {isa = PBXBuildFile; fileRef = B60E73AC1E1FCD9C007957E2 /* yas_processing_number_event_tests.mm */; };
 		B620F60D1DE1BDD30050F6A2 /* yas_processing_stream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B620F60B1DE1BDD30050F6A2 /* yas_processing_stream.cpp */; };
 		B620F6101DE1C4E20050F6A2 /* yas_processing_time.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B620F60E1DE1C4E20050F6A2 /* yas_processing_time.cpp */; };
 		B633D22B1DE1E1EB00C35515 /* yas_processing_time_range_tests.mm in Sources */ = {isa = PBXBuildFile; fileRef = B633D22A1DE1E1EB00C35515 /* yas_processing_time_range_tests.mm */; };
@@ -60,6 +61,7 @@
 		B60E73A81E1FC939007957E2 /* yas_processing_number_event.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = yas_processing_number_event.cpp; path = ../../processing/yas_processing_number_event.cpp; sourceTree = "<group>"; };
 		B60E73A91E1FC939007957E2 /* yas_processing_number_event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yas_processing_number_event.h; path = ../../processing/yas_processing_number_event.h; sourceTree = "<group>"; };
 		B60E73AB1E1FC94A007957E2 /* yas_processing_number_event_private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = yas_processing_number_event_private.h; path = ../../processing/yas_processing_number_event_private.h; sourceTree = "<group>"; };
+		B60E73AC1E1FCD9C007957E2 /* yas_processing_number_event_tests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = yas_processing_number_event_tests.mm; sourceTree = "<group>"; };
 		B620F60B1DE1BDD30050F6A2 /* yas_processing_stream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = yas_processing_stream.cpp; path = ../../processing/yas_processing_stream.cpp; sourceTree = "<group>"; };
 		B620F60C1DE1BDD30050F6A2 /* yas_processing_stream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yas_processing_stream.h; path = ../../processing/yas_processing_stream.h; sourceTree = "<group>"; };
 		B620F60E1DE1C4E20050F6A2 /* yas_processing_time.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = yas_processing_time.cpp; path = ../../processing/yas_processing_time.cpp; sourceTree = "<group>"; };
@@ -211,12 +213,13 @@
 		B633D2291DE1E1BF00C35515 /* processing_tests */ = {
 			isa = PBXGroup;
 			children = (
-				B64C09611DEC50D700B9DCB1 /* yas_processing_signal_event_tests.mm */,
 				B64C096B1DF024F900B9DCB1 /* yas_processing_channel_tests.mm */,
 				B6E0CB371E17992A00329906 /* yas_processing_constant_signal_module_tests.mm */,
 				B60E73931E1CA56C007957E2 /* yas_processing_math_modules_tests.mm */,
 				B6C4DADB1DF6F76200621F80 /* yas_processing_module_tests.mm */,
+				B60E73AC1E1FCD9C007957E2 /* yas_processing_number_event_tests.mm */,
 				B6AF4F781E15048300805168 /* yas_processing_processor_tests.mm */,
+				B64C09611DEC50D700B9DCB1 /* yas_processing_signal_event_tests.mm */,
 				B64C096D1DF0250300B9DCB1 /* yas_processing_stream_tests.mm */,
 				B6AF4F7A1E160B9F00805168 /* yas_processing_test_utils.cpp */,
 				B6272EB31DF70C1900F5DF95 /* yas_processing_test_utils.h */,
@@ -441,6 +444,7 @@
 				B63674B81DD9DFF500C724DB /* yas_chain.cpp in Sources */,
 				B6E0CB361E17728600329906 /* yas_processing_constant_module.cpp in Sources */,
 				B60477B61E1A8E8000195A0F /* yas_processing_math_modules.cpp in Sources */,
+				B60E73AD1E1FCD9C007957E2 /* yas_processing_number_event_tests.mm in Sources */,
 				B63674BD1DD9DFF500C724DB /* yas_objc_ptr.mm in Sources */,
 				B64C09621DEC50D700B9DCB1 /* yas_processing_signal_event_tests.mm in Sources */,
 				B64C096E1DF0250300B9DCB1 /* yas_processing_stream_tests.mm in Sources */,
