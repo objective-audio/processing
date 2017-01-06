@@ -74,14 +74,14 @@ using namespace yas::processing;
     stream.add_channel(2);
 
     auto &channel = stream.channel(2);
-    channel.insert_buffer({0, 2}, {std::vector<int8_t>{5, 6}});
+    channel.insert_event({0, 2}, buffer{std::vector<int8_t>{5, 6}});
 
     auto const &const_stream = stream;
     auto const &const_channel = const_stream.channel(2);
 
-    XCTAssertEqual(const_channel.buffers().size(), 1);
+    XCTAssertEqual(const_channel.events().size(), 1);
 
-    auto const &const_buffer = (*const_channel.buffers().begin()).second;
+    auto const const_buffer = cast<processing::buffer>((*const_channel.events().begin()).second);
     XCTAssertEqual(const_buffer.vector<int8_t>()[0], 5);
     XCTAssertEqual(const_buffer.vector<int8_t>()[1], 6);
 }

@@ -53,11 +53,11 @@ using namespace yas;
 
     XCTAssertTrue(stream.has_channel(2));
 
-    auto const &buffers = stream.channel(2).buffers();
+    auto const &buffers = stream.channel(2).events();
 
     XCTAssertEqual(buffers.size(), 1);
 
-    auto const &buffer = (*buffers.begin()).second;
+    auto const buffer = cast<processing::buffer>((*buffers.begin()).second);
     auto const &vec = buffer.vector<int16_t>();
 
     XCTAssertEqual(vec.size(), 5);
@@ -86,11 +86,11 @@ using namespace yas;
     
     XCTAssertTrue(stream.has_channel(2));
     
-    auto const &buffers = stream.channel(2).buffers();
+    auto const &buffers = stream.channel(2).events();
     
     XCTAssertEqual(buffers.size(), 1);
     
-    auto const &buffer = (*buffers.begin()).second;
+    auto const &buffer = cast<processing::buffer>((*buffers.begin()).second);
     auto const &vec = buffer.vector<int16_t>();
     
     XCTAssertEqual(vec.size(), 5);
@@ -119,11 +119,11 @@ using namespace yas;
     
     XCTAssertTrue(stream.has_channel(2));
     
-    auto const &buffers = stream.channel(2).buffers();
+    auto const &buffers = stream.channel(2).events();
     
     XCTAssertEqual(buffers.size(), 1);
     
-    auto const &buffer = (*buffers.begin()).second;
+    auto const &buffer = cast<processing::buffer>((*buffers.begin()).second);
     auto const &vec = buffer.vector<int16_t>();
     
     XCTAssertEqual(vec.size(), 5);
@@ -152,11 +152,11 @@ using namespace yas;
     
     XCTAssertTrue(stream.has_channel(2));
     
-    auto const &buffers = stream.channel(2).buffers();
+    auto const &buffers = stream.channel(2).events();
     
     XCTAssertEqual(buffers.size(), 1);
     
-    auto const &buffer = (*buffers.begin()).second;
+    auto const &buffer = cast<processing::buffer>((*buffers.begin()).second);
     auto const &vec = buffer.vector<int16_t>();
     
     XCTAssertEqual(vec.size(), 5);
