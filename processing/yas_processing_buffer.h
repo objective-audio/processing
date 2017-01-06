@@ -4,22 +4,24 @@
 
 #pragma once
 
-#include "yas_base.h"
+#include "yas_processing_event.h"
 #include <vector>
 
 namespace yas {
 namespace processing {
-    class buffer : public base {
-        class impl_base;
-
+    class buffer : public event {
        public:
-        template <typename T>
         class impl;
 
         template <typename T>
-        buffer(std::vector<T> &&bytes);
+        class type_impl;
+
         template <typename T>
-        buffer(std::vector<T> &bytes);
+        explicit buffer(std::vector<T> &&bytes);
+        template <typename T>
+        explicit buffer(std::vector<T> &bytes);
+
+        buffer(std::nullptr_t);
 
         std::type_info const &sample_type() const;
         std::size_t sample_byte_count() const;
