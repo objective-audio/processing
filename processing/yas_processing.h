@@ -8,6 +8,7 @@
 #include "yas_processing_timeline.h"
 
 #include "yas_processing_signal_event.h"
+#include "yas_processing_number_event.h"
 
 #include "yas_processing_send_signal_processor.h"
 #include "yas_processing_receive_signal_processor.h"
