@@ -51,6 +51,14 @@ bool processing::time::range::is_contain(time::range const &other) const {
     }
 }
 
+bool processing::time::range::is_contain(frame::type const &rhs_frame) const {
+    return frame <= rhs_frame && rhs_frame < next_frame();
+}
+
+bool processing::time::range::is_contain(any::type const &any) const {
+    return true;
+}
+
 bool processing::time::range::is_overlap(time::range const &other) const {
     if (length == 0 || other.length == 0) {
         return false;
@@ -205,6 +213,23 @@ bool processing::time::is_frame_type() const {
 
 bool processing::time::is_any_type() const {
     return type() == typeid(any);
+}
+
+bool processing::time::is_contain(time const &rhs) const {
+    if (is_range_type()) {
+        auto const &range = get<time::range>();
+        if (rhs.is_range_type()) {
+            return range.is_contain(rhs.get<time::range>());
+        } else if (rhs.is_frame_type()) {
+            return range.is_contain(rhs.get<time::frame>());
+        } else if (rhs.is_any_type()) {
+            return range.is_contain(rhs.get<time::any>());
+        }
+
+        throw "unreachable code.";
+    } else {
+        return false;
+    }
 }
 
 template <typename T>

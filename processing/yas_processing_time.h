@@ -18,6 +18,17 @@ namespace processing {
        public:
         class impl_base;
 
+        struct frame {
+            using type = frame_index_t;
+        };
+
+        struct any {
+            using type = any;
+
+            bool operator==(any const &) const;
+            bool operator!=(any const &) const;
+        };
+
         struct range {
             using type = range;
 
@@ -33,21 +44,12 @@ namespace processing {
             frame_index_t next_frame() const;
 
             bool is_contain(range const &) const;
+            bool is_contain(frame::type const &) const;
+            bool is_contain(any::type const &) const;
             bool is_overlap(range const &) const;
             bool can_combine(range const &) const;
             std::experimental::optional<range> intersect(range const &) const;
             std::experimental::optional<range> combine(range const &) const;
-        };
-
-        struct frame {
-            using type = frame_index_t;
-        };
-
-        struct any {
-            using type = any;
-
-            bool operator==(any const &) const;
-            bool operator!=(any const &) const;
         };
 
         time(frame_index_t const, length_t const);
@@ -65,6 +67,8 @@ namespace processing {
         bool is_range_type() const;
         bool is_frame_type() const;
         bool is_any_type() const;
+
+        bool is_contain(time const &) const;
 
         template <typename T>
         typename T::type const &get() const;
