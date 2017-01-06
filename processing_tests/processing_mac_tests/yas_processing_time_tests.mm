@@ -83,9 +83,9 @@ using namespace yas::processing;
 
 - (void)test_assign_range {
     auto time = make_any_time();
-    
+
     time = time::range{0, 1};
-    
+
     XCTAssertTrue(time.type() == typeid(time::range));
 }
 
@@ -202,6 +202,34 @@ using namespace yas::processing;
 
     XCTAssertFalse(make_range_time(0, 1) < make_any_time());
     XCTAssertTrue(make_any_time() < make_range_time(0, 1));
+}
+
+- (void)test_is_contain {
+    auto range1 = make_range_time(0, 1);
+    auto range2 = make_range_time(0, 2);
+    auto range2b = make_range_time(0, 2);
+    auto range3 = make_range_time(0, 3);
+
+    auto frame0 = make_frame_time(0);
+    auto frame2 = make_frame_time(2);
+
+    auto any = make_any_time();
+
+    XCTAssertTrue(range2.is_contain(range1));
+    XCTAssertTrue(range2.is_contain(range2));
+    XCTAssertTrue(range2.is_contain(range2b));
+    XCTAssertFalse(range2.is_contain(range3));
+    XCTAssertTrue(range2.is_contain(frame0));
+    XCTAssertFalse(range2.is_contain(frame2));
+    XCTAssertTrue(range2.is_contain(any));
+
+    XCTAssertFalse(frame0.is_contain(range1));
+    XCTAssertFalse(frame0.is_contain(frame0));
+    XCTAssertFalse(frame0.is_contain(any));
+
+    XCTAssertFalse(any.is_contain(range1));
+    XCTAssertFalse(any.is_contain(frame0));
+    XCTAssertFalse(any.is_contain(any));
 }
 
 @end
