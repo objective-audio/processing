@@ -22,7 +22,7 @@ namespace processing {
 
         std::type_info const &sample_type() const;
         std::size_t sample_byte_count() const;
-        
+
         template <typename T>
         T const &get() const;
     };
