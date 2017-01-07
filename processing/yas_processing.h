@@ -12,6 +12,7 @@
 
 #include "yas_processing_send_signal_processor.h"
 #include "yas_processing_receive_signal_processor.h"
+#include "yas_processing_receive_number_processor.h"
 
 #include "yas_processing_constant_module.h"
 #include "yas_processing_math_modules.h"
