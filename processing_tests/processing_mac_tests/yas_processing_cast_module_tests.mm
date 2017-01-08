@@ -31,7 +31,7 @@ using namespace yas::processing;
 - (void)test_process {
     auto constant_module1 = constant::make_signal_module(int8_t(1));
     constant_module1.connect_output(constant::out_connector_key, 0);
-    
+
     auto constant_module2 = constant::make_signal_module(int8_t(2));
     constant_module2.connect_output(constant::out_connector_key, 0);
 
@@ -49,7 +49,7 @@ using namespace yas::processing;
 
     auto const &channel = stream.channel(1);
     XCTAssertEqual(channel.events().size(), 1);
-    
+
     auto &event = (*channel.events().begin()).second;
     auto const signal = cast<signal_event>(event);
     XCTAssertTrue(signal);
