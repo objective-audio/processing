@@ -72,6 +72,8 @@ template <typename T>
 processing::module processing::math::make_plus_signal_module() {
     auto context = make_context<T>();
 
+    auto prepare_processor = make_prepare_processor(context);
+
     auto receive_processor = make_receive_signal_processor<T>(context);
 
     auto send_processor = processing::make_send_signal_processor<T>([context](
@@ -100,7 +102,7 @@ processing::module processing::math::make_plus_signal_module() {
         }
     });
 
-    return processing::module{{std::move(receive_processor), std::move(send_processor)}};
+    return processing::module{{std::move(prepare_processor), std::move(receive_processor), std::move(send_processor)}};
 }
 
 template processing::module processing::math::make_plus_signal_module<double>();
@@ -117,6 +119,8 @@ template processing::module processing::math::make_plus_signal_module<uint8_t>()
 template <typename T>
 processing::module processing::math::make_minus_signal_module() {
     auto context = make_context<T>();
+
+    auto prepare_processor = make_prepare_processor(context);
 
     auto receive_processor = make_receive_signal_processor<T>(context);
 
@@ -146,7 +150,7 @@ processing::module processing::math::make_minus_signal_module() {
         }
     });
 
-    return processing::module{{std::move(receive_processor), std::move(send_processor)}};
+    return processing::module{{std::move(prepare_processor), std::move(receive_processor), std::move(send_processor)}};
 }
 
 template processing::module processing::math::make_minus_signal_module<double>();
@@ -163,6 +167,8 @@ template processing::module processing::math::make_minus_signal_module<uint8_t>(
 template <typename T>
 processing::module processing::math::make_multiply_signal_module() {
     auto context = make_context<T>();
+
+    auto prepare_processor = make_prepare_processor(context);
 
     auto receive_processor = make_receive_signal_processor<T>(context);
 
@@ -192,7 +198,7 @@ processing::module processing::math::make_multiply_signal_module() {
         }
     });
 
-    return processing::module{{std::move(receive_processor), std::move(send_processor)}};
+    return processing::module{{std::move(prepare_processor), std::move(receive_processor), std::move(send_processor)}};
 }
 
 template processing::module processing::math::make_multiply_signal_module<double>();
@@ -209,6 +215,8 @@ template processing::module processing::math::make_multiply_signal_module<uint8_
 template <typename T>
 processing::module processing::math::make_divide_signal_module() {
     auto context = make_context<T>();
+
+    auto prepare_processor = make_prepare_processor(context);
 
     auto receive_processor = make_receive_signal_processor<T>(context);
 
@@ -238,7 +246,7 @@ processing::module processing::math::make_divide_signal_module() {
         }
     });
 
-    return processing::module{{std::move(receive_processor), std::move(send_processor)}};
+    return processing::module{{std::move(prepare_processor), std::move(receive_processor), std::move(send_processor)}};
 }
 
 template processing::module processing::math::make_divide_signal_module<double>();
