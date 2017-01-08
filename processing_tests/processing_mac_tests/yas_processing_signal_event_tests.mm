@@ -153,4 +153,28 @@ using namespace yas::processing;
     XCTAssertTrue(processing::make_signal_event<double>(0.0).sample_type() == typeid(double));
 }
 
+- (void)test_copy_from {
+    auto signal_event = make_signal_event<int16_t>(0);
+
+    std::vector<int16_t> vec{100, 101};
+
+    signal_event.copy_from(vec.data(), vec.size());
+
+    XCTAssertEqual(signal_event.data<int16_t>()[0], 100);
+    XCTAssertEqual(signal_event.data<int16_t>()[1], 101);
+}
+
+- (void)test_copy_to {
+    auto signal_event = make_signal_event<int16_t>(2);
+    signal_event.data<int16_t>()[0] = 1000;
+    signal_event.data<int16_t>()[1] = 1001;
+
+    std::vector<int16_t> vec(2);
+
+    signal_event.copy_to(vec.data(), vec.size());
+
+    XCTAssertEqual(vec[0], 1000);
+    XCTAssertEqual(vec[1], 1001);
+}
+
 @end
