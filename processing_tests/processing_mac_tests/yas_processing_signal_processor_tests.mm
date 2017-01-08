@@ -1,5 +1,5 @@
 //
-//  yas_processing_processor_tests.mm
+//  yas_processing_signal_processor_tests.mm
 //
 
 #import <XCTest/XCTest.h>
@@ -9,11 +9,11 @@
 using namespace yas;
 using namespace yas::processing;
 
-@interface yas_processing_processor_tests : XCTestCase
+@interface yas_processing_signal_processor_tests : XCTestCase
 
 @end
 
-@implementation yas_processing_processor_tests
+@implementation yas_processing_signal_processor_tests
 
 - (void)setUp {
     [super setUp];
@@ -23,7 +23,7 @@ using namespace yas::processing;
     [super tearDown];
 }
 
-- (void)test_process_send_signal {
+- (void)test_send_signal_processor {
     auto const ch_idx = 5;
     auto const output_connector_key = "output";
 
@@ -110,7 +110,7 @@ using namespace yas::processing;
     }
 }
 
-- (void)test_process_receive_signal {
+- (void)test_receive_signal_processor {
     auto const ch_idx = 7;
     auto const input_connector_key = "input";
 
@@ -207,7 +207,7 @@ using namespace yas::processing;
     }
 }
 
-- (void)test_process_receive_and_send_signal {
+- (void)test_receive_and_send_signal_processor {
     auto const receive_ch_idx = 3;
     auto const send_ch_idx = 9;
     auto const output_connector_key = "output";
