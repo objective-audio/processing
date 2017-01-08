@@ -51,8 +51,7 @@ processing::processor_f processing::make_send_signal_processor(processing::send_
                             auto const dst_idx = time_range.frame - combined_time_range.frame;
                             auto *dst_ptr = &vec[dst_idx];
                             signal_event const signal = cast<processing::signal_event>(pair.second);
-                            auto const *src_ptr = signal.data<T>();
-                            memcpy(dst_ptr, src_ptr, length * sizeof(T));
+                            signal.copy_to<T>(dst_ptr, length);
                         }
 
                         channel.erase_event_if(std::move(predicate));

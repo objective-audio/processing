@@ -86,8 +86,17 @@ T *processing::signal_event::data() {
 
 template <typename T>
 void processing::signal_event::copy_from(T const *ptr, std::size_t const size) {
-    resize(size);
+    this->resize(size);
     memcpy(data<T>(), ptr, size * sizeof(T));
+}
+
+template <typename T>
+void processing::signal_event::copy_to(T *ptr, std::size_t const size) const {
+    if (size > this->size()) {
+        throw "out of range.";
+    }
+
+    memcpy(ptr, data<T>(), size * sizeof(T));
 }
 
 template <typename T>
