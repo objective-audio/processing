@@ -85,6 +85,12 @@ T *processing::signal_event::data() {
 }
 
 template <typename T>
+void processing::signal_event::copy_from(T const *ptr, std::size_t const size) {
+    resize(size);
+    memcpy(data<T>(), ptr, size * sizeof(T));
+}
+
+template <typename T>
 processing::signal_event processing::make_signal_event(std::size_t const size) {
     return processing::signal_event{std::vector<T>(size)};
 }

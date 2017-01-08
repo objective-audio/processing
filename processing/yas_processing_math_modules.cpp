@@ -53,14 +53,10 @@ namespace processing {
                                                                           T const *const signal_ptr) mutable {
                 if (key == left_in_connector_key) {
                     context->left_time = time_range;
-                    auto const &length = time_range.length;
-                    context->left_signal.resize(length);
-                    memcpy(context->left_signal.data<T>(), signal_ptr, length * sizeof(T));
+                    context->left_signal.copy_from(signal_ptr, time_range.length);
                 } else if (key == right_in_connector_key) {
                     context->right_time = time_range;
-                    auto const &length = time_range.length;
-                    context->right_signal.resize(length);
-                    memcpy(context->right_signal.data<T>(), signal_ptr, length * sizeof(T));
+                    context->right_signal.copy_from(signal_ptr, time_range.length);
                 }
             });
         }

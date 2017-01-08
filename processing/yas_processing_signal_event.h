@@ -37,6 +37,9 @@ namespace processing {
         T const *data() const;
         template <typename T>
         T *data();
+
+        template <typename T>
+        void copy_from(T const *, std::size_t const);
     };
 
     template <typename T>
