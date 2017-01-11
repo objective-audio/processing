@@ -6,7 +6,6 @@
 #include "yas_processing_number_event.h"
 #include "yas_processing_channel.h"
 #include "yas_processing_stream.h"
-#include "yas_stl_utils.h"
 
 using namespace yas;
 
@@ -24,26 +23,12 @@ processing::processor_f processing::make_receive_number_processor(processing::re
 
                 if (stream.has_channel(ch_idx)) {
                     auto const &channel = stream.channel(ch_idx);
-
-                    auto predicate = [&current_time_range](auto const &pair) {
-                        time const &time = pair.first;
-                        if (time.type() == typeid(time::frame)) {
-                            auto const &frame = time.get<time::frame>();
-                            if (current_time_range.is_contain(frame)) {
-                                if (auto const number = cast<processing::number_event>(pair.second)) {
-                                    return number.sample_type() == typeid(T);
-                                }
-                            }
-                        }
-                        return false;
-                    };
-
-                    auto const filtered_events = filter(channel.events(), predicate);
+                    auto const filtered_events = channel.filtered_events<T, processing::number_event>();
 
                     for (auto const &pair : filtered_events) {
-                        time const &event_time = pair.first;
-                        auto const &event_frame = event_time.get<time::frame>();
-                        if (number_event const number_event = cast<processing::number_event>(pair.second)) {
+                        auto const &event_frame = pair.first;
+                        if (current_time_range.is_contain(event_frame)) {
+                            number_event const &number_event = pair.second;
                             auto const &value = number_event.get<T>();
                             handler(event_frame, ch_idx, connector_key, value);
                         }

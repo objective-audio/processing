@@ -5,6 +5,7 @@
 #pragma once
 
 #include "yas_processing_event.h"
+#include "yas_processing_time.h"
 
 namespace yas {
 namespace processing {
@@ -14,6 +15,8 @@ namespace processing {
 
         template <typename T>
         class type_impl;
+
+        using time_type = time::frame;
 
         template <typename T>
         explicit number_event(T);

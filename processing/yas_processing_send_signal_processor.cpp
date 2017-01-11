@@ -27,26 +27,26 @@ processing::processor_f processing::make_send_signal_processor(processing::send_
                     auto &channel = stream.channel(ch_idx);
                     processing::time::range combined_time_range = current_time_range;
 
-                    auto predicate = [&current_time_range, &combined_time_range](auto const &pair) {
+                    auto predicate = [&current_time_range](auto const &pair) {
                         time const &time = pair.first;
-                        if (time.type() == typeid(time::range)) {
-                            auto const &time_range = time.get<time::range>();
-                            auto const signal = cast<processing::signal_event>(pair.second);
-                            if (signal.sample_type() == typeid(T) && time_range.can_combine(current_time_range)) {
-                                combined_time_range = *combined_time_range.combine(time_range);
-                                return true;
-                            }
+                        auto const &time_range = time.get<time::range>();
+                        if (time_range.can_combine(current_time_range)) {
+                            return true;
                         }
                         return false;
+
                     };
 
-                    auto const filtered_events = filter(channel.events(), predicate);
+                    auto const filtered_events = channel.filtered_events<T, signal_event>(predicate);
 
                     if (filtered_events.size() > 0) {
+                        for (auto const &pair : filtered_events) {
+                            combined_time_range = *combined_time_range.combine(pair.first);
+                        }
+
                         std::vector<T> vec(combined_time_range.length);
                         for (auto const &pair : filtered_events) {
-                            time const &time = pair.first;
-                            auto const &time_range = time.get<time::range>();
+                            auto const &time_range = pair.first;
                             auto const length = time_range.length;
                             auto const dst_idx = time_range.frame - combined_time_range.frame;
                             auto *dst_ptr = &vec[dst_idx];

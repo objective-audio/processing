@@ -5,6 +5,7 @@
 #pragma once
 
 #include "yas_processing_event.h"
+#include "yas_processing_time.h"
 #include <vector>
 
 namespace yas {
@@ -15,6 +16,8 @@ namespace processing {
 
         template <typename T>
         class type_impl;
+
+        using time_type = time::range;
 
         template <typename T>
         explicit signal_event(std::vector<T> &&bytes);

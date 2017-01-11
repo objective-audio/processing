@@ -10,6 +10,8 @@
 namespace yas {
 namespace processing {
     class event;
+    class signal_event;
+    class number_event;
 
     class channel : public base {
         class impl;
@@ -20,6 +22,11 @@ namespace processing {
 
         std::multimap<time, event> const &events() const;
         std::multimap<time, event> &events();
+
+        template <typename T, typename Event>
+        std::multimap<typename Event::time_type::type, Event> filtered_events() const;
+        template <typename T, typename Event, typename P>
+        std::multimap<typename Event::time_type::type, Event> filtered_events(P predicate) const;
 
         void insert_event(time, event);
 

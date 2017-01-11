@@ -4,9 +4,46 @@
 
 #pragma once
 
+#include "yas_processing_signal_event.h"
+#include "yas_processing_number_event.h"
+
 namespace yas {
 template <typename P>
 void processing::channel::erase_event_if(P predicate) {
     erase_if(this->events(), predicate);
+}
+
+template <typename T, typename Event>
+std::multimap<typename Event::time_type::type, Event> processing::channel::filtered_events() const {
+    std::multimap<typename Event::time_type::type, Event> filtered;
+
+    for (auto const &pair : events()) {
+        if (pair.first.type() == typeid(typename Event::time_type)) {
+            if (auto const casted_event = cast<Event>(pair.second)) {
+                if (casted_event.sample_type() == typeid(T)) {
+                    filtered.insert(filtered.end(), {pair.first.get<typename Event::time_type>(), casted_event});
+                }
+            }
+        }
+    }
+
+    return filtered;
+}
+
+template <typename T, typename Event, typename P>
+std::multimap<typename Event::time_type::type, Event> processing::channel::filtered_events(P predicate) const {
+    std::multimap<typename Event::time_type::type, Event> filtered;
+
+    for (auto const &pair : events()) {
+        if (pair.first.type() == typeid(typename Event::time_type)) {
+            if (auto const casted_event = cast<Event>(pair.second)) {
+                if (casted_event.sample_type() == typeid(T) && predicate(pair)) {
+                    filtered.insert(filtered.end(), {pair.first.get<typename Event::time_type>(), casted_event});
+                }
+            }
+        }
+    }
+
+    return filtered;
 }
 }
