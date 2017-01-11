@@ -9,7 +9,7 @@
 namespace yas {
 namespace processing {
     class time;
-    
+
     struct event : base {
         struct impl : base::impl {
             virtual bool validate_time(time const &) = 0;
@@ -21,7 +21,7 @@ namespace processing {
 
        public:
         event(std::nullptr_t);
-        
+
         bool validate_time(time const &) const;
     };
 }
