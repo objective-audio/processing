@@ -6,26 +6,26 @@
 
 using namespace yas;
 
-processing::cast::context::context(processing::signal_event &&signal) : signal(std::move(signal)) {
+processing::cast::signal_context::signal_context(processing::signal_event &&signal) : signal(std::move(signal)) {
 }
 
-void processing::cast::context::reset() {
+void processing::cast::signal_context::reset() {
     signal.resize(0);
     time = nullptr;
 }
 
 template <typename T>
-processing::cast::context_sptr processing::cast::make_context() {
-    return std::make_shared<context>(make_signal_event<T>(0, reserved_signal_size));
+processing::cast::signal_context_sptr processing::cast::make_signal_context() {
+    return std::make_shared<signal_context>(make_signal_event<T>(0, reserved_signal_size));
 }
 
-template processing::cast::context_sptr processing::cast::make_context<double>();
-template processing::cast::context_sptr processing::cast::make_context<float>();
-template processing::cast::context_sptr processing::cast::make_context<int64_t>();
-template processing::cast::context_sptr processing::cast::make_context<int32_t>();
-template processing::cast::context_sptr processing::cast::make_context<int16_t>();
-template processing::cast::context_sptr processing::cast::make_context<int8_t>();
-template processing::cast::context_sptr processing::cast::make_context<uint64_t>();
-template processing::cast::context_sptr processing::cast::make_context<uint32_t>();
-template processing::cast::context_sptr processing::cast::make_context<uint16_t>();
-template processing::cast::context_sptr processing::cast::make_context<uint8_t>();
+template processing::cast::signal_context_sptr processing::cast::make_signal_context<double>();
+template processing::cast::signal_context_sptr processing::cast::make_signal_context<float>();
+template processing::cast::signal_context_sptr processing::cast::make_signal_context<int64_t>();
+template processing::cast::signal_context_sptr processing::cast::make_signal_context<int32_t>();
+template processing::cast::signal_context_sptr processing::cast::make_signal_context<int16_t>();
+template processing::cast::signal_context_sptr processing::cast::make_signal_context<int8_t>();
+template processing::cast::signal_context_sptr processing::cast::make_signal_context<uint64_t>();
+template processing::cast::signal_context_sptr processing::cast::make_signal_context<uint32_t>();
+template processing::cast::signal_context_sptr processing::cast::make_signal_context<uint16_t>();
+template processing::cast::signal_context_sptr processing::cast::make_signal_context<uint8_t>();

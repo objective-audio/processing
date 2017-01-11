@@ -12,23 +12,23 @@
 namespace yas {
 namespace processing {
     namespace cast {
-        struct context {
+        struct signal_context {
             signal_event signal;
             time time;
 
-            context(signal_event &&);
+            signal_context(signal_event &&);
 
             void reset();
         };
 
-        using context_sptr = std::shared_ptr<context>;
+        using signal_context_sptr = std::shared_ptr<signal_context>;
 
         template <typename T>
-        context_sptr make_context();
+        signal_context_sptr make_signal_context();
 
         template <typename In, typename Out>
         processing::module make_signal_module() {
-            auto context = make_context<In>();
+            auto context = make_signal_context<In>();
 
             auto prepare_processor = [context](time::range const &, connector_map_t const &, connector_map_t const &,
                                                stream &) mutable { context->reset(); };
