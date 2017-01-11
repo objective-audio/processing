@@ -24,40 +24,40 @@ using namespace yas;
 - (void)test_make_module {
     double const value = 1.0;
     auto module = processing::constant::make_signal_module(value);
-    
+
     XCTAssertTrue(module);
 }
 
 - (void)test_process {
     int64_t const value = 5;
-    
+
     auto module = processing::constant::make_signal_module(value);
     module.connect_output(processing::constant::out_connector_key, 0);
-    
+
     processing::stream stream;
-    
+
     module.process({0, 2}, stream);
-    
+
     XCTAssertTrue(stream.has_channel(0));
-    
+
     auto const &channel = stream.channel(0);
-    
+
     XCTAssertEqual(channel.events().size(), 1);
-    
+
     auto const &event_pair = *channel.events().begin();
     auto const &time = event_pair.first;
     auto const signal = cast<processing::signal_event>(event_pair.second);
-    
+
     XCTAssertTrue(time.type() == typeid(processing::time::range));
-    
+
     auto const &time_range = time.get<processing::time::range>();
-    
+
     XCTAssertEqual(time_range.frame, 0);
     XCTAssertEqual(time_range.length, 2);
     XCTAssertEqual(signal.size(), 2);
-    
+
     auto const &vec = signal.vector<int64_t>();
-    
+
     XCTAssertEqual(vec[0], 5);
     XCTAssertEqual(vec[1], 5);
 }
