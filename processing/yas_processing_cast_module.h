@@ -4,8 +4,6 @@
 
 #pragma once
 
-#include "yas_processing_signal_event.h"
-
 namespace yas {
 namespace processing {
     class module;
@@ -16,6 +14,9 @@ namespace processing {
 
         template <typename In, typename Out>
         module make_signal_module();
+
+        template <typename In, typename Out>
+        module make_number_module();
     }
 }
 }
