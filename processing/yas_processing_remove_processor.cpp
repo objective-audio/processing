@@ -12,7 +12,7 @@ using namespace yas;
 
 template <typename T>
 processing::processor_f processing::make_remove_number_processor() {
-    return [](time::range const &current_time_range, connector_map_t const &input_connectors, connector_map_t const &,
+    return [](time::range const &time_range, connector_map_t const &input_connectors, connector_map_t const &,
               stream &stream) {
         for (auto const &connector_pair : input_connectors) {
             auto const &connector = connector_pair.second;
@@ -21,11 +21,11 @@ processing::processor_f processing::make_remove_number_processor() {
             if (stream.has_channel(ch_idx)) {
                 auto &channel = stream.channel(ch_idx);
 
-                auto predicate = [&current_time_range](auto const &pair) {
+                auto predicate = [&time_range](auto const &pair) {
                     time const &time = pair.first;
                     if (time.type() == typeid(time::frame)) {
                         auto const &frame = time.get<time::frame>();
-                        if (current_time_range.is_contain(frame)) {
+                        if (time_range.is_contain(frame)) {
                             if (auto const number = cast<processing::number_event>(pair.second)) {
                                 return number.sample_type() == typeid(T);
                             }
