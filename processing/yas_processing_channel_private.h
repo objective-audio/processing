@@ -13,6 +13,20 @@ void processing::channel::erase_event_if(P predicate) {
     erase_if(this->events(), predicate);
 }
 
+template <typename T, typename Event, typename P>
+void processing::channel::erase_event_if(P predicate) {
+    erase_if(this->events(), [predicate = std::move(predicate)](auto const &pair){
+        if (pair.first.type() == typeid(typename Event::time_type)) {
+            if (auto const casted_event = yas::cast<Event>(pair.second)) {
+                if (casted_event.sample_type() == typeid(T) && predicate(pair)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    });
+}
+
 template <typename T, typename Event>
 std::multimap<typename Event::time_type::type, Event> processing::channel::filtered_events() const {
     return filtered_events<T, Event>([](auto const &) { return true; });
