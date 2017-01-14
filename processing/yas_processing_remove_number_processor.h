@@ -1,5 +1,5 @@
 //
-//  yas_processing_remove_processor.h
+//  yas_processing_remove_number_processor.h
 //
 
 #pragma once
