@@ -1,3 +1,4 @@
+
 //
 //  yas_processing_time::range.cpp
 //
@@ -99,6 +100,31 @@ std::experimental::optional<processing::time::range> processing::time::range::co
     auto const next = std::max(next_frame(), other.next_frame());
 
     return time::range{start, static_cast<length_t>(next - start)};
+}
+
+std::vector<processing::time::range> processing::time::range::crop(range const &other) const {
+    std::vector<processing::time::range> vec;
+
+    if (!is_overlap(other)) {
+        vec.push_back(*this);
+        return vec;
+    }
+
+    if (auto const cropped_ragne_opt = intersect(other)) {
+        auto const &cropped_range = *cropped_ragne_opt;
+        if (frame < cropped_range.frame) {
+            vec.emplace_back(time::range{frame, static_cast<length_t>(cropped_range.frame - frame)});
+        }
+
+        auto const cropped_next_frame = cropped_range.next_frame();
+        auto const current_next_frame = next_frame();
+        if (cropped_next_frame < current_next_frame) {
+            vec.emplace_back(
+                time::range{cropped_next_frame, static_cast<length_t>(current_next_frame - cropped_next_frame)});
+        }
+    }
+
+    return vec;
 }
 
 #pragma mark - time::any

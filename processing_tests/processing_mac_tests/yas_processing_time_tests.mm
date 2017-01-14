@@ -232,4 +232,48 @@ using namespace yas::processing;
     XCTAssertFalse(any.is_contain(any));
 }
 
+- (void)test_crop {
+    auto range = time::range{0, 3};
+    
+    auto cropped_ranges = range.crop({0, 1});
+    XCTAssertEqual(cropped_ranges.size(), 1);
+    XCTAssertTrue((cropped_ranges[0] == time::range{1, 2}));
+    
+    cropped_ranges = range.crop({1, 1});
+    XCTAssertEqual(cropped_ranges.size(), 2);
+    XCTAssertTrue((cropped_ranges[0] == time::range{0, 1}));
+    XCTAssertTrue((cropped_ranges[1] == time::range{2, 1}));
+    
+    cropped_ranges = range.crop({2, 1});
+    XCTAssertEqual(cropped_ranges.size(), 1);
+    XCTAssertTrue((cropped_ranges[0] == time::range{0, 2}));
+    
+    cropped_ranges = range.crop({2, 1});
+    XCTAssertEqual(cropped_ranges.size(), 1);
+    XCTAssertTrue((cropped_ranges[0] == time::range{0, 2}));
+    
+    cropped_ranges = range.crop({0, 2});
+    XCTAssertEqual(cropped_ranges.size(), 1);
+    XCTAssertTrue((cropped_ranges[0] == time::range{2, 1}));
+    
+    cropped_ranges = range.crop({1, 2});
+    XCTAssertEqual(cropped_ranges.size(), 1);
+    XCTAssertTrue((cropped_ranges[0] == time::range{0, 1}));
+    
+    cropped_ranges = range.crop({0, 3});
+    XCTAssertEqual(cropped_ranges.size(), 0);
+    
+    cropped_ranges = range.crop({-1, 3});
+    XCTAssertEqual(cropped_ranges.size(), 1);
+    XCTAssertTrue((cropped_ranges[0] == time::range{2, 1}));
+    
+    cropped_ranges = range.crop({1, 3});
+    XCTAssertEqual(cropped_ranges.size(), 1);
+    XCTAssertTrue((cropped_ranges[0] == time::range{0, 1}));
+    
+    cropped_ranges = range.crop({10, 3});
+    XCTAssertEqual(cropped_ranges.size(), 1);
+    XCTAssertTrue((cropped_ranges[0] == time::range{0, 3}));
+}
+
 @end

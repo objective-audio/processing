@@ -7,6 +7,7 @@
 #include "yas_processing_types.h"
 #include "yas_base.h"
 #include <memory>
+#include <vector>
 #include <experimental/optional>
 
 namespace yas {
@@ -50,6 +51,7 @@ namespace processing {
             bool can_combine(range const &) const;
             std::experimental::optional<range> intersect(range const &) const;
             std::experimental::optional<range> combine(range const &) const;
+            std::vector<range> crop(range const &) const;
         };
 
         time(frame_index_t const, length_t const);

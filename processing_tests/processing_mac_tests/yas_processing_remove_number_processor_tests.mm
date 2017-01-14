@@ -23,8 +23,6 @@ using namespace yas::processing;
 }
 
 - (void)test_process {
-    auto remove_number_processor = make_remove_number_processor<int8_t>();
-    
     stream stream;
     
     auto &channel0 = stream.add_channel(0);

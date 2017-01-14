@@ -7,7 +7,8 @@
 #include "yas_processing_send_signal_processor.h"
 #include "yas_processing_receive_signal_processor.h"
 #include "yas_processing_receive_number_processor.h"
-#include "yas_processing_remove_processor.h"
+#include "yas_processing_remove_signal_processor.h"
+#include "yas_processing_remove_number_processor.h"
 #include "yas_processing_module.h"
 #include "yas_processing_channel.h"
 #include "yas_processing_signal_event.h"
@@ -47,6 +48,8 @@ namespace processing {
                     }
                 });
 
+            auto remove_processor = processing::make_remove_signal_processor<In>();
+
             auto send_processor = processing::make_send_signal_processor<Out>(
                 [context](processing::time::range const &time_range, channel_index_t const, std::string const &key,
                           Out *const signal_ptr) {
@@ -67,8 +70,8 @@ namespace processing {
                     }
                 });
 
-            return processing::module{
-                {std::move(prepare_processor), std::move(receive_processor), std::move(send_processor)}};
+            return processing::module{{std::move(prepare_processor), std::move(receive_processor),
+                                       std::move(remove_processor), std::move(send_processor)}};
         }
 
         template <typename T>

@@ -1,5 +1,5 @@
 //
-//  yas_processing_remove_processor.h
+//  yas_processing_remove_signal_processor.h
 //
 
 #pragma once
@@ -9,6 +9,6 @@
 namespace yas {
 namespace processing {
     template <typename T>
-    processor_f make_remove_number_processor();
+    processor_f make_remove_signal_processor();
 }
 }
