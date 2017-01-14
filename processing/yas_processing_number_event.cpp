@@ -75,3 +75,19 @@ template uint64_t const &processing::number_event::get() const;
 template uint32_t const &processing::number_event::get() const;
 template uint16_t const &processing::number_event::get() const;
 template uint8_t const &processing::number_event::get() const;
+
+template <typename T>
+processing::number_event processing::make_number_event(T value) {
+    return number_event{std::move(value)};
+}
+
+template processing::number_event processing::make_number_event(double);
+template processing::number_event processing::make_number_event(float);
+template processing::number_event processing::make_number_event(int64_t);
+template processing::number_event processing::make_number_event(int32_t);
+template processing::number_event processing::make_number_event(int16_t);
+template processing::number_event processing::make_number_event(int8_t);
+template processing::number_event processing::make_number_event(uint64_t);
+template processing::number_event processing::make_number_event(uint32_t);
+template processing::number_event processing::make_number_event(uint16_t);
+template processing::number_event processing::make_number_event(uint8_t);
