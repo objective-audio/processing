@@ -128,7 +128,7 @@ using namespace yas::processing;
     XCTAssertThrows(channel.insert_event(processing::time{0, 1}, std::move(signal_event)));
 }
 
-- (void)test_erase_event_if {
+- (void)test_typed_erase_event {
     processing::channel channel;
 
     auto float_signal_0 = make_signal_event<float>(1);
@@ -139,12 +139,17 @@ using namespace yas::processing;
     float_signal_1.data<float>()[0] = 1.0;
     channel.insert_event(make_range_time(0, 1), float_signal_1);
     
+    auto float_signal_2 = make_signal_event<float>(1);
+    float_signal_2.data<float>()[0] = 2.0;
+    channel.insert_event(make_range_time(1, 1), float_signal_2);
+    
     channel.insert_event(make_range_time(0, 1), make_signal_event<double>(1));
     channel.insert_event(make_frame_time(0), make_number_event<int8_t>(1));
 
-    channel.erase_event_if<float, signal_event>([](auto const &pair) {
-        signal_event const signal = yas::cast<signal_event>(pair.second);
-        if (signal.data<float>()[0] > 0) {
+    channel.erase_event<float, signal_event>([](auto const &pair) {
+        time::range const &time_range = pair.first;
+        signal_event const &signal = pair.second;
+        if (time_range.frame != 0 || signal.data<float>()[0] > 0.0f) {
             return true;
         }
         return false;
@@ -154,6 +159,8 @@ using namespace yas::processing;
     
     auto const float_signal_events = channel.filtered_events<float, signal_event>();
     XCTAssertEqual(float_signal_events.size(), 1);
+    signal_event const &float_event = (*float_signal_events.begin()).second;
+    XCTAssertEqual(float_event.data<float>()[0], 0.0f);
     
     auto const double_signal_events = channel.filtered_events<double, signal_event>();
     XCTAssertEqual(double_signal_events.size(), 1);
