@@ -6,29 +6,34 @@
 
 #include "yas_processing_send_signal_processor.h"
 #include "yas_processing_receive_signal_processor.h"
+#include "yas_processing_receive_number_processor.h"
+#include "yas_processing_remove_processor.h"
 #include "yas_processing_module.h"
+#include "yas_processing_channel.h"
+#include "yas_processing_signal_event.h"
+#include "yas_processing_number_event.h"
 #include "yas_fast_each.h"
 
 namespace yas {
 namespace processing {
     namespace cast {
-        struct context {
+        struct signal_context {
             signal_event signal;
             time time;
 
-            context(signal_event &&);
+            signal_context(signal_event &&);
 
             void reset();
         };
 
-        using context_sptr = std::shared_ptr<context>;
+        using signal_context_sptr = std::shared_ptr<signal_context>;
 
         template <typename T>
-        context_sptr make_context();
+        signal_context_sptr make_signal_context();
 
         template <typename In, typename Out>
         processing::module make_signal_module() {
-            auto context = make_context<In>();
+            auto context = make_signal_context<In>();
 
             auto prepare_processor = [context](time::range const &, connector_map_t const &, connector_map_t const &,
                                                stream &) mutable { context->reset(); };
@@ -64,6 +69,52 @@ namespace processing {
 
             return processing::module{
                 {std::move(prepare_processor), std::move(receive_processor), std::move(send_processor)}};
+        }
+
+        template <typename T>
+        struct number_context {
+            std::multimap<frame_index_t, T> numbers;
+
+            void reset();
+        };
+
+        template <typename T>
+        using number_context_sptr = std::shared_ptr<number_context<T>>;
+
+        template <typename T>
+        number_context_sptr<T> make_number_context();
+
+        template <typename In, typename Out>
+        processing::module make_number_module() {
+            auto context = make_number_context<In>();
+
+            auto prepare_processor = [context](time::range const &, connector_map_t const &, connector_map_t const &,
+                                               stream &) mutable { context->reset(); };
+
+            auto receive_processor = processing::make_receive_number_processor<In>(
+                [context](processing::time::frame::type const &frame, channel_index_t const ch_idx,
+                          std::string const &key, In const &value) {
+                    if (key == in_connector_key) {
+                        context->numbers.emplace(frame, value);
+                    }
+                });
+
+            auto remove_processor = processing::make_remove_number_processor<In>();
+
+            auto send_processor = [context](time::range const &current_time_range, connector_map_t const &,
+                                            connector_map_t const &output_connectors, stream &stream) {
+                if (output_connectors.count(out_connector_key) > 0) {
+                    auto const &connector = output_connectors.at(out_connector_key);
+                    auto const &ch_idx = connector.channel_index;
+                    auto &channel = stream.has_channel(ch_idx) ? stream.channel(ch_idx) : stream.add_channel(ch_idx);
+                    for (auto const &pair : context->numbers) {
+                        channel.insert_event(make_frame_time(pair.first), number_event{static_cast<Out>(pair.second)});
+                    }
+                }
+            };
+
+            return processing::module{{std::move(prepare_processor), std::move(receive_processor),
+                                       std::move(remove_processor), std::move(send_processor)}};
         }
     }
 }

@@ -15,19 +15,7 @@ void processing::channel::erase_event_if(P predicate) {
 
 template <typename T, typename Event>
 std::multimap<typename Event::time_type::type, Event> processing::channel::filtered_events() const {
-    std::multimap<typename Event::time_type::type, Event> filtered;
-
-    for (auto const &pair : events()) {
-        if (pair.first.type() == typeid(typename Event::time_type)) {
-            if (auto const casted_event = cast<Event>(pair.second)) {
-                if (casted_event.sample_type() == typeid(T)) {
-                    filtered.insert(filtered.end(), {pair.first.get<typename Event::time_type>(), casted_event});
-                }
-            }
-        }
-    }
-
-    return filtered;
+    return filtered_events<T, Event>([](auto const &) { return true; });
 }
 
 template <typename T, typename Event, typename P>
@@ -36,7 +24,7 @@ std::multimap<typename Event::time_type::type, Event> processing::channel::filte
 
     for (auto const &pair : events()) {
         if (pair.first.type() == typeid(typename Event::time_type)) {
-            if (auto const casted_event = cast<Event>(pair.second)) {
+            if (auto const casted_event = yas::cast<Event>(pair.second)) {
                 if (casted_event.sample_type() == typeid(T) && predicate(pair)) {
                     filtered.insert(filtered.end(), {pair.first.get<typename Event::time_type>(), casted_event});
                 }

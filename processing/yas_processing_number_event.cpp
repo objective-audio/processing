@@ -21,6 +21,14 @@ namespace processing {
             return sizeof(T);
         }
 
+        virtual bool is_equal(std::shared_ptr<base::impl> const &rhs) const override {
+            if (auto casted_rhs = std::dynamic_pointer_cast<type_impl<T>>(rhs)) {
+                return _value == casted_rhs->_value;
+            }
+
+            return false;
+        }
+
         T _value;
     };
 }
