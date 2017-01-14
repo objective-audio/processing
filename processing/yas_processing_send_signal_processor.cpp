@@ -28,13 +28,10 @@ processing::processor_f processing::make_send_signal_processor(processing::send_
                     processing::time::range combined_time_range = current_time_range;
 
                     auto predicate = [&current_time_range](auto const &pair) {
-                        time const &time = pair.first;
-                        auto const &time_range = time.get<time::range>();
-                        if (time_range.can_combine(current_time_range)) {
+                        if (pair.first.can_combine(current_time_range)) {
                             return true;
                         }
                         return false;
-
                     };
 
                     auto const filtered_events = channel.filtered_events<T, signal_event>(predicate);
@@ -54,7 +51,7 @@ processing::processor_f processing::make_send_signal_processor(processing::send_
                             signal.copy_to<T>(dst_ptr, length);
                         }
 
-                        channel.erase_event_if<T, signal_event>(std::move(predicate));
+                        channel.erase_event<T, signal_event>(std::move(predicate));
 
                         handler(current_time_range, ch_idx, connector_key,
                                 &vec[current_time_range.frame - combined_time_range.frame]);
