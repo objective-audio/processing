@@ -35,7 +35,7 @@ namespace processing {
         template <typename T, typename Event>
         void erase_event();
         template <typename T, typename Event, typename P>
-        void erase_event_if(P predicate);
+        void erase_event(P predicate);
     };
 }
 }
