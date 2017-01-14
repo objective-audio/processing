@@ -80,8 +80,7 @@ using namespace yas::processing;
     XCTAssertTrue(stream.has_channel(2));
 
     auto const &channel = stream.channel(2);
-#warning todo int8_tのは消えてひとつになるべき？
-    XCTAssertEqual(channel.events().size(), 2);
+    XCTAssertEqual(channel.events().size(), 1);
 
     auto const filtered_events = channel.filtered_events<double, processing::signal_event>();
     XCTAssertEqual(filtered_events.size(), 1);
