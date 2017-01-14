@@ -13,8 +13,7 @@ using namespace yas;
 
 template <typename T>
 processing::processor_f processing::make_send_signal_processor(processing::send_signal_process_f<T> handler) {
-    return [handler = std::move(handler)](time::range const &current_time_range,
-                                          connector_map_t const &input_connectors,
+    return [handler = std::move(handler)](time::range const &current_time_range, connector_map_t const &,
                                           connector_map_t const &output_connectors, stream &stream) {
         if (handler) {
             for (auto const &connector_pair : output_connectors) {
@@ -47,7 +46,7 @@ processing::processor_f processing::make_send_signal_processor(processing::send_
                             auto const length = time_range.length;
                             auto const dst_idx = time_range.frame - combined_time_range.frame;
                             auto *dst_ptr = &vec[dst_idx];
-                            signal_event const signal = cast<processing::signal_event>(pair.second);
+                            signal_event const signal = pair.second;
                             signal.copy_to<T>(dst_ptr, length);
                         }
 
