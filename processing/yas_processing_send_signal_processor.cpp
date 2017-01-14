@@ -54,7 +54,7 @@ processing::processor_f processing::make_send_signal_processor(processing::send_
                             signal.copy_to<T>(dst_ptr, length);
                         }
 
-                        channel.erase_event_if(std::move(predicate));
+                        channel.erase_event_if<T, signal_event>(std::move(predicate));
 
                         handler(current_time_range, ch_idx, connector_key,
                                 &vec[current_time_range.frame - combined_time_range.frame]);
