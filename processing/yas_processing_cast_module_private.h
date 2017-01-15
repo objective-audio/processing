@@ -48,7 +48,7 @@ namespace processing {
                     }
                 });
 
-            auto remove_processor = processing::make_remove_signal_processor<In>();
+            auto remove_processor = processing::make_remove_signal_processor<In>({in_connector_key});
 
             auto send_processor = processing::make_send_signal_processor<Out>(
                 [context](processing::time::range const &time_range, channel_index_t const, std::string const &key,
@@ -102,7 +102,7 @@ namespace processing {
                     }
                 });
 
-            auto remove_processor = processing::make_remove_number_processor<In>();
+            auto remove_processor = processing::make_remove_number_processor<In>({in_connector_key});
 
             auto send_processor = [context](time::range const &current_time_range, connector_map_t const &,
                                             connector_map_t const &output_connectors, stream &stream) {
