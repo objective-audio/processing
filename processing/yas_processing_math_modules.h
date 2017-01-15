@@ -4,14 +4,21 @@
 
 #pragma once
 
+#include "yas_processing_types.h"
+
 namespace yas {
 namespace processing {
     class module;
 
     namespace math {
-        static auto constexpr out_connector_key = "out";
-        static auto constexpr left_in_connector_key = "left_in";
-        static auto constexpr right_in_connector_key = "right_in";
+        enum class output_key : connector_index_t {
+            out,
+        };
+
+        enum class input_key : connector_index_t {
+            left_in,
+            right_in,
+        };
 
         template <typename T>
         module make_plus_signal_module();

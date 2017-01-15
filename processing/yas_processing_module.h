@@ -26,10 +26,10 @@ namespace processing {
 
         connector_map_t const &input_connectors() const;
         connector_map_t const &output_connectors() const;
-        void connect_input(std::string const &key, channel_index_t const ch);
-        void connect_output(std::string const &key, channel_index_t const ch);
-        void disconnect_input(std::string const &key);
-        void disconnect_output(std::string const &key);
+        void connect_input(connector_index_t const, channel_index_t const);
+        void connect_output(connector_index_t const, channel_index_t const);
+        void disconnect_input(connector_index_t const);
+        void disconnect_output(connector_index_t const);
 
         processors_t const &processors() const;
     };

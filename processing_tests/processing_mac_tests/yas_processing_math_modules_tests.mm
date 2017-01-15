@@ -6,6 +6,7 @@
 #import "yas_processing.h"
 
 using namespace yas;
+using namespace yas::processing;
 
 @interface yas_processing_math_modules_tests : XCTestCase
 
@@ -22,30 +23,30 @@ using namespace yas;
 }
 
 - (void)test_create_signal_modules {
-    auto plus_module = processing::math::make_plus_signal_module<int16_t>();
+    auto plus_module = math::make_plus_signal_module<int16_t>();
     XCTAssertTrue(plus_module);
 
-    auto minus_module = processing::math::make_minus_signal_module<int16_t>();
+    auto minus_module = math::make_minus_signal_module<int16_t>();
     XCTAssertTrue(minus_module);
 
-    auto multiply_module = processing::math::make_multiply_signal_module<int16_t>();
+    auto multiply_module = math::make_multiply_signal_module<int16_t>();
     XCTAssertTrue(multiply_module);
 
-    auto divide_module = processing::math::make_divide_signal_module<int16_t>();
+    auto divide_module = math::make_divide_signal_module<int16_t>();
     XCTAssertTrue(divide_module);
 }
 
 - (void)test_plus_process {
     auto left_in_module = processing::constant::make_signal_module<int16_t>(1);
     auto right_in_module = processing::constant::make_signal_module<int16_t>(10);
-    auto plus_module = processing::math::make_plus_signal_module<int16_t>();
+    auto plus_module = math::make_plus_signal_module<int16_t>();
     processing::stream stream;
 
-    left_in_module.connect_output(processing::constant::out_connector_key, 0);
-    right_in_module.connect_output(processing::constant::out_connector_key, 1);
-    plus_module.connect_input(processing::math::left_in_connector_key, 0);
-    plus_module.connect_input(processing::math::right_in_connector_key, 1);
-    plus_module.connect_output(processing::constant::out_connector_key, 2);
+    left_in_module.connect_output(to_connector_index(constant::output_key::out), 0);
+    right_in_module.connect_output(to_connector_index(constant::output_key::out), 1);
+    plus_module.connect_input(to_connector_index(math::input_key::left_in), 0);
+    plus_module.connect_input(to_connector_index(math::input_key::right_in), 1);
+    plus_module.connect_output(to_connector_index(constant::output_key::out), 2);
 
     left_in_module.process({1, 2}, stream);
     right_in_module.process({2, 2}, stream);
@@ -71,28 +72,28 @@ using namespace yas;
 - (void)test_minus_process {
     auto left_in_module = processing::constant::make_signal_module<int16_t>(100);
     auto right_in_module = processing::constant::make_signal_module<int16_t>(10);
-    auto plus_module = processing::math::make_minus_signal_module<int16_t>();
+    auto plus_module = math::make_minus_signal_module<int16_t>();
     processing::stream stream;
-    
-    left_in_module.connect_output(processing::constant::out_connector_key, 0);
-    right_in_module.connect_output(processing::constant::out_connector_key, 1);
-    plus_module.connect_input(processing::math::left_in_connector_key, 0);
-    plus_module.connect_input(processing::math::right_in_connector_key, 1);
-    plus_module.connect_output(processing::constant::out_connector_key, 2);
-    
+
+    left_in_module.connect_output(to_connector_index(constant::output_key::out), 0);
+    right_in_module.connect_output(to_connector_index(constant::output_key::out), 1);
+    plus_module.connect_input(to_connector_index(math::input_key::left_in), 0);
+    plus_module.connect_input(to_connector_index(math::input_key::right_in), 1);
+    plus_module.connect_output(to_connector_index(constant::output_key::out), 2);
+
     left_in_module.process({1, 2}, stream);
     right_in_module.process({2, 2}, stream);
     plus_module.process({0, 5}, stream);
-    
+
     XCTAssertTrue(stream.has_channel(2));
-    
+
     auto const &events = stream.channel(2).events();
-    
+
     XCTAssertEqual(events.size(), 1);
-    
+
     auto const &signal = cast<processing::signal_event>((*events.begin()).second);
     auto const &vec = signal.vector<int16_t>();
-    
+
     XCTAssertEqual(vec.size(), 5);
     XCTAssertEqual(vec[0], 0);
     XCTAssertEqual(vec[1], 100);
@@ -104,28 +105,28 @@ using namespace yas;
 - (void)test_multiply_process {
     auto left_in_module = processing::constant::make_signal_module<int16_t>(2);
     auto right_in_module = processing::constant::make_signal_module<int16_t>(4);
-    auto plus_module = processing::math::make_multiply_signal_module<int16_t>();
+    auto plus_module = math::make_multiply_signal_module<int16_t>();
     processing::stream stream;
-    
-    left_in_module.connect_output(processing::constant::out_connector_key, 0);
-    right_in_module.connect_output(processing::constant::out_connector_key, 1);
-    plus_module.connect_input(processing::math::left_in_connector_key, 0);
-    plus_module.connect_input(processing::math::right_in_connector_key, 1);
-    plus_module.connect_output(processing::constant::out_connector_key, 2);
-    
+
+    left_in_module.connect_output(to_connector_index(constant::output_key::out), 0);
+    right_in_module.connect_output(to_connector_index(constant::output_key::out), 1);
+    plus_module.connect_input(to_connector_index(math::input_key::left_in), 0);
+    plus_module.connect_input(to_connector_index(math::input_key::right_in), 1);
+    plus_module.connect_output(to_connector_index(constant::output_key::out), 2);
+
     left_in_module.process({1, 2}, stream);
     right_in_module.process({2, 2}, stream);
     plus_module.process({0, 5}, stream);
-    
+
     XCTAssertTrue(stream.has_channel(2));
-    
+
     auto const &events = stream.channel(2).events();
-    
+
     XCTAssertEqual(events.size(), 1);
-    
+
     auto const &signal = cast<processing::signal_event>((*events.begin()).second);
     auto const &vec = signal.vector<int16_t>();
-    
+
     XCTAssertEqual(vec.size(), 5);
     XCTAssertEqual(vec[0], 0);
     XCTAssertEqual(vec[1], 0);
@@ -137,28 +138,28 @@ using namespace yas;
 - (void)test_divide_process {
     auto left_in_module = processing::constant::make_signal_module<int16_t>(4);
     auto right_in_module = processing::constant::make_signal_module<int16_t>(2);
-    auto plus_module = processing::math::make_divide_signal_module<int16_t>();
+    auto plus_module = math::make_divide_signal_module<int16_t>();
     processing::stream stream;
-    
-    left_in_module.connect_output(processing::constant::out_connector_key, 0);
-    right_in_module.connect_output(processing::constant::out_connector_key, 1);
-    plus_module.connect_input(processing::math::left_in_connector_key, 0);
-    plus_module.connect_input(processing::math::right_in_connector_key, 1);
-    plus_module.connect_output(processing::constant::out_connector_key, 2);
-    
+
+    left_in_module.connect_output(to_connector_index(constant::output_key::out), 0);
+    right_in_module.connect_output(to_connector_index(constant::output_key::out), 1);
+    plus_module.connect_input(to_connector_index(math::input_key::left_in), 0);
+    plus_module.connect_input(to_connector_index(math::input_key::right_in), 1);
+    plus_module.connect_output(to_connector_index(constant::output_key::out), 2);
+
     left_in_module.process({1, 2}, stream);
     right_in_module.process({2, 2}, stream);
     plus_module.process({0, 5}, stream);
-    
+
     XCTAssertTrue(stream.has_channel(2));
-    
+
     auto const &events = stream.channel(2).events();
-    
+
     XCTAssertEqual(events.size(), 1);
-    
+
     auto const &signal = cast<processing::signal_event>((*events.begin()).second);
     auto const &vec = signal.vector<int16_t>();
-    
+
     XCTAssertEqual(vec.size(), 5);
     XCTAssertEqual(vec[0], 0);
     XCTAssertEqual(vec[1], 0);

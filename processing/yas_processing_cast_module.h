@@ -4,13 +4,20 @@
 
 #pragma once
 
+#include "yas_processing_types.h"
+
 namespace yas {
 namespace processing {
     class module;
 
     namespace cast {
-        static auto constexpr out_connector_key = "out";
-        static auto constexpr in_connector_key = "in";
+        enum class output_key : connector_index_t {
+            out,
+        };
+
+        enum class input_key : connector_index_t {
+            in,
+        };
 
         template <typename In, typename Out>
         module make_signal_module();

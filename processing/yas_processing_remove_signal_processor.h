@@ -10,6 +10,6 @@
 namespace yas {
 namespace processing {
     template <typename T>
-    processor_f make_remove_signal_processor(std::unordered_set<std::string>);
+    processor_f make_remove_signal_processor(connector_index_set_t);
 }
 }

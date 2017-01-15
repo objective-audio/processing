@@ -6,6 +6,7 @@
 #import "yas_processing.h"
 
 using namespace yas;
+using namespace yas::processing;
 
 @interface yas_processing_constant_signal_module_tests : XCTestCase
 
@@ -23,7 +24,7 @@ using namespace yas;
 
 - (void)test_make_module {
     double const value = 1.0;
-    auto module = processing::constant::make_signal_module(value);
+    auto module = constant::make_signal_module(value);
 
     XCTAssertTrue(module);
 }
@@ -31,8 +32,8 @@ using namespace yas;
 - (void)test_process {
     int64_t const value = 5;
 
-    auto module = processing::constant::make_signal_module(value);
-    module.connect_output(processing::constant::out_connector_key, 0);
+    auto module = constant::make_signal_module(value);
+    module.connect_output(to_connector_index(constant::output_key::out), 0);
 
     processing::stream stream;
 

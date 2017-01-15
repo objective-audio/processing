@@ -40,20 +40,20 @@ namespace processing {
                                                stream &) mutable { context->reset(); };
 
             auto receive_processor = processing::make_receive_signal_processor<In>(
-                [context](processing::time::range const &time_range, channel_index_t const, std::string const &key,
-                          In const *const signal_ptr) mutable {
-                    if (key == in_connector_key) {
+                [context](processing::time::range const &time_range, channel_index_t const,
+                          connector_index_t const con_idx, In const *const signal_ptr) mutable {
+                    if (con_idx == to_connector_index(input_key::in)) {
                         context->time = time_range;
                         context->signal.copy_from(signal_ptr, time_range.length);
                     }
                 });
 
-            auto remove_processor = processing::make_remove_signal_processor<In>({in_connector_key});
+            auto remove_processor = processing::make_remove_signal_processor<In>({to_connector_index(input_key::in)});
 
             auto send_processor = processing::make_send_signal_processor<Out>(
-                [context](processing::time::range const &time_range, channel_index_t const, std::string const &key,
-                          Out *const signal_ptr) {
-                    if (key == out_connector_key) {
+                [context](processing::time::range const &time_range, channel_index_t const,
+                          connector_index_t const con_idx, Out *const signal_ptr) {
+                    if (con_idx == to_connector_index(output_key::out)) {
                         auto out_each = make_fast_each(signal_ptr, time_range.length);
                         processing::signal_event const &signal = context->signal;
                         auto const *src_ptr = signal.data<In>();
@@ -96,18 +96,19 @@ namespace processing {
 
             auto receive_processor = processing::make_receive_number_processor<In>(
                 [context](processing::time::frame::type const &frame, channel_index_t const ch_idx,
-                          std::string const &key, In const &value) {
-                    if (key == in_connector_key) {
+                          connector_index_t const con_idx, In const &value) {
+                    if (con_idx == to_connector_index(input_key::in)) {
                         context->numbers.emplace(frame, value);
                     }
                 });
 
-            auto remove_processor = processing::make_remove_number_processor<In>({in_connector_key});
+            auto remove_processor = processing::make_remove_number_processor<In>({to_connector_index(input_key::in)});
 
             auto send_processor = [context](time::range const &current_time_range, connector_map_t const &,
                                             connector_map_t const &output_connectors, stream &stream) {
-                if (output_connectors.count(out_connector_key) > 0) {
-                    auto const &connector = output_connectors.at(out_connector_key);
+                auto const out_connector_index = to_connector_index(output_key::out);
+                if (output_connectors.count(out_connector_index) > 0) {
+                    auto const &connector = output_connectors.at(out_connector_index);
                     auto const &ch_idx = connector.channel_index;
                     auto &channel = stream.has_channel(ch_idx) ? stream.channel(ch_idx) : stream.add_channel(ch_idx);
                     for (auto const &pair : context->numbers) {

@@ -52,49 +52,59 @@ using namespace yas::processing;
 }
 
 - (void)test_connect_input {
+    connector_index_t const con_idx = 10;
+
     processing::module module{processing::module::processors_t{}};
 
-    module.connect_input("a", 1);
+    module.connect_input(con_idx, 1);
 
     XCTAssertEqual(module.input_connectors().size(), 1);
-    XCTAssertEqual(module.input_connectors().count("a"), 1);
-    XCTAssertEqual(module.input_connectors().at("a").channel_index, 1);
+    XCTAssertEqual(module.input_connectors().count(con_idx), 1);
+    XCTAssertEqual(module.input_connectors().at(con_idx).channel_index, 1);
 }
 
 - (void)test_connect_output {
+    connector_index_t const con_idx = 20;
+
     processing::module module{processing::module::processors_t{}};
 
-    module.connect_output("b", 2);
+    module.connect_output(con_idx, 2);
 
     XCTAssertEqual(module.output_connectors().size(), 1);
-    XCTAssertEqual(module.output_connectors().count("b"), 1);
-    XCTAssertEqual(module.output_connectors().at("b").channel_index, 2);
+    XCTAssertEqual(module.output_connectors().count(con_idx), 1);
+    XCTAssertEqual(module.output_connectors().at(con_idx).channel_index, 2);
 }
 
 - (void)test_disconnect_input {
+    connector_index_t const con_idx_a = 30;
+    connector_index_t const con_idx_b = 31;
+
     processing::module module{processing::module::processors_t{}};
 
-    module.connect_input("c", 3);
+    module.connect_input(con_idx_a, 3);
 
-    module.disconnect_input("c1");
+    module.disconnect_input(con_idx_b);
 
     XCTAssertEqual(module.input_connectors().size(), 1);
 
-    module.disconnect_input("c");
+    module.disconnect_input(con_idx_a);
 
     XCTAssertEqual(module.input_connectors().size(), 0);
 }
 
 - (void)test_disconnect_output {
+    connector_index_t const con_idx_a = 40;
+    connector_index_t const con_idx_b = 41;
+
     processing::module module{processing::module::processors_t{}};
 
-    module.connect_output("d", 3);
+    module.connect_output(con_idx_a, 3);
 
-    module.disconnect_output("d1");
+    module.disconnect_output(con_idx_b);
 
     XCTAssertEqual(module.output_connectors().size(), 1);
 
-    module.disconnect_output("d");
+    module.disconnect_output(con_idx_a);
 
     XCTAssertEqual(module.output_connectors().size(), 0);
 }

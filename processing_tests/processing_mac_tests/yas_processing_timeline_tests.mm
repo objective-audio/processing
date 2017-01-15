@@ -84,8 +84,8 @@ using namespace yas::processing;
     timeline.insert_track(1, track1);
 
     auto send_handler1 = [](processing::time::range const &time_range, channel_index_t const ch_idx,
-                            std::string const &key, int16_t *const signal_ptr) {
-        if (key == "out") {
+                            connector_index_t const con_idx, int16_t *const signal_ptr) {
+        if (con_idx == 0) {
             for (auto const &idx : make_each(time_range.length)) {
                 signal_ptr[idx] = idx;
             }
@@ -94,7 +94,7 @@ using namespace yas::processing;
 
     auto processor1 = make_send_signal_processor<int16_t>({std::move(send_handler1)});
     auto module1 = module{{std::move(processor1)}};
-    module1.connect_output("out", 0);
+    module1.connect_output(0, 0);
 
     track1.insert_module({0, 2}, module1);
 
@@ -103,12 +103,12 @@ using namespace yas::processing;
     track track2;
     timeline.insert_track(2, track2);
 
-    auto send_handler2 = [&process_signal, &called_send_time](processing::time::range const &time_range,
-                                                              channel_index_t const ch_idx, std::string const &key,
-                                                              int16_t *const signal_ptr) {
+    auto send_handler2 = [&process_signal, &called_send_time](
+        processing::time::range const &time_range, channel_index_t const ch_idx, connector_index_t const con_idx,
+        int16_t *const signal_ptr) {
         called_send_time = processing::time{time_range};
 
-        if (key == "out") {
+        if (con_idx == 0) {
             auto &vec = process_signal.vector<int16_t>();
             for (auto const &idx : make_each(time_range.length)) {
                 signal_ptr[idx] = vec[idx];
@@ -117,11 +117,11 @@ using namespace yas::processing;
     };
 
     auto receive_handler2 = [&process_signal, &called_receive_time](
-        processing::time::range const &time_range, channel_index_t const ch_idx, std::string const &key,
+        processing::time::range const &time_range, channel_index_t const ch_idx, connector_index_t const con_idx,
         int16_t const *const signal_ptr) {
         called_receive_time = processing::time{time_range};
 
-        if (key == "in") {
+        if (con_idx == 0) {
             auto &vec = process_signal.vector<int16_t>();
             for (auto const &idx : make_each(time_range.length)) {
                 vec[idx] = signal_ptr[idx] + 1;
@@ -133,8 +133,8 @@ using namespace yas::processing;
     auto send_processor2 = make_send_signal_processor<int16_t>({std::move(send_handler2)});
     auto module2 = module{{std::move(receive_processor2), std::move(send_processor2)}};
 
-    module2.connect_input("in", 0);
-    module2.connect_output("out", 0);
+    module2.connect_input(0, 0);
+    module2.connect_output(0, 0);
 
     track2.insert_module({0, 2}, module2);
 
