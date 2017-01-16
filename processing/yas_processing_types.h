@@ -5,6 +5,7 @@
 #pragma once
 
 #include <cstdint>
+#include <unordered_set>
 
 namespace yas {
 namespace processing {
@@ -14,5 +15,8 @@ namespace processing {
     using track_index_t = int64_t;
     using frame_index_t = int64_t;
     using length_t = uint32_t;
+
+    using connector_index_t = uint32_t;
+    using connector_index_set_t = std::unordered_set<connector_index_t>;
 }
 }

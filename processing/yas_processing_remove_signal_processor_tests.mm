@@ -28,8 +28,8 @@ using namespace yas::processing;
     auto &channel = stream.add_channel(0);
     channel.insert_event(make_range_time(0, 1), make_signal_event<int16_t>(1));
 
-    module module{{make_remove_signal_processor<int16_t>({"in"})}};
-    module.connect_input("in", 0);
+    module module{{make_remove_signal_processor<int16_t>({0})}};
+    module.connect_input(0, 0);
 
     module.process({0, 1}, stream);
 
@@ -46,8 +46,8 @@ using namespace yas::processing;
     signal.data<int16_t>()[2] = 102;
     channel.insert_event(make_range_time(0, 3), signal);
 
-    module module{{make_remove_signal_processor<int16_t>({"in"})}};
-    module.connect_input("in", 0);
+    module module{{make_remove_signal_processor<int16_t>({0})}};
+    module.connect_input(0, 0);
 
     module.process({1, 1}, stream);
 
@@ -72,8 +72,8 @@ using namespace yas::processing;
     channel.insert_event(make_range_time(0, 1), make_signal_event<int16_t>(1));
     channel.insert_event(make_range_time(0, 1), make_signal_event<int32_t>(1));
 
-    module module{{make_remove_signal_processor<int16_t>({"in"})}};
-    module.connect_input("in", 0);
+    module module{{make_remove_signal_processor<int16_t>({0})}};
+    module.connect_input(0, 0);
 
     module.process({0, 1}, stream);
 
@@ -99,10 +99,10 @@ using namespace yas::processing;
         channel2.insert_event(make_range_time(0, 1), make_signal_event<int16_t>(1));
     }
 
-    module module{{make_remove_signal_processor<int16_t>({"in_a", "in_c"})}};
-    module.connect_input("in_a", 0);
-    module.connect_input("in_b", 1);
-    module.connect_input("in_c", 2);
+    module module{{make_remove_signal_processor<int16_t>({0, 2})}};
+    module.connect_input(0, 0);
+    module.connect_input(1, 1);
+    module.connect_input(2, 2);
 
     module.process({0, 1}, stream);
 

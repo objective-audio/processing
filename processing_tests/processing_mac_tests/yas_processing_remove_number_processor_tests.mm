@@ -33,9 +33,9 @@ using namespace yas::processing;
     auto &channel1 = stream.add_channel(1);
     channel1.insert_event(make_frame_time(0), processing::number_event{int8_t(0)});
 
-    module module{{make_remove_number_processor<int8_t>({"in"})}};
+    module module{{make_remove_number_processor<int8_t>({0})}};
 
-    module.connect_input("in", 0);
+    module.connect_input(0, 0);
 
     module.process({0, 1}, stream);
 
@@ -43,7 +43,7 @@ using namespace yas::processing;
     XCTAssertEqual(channel1.events().size(), 1);
 }
 
-- (void)test_key {
+- (void)test_connector_index {
     stream stream;
 
     {
@@ -57,10 +57,10 @@ using namespace yas::processing;
         channel2.insert_event(make_frame_time(0), make_number_event<int8_t>(2));
     }
 
-    module module{{make_remove_number_processor<int8_t>({"in_a", "in_c"})}};
-    module.connect_input("in_a", 0);
-    module.connect_input("in_b", 1);
-    module.connect_input("in_c", 2);
+    module module{{make_remove_number_processor<int8_t>({0, 2})}};
+    module.connect_input(0, 0);
+    module.connect_input(1, 1);
+    module.connect_input(2, 2);
 
     module.process({0, 1}, stream);
 

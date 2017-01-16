@@ -9,16 +9,16 @@ using namespace yas;
 
 namespace yas {
 namespace processing {
-    static void connect(connector_map_t &connectors, std::string const &key, channel_index_t const ch_idx) {
-        if (connectors.count(key) == 0) {
-            connectors.erase(key);
+    static void connect(connector_map_t &connectors, connector_index_t const idx, channel_index_t const ch_idx) {
+        if (connectors.count(idx) == 0) {
+            connectors.erase(idx);
         }
-        connectors.emplace(key, connector{.channel_index = ch_idx});
+        connectors.emplace(idx, connector{.channel_index = ch_idx});
     }
 
-    static void disconnect(connector_map_t &connectors, std::string const &key) {
-        if (connectors.count(key) > 0) {
-            connectors.erase(key);
+    static void disconnect(connector_map_t &connectors, connector_index_t const idx) {
+        if (connectors.count(idx) > 0) {
+            connectors.erase(idx);
         }
     }
 }
@@ -42,20 +42,20 @@ processing::connector_map_t const &processing::module::output_connectors() const
     return impl_ptr<impl>()->output_connectors();
 }
 
-void processing::module::connect_input(std::string const &key, channel_index_t const ch) {
-    connect(impl_ptr<impl>()->input_connectors(), key, ch);
+void processing::module::connect_input(connector_index_t const con_idx, channel_index_t const ch_idx) {
+    connect(impl_ptr<impl>()->input_connectors(), con_idx, ch_idx);
 }
 
-void processing::module::connect_output(std::string const &key, channel_index_t const ch) {
-    connect(impl_ptr<impl>()->output_connectors(), key, ch);
+void processing::module::connect_output(connector_index_t const con_idx, channel_index_t const ch_idx) {
+    connect(impl_ptr<impl>()->output_connectors(), con_idx, ch_idx);
 }
 
-void processing::module::disconnect_input(std::string const &key) {
-    disconnect(impl_ptr<impl>()->input_connectors(), key);
+void processing::module::disconnect_input(connector_index_t const idx) {
+    disconnect(impl_ptr<impl>()->input_connectors(), idx);
 }
 
-void processing::module::disconnect_output(std::string const &key) {
-    disconnect(impl_ptr<impl>()->output_connectors(), key);
+void processing::module::disconnect_output(connector_index_t const idx) {
+    disconnect(impl_ptr<impl>()->output_connectors(), idx);
 }
 
 processing::module::processors_t const &processing::module::processors() const {

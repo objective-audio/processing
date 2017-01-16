@@ -15,6 +15,11 @@ namespace processing {
         channel_index_t channel_index;
     };
 
-    using connector_map_t = std::map<std::string, connector>;
+    using connector_map_t = std::map<connector_index_t, connector>;
+
+    template <typename T>
+    connector_index_t to_connector_index(T const &);
 }
 }
+
+#include "yas_processing_connector_private.h"
