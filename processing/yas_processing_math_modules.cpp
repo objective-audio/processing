@@ -65,7 +65,7 @@ namespace processing {
 }
 
 template <typename T>
-processing::module processing::math::make_plus_signal_module() {
+processing::module processing::math::make_signal_module(operator_type const op_type) {
     auto context = make_context<T>();
 
     auto prepare_processor = make_prepare_processor(context);
@@ -73,8 +73,8 @@ processing::module processing::math::make_plus_signal_module() {
     auto receive_processor = make_receive_signal_processor<T>(context);
 
     auto send_processor = processing::make_send_signal_processor<T>(
-        [context](processing::time::range const &time_range, channel_index_t const, connector_index_t const con_idx,
-                  T *const signal_ptr) {
+        [context, op_type](processing::time::range const &time_range, channel_index_t const,
+                           connector_index_t const con_idx, T *const signal_ptr) {
             if (con_idx == to_connector_index(output_key::out)) {
                 auto out_each = make_fast_each(signal_ptr, time_range.length);
                 processing::signal_event &left_signal = context->left_signal;
@@ -85,8 +85,8 @@ processing::module processing::math::make_plus_signal_module() {
                 processing::time const &right_time = context->right_time;
                 auto const left_offset = left_time ? time_range.frame - left_time.get<time::range>().frame : 0;
                 auto const right_offset = right_time ? time_range.frame - right_time.get<time::range>().frame : 0;
-                auto const &left_length = left_time ? left_time.get<time::range>().length : 0;
-                auto const &right_length = right_time ? right_time.get<time::range>().length : 0;
+                auto const &left_length = left_time ? left_time.get<time::range>().length : zero_length;
+                auto const &right_length = right_time ? right_time.get<time::range>().length : zero_length;
 
                 while (yas_fast_each_next(out_each)) {
                     auto const &idx = yas_fast_each_index(out_each);
@@ -94,7 +94,22 @@ processing::module processing::math::make_plus_signal_module() {
                     auto const right_idx = idx + right_offset;
                     auto const &left_value = (left_idx >= 0 && left_idx < left_length) ? left_ptr[left_idx] : 0;
                     auto const &right_value = (right_idx >= 0 && right_idx < right_length) ? right_ptr[right_idx] : 0;
-                    yas_fast_each_value(out_each) = left_value + right_value;
+
+                    switch (op_type) {
+                        case operator_type::plus:
+                            yas_fast_each_value(out_each) = left_value + right_value;
+                            break;
+                        case operator_type::minus:
+                            yas_fast_each_value(out_each) = left_value - right_value;
+                            break;
+                        case operator_type::multiply:
+                            yas_fast_each_value(out_each) = left_value * right_value;
+                            break;
+                        case operator_type::divide:
+                            yas_fast_each_value(out_each) =
+                                (left_value == 0 || right_value == 0) ? 0 : left_value / right_value;
+                            break;
+                    }
                 }
             }
         });
@@ -102,160 +117,13 @@ processing::module processing::math::make_plus_signal_module() {
     return processing::module{{std::move(prepare_processor), std::move(receive_processor), std::move(send_processor)}};
 }
 
-template processing::module processing::math::make_plus_signal_module<double>();
-template processing::module processing::math::make_plus_signal_module<float>();
-template processing::module processing::math::make_plus_signal_module<int64_t>();
-template processing::module processing::math::make_plus_signal_module<int32_t>();
-template processing::module processing::math::make_plus_signal_module<int16_t>();
-template processing::module processing::math::make_plus_signal_module<int8_t>();
-template processing::module processing::math::make_plus_signal_module<uint64_t>();
-template processing::module processing::math::make_plus_signal_module<uint32_t>();
-template processing::module processing::math::make_plus_signal_module<uint16_t>();
-template processing::module processing::math::make_plus_signal_module<uint8_t>();
-
-template <typename T>
-processing::module processing::math::make_minus_signal_module() {
-    auto context = make_context<T>();
-
-    auto prepare_processor = make_prepare_processor(context);
-
-    auto receive_processor = make_receive_signal_processor<T>(context);
-
-    auto send_processor = processing::make_send_signal_processor<T>(
-        [context](processing::time::range const &time_range, channel_index_t const, connector_index_t const key,
-                  T *const signal_ptr) {
-            if (key == to_connector_index(output_key::out)) {
-                auto out_each = make_fast_each(signal_ptr, time_range.length);
-                processing::signal_event &left_signal = context->left_signal;
-                processing::signal_event &right_signal = context->right_signal;
-                auto const *left_ptr = left_signal.data<T>();
-                auto const *right_ptr = right_signal.data<T>();
-                processing::time const &left_time = context->left_time;
-                processing::time const &right_time = context->right_time;
-                auto const left_offset = left_time ? time_range.frame - left_time.get<time::range>().frame : 0;
-                auto const right_offset = right_time ? time_range.frame - right_time.get<time::range>().frame : 0;
-                auto const &left_length = left_time ? left_time.get<time::range>().length : 0;
-                auto const &right_length = right_time ? right_time.get<time::range>().length : 0;
-
-                while (yas_fast_each_next(out_each)) {
-                    auto const &idx = yas_fast_each_index(out_each);
-                    auto const left_idx = idx + left_offset;
-                    auto const right_idx = idx + right_offset;
-                    auto const &left_value = (left_idx >= 0 && left_idx < left_length) ? left_ptr[left_idx] : 0;
-                    auto const &right_value = (right_idx >= 0 && right_idx < right_length) ? right_ptr[right_idx] : 0;
-                    yas_fast_each_value(out_each) = left_value - right_value;
-                }
-            }
-        });
-
-    return processing::module{{std::move(prepare_processor), std::move(receive_processor), std::move(send_processor)}};
-}
-
-template processing::module processing::math::make_minus_signal_module<double>();
-template processing::module processing::math::make_minus_signal_module<float>();
-template processing::module processing::math::make_minus_signal_module<int64_t>();
-template processing::module processing::math::make_minus_signal_module<int32_t>();
-template processing::module processing::math::make_minus_signal_module<int16_t>();
-template processing::module processing::math::make_minus_signal_module<int8_t>();
-template processing::module processing::math::make_minus_signal_module<uint64_t>();
-template processing::module processing::math::make_minus_signal_module<uint32_t>();
-template processing::module processing::math::make_minus_signal_module<uint16_t>();
-template processing::module processing::math::make_minus_signal_module<uint8_t>();
-
-template <typename T>
-processing::module processing::math::make_multiply_signal_module() {
-    auto context = make_context<T>();
-
-    auto prepare_processor = make_prepare_processor(context);
-
-    auto receive_processor = make_receive_signal_processor<T>(context);
-
-    auto send_processor = processing::make_send_signal_processor<T>(
-        [context](processing::time::range const &time_range, channel_index_t const, connector_index_t const con_idx,
-                  T *const signal_ptr) {
-            if (con_idx == to_connector_index(output_key::out)) {
-                auto out_each = make_fast_each(signal_ptr, time_range.length);
-                processing::signal_event &left_signal = context->left_signal;
-                processing::signal_event &right_signal = context->right_signal;
-                auto const *left_ptr = left_signal.data<T>();
-                auto const *right_ptr = right_signal.data<T>();
-                processing::time const &left_time = context->left_time;
-                processing::time const &right_time = context->right_time;
-                auto const left_offset = left_time ? time_range.frame - left_time.get<time::range>().frame : 0;
-                auto const right_offset = right_time ? time_range.frame - right_time.get<time::range>().frame : 0;
-                auto const &left_length = left_time ? left_time.get<time::range>().length : 0;
-                auto const &right_length = right_time ? right_time.get<time::range>().length : 0;
-
-                while (yas_fast_each_next(out_each)) {
-                    auto const &idx = yas_fast_each_index(out_each);
-                    auto const left_idx = idx + left_offset;
-                    auto const right_idx = idx + right_offset;
-                    auto const &left_value = (left_idx >= 0 && left_idx < left_length) ? left_ptr[left_idx] : 0;
-                    auto const &right_value = (right_idx >= 0 && right_idx < right_length) ? right_ptr[right_idx] : 0;
-                    yas_fast_each_value(out_each) = left_value * right_value;
-                }
-            }
-        });
-
-    return processing::module{{std::move(prepare_processor), std::move(receive_processor), std::move(send_processor)}};
-}
-
-template processing::module processing::math::make_multiply_signal_module<double>();
-template processing::module processing::math::make_multiply_signal_module<float>();
-template processing::module processing::math::make_multiply_signal_module<int64_t>();
-template processing::module processing::math::make_multiply_signal_module<int32_t>();
-template processing::module processing::math::make_multiply_signal_module<int16_t>();
-template processing::module processing::math::make_multiply_signal_module<int8_t>();
-template processing::module processing::math::make_multiply_signal_module<uint64_t>();
-template processing::module processing::math::make_multiply_signal_module<uint32_t>();
-template processing::module processing::math::make_multiply_signal_module<uint16_t>();
-template processing::module processing::math::make_multiply_signal_module<uint8_t>();
-
-template <typename T>
-processing::module processing::math::make_divide_signal_module() {
-    auto context = make_context<T>();
-
-    auto prepare_processor = make_prepare_processor(context);
-
-    auto receive_processor = make_receive_signal_processor<T>(context);
-
-    auto send_processor = processing::make_send_signal_processor<T>([context](
-        processing::time::range const &time_range, channel_index_t const, connector_index_t const con_idx,
-        T *const signal_ptr) {
-        if (con_idx == to_connector_index(output_key::out)) {
-            auto out_each = make_fast_each(signal_ptr, time_range.length);
-            processing::signal_event &left_signal = context->left_signal;
-            processing::signal_event &right_signal = context->right_signal;
-            auto const *left_ptr = left_signal.data<T>();
-            auto const *right_ptr = right_signal.data<T>();
-            processing::time const &left_time = context->left_time;
-            processing::time const &right_time = context->right_time;
-            auto const left_offset = left_time ? time_range.frame - left_time.get<time::range>().frame : 0;
-            auto const right_offset = right_time ? time_range.frame - right_time.get<time::range>().frame : 0;
-            auto const &left_length = left_time ? left_time.get<time::range>().length : 0;
-            auto const &right_length = right_time ? right_time.get<time::range>().length : 0;
-
-            while (yas_fast_each_next(out_each)) {
-                auto const &idx = yas_fast_each_index(out_each);
-                auto const left_idx = idx + left_offset;
-                auto const right_idx = idx + right_offset;
-                auto const &left_value = (left_idx >= 0 && left_idx < left_length) ? left_ptr[left_idx] : 0;
-                auto const &right_value = (right_idx >= 0 && right_idx < right_length) ? right_ptr[right_idx] : 0;
-                yas_fast_each_value(out_each) = (left_value == 0 || right_value == 0) ? 0 : left_value / right_value;
-            }
-        }
-    });
-
-    return processing::module{{std::move(prepare_processor), std::move(receive_processor), std::move(send_processor)}};
-}
-
-template processing::module processing::math::make_divide_signal_module<double>();
-template processing::module processing::math::make_divide_signal_module<float>();
-template processing::module processing::math::make_divide_signal_module<int64_t>();
-template processing::module processing::math::make_divide_signal_module<int32_t>();
-template processing::module processing::math::make_divide_signal_module<int16_t>();
-template processing::module processing::math::make_divide_signal_module<int8_t>();
-template processing::module processing::math::make_divide_signal_module<uint64_t>();
-template processing::module processing::math::make_divide_signal_module<uint32_t>();
-template processing::module processing::math::make_divide_signal_module<uint16_t>();
-template processing::module processing::math::make_divide_signal_module<uint8_t>();
+template processing::module processing::math::make_signal_module<double>(operator_type const);
+template processing::module processing::math::make_signal_module<float>(operator_type const);
+template processing::module processing::math::make_signal_module<int64_t>(operator_type const);
+template processing::module processing::math::make_signal_module<int32_t>(operator_type const);
+template processing::module processing::math::make_signal_module<int16_t>(operator_type const);
+template processing::module processing::math::make_signal_module<int8_t>(operator_type const);
+template processing::module processing::math::make_signal_module<uint64_t>(operator_type const);
+template processing::module processing::math::make_signal_module<uint32_t>(operator_type const);
+template processing::module processing::math::make_signal_module<uint16_t>(operator_type const);
+template processing::module processing::math::make_signal_module<uint8_t>(operator_type const);

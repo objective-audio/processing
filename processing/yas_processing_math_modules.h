@@ -11,6 +11,13 @@ namespace processing {
     class module;
 
     namespace math {
+        enum class operator_type {
+            plus,
+            minus,
+            multiply,
+            divide,
+        };
+        
         enum class output_key : connector_index_t {
             out,
         };
@@ -19,15 +26,9 @@ namespace processing {
             left_in,
             right_in,
         };
-
+        
         template <typename T>
-        module make_plus_signal_module();
-        template <typename T>
-        module make_minus_signal_module();
-        template <typename T>
-        module make_multiply_signal_module();
-        template <typename T>
-        module make_divide_signal_module();
+        module make_signal_module(operator_type const);
     }
 }
 }
