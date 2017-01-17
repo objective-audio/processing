@@ -85,8 +85,8 @@ processing::module processing::math::make_plus_signal_module() {
                 processing::time const &right_time = context->right_time;
                 auto const left_offset = left_time ? time_range.frame - left_time.get<time::range>().frame : 0;
                 auto const right_offset = right_time ? time_range.frame - right_time.get<time::range>().frame : 0;
-                auto const &left_length = left_time ? left_time.get<time::range>().length : 0;
-                auto const &right_length = right_time ? right_time.get<time::range>().length : 0;
+                auto const &left_length = left_time ? left_time.get<time::range>().length : zero_length;
+                auto const &right_length = right_time ? right_time.get<time::range>().length : zero_length;
 
                 while (yas_fast_each_next(out_each)) {
                     auto const &idx = yas_fast_each_index(out_each);
@@ -134,8 +134,8 @@ processing::module processing::math::make_minus_signal_module() {
                 processing::time const &right_time = context->right_time;
                 auto const left_offset = left_time ? time_range.frame - left_time.get<time::range>().frame : 0;
                 auto const right_offset = right_time ? time_range.frame - right_time.get<time::range>().frame : 0;
-                auto const &left_length = left_time ? left_time.get<time::range>().length : 0;
-                auto const &right_length = right_time ? right_time.get<time::range>().length : 0;
+                auto const &left_length = left_time ? left_time.get<time::range>().length : zero_length;
+                auto const &right_length = right_time ? right_time.get<time::range>().length : zero_length;
 
                 while (yas_fast_each_next(out_each)) {
                     auto const &idx = yas_fast_each_index(out_each);
@@ -183,8 +183,8 @@ processing::module processing::math::make_multiply_signal_module() {
                 processing::time const &right_time = context->right_time;
                 auto const left_offset = left_time ? time_range.frame - left_time.get<time::range>().frame : 0;
                 auto const right_offset = right_time ? time_range.frame - right_time.get<time::range>().frame : 0;
-                auto const &left_length = left_time ? left_time.get<time::range>().length : 0;
-                auto const &right_length = right_time ? right_time.get<time::range>().length : 0;
+                auto const &left_length = left_time ? left_time.get<time::range>().length : zero_length;
+                auto const &right_length = right_time ? right_time.get<time::range>().length : zero_length;
 
                 while (yas_fast_each_next(out_each)) {
                     auto const &idx = yas_fast_each_index(out_each);
@@ -232,8 +232,8 @@ processing::module processing::math::make_divide_signal_module() {
             processing::time const &right_time = context->right_time;
             auto const left_offset = left_time ? time_range.frame - left_time.get<time::range>().frame : 0;
             auto const right_offset = right_time ? time_range.frame - right_time.get<time::range>().frame : 0;
-            auto const &left_length = left_time ? left_time.get<time::range>().length : 0;
-            auto const &right_length = right_time ? right_time.get<time::range>().length : 0;
+            auto const &left_length = left_time ? left_time.get<time::range>().length : zero_length;
+            auto const &right_length = right_time ? right_time.get<time::range>().length : zero_length;
 
             while (yas_fast_each_next(out_each)) {
                 auto const &idx = yas_fast_each_index(out_each);
