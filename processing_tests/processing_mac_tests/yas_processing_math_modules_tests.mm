@@ -23,29 +23,29 @@ using namespace yas::processing;
 }
 
 - (void)test_create_signal_modules {
-    auto plus_module = math::make_signal_module<int16_t>(math::operator_type::plus);
+    auto plus_module = make_signal_module<int16_t>(math::kind::plus);
     XCTAssertTrue(plus_module);
 
-    auto minus_module = math::make_signal_module<int16_t>(math::operator_type::minus);
+    auto minus_module = make_signal_module<int16_t>(math::kind::minus);
     XCTAssertTrue(minus_module);
 
-    auto multiply_module = math::make_signal_module<int16_t>(math::operator_type::multiply);
+    auto multiply_module = make_signal_module<int16_t>(math::kind::multiply);
     XCTAssertTrue(multiply_module);
 
-    auto divide_module = math::make_signal_module<int16_t>(math::operator_type::divide);
+    auto divide_module = make_signal_module<int16_t>(math::kind::divide);
     XCTAssertTrue(divide_module);
 }
 
 - (void)test_plus_process {
     auto left_in_module = processing::constant::make_signal_module<int16_t>(1);
     auto right_in_module = processing::constant::make_signal_module<int16_t>(10);
-    auto calc_module = math::make_signal_module<int16_t>(math::operator_type::plus);
+    auto calc_module = make_signal_module<int16_t>(math::kind::plus);
     processing::stream stream;
 
     left_in_module.connect_output(to_connector_index(constant::output_key::out), 0);
     right_in_module.connect_output(to_connector_index(constant::output_key::out), 1);
-    calc_module.connect_input(to_connector_index(math::input_key::left_in), 0);
-    calc_module.connect_input(to_connector_index(math::input_key::right_in), 1);
+    calc_module.connect_input(to_connector_index(math::input_key::left), 0);
+    calc_module.connect_input(to_connector_index(math::input_key::right), 1);
     calc_module.connect_output(to_connector_index(constant::output_key::out), 2);
 
     left_in_module.process({1, 2}, stream);
@@ -72,13 +72,13 @@ using namespace yas::processing;
 - (void)test_minus_process {
     auto left_in_module = processing::constant::make_signal_module<int16_t>(100);
     auto right_in_module = processing::constant::make_signal_module<int16_t>(10);
-    auto calc_module = math::make_signal_module<int16_t>(math::operator_type::minus);
+    auto calc_module = make_signal_module<int16_t>(math::kind::minus);
     processing::stream stream;
 
     left_in_module.connect_output(to_connector_index(constant::output_key::out), 0);
     right_in_module.connect_output(to_connector_index(constant::output_key::out), 1);
-    calc_module.connect_input(to_connector_index(math::input_key::left_in), 0);
-    calc_module.connect_input(to_connector_index(math::input_key::right_in), 1);
+    calc_module.connect_input(to_connector_index(math::input_key::left), 0);
+    calc_module.connect_input(to_connector_index(math::input_key::right), 1);
     calc_module.connect_output(to_connector_index(constant::output_key::out), 2);
 
     left_in_module.process({1, 2}, stream);
@@ -105,13 +105,13 @@ using namespace yas::processing;
 - (void)test_multiply_process {
     auto left_in_module = processing::constant::make_signal_module<int16_t>(2);
     auto right_in_module = processing::constant::make_signal_module<int16_t>(4);
-    auto calc_module = math::make_signal_module<int16_t>(math::operator_type::multiply);
+    auto calc_module = make_signal_module<int16_t>(math::kind::multiply);
     processing::stream stream;
 
     left_in_module.connect_output(to_connector_index(constant::output_key::out), 0);
     right_in_module.connect_output(to_connector_index(constant::output_key::out), 1);
-    calc_module.connect_input(to_connector_index(math::input_key::left_in), 0);
-    calc_module.connect_input(to_connector_index(math::input_key::right_in), 1);
+    calc_module.connect_input(to_connector_index(math::input_key::left), 0);
+    calc_module.connect_input(to_connector_index(math::input_key::right), 1);
     calc_module.connect_output(to_connector_index(constant::output_key::out), 2);
 
     left_in_module.process({1, 2}, stream);
@@ -138,13 +138,13 @@ using namespace yas::processing;
 - (void)test_divide_process {
     auto left_in_module = processing::constant::make_signal_module<int16_t>(4);
     auto right_in_module = processing::constant::make_signal_module<int16_t>(2);
-    auto calc_module = math::make_signal_module<int16_t>(math::operator_type::divide);
+    auto calc_module = make_signal_module<int16_t>(math::kind::divide);
     processing::stream stream;
 
     left_in_module.connect_output(to_connector_index(constant::output_key::out), 0);
     right_in_module.connect_output(to_connector_index(constant::output_key::out), 1);
-    calc_module.connect_input(to_connector_index(math::input_key::left_in), 0);
-    calc_module.connect_input(to_connector_index(math::input_key::right_in), 1);
+    calc_module.connect_input(to_connector_index(math::input_key::left), 0);
+    calc_module.connect_input(to_connector_index(math::input_key::right), 1);
     calc_module.connect_output(to_connector_index(constant::output_key::out), 2);
 
     left_in_module.process({1, 2}, stream);
