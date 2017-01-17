@@ -11,24 +11,24 @@ namespace processing {
     class module;
 
     namespace math {
-        enum class operator_type {
+        enum class kind {
             plus,
             minus,
             multiply,
             divide,
         };
-        
+
         enum class output_key : connector_index_t {
             out,
         };
 
         enum class input_key : connector_index_t {
-            left_in,
-            right_in,
+            left,
+            right,
         };
-        
-        template <typename T>
-        module make_signal_module(operator_type const);
     }
+
+    template <typename T>
+    module make_signal_module(math::kind const);
 }
 }

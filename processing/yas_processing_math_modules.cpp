@@ -51,10 +51,10 @@ namespace processing {
             return processing::make_receive_signal_processor<T>(
                 [context](processing::time::range const &time_range, channel_index_t const,
                           connector_index_t const con_idx, T const *const signal_ptr) mutable {
-                    if (con_idx == to_connector_index(input_key::left_in)) {
+                    if (con_idx == to_connector_index(input_key::left)) {
                         context->left_time = time_range;
                         context->left_signal.copy_from(signal_ptr, time_range.length);
-                    } else if (con_idx == to_connector_index(input_key::right_in)) {
+                    } else if (con_idx == to_connector_index(input_key::right)) {
                         context->right_time = time_range;
                         context->right_signal.copy_from(signal_ptr, time_range.length);
                     }
@@ -65,7 +65,9 @@ namespace processing {
 }
 
 template <typename T>
-processing::module processing::math::make_signal_module(operator_type const op_type) {
+processing::module processing::make_signal_module(math::kind const kind) {
+    using namespace yas::processing::math;
+
     auto context = make_context<T>();
 
     auto prepare_processor = make_prepare_processor(context);
@@ -73,8 +75,8 @@ processing::module processing::math::make_signal_module(operator_type const op_t
     auto receive_processor = make_receive_signal_processor<T>(context);
 
     auto send_processor = processing::make_send_signal_processor<T>(
-        [context, op_type](processing::time::range const &time_range, channel_index_t const,
-                           connector_index_t const con_idx, T *const signal_ptr) {
+        [context, kind](processing::time::range const &time_range, channel_index_t const,
+                        connector_index_t const con_idx, T *const signal_ptr) {
             if (con_idx == to_connector_index(output_key::out)) {
                 auto out_each = make_fast_each(signal_ptr, time_range.length);
                 processing::signal_event &left_signal = context->left_signal;
@@ -95,17 +97,17 @@ processing::module processing::math::make_signal_module(operator_type const op_t
                     auto const &left_value = (left_idx >= 0 && left_idx < left_length) ? left_ptr[left_idx] : 0;
                     auto const &right_value = (right_idx >= 0 && right_idx < right_length) ? right_ptr[right_idx] : 0;
 
-                    switch (op_type) {
-                        case operator_type::plus:
+                    switch (kind) {
+                        case kind::plus:
                             yas_fast_each_value(out_each) = left_value + right_value;
                             break;
-                        case operator_type::minus:
+                        case kind::minus:
                             yas_fast_each_value(out_each) = left_value - right_value;
                             break;
-                        case operator_type::multiply:
+                        case kind::multiply:
                             yas_fast_each_value(out_each) = left_value * right_value;
                             break;
-                        case operator_type::divide:
+                        case kind::divide:
                             yas_fast_each_value(out_each) =
                                 (left_value == 0 || right_value == 0) ? 0 : left_value / right_value;
                             break;
@@ -117,13 +119,13 @@ processing::module processing::math::make_signal_module(operator_type const op_t
     return processing::module{{std::move(prepare_processor), std::move(receive_processor), std::move(send_processor)}};
 }
 
-template processing::module processing::math::make_signal_module<double>(operator_type const);
-template processing::module processing::math::make_signal_module<float>(operator_type const);
-template processing::module processing::math::make_signal_module<int64_t>(operator_type const);
-template processing::module processing::math::make_signal_module<int32_t>(operator_type const);
-template processing::module processing::math::make_signal_module<int16_t>(operator_type const);
-template processing::module processing::math::make_signal_module<int8_t>(operator_type const);
-template processing::module processing::math::make_signal_module<uint64_t>(operator_type const);
-template processing::module processing::math::make_signal_module<uint32_t>(operator_type const);
-template processing::module processing::math::make_signal_module<uint16_t>(operator_type const);
-template processing::module processing::math::make_signal_module<uint8_t>(operator_type const);
+template processing::module processing::make_signal_module<double>(math::kind const);
+template processing::module processing::make_signal_module<float>(math::kind const);
+template processing::module processing::make_signal_module<int64_t>(math::kind const);
+template processing::module processing::make_signal_module<int32_t>(math::kind const);
+template processing::module processing::make_signal_module<int16_t>(math::kind const);
+template processing::module processing::make_signal_module<int8_t>(math::kind const);
+template processing::module processing::make_signal_module<uint64_t>(math::kind const);
+template processing::module processing::make_signal_module<uint32_t>(math::kind const);
+template processing::module processing::make_signal_module<uint16_t>(math::kind const);
+template processing::module processing::make_signal_module<uint8_t>(math::kind const);
