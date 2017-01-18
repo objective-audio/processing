@@ -17,5 +17,6 @@
 #include "yas_processing_remove_number_processor.h"
 
 #include "yas_processing_constant_module.h"
+#include "yas_processing_generator_modules.h"
 #include "yas_processing_math_modules.h"
 #include "yas_processing_cast_module.h"
