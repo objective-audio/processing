@@ -35,5 +35,3 @@ namespace processing {
     };
 }
 }
-
-#include "yas_processing_module_private.h"

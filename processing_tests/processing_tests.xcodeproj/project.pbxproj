@@ -168,7 +168,6 @@
 		B6AF4F7C1E1644AD00805168 /* yas_processing_types.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = yas_processing_types.h; path = ../../processing/yas_processing_types.h; sourceTree = "<group>"; };
 		B6C4DAD41DF6501400621F80 /* yas_processing_module.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = yas_processing_module.cpp; path = ../../processing/yas_processing_module.cpp; sourceTree = "<group>"; };
 		B6C4DAD51DF6501400621F80 /* yas_processing_module.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yas_processing_module.h; path = ../../processing/yas_processing_module.h; sourceTree = "<group>"; };
-		B6C4DAD71DF6505700621F80 /* yas_processing_module_private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = yas_processing_module_private.h; path = ../../processing/yas_processing_module_private.h; sourceTree = "<group>"; };
 		B6C4DAD81DF6F19B00621F80 /* yas_processing_track.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = yas_processing_track.cpp; path = ../../processing/yas_processing_track.cpp; sourceTree = "<group>"; };
 		B6C4DAD91DF6F19B00621F80 /* yas_processing_track.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yas_processing_track.h; path = ../../processing/yas_processing_track.h; sourceTree = "<group>"; };
 		B6C4DADB1DF6F76200621F80 /* yas_processing_module_tests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = yas_processing_module_tests.mm; sourceTree = "<group>"; };
@@ -220,7 +219,6 @@
 				B64C09691DEFCD2200B9DCB1 /* yas_processing_channel.h */,
 				B633784C1E2B600C0008B7C9 /* yas_processing_connector_private.h */,
 				B62D02A31DFA438F007CFDDA /* yas_processing_connector.h */,
-				B6C4DAD71DF6505700621F80 /* yas_processing_module_private.h */,
 				B6C4DAD41DF6501400621F80 /* yas_processing_module.cpp */,
 				B6C4DAD51DF6501400621F80 /* yas_processing_module.h */,
 				B6AF4F761E14B87600805168 /* yas_processing_processor.h */,
