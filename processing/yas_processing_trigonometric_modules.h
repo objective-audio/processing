@@ -1,5 +1,5 @@
 //
-//  yas_processing_generator_modules.h
+//  yas_processing_trigonometric_modules.h
 //
 
 #pragma once
@@ -10,7 +10,7 @@ namespace yas {
 namespace processing {
     class module;
 
-    namespace generator {
+    namespace trigonometric {
         enum class kind {
             sin,
         };
@@ -25,6 +25,6 @@ namespace processing {
     }
 
     template <typename T>
-    module make_signal_module(generator::kind const);
+    module make_signal_module(trigonometric::kind const);
 }
 }
