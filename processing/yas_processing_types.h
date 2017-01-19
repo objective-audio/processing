@@ -15,6 +15,7 @@ namespace processing {
     using track_index_t = int64_t;
     using frame_index_t = int64_t;
     using length_t = uint32_t;
+    using sample_rate_t = uint32_t;
 
     static length_t constexpr zero_length = 0;
 
