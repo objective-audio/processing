@@ -1,8 +1,8 @@
 //
-//  yas_processing_generator_modules.cpp
+//  yas_processing_trigonometric_modules.cpp
 //
 
-#include "yas_processing_generator_modules.h"
+#include "yas_processing_trigonometric_modules.h"
 #include "yas_processing_module.h"
 #include "yas_processing_send_signal_processor.h"
 #include "yas_processing_receive_signal_processor.h"
@@ -13,7 +13,7 @@ using namespace yas;
 
 namespace yas {
 namespace processing {
-    namespace generator {
+    namespace trigonometric {
         template <typename T>
         static T constexpr zero_value = 0;
 
@@ -41,8 +41,8 @@ namespace processing {
 }
 
 template <typename T>
-processing::module processing::make_signal_module(generator::kind const kind) {
-    using namespace yas::processing::generator;
+processing::module processing::make_signal_module(trigonometric::kind const kind) {
+    using namespace yas::processing::trigonometric;
 
     auto context = make_context<T>();
 
@@ -87,5 +87,5 @@ processing::module processing::make_signal_module(generator::kind const kind) {
     return processing::module{{std::move(prepare_processor), std::move(receive_processor), std::move(send_processor)}};
 }
 
-template processing::module processing::make_signal_module<double>(generator::kind const);
-template processing::module processing::make_signal_module<float>(generator::kind const);
+template processing::module processing::make_signal_module<double>(trigonometric::kind const);
+template processing::module processing::make_signal_module<float>(trigonometric::kind const);
