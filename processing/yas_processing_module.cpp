@@ -7,6 +7,8 @@
 
 using namespace yas;
 
+#pragma mark - utility
+
 namespace yas {
 namespace processing {
     static void connect(connector_map_t &connectors, connector_index_t const idx, channel_index_t const ch_idx) {
@@ -23,6 +25,40 @@ namespace processing {
     }
 }
 }
+
+#pragma mark - module::impl
+
+struct processing::module::impl : base::impl {
+    impl(processors_t &&processors) : _processors(std::move(processors)) {
+    }
+    
+    connector_map_t &input_connectors() {
+        return _input_connectors;
+    }
+    
+    connector_map_t &output_connectors() {
+        return _output_connectors;
+    }
+    
+    processors_t &processors() {
+        return _processors;
+    }
+    
+    void process(processing::time::range const &time_range, stream &stream) {
+        for (auto &processor : _processors) {
+            if (processor) {
+                processor(time_range, _input_connectors, _output_connectors, stream);
+            }
+        }
+    }
+    
+private:
+    processors_t _processors;
+    connector_map_t _input_connectors;
+    connector_map_t _output_connectors;
+};
+
+#pragma mark - module
 
 processing::module::module(processors_t processors) : base(std::make_shared<impl>(std::move(processors))) {
 }
