@@ -23,7 +23,7 @@ using namespace yas::processing;
 }
 
 - (void)test_process {
-    stream stream;
+    stream stream{sync_source{1, 1}};
 
     auto &channel = stream.add_channel(0);
     channel.insert_event(make_range_time(0, 1), make_signal_event<int16_t>(1));
@@ -37,7 +37,7 @@ using namespace yas::processing;
 }
 
 - (void)test_range {
-    stream stream;
+    stream stream{sync_source{1, 1}};
 
     auto &channel = stream.add_channel(0);
     auto signal = make_signal_event<int16_t>(3);
@@ -65,7 +65,7 @@ using namespace yas::processing;
 }
 
 - (void)test_type {
-    stream stream;
+    stream stream{sync_source{1, 1}};
 
     auto &channel = stream.add_channel(0);
     channel.insert_event(make_range_time(0, 1), make_signal_event<int8_t>(1));
@@ -86,7 +86,7 @@ using namespace yas::processing;
 }
 
 - (void)test_key {
-    stream stream;
+    stream stream{sync_source{1, 1}};
 
     {
         auto &channel0 = stream.add_channel(0);

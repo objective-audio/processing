@@ -35,7 +35,7 @@ using namespace yas::processing;
     auto module = constant::make_signal_module(value);
     module.connect_output(to_connector_index(constant::output_key::out), 0);
 
-    processing::stream stream;
+    processing::stream stream{sync_source{1, 2}};
 
     module.process({0, 2}, stream);
 
