@@ -6,6 +6,7 @@
 #include "yas_processing_module.h"
 #include "yas_processing_track.h"
 #include "yas_processing_timeline.h"
+#include "yas_processing_sync_source.h"
 
 #include "yas_processing_signal_event.h"
 #include "yas_processing_number_event.h"
