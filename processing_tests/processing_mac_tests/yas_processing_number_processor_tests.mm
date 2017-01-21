@@ -39,7 +39,7 @@ using namespace yas::processing;
             called_params.emplace_back(std::move(called));
         });
 
-    stream stream;
+    stream stream{sync_source{1, 3}};
 
     auto &channel0 = stream.add_channel(0);
     auto &channel1 = stream.add_channel(1);

@@ -139,7 +139,7 @@ using namespace yas::processing;
     track2.insert_module({0, 2}, module2);
 
     {
-        stream stream;
+        stream stream{sync_source{1, 2}};
 
         timeline.process({0, 2}, stream);
 
@@ -158,7 +158,7 @@ using namespace yas::processing;
     {
         clear();
 
-        stream stream;
+        stream stream{sync_source{1, 2}};
 
         timeline.process({-1, 2}, stream);
 
@@ -176,7 +176,7 @@ using namespace yas::processing;
     {
         clear();
 
-        stream stream;
+        stream stream{sync_source{1, 2}};
 
         timeline.process({1, 2}, stream);
 
@@ -194,7 +194,7 @@ using namespace yas::processing;
     {
         clear();
 
-        stream stream;
+        stream stream{sync_source{1, 2}};
 
         timeline.process({3, 2}, stream);
 

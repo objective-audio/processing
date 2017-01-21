@@ -23,9 +23,10 @@ using namespace yas::processing;
 }
 
 - (void)test_create_stream {
-    processing::stream stream;
+    processing::stream stream{sync_source{1, 2}};
 
     XCTAssertTrue(stream);
+    XCTAssertEqual(stream.sync_source(), (sync_source{1, 2}));
     XCTAssertEqual(stream.channel_count(), 0);
 }
 
@@ -36,7 +37,7 @@ using namespace yas::processing;
 }
 
 - (void)test_add_channel {
-    processing::stream stream;
+    processing::stream stream{sync_source{1, 1}};
 
     stream.add_channel(1);
 
@@ -60,7 +61,7 @@ using namespace yas::processing;
 }
 
 - (void)test_add_channel_return {
-    processing::stream stream;
+    processing::stream stream{sync_source{1, 1}};
 
     auto &returned_channel = stream.add_channel(1);
 
@@ -69,7 +70,7 @@ using namespace yas::processing;
 }
 
 - (void)test_channel {
-    processing::stream stream;
+    processing::stream stream{sync_source{1, 2}};
 
     stream.add_channel(2);
 

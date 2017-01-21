@@ -23,7 +23,7 @@ using namespace yas::processing;
 }
 
 - (void)test_process {
-    stream stream;
+    stream stream{sync_source{1, 1}};
 
     auto &channel0 = stream.add_channel(0);
     channel0.insert_event(make_frame_time(0), processing::number_event{int8_t(0)});
@@ -44,7 +44,7 @@ using namespace yas::processing;
 }
 
 - (void)test_connector_index {
-    stream stream;
+    stream stream{sync_source{1, 1}};
 
     {
         auto &channel0 = stream.add_channel(0);

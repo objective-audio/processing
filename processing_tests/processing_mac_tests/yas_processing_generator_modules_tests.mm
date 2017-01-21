@@ -31,7 +31,7 @@ using namespace yas::processing;
     sine_module.connect_output(to_connector_index(trigonometric::output_key::out), ch_idx);
     sine_module.connect_input(to_connector_index(trigonometric::input_key::phase), ch_idx);
 
-    stream stream;
+    stream stream{sync_source{1, 8}};
 
     {
         auto &channel = stream.add_channel(ch_idx);

@@ -39,7 +39,7 @@ using namespace yas::processing;
     cast_module.connect_input(to_connector_index(cast::input_key::in), 0);
     cast_module.connect_output(to_connector_index(cast::output_key::out), 1);
 
-    stream stream;
+    stream stream{sync_source{1, 2}};
 
     constant_module1.process({0, 1}, stream);
     constant_module2.process({1, 1}, stream);
@@ -71,7 +71,7 @@ using namespace yas::processing;
     cast_module.connect_input(to_connector_index(cast::input_key::in), 2);
     cast_module.connect_output(to_connector_index(cast::output_key::out), 2);
 
-    stream stream;
+    stream stream{sync_source{1, 2}};
 
     constant_module1.process({0, 1}, stream);
     constant_module2.process({1, 1}, stream);
@@ -101,7 +101,7 @@ using namespace yas::processing;
     cast_module.connect_input(to_connector_index(cast::input_key::in), 0);
     cast_module.connect_output(to_connector_index(cast::output_key::out), 1);
 
-    stream stream;
+    stream stream{sync_source{1, 2}};
 
     {
         auto &channel0 = stream.add_channel(0);
@@ -153,7 +153,7 @@ using namespace yas::processing;
     cast_module.connect_input(to_connector_index(cast::input_key::in), 3);
     cast_module.connect_output(to_connector_index(cast::output_key::out), 3);
 
-    stream stream;
+    stream stream{sync_source{1, 2}};
 
     {
         auto &channel = stream.add_channel(3);

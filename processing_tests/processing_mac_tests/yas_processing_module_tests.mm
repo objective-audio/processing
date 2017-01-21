@@ -37,7 +37,7 @@ using namespace yas::processing;
 }
 
 - (void)test_process_called {
-    processing::stream stream;
+    processing::stream stream{sync_source{1, 456}};
 
     processing::time called_time = nullptr;
 

@@ -40,7 +40,7 @@ using namespace yas::processing;
     auto left_in_module = processing::constant::make_signal_module<int16_t>(1);
     auto right_in_module = processing::constant::make_signal_module<int16_t>(10);
     auto calc_module = make_signal_module<int16_t>(math::kind::plus);
-    processing::stream stream;
+    processing::stream stream{sync_source{1, 5}};
 
     left_in_module.connect_output(to_connector_index(constant::output_key::out), 0);
     right_in_module.connect_output(to_connector_index(constant::output_key::out), 1);
@@ -73,7 +73,7 @@ using namespace yas::processing;
     auto left_in_module = processing::constant::make_signal_module<int16_t>(100);
     auto right_in_module = processing::constant::make_signal_module<int16_t>(10);
     auto calc_module = make_signal_module<int16_t>(math::kind::minus);
-    processing::stream stream;
+    processing::stream stream{sync_source{1, 5}};
 
     left_in_module.connect_output(to_connector_index(constant::output_key::out), 0);
     right_in_module.connect_output(to_connector_index(constant::output_key::out), 1);
@@ -106,7 +106,7 @@ using namespace yas::processing;
     auto left_in_module = processing::constant::make_signal_module<int16_t>(2);
     auto right_in_module = processing::constant::make_signal_module<int16_t>(4);
     auto calc_module = make_signal_module<int16_t>(math::kind::multiply);
-    processing::stream stream;
+    processing::stream stream{sync_source{1, 5}};
 
     left_in_module.connect_output(to_connector_index(constant::output_key::out), 0);
     right_in_module.connect_output(to_connector_index(constant::output_key::out), 1);
@@ -139,7 +139,7 @@ using namespace yas::processing;
     auto left_in_module = processing::constant::make_signal_module<int16_t>(4);
     auto right_in_module = processing::constant::make_signal_module<int16_t>(2);
     auto calc_module = make_signal_module<int16_t>(math::kind::divide);
-    processing::stream stream;
+    processing::stream stream{sync_source{1, 5}};
 
     left_in_module.connect_output(to_connector_index(constant::output_key::out), 0);
     right_in_module.connect_output(to_connector_index(constant::output_key::out), 1);

@@ -57,7 +57,7 @@ using namespace yas::processing;
     {
         clear();
 
-        processing::stream stream;
+        processing::stream stream{sync_source{1, 2}};
 
         module.process({0, 2}, stream);
 
@@ -77,7 +77,7 @@ using namespace yas::processing;
     {
         clear();
 
-        processing::stream stream;
+        processing::stream stream{sync_source{1, 1}};
 
         module.process({1, 1}, stream);
 
@@ -96,7 +96,7 @@ using namespace yas::processing;
     {
         clear();
 
-        processing::stream stream;
+        processing::stream stream{sync_source{1, 1}};
 
         module.process({0, 1}, stream);
 
@@ -136,7 +136,7 @@ using namespace yas::processing;
     };
 
     auto make_stream = [&stream_signal, &ch_idx](time::range const &time_range) {
-        processing::stream stream;
+        processing::stream stream{sync_source{1, 2}};
         stream.add_channel(ch_idx);
 
         auto &channel = stream.channel(ch_idx);
@@ -218,7 +218,7 @@ using namespace yas::processing;
 
     processing::time process_time{0, 2};
 
-    processing::stream stream;
+    processing::stream stream{sync_source{1, 2}};
     stream.add_channel(receive_ch_idx);
 
     auto input_stream_signal = processing::make_signal_event<int16_t>(2);

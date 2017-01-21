@@ -29,6 +29,12 @@ using namespace yas::processing;
     XCTAssertEqual(sync_source.slice_length, 2);
 }
 
+- (void)test_fail_to_create_with_zero {
+    XCTAssertThrows((sync_source{0, 1}));
+    XCTAssertThrows((sync_source{1, 0}));
+    XCTAssertThrows((sync_source{0, 0}));
+}
+
 - (void)test_is_equal {
     sync_source sync_source_1a{44100, 16};
     sync_source sync_source_1b{44100, 16};
