@@ -23,7 +23,7 @@ namespace processing {
 
         virtual bool is_equal(std::shared_ptr<base::impl> const &rhs) const override {
             if (auto casted_rhs = std::dynamic_pointer_cast<type_impl<T>>(rhs)) {
-                return _value == casted_rhs->_value;
+                return this->_value == casted_rhs->_value;
             }
 
             return false;
@@ -53,16 +53,16 @@ processing::number_event::number_event(std::nullptr_t) : event(nullptr) {
 }
 
 std::type_info const &processing::number_event::sample_type() const {
-    return impl_ptr<impl>()->type();
+    return this->impl_ptr<impl>()->type();
 }
 
 std::size_t processing::number_event::sample_byte_count() const {
-    return impl_ptr<impl>()->sample_byte_count();
+    return this->impl_ptr<impl>()->sample_byte_count();
 }
 
 template <typename T>
 T const &processing::number_event::get() const {
-    return impl_ptr<type_impl<T>>()->_value;
+    return this->impl_ptr<type_impl<T>>()->_value;
 }
 
 template double const &processing::number_event::get() const;

@@ -10,8 +10,8 @@ processing::cast::signal_context::signal_context(processing::signal_event &&sign
 }
 
 void processing::cast::signal_context::reset() {
-    signal.resize(0);
-    time = nullptr;
+    this->signal.resize(0);
+    this->time = nullptr;
 }
 
 template <typename T>
@@ -32,7 +32,7 @@ template processing::cast::signal_context_sptr processing::cast::make_signal_con
 
 template <typename T>
 void processing::cast::number_context<T>::reset() {
-    numbers.clear();
+    this->numbers.clear();
 }
 
 template void processing::cast::number_context<double>::reset();

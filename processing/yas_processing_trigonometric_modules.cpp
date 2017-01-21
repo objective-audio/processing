@@ -25,8 +25,8 @@ namespace processing {
             }
 
             void reset() {
-                phase_signal.resize(0);
-                phase_time = nullptr;
+                this->phase_signal.resize(0);
+                this->phase_time = nullptr;
             }
         };
 

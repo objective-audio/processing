@@ -17,5 +17,5 @@ processing::event::event(std::nullptr_t) : base(nullptr) {
 }
 
 bool processing::event::validate_time(time const &time) const {
-    return impl_ptr<impl>()->validate_time(time);
+    return this->impl_ptr<impl>()->validate_time(time);
 }

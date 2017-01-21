@@ -25,10 +25,10 @@ namespace processing {
             }
 
             void reset() {
-                left_signal.resize(0);
-                right_signal.resize(0);
-                left_time = nullptr;
-                right_time = nullptr;
+                this->left_signal.resize(0);
+                this->right_signal.resize(0);
+                this->left_time = nullptr;
+                this->right_time = nullptr;
             }
         };
 

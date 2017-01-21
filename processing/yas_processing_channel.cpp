@@ -23,11 +23,11 @@ processing::channel::channel(std::nullptr_t) : base(nullptr) {
 }
 
 std::multimap<processing::time, processing::event> const &processing::channel::events() const {
-    return impl_ptr<impl>()->_events;
+    return this->impl_ptr<impl>()->_events;
 }
 
 std::multimap<processing::time, processing::event> &processing::channel::events() {
-    return impl_ptr<impl>()->_events;
+    return this->impl_ptr<impl>()->_events;
 }
 
 void processing::channel::insert_event(time time, event event) {
@@ -35,5 +35,5 @@ void processing::channel::insert_event(time time, event event) {
         throw "invalid time for event.";
     }
 
-    impl_ptr<impl>()->_events.emplace(std::move(time), std::move(event));
+    this->impl_ptr<impl>()->_events.emplace(std::move(time), std::move(event));
 }
