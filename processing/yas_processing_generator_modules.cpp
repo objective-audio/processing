@@ -18,7 +18,7 @@ processing::module processing::make_signal_module(generator::kind const kind, fr
                                 stream &) mutable {};
 
     auto send_processor = processing::make_send_signal_processor<T>(
-        [kind, offset](processing::time::range const &time_range, channel_index_t const,
+        [kind, offset](processing::time::range const &time_range, sync_source const &sync_src, channel_index_t const,
                        connector_index_t const con_idx, T *const signal_ptr) {
             if (con_idx == to_connector_index(output_key::out)) {
                 auto out_each = make_fast_each(signal_ptr, time_range.length);
@@ -29,7 +29,7 @@ processing::module processing::make_signal_module(generator::kind const kind, fr
                     switch (kind) {
                         case kind::second:
 #warning todo
-//                            yas_fast_each_value(out_each) = std::sin(phase_value);
+                            //                            yas_fast_each_value(out_each) = std::sin(phase_value);
                             break;
                     }
                 }
@@ -41,3 +41,5 @@ processing::module processing::make_signal_module(generator::kind const kind, fr
 
 template processing::module processing::make_signal_module<double>(generator::kind const, frame_index_t const);
 template processing::module processing::make_signal_module<float>(generator::kind const, frame_index_t const);
+
+;

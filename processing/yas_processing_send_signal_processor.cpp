@@ -52,7 +52,7 @@ processing::processor_f processing::make_send_signal_processor(processing::send_
 
                         channel.erase_event<T, signal_event>(std::move(predicate));
 
-                        handler(current_time_range, ch_idx, connector_idx,
+                        handler(current_time_range, stream.sync_source(), ch_idx, connector_idx,
                                 &vec[current_time_range.frame - combined_time_range.frame]);
 
                         channel.insert_event(time{combined_time_range}, signal_event{std::move(vec)});
@@ -65,7 +65,7 @@ processing::processor_f processing::make_send_signal_processor(processing::send_
 
                 std::vector<T> vec(current_time_range.length);
 
-                handler(current_time_range, ch_idx, connector_idx, vec.data());
+                handler(current_time_range, stream.sync_source(), ch_idx, connector_idx, vec.data());
 
                 auto &channel = stream.channel(ch_idx);
                 channel.insert_event(time{current_time_range}, signal_event{std::move(vec)});

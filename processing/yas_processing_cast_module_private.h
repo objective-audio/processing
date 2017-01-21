@@ -40,7 +40,7 @@ namespace processing {
                                                stream &) mutable { context->reset(); };
 
             auto receive_processor = processing::make_receive_signal_processor<In>(
-                [context](processing::time::range const &time_range, channel_index_t const,
+                [context](processing::time::range const &time_range, sync_source const &, channel_index_t const,
                           connector_index_t const con_idx, In const *const signal_ptr) mutable {
                     if (con_idx == to_connector_index(input_key::in)) {
                         context->time = time_range;
@@ -51,7 +51,7 @@ namespace processing {
             auto remove_processor = processing::make_remove_signal_processor<In>({to_connector_index(input_key::in)});
 
             auto send_processor = processing::make_send_signal_processor<Out>(
-                [context](processing::time::range const &time_range, channel_index_t const,
+                [context](processing::time::range const &time_range, sync_source const &, channel_index_t const,
                           connector_index_t const con_idx, Out *const signal_ptr) {
                     if (con_idx == to_connector_index(output_key::out)) {
                         auto out_each = make_fast_each(signal_ptr, time_range.length);

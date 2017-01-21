@@ -12,7 +12,7 @@ using namespace yas;
 template <typename T>
 processing::module processing::constant::make_signal_module(T value) {
     auto processor = processing::make_send_signal_processor<T>([value = std::move(value)](
-        processing::time::range const &time_range, channel_index_t const, connector_index_t const,
+        processing::time::range const &time_range, sync_source const &, channel_index_t const, connector_index_t const,
         T *const signal_ptr) {
         auto each = make_fast_each(signal_ptr, time_range.length);
 
