@@ -15,7 +15,7 @@ namespace processing {
 
     class stream : public base {
        public:
-        stream(sync_source);
+        explicit stream(sync_source);
         stream(std::nullptr_t);
 
         sync_source const &sync_source() const;
