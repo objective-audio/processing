@@ -23,13 +23,13 @@ processing::module processing::make_signal_module(generator::kind const kind, fr
             if (con_idx == to_connector_index(output_key::out)) {
                 auto out_each = make_fast_each(signal_ptr, time_range.length);
                 auto const top_idx = offset + time_range.frame;
+                T const sr = sync_src.sample_rate;
 
                 while (yas_fast_each_next(out_each)) {
                     auto const &idx = yas_fast_each_index(out_each);
                     switch (kind) {
                         case kind::second:
-#warning todo
-                            //                            yas_fast_each_value(out_each) = std::sin(phase_value);
+                            yas_fast_each_value(out_each) = (T)(top_idx + idx) / sr;
                             break;
                     }
                 }
