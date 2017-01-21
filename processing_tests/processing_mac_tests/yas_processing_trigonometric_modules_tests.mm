@@ -1,5 +1,5 @@
 //
-//  yas_processing_generator_modules_tests.mm
+//  yas_processing_trigonometric_modules_tests.mm
 //
 
 #import <XCTest/XCTest.h>
@@ -10,11 +10,11 @@
 using namespace yas;
 using namespace yas::processing;
 
-@interface yas_processing_generator_modules_tests : XCTestCase
+@interface yas_processing_trigonometric_modules_tests : XCTestCase
 
 @end
 
-@implementation yas_processing_generator_modules_tests
+@implementation yas_processing_trigonometric_modules_tests
 
 - (void)setUp {
     [super setUp];

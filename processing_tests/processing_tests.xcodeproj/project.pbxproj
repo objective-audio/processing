@@ -56,10 +56,10 @@
 		B6E0CB291E1762B500329906 /* yas_processing_receive_signal_processor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B6E0CB271E1762B500329906 /* yas_processing_receive_signal_processor.cpp */; };
 		B6E0CB361E17728600329906 /* yas_processing_constant_module.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B6E0CB341E17728600329906 /* yas_processing_constant_module.cpp */; };
 		B6E0CB381E17992A00329906 /* yas_processing_constant_signal_module_tests.mm in Sources */ = {isa = PBXBuildFile; fileRef = B6E0CB371E17992A00329906 /* yas_processing_constant_signal_module_tests.mm */; };
-		B6EA4E181E2EFD7700FFAD3B /* yas_processing_generator_modules_tests.mm in Sources */ = {isa = PBXBuildFile; fileRef = B6EA4E171E2EFD7700FFAD3B /* yas_processing_generator_modules_tests.mm */; };
+		B6EA4E181E2EFD7700FFAD3B /* yas_processing_trigonometric_modules_tests.mm in Sources */ = {isa = PBXBuildFile; fileRef = B6EA4E171E2EFD7700FFAD3B /* yas_processing_trigonometric_modules_tests.mm */; };
+		B6EA4E1B1E3055D800FFAD3B /* yas_processing_generator_modules.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B6EA4E191E3055D800FFAD3B /* yas_processing_generator_modules.cpp */; };
 		B6EA4E1E1E30F2FE00FFAD3B /* yas_processing_sync_source.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B6EA4E1C1E30F2FE00FFAD3B /* yas_processing_sync_source.cpp */; };
 		B6EA4E201E30F6CC00FFAD3B /* yas_processing_sync_source_tests.mm in Sources */ = {isa = PBXBuildFile; fileRef = B6EA4E1F1E30F6CC00FFAD3B /* yas_processing_sync_source_tests.mm */; };
-		B6EA4E1B1E3055D800FFAD3B /* yas_processing_generator_modules.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B6EA4E191E3055D800FFAD3B /* yas_processing_generator_modules.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -182,12 +182,12 @@
 		B6E0CB341E17728600329906 /* yas_processing_constant_module.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = yas_processing_constant_module.cpp; path = ../../processing/yas_processing_constant_module.cpp; sourceTree = "<group>"; };
 		B6E0CB351E17728600329906 /* yas_processing_constant_module.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yas_processing_constant_module.h; path = ../../processing/yas_processing_constant_module.h; sourceTree = "<group>"; };
 		B6E0CB371E17992A00329906 /* yas_processing_constant_signal_module_tests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = yas_processing_constant_signal_module_tests.mm; sourceTree = "<group>"; };
-		B6EA4E171E2EFD7700FFAD3B /* yas_processing_generator_modules_tests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = yas_processing_generator_modules_tests.mm; sourceTree = "<group>"; };
+		B6EA4E171E2EFD7700FFAD3B /* yas_processing_trigonometric_modules_tests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = yas_processing_trigonometric_modules_tests.mm; sourceTree = "<group>"; };
+		B6EA4E191E3055D800FFAD3B /* yas_processing_generator_modules.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = yas_processing_generator_modules.cpp; path = ../../processing/yas_processing_generator_modules.cpp; sourceTree = "<group>"; };
+		B6EA4E1A1E3055D800FFAD3B /* yas_processing_generator_modules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yas_processing_generator_modules.h; path = ../../processing/yas_processing_generator_modules.h; sourceTree = "<group>"; };
 		B6EA4E1C1E30F2FE00FFAD3B /* yas_processing_sync_source.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = yas_processing_sync_source.cpp; path = ../../processing/yas_processing_sync_source.cpp; sourceTree = "<group>"; };
 		B6EA4E1D1E30F2FE00FFAD3B /* yas_processing_sync_source.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yas_processing_sync_source.h; path = ../../processing/yas_processing_sync_source.h; sourceTree = "<group>"; };
 		B6EA4E1F1E30F6CC00FFAD3B /* yas_processing_sync_source_tests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = yas_processing_sync_source_tests.mm; sourceTree = "<group>"; };
-		B6EA4E191E3055D800FFAD3B /* yas_processing_generator_modules.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = yas_processing_generator_modules.cpp; path = ../../processing/yas_processing_generator_modules.cpp; sourceTree = "<group>"; };
-		B6EA4E1A1E3055D800FFAD3B /* yas_processing_generator_modules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yas_processing_generator_modules.h; path = ../../processing/yas_processing_generator_modules.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -253,7 +253,7 @@
 				B64C096B1DF024F900B9DCB1 /* yas_processing_channel_tests.mm */,
 				B6E0CB371E17992A00329906 /* yas_processing_constant_signal_module_tests.mm */,
 				B60E73931E1CA56C007957E2 /* yas_processing_math_modules_tests.mm */,
-				B6EA4E171E2EFD7700FFAD3B /* yas_processing_generator_modules_tests.mm */,
+				B6EA4E171E2EFD7700FFAD3B /* yas_processing_trigonometric_modules_tests.mm */,
 				B6C4DADB1DF6F76200621F80 /* yas_processing_module_tests.mm */,
 				B60E73AC1E1FCD9C007957E2 /* yas_processing_number_event_tests.mm */,
 				B60E73B11E1FE965007957E2 /* yas_processing_number_processor_tests.mm */,
@@ -509,7 +509,7 @@
 				B6E0CB361E17728600329906 /* yas_processing_constant_module.cpp in Sources */,
 				B60477B61E1A8E8000195A0F /* yas_processing_math_modules.cpp in Sources */,
 				B60E73AD1E1FCD9C007957E2 /* yas_processing_number_event_tests.mm in Sources */,
-				B6EA4E181E2EFD7700FFAD3B /* yas_processing_generator_modules_tests.mm in Sources */,
+				B6EA4E181E2EFD7700FFAD3B /* yas_processing_trigonometric_modules_tests.mm in Sources */,
 				B63674BD1DD9DFF500C724DB /* yas_objc_ptr.mm in Sources */,
 				B64C09621DEC50D700B9DCB1 /* yas_processing_signal_event_tests.mm in Sources */,
 				B64C096E1DF0250300B9DCB1 /* yas_processing_stream_tests.mm in Sources */,
