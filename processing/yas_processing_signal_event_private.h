@@ -15,7 +15,7 @@ struct processing::signal_event::impl : event::impl {
 
     bool validate_time(time const &time) override {
         if (time.is_range_type()) {
-            return time.get<time::range>().length == size();
+            return time.get<time::range>().length == this->size();
         }
 
         return false;
@@ -39,15 +39,15 @@ struct processing::signal_event::type_impl : impl {
     }
 
     std::size_t size() const override {
-        return _vector_ref.size();
+        return this->_vector_ref.size();
     }
 
     void resize(std::size_t const size) override {
-        _vector_ref.resize(size);
+        this->_vector_ref.resize(size);
     }
 
     std::vector<T> &vector() {
-        return _vector_ref;
+        return this->_vector_ref;
     }
 
    private:
@@ -66,28 +66,28 @@ processing::signal_event::signal_event(std::vector<T> &bytes) : event(std::make_
 
 template <typename T>
 std::vector<T> const &processing::signal_event::vector() const {
-    return impl_ptr<signal_event::type_impl<T>>()->vector();
+    return this->impl_ptr<signal_event::type_impl<T>>()->vector();
 }
 
 template <typename T>
 std::vector<T> &processing::signal_event::vector() {
-    return impl_ptr<signal_event::type_impl<T>>()->vector();
+    return this->impl_ptr<signal_event::type_impl<T>>()->vector();
 }
 
 template <typename T>
 T const *processing::signal_event::data() const {
-    return impl_ptr<signal_event::type_impl<T>>()->vector().data();
+    return this->impl_ptr<signal_event::type_impl<T>>()->vector().data();
 }
 
 template <typename T>
 T *processing::signal_event::data() {
-    return impl_ptr<signal_event::type_impl<T>>()->vector().data();
+    return this->impl_ptr<signal_event::type_impl<T>>()->vector().data();
 }
 
 template <typename T>
 void processing::signal_event::copy_from(T const *ptr, std::size_t const size) {
     this->resize(size);
-    memcpy(data<T>(), ptr, size * sizeof(T));
+    memcpy(this->data<T>(), ptr, size * sizeof(T));
 }
 
 template <typename T>

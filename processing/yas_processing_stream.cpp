@@ -23,22 +23,22 @@ processing::stream::stream(std::nullptr_t) : base(nullptr) {
 }
 
 processing::channel &processing::stream::add_channel(channel_index_t const channel) {
-    impl_ptr<impl>()->_channels.emplace(channel, processing::channel());
-    return impl_ptr<impl>()->_channels.at(channel);
+    this->impl_ptr<impl>()->_channels.emplace(channel, processing::channel());
+    return this->impl_ptr<impl>()->_channels.at(channel);
 }
 
 bool processing::stream::has_channel(channel_index_t const channel) {
-    return impl_ptr<impl>()->_channels.count(channel) > 0;
+    return this->impl_ptr<impl>()->_channels.count(channel) > 0;
 }
 
 processing::channel const &processing::stream::channel(channel_index_t const channel) const {
-    return impl_ptr<impl>()->_channels.at(channel);
+    return this->impl_ptr<impl>()->_channels.at(channel);
 }
 
 processing::channel &processing::stream::channel(channel_index_t const channel) {
-    return impl_ptr<impl>()->_channels.at(channel);
+    return this->impl_ptr<impl>()->_channels.at(channel);
 }
 
 std::size_t processing::stream::channel_count() const {
-    return impl_ptr<impl>()->_channels.size();
+    return this->impl_ptr<impl>()->_channels.size();
 }

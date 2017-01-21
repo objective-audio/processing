@@ -31,28 +31,28 @@ namespace processing {
 struct processing::module::impl : base::impl {
     impl(processors_t &&processors) : _processors(std::move(processors)) {
     }
-    
+
     connector_map_t &input_connectors() {
-        return _input_connectors;
+        return this->_input_connectors;
     }
-    
+
     connector_map_t &output_connectors() {
-        return _output_connectors;
+        return this->_output_connectors;
     }
-    
+
     processors_t &processors() {
-        return _processors;
+        return this->_processors;
     }
-    
+
     void process(processing::time::range const &time_range, stream &stream) {
-        for (auto &processor : _processors) {
+        for (auto &processor : this->_processors) {
             if (processor) {
-                processor(time_range, _input_connectors, _output_connectors, stream);
+                processor(time_range, this->_input_connectors, this->_output_connectors, stream);
             }
         }
     }
-    
-private:
+
+   private:
     processors_t _processors;
     connector_map_t _input_connectors;
     connector_map_t _output_connectors;
@@ -67,33 +67,33 @@ processing::module::module(std::nullptr_t) : base(nullptr) {
 }
 
 void processing::module::process(time::range const &time_range, stream &stream) {
-    impl_ptr<impl>()->process(time_range, stream);
+    this->impl_ptr<impl>()->process(time_range, stream);
 }
 
 processing::connector_map_t const &processing::module::input_connectors() const {
-    return impl_ptr<impl>()->input_connectors();
+    return this->impl_ptr<impl>()->input_connectors();
 }
 
 processing::connector_map_t const &processing::module::output_connectors() const {
-    return impl_ptr<impl>()->output_connectors();
+    return this->impl_ptr<impl>()->output_connectors();
 }
 
 void processing::module::connect_input(connector_index_t const con_idx, channel_index_t const ch_idx) {
-    connect(impl_ptr<impl>()->input_connectors(), con_idx, ch_idx);
+    connect(this->impl_ptr<impl>()->input_connectors(), con_idx, ch_idx);
 }
 
 void processing::module::connect_output(connector_index_t const con_idx, channel_index_t const ch_idx) {
-    connect(impl_ptr<impl>()->output_connectors(), con_idx, ch_idx);
+    connect(this->impl_ptr<impl>()->output_connectors(), con_idx, ch_idx);
 }
 
 void processing::module::disconnect_input(connector_index_t const idx) {
-    disconnect(impl_ptr<impl>()->input_connectors(), idx);
+    disconnect(this->impl_ptr<impl>()->input_connectors(), idx);
 }
 
 void processing::module::disconnect_output(connector_index_t const idx) {
-    disconnect(impl_ptr<impl>()->output_connectors(), idx);
+    disconnect(this->impl_ptr<impl>()->output_connectors(), idx);
 }
 
 processing::module::processors_t const &processing::module::processors() const {
-    return impl_ptr<impl>()->processors();
+    return this->impl_ptr<impl>()->processors();
 }

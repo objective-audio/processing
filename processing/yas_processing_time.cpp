@@ -11,78 +11,77 @@ using namespace yas;
 #pragma mark - time::range
 
 processing::time::range::range(frame_index_t const frame, length_t const length) : frame(frame), length(length) {
-    if (length == 0) {
+    if (this->length == 0) {
         throw "length is zero.";
     }
 }
 
 bool processing::time::range::operator==(time::range const &rhs) const {
-    return frame == rhs.frame && length == rhs.length;
+    return this->frame == rhs.frame && this->length == rhs.length;
 }
 
 bool processing::time::range::operator!=(time::range const &rhs) const {
-    return frame != rhs.frame || length != rhs.length;
+    return this->frame != rhs.frame || this->length != rhs.length;
 }
 
 bool processing::time::range::operator<(time::range const &rhs) const {
-    if (frame != rhs.frame) {
-        return frame < rhs.frame;
+    if (this->frame != rhs.frame) {
+        return this->frame < rhs.frame;
     }
 
-    return length < rhs.length;
+    return this->length < rhs.length;
 }
 
 processing::frame_index_t processing::time::range::next_frame() const {
-    return frame + length;
+    return this->frame + this->length;
 }
 
-bool processing::time::range::is_contain(time::range const &other) const {
-    if (length == 0) {
+bool processing::time::range::is_contain(time::range const &rhs) const {
+    if (this->length == 0) {
         return false;
     }
 
-    if (frame > other.frame) {
+    if (this->frame > rhs.frame) {
         return false;
     }
 
-    if (other.length > 0) {
-        return other.next_frame() <= next_frame();
+    if (rhs.length > 0) {
+        return rhs.next_frame() <= next_frame();
     } else {
-        return other.frame < next_frame();
+        return rhs.frame < next_frame();
     }
 }
 
 bool processing::time::range::is_contain(frame::type const &rhs_frame) const {
-    return frame <= rhs_frame && rhs_frame < next_frame();
+    return this->frame <= rhs_frame && rhs_frame < next_frame();
 }
 
 bool processing::time::range::is_contain(any::type const &any) const {
     return true;
 }
 
-bool processing::time::range::is_overlap(time::range const &other) const {
-    if (length == 0 || other.length == 0) {
+bool processing::time::range::is_overlap(time::range const &rhs) const {
+    if (this->length == 0 || rhs.length == 0) {
         return false;
     }
 
-    return std::max(frame, other.frame) < std::min(next_frame(), other.next_frame());
+    return std::max(this->frame, rhs.frame) < std::min(next_frame(), rhs.next_frame());
 }
 
-bool processing::time::range::can_combine(time::range const &other) const {
-    if (length == 0 || other.length == 0) {
+bool processing::time::range::can_combine(time::range const &rhs) const {
+    if (this->length == 0 || rhs.length == 0) {
         return false;
     }
 
-    bool const is_this_lower = frame <= other.frame;
-    auto const &lower_range = is_this_lower ? *this : other;
-    auto const &higher_range = is_this_lower ? other : *this;
+    bool const is_this_lower = this->frame <= rhs.frame;
+    auto const &lower_range = is_this_lower ? *this : rhs;
+    auto const &higher_range = is_this_lower ? rhs : *this;
     return lower_range.next_frame() >= higher_range.frame;
 }
 
-std::experimental::optional<processing::time::range> processing::time::range::intersect(
-    time::range const &other) const {
-    auto const start = std::max(frame, other.frame);
-    auto const next = std::min(next_frame(), other.next_frame());
+std::experimental::optional<processing::time::range> processing::time::range::intersect(time::range const &rhs) const {
+    auto const start = std::max(this->frame, rhs.frame);
+    auto const next = std::min(next_frame(), rhs.next_frame());
 
     if (start <= next) {
         return time::range{start, static_cast<length_t>(next - start)};
@@ -96,7 +95,7 @@ std::experimental::optional<processing::time::range> processing::time::range::co
         return std::experimental::nullopt;
     }
 
-    auto const start = std::min(frame, other.frame);
+    auto const start = std::min(this->frame, other.frame);
     auto const next = std::max(next_frame(), other.next_frame());
 
     return time::range{start, static_cast<length_t>(next - start)};
@@ -112,8 +111,8 @@ std::vector<processing::time::range> processing::time::range::crop(range const &
 
     if (auto const cropped_ragne_opt = intersect(other)) {
         auto const &cropped_range = *cropped_ragne_opt;
-        if (frame < cropped_range.frame) {
-            vec.emplace_back(time::range{frame, static_cast<length_t>(cropped_range.frame - frame)});
+        if (this->frame < cropped_range.frame) {
+            vec.emplace_back(time::range{this->frame, static_cast<length_t>(cropped_range.frame - this->frame)});
         }
 
         auto const cropped_next_frame = cropped_range.next_frame();
@@ -155,9 +154,9 @@ struct processing::time::impl : impl_base {
 
     virtual bool is_equal(std::shared_ptr<base::impl> const &rhs) const override {
         if (auto casted_rhs = std::dynamic_pointer_cast<impl>(rhs)) {
-            auto &type_info = type();
+            auto const &type_info = typeid(T);
             if (type_info == casted_rhs->type()) {
-                return _value == casted_rhs->_value;
+                return this->_value == casted_rhs->_value;
             }
         }
 
@@ -188,17 +187,17 @@ processing::time::time(std::nullptr_t) : base(nullptr) {
 }
 
 processing::time &processing::time::operator=(time::range const &range) {
-    set_impl_ptr(std::make_shared<impl<time::range>>(range));
+    this->set_impl_ptr(std::make_shared<impl<time::range>>(range));
     return *this;
 }
 
 processing::time &processing::time::operator=(time::range &&range) {
-    set_impl_ptr(std::make_shared<impl<time::range>>(std::move(range)));
+    this->set_impl_ptr(std::make_shared<impl<time::range>>(std::move(range)));
     return *this;
 }
 
 bool processing::time::operator<(time const &rhs) const {
-    if (is_any_type()) {
+    if (this->is_any_type()) {
         if (rhs.is_any_type()) {
             return false;
         } else {
@@ -208,17 +207,17 @@ bool processing::time::operator<(time const &rhs) const {
         return false;
     }
 
-    if (is_frame_type()) {
+    if (this->is_frame_type()) {
         if (rhs.is_frame_type()) {
-            return get<frame>() < rhs.get<frame>();
+            return this->get<frame>() < rhs.get<frame>();
         } else if (rhs.is_range_type()) {
             return true;
         }
-    } else if (is_range_type()) {
+    } else if (this->is_range_type()) {
         if (rhs.is_frame_type()) {
             return false;
         } else if (rhs.is_range_type()) {
-            return get<range>() < rhs.get<range>();
+            return this->get<range>() < rhs.get<range>();
         }
     }
 
@@ -226,24 +225,24 @@ bool processing::time::operator<(time const &rhs) const {
 }
 
 std::type_info const &processing::time::type() const {
-    return impl_ptr<impl_base>()->type();
+    return this->impl_ptr<impl_base>()->type();
 }
 
 bool processing::time::is_range_type() const {
-    return type() == typeid(range);
+    return this->type() == typeid(range);
 }
 
 bool processing::time::is_frame_type() const {
-    return type() == typeid(frame);
+    return this->type() == typeid(frame);
 }
 
 bool processing::time::is_any_type() const {
-    return type() == typeid(any);
+    return this->type() == typeid(any);
 }
 
 bool processing::time::is_contain(time const &rhs) const {
-    if (is_range_type()) {
-        auto const &range = get<time::range>();
+    if (this->is_range_type()) {
+        auto const &range = this->get<time::range>();
         if (rhs.is_range_type()) {
             return range.is_contain(rhs.get<time::range>());
         } else if (rhs.is_frame_type()) {
@@ -260,7 +259,7 @@ bool processing::time::is_contain(time const &rhs) const {
 
 template <typename T>
 typename T::type const &processing::time::get() const {
-    if (auto ip = std::dynamic_pointer_cast<impl<T>>(impl_ptr())) {
+    if (auto ip = std::dynamic_pointer_cast<impl<T>>(this->impl_ptr())) {
         return ip->_value;
     }
 
