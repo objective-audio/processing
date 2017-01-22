@@ -5,8 +5,6 @@
 #import <XCTest/XCTest.h>
 #import "yas_processing.h"
 
-#import <iostream>
-
 using namespace yas;
 using namespace yas::processing;
 
@@ -24,52 +22,47 @@ using namespace yas::processing;
     [super tearDown];
 }
 
-- (void)test_sine {
-    channel_index_t const ch_idx = 3;
-
-    auto sine_module = make_signal_module<double>(trigonometric::kind::sin);
-    sine_module.connect_output(to_connector_index(trigonometric::output_key::out), ch_idx);
-    sine_module.connect_input(to_connector_index(trigonometric::input_key::phase), ch_idx);
-
-    stream stream{sync_source{1, 8}};
-
-    {
-        auto &channel = stream.add_channel(ch_idx);
-
-        auto phase_signal = make_signal_event<double>(8);
-        auto *phase_data = phase_signal.data<double>();
-        auto const two_pi = 2.0 * M_PI;
-        phase_data[0] = 0.0;
-        phase_data[1] = 0.25 * two_pi;
-        phase_data[2] = 0.5 * two_pi;
-        phase_data[3] = 0.75 * two_pi;
-        phase_data[4] = 1.0 * two_pi;
-        phase_data[5] = 1.25 * two_pi;
-        phase_data[6] = 1.5 * two_pi;
-        phase_data[7] = 1.75 * two_pi;
-
-        channel.insert_event(make_range_time(0, 8), std::move(phase_signal));
-    }
-
-    sine_module.process(time::range{0, 8}, stream);
-
-    {
-        auto const &events = stream.channel(ch_idx).events();
-
-        XCTAssertEqual(events.size(), 1);
-
-        auto const signal = cast<processing::signal_event>((*events.begin()).second);
-        auto const &vec = signal.vector<double>();
-
-        XCTAssertEqualWithAccuracy(vec[0], 0.0, 0.01);
-        XCTAssertEqualWithAccuracy(vec[1], 1.0, 0.01);
-        XCTAssertEqualWithAccuracy(vec[2], 0.0, 0.01);
-        XCTAssertEqualWithAccuracy(vec[3], -1.0, 0.01);
-        XCTAssertEqualWithAccuracy(vec[4], 0.0, 0.01);
-        XCTAssertEqualWithAccuracy(vec[5], 1.0, 0.01);
-        XCTAssertEqualWithAccuracy(vec[6], 0.0, 0.01);
-        XCTAssertEqualWithAccuracy(vec[7], -1.0, 0.01);
-    }
+- (void)test_second {
+    channel_index_t const ch_idx = 8;
+    sample_rate_t const sr = 8;
+    length_t const process_length = sr * 2;
+    
+    stream stream{sync_source{sr, 20}};
+    
+    auto second_module = make_signal_module<double>(generator::kind::second, 0);
+    second_module.connect_output(to_connector_index(generator::output_key::out), ch_idx);
+    
+    second_module.process(time::range{0, process_length}, stream);
+    
+    XCTAssertTrue(stream.has_channel(ch_idx));
+    
+    auto const &channel = stream.channel(ch_idx);
+    
+    auto const &time = (*channel.events().begin()).first;
+    auto const &time_range = time.get<time::range>();
+    
+    XCTAssertEqual(time_range.frame, 0);
+    XCTAssertEqual(time_range.length, process_length);
+    
+    auto const &signal = cast<signal_event>((*channel.events().begin()).second);
+    auto *data = signal.data<double>();
+    
+    XCTAssertEqual(data[0], 0.0);
+    XCTAssertEqual(data[1], 0.125);
+    XCTAssertEqual(data[2], 0.25);
+    XCTAssertEqual(data[3], 0.375);
+    XCTAssertEqual(data[4], 0.5);
+    XCTAssertEqual(data[5], 0.625);
+    XCTAssertEqual(data[6], 0.75);
+    XCTAssertEqual(data[7], 0.875);
+    XCTAssertEqual(data[8], 1.0);
+    XCTAssertEqual(data[9], 1.125);
+    XCTAssertEqual(data[10], 1.25);
+    XCTAssertEqual(data[11], 1.375);
+    XCTAssertEqual(data[12], 1.5);
+    XCTAssertEqual(data[13], 1.625);
+    XCTAssertEqual(data[14], 1.75);
+    XCTAssertEqual(data[15], 1.875);
 }
 
 @end

@@ -49,7 +49,7 @@ namespace processing {
         template <typename T>
         processor_f make_receive_signal_processor(context_sptr const &context) {
             return processing::make_receive_signal_processor<T>(
-                [context](processing::time::range const &time_range, channel_index_t const,
+                [context](time::range const &time_range, sync_source const &, channel_index_t const,
                           connector_index_t const con_idx, T const *const signal_ptr) mutable {
                     if (con_idx == to_connector_index(input_key::left)) {
                         context->left_time = time_range;
@@ -75,7 +75,7 @@ processing::module processing::make_signal_module(math::kind const kind) {
     auto receive_processor = make_receive_signal_processor<T>(context);
 
     auto send_processor = processing::make_send_signal_processor<T>(
-        [context, kind](processing::time::range const &time_range, channel_index_t const,
+        [context, kind](processing::time::range const &time_range, sync_source const &, channel_index_t const,
                         connector_index_t const con_idx, T *const signal_ptr) {
             if (con_idx == to_connector_index(output_key::out)) {
                 auto out_each = make_fast_each(signal_ptr, time_range.length);
