@@ -98,7 +98,7 @@ namespace processing {
                 [context](processing::time::frame::type const &frame, channel_index_t const ch_idx,
                           connector_index_t const con_idx, In const &value) {
                     if (con_idx == to_connector_index(input_key::in)) {
-                        context->numbers.emplace(frame, value);
+                        context->numbers.emplace(std::make_pair(frame, value));
                     }
                 });
 
