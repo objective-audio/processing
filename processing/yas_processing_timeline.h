@@ -13,13 +13,13 @@ namespace yas {
 namespace processing {
     class track;
     class stream;
-    
+
     class timeline : public base {
         class impl;
 
        public:
         using track_map_t = std::map<track_index_t, track>;
-        
+
         timeline();
         timeline(std::nullptr_t);
 
@@ -31,7 +31,7 @@ namespace processing {
         bool has_track(track_index_t const) const;
         processing::track const &track(track_index_t const) const;
         processing::track &track(track_index_t const);
-        
+
         void process(time::range const &, stream &);
     };
 }
