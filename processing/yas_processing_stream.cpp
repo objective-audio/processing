@@ -31,10 +31,12 @@ processing::sync_source const &processing::stream::sync_source() const {
     return impl_ptr<impl>()->_sync_source;
 }
 
-processing::channel &processing::stream::add_channel(channel_index_t const channel) {
+processing::channel &processing::stream::add_channel(channel_index_t const ch_idx) {
     auto &channels = this->impl_ptr<impl>()->_channels;
-    channels.emplace(channel, processing::channel());
-    return channels.at(channel);
+    if (channels.count(ch_idx) == 0) {
+        channels.emplace(ch_idx, processing::channel{});
+    }
+    return channels.at(ch_idx);
 }
 
 bool processing::stream::has_channel(channel_index_t const channel) {
