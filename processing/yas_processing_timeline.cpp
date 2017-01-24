@@ -43,6 +43,13 @@ processing::track &processing::timeline::add_track(track_index_t const trk_idx) 
     return tracks.at(trk_idx);
 }
 
+void processing::timeline::remove_track(track_index_t const trk_idx) {
+    auto &tracks = this->impl_ptr<impl>()->_tracks;
+    if (tracks.count(trk_idx) > 0) {
+        tracks.erase(trk_idx);
+    }
+}
+
 std::size_t processing::timeline::track_count() const {
     return this->impl_ptr<impl>()->_tracks.size();
 }

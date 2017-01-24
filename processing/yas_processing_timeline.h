@@ -27,6 +27,7 @@ namespace processing {
         track_map_t &tracks();
 
         track &add_track(track_index_t const);
+        void remove_track(track_index_t const);
         std::size_t track_count() const;
         bool has_track(track_index_t const) const;
         processing::track const &track(track_index_t const) const;
