@@ -35,10 +35,6 @@ processing::timeline::track_map_t &processing::timeline::tracks() {
     return this->impl_ptr<impl>()->_tracks;
 }
 
-void processing::timeline::insert_track(track_index_t const idx, processing::track track) {
-    this->impl_ptr<impl>()->_tracks.emplace(idx, std::move(track));
-}
-
 processing::track &processing::timeline::add_track(track_index_t const trk_idx) {
     auto &tracks = this->impl_ptr<impl>()->_tracks;
     if (tracks.count(trk_idx) == 0) {
