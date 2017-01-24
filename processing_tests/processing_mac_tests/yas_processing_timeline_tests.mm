@@ -36,7 +36,7 @@ using namespace yas::processing;
     XCTAssertFalse(timeline);
 }
 
-- (void)test_track {
+- (void)test_add_track {
     timeline timeline;
 
     track &track1 = timeline.add_track(1);
@@ -54,6 +54,19 @@ using namespace yas::processing;
     XCTAssertTrue(timeline.track(-1) == trackMinus1);
 
     XCTAssertFalse(timeline.has_track(0));
+}
+
+- (void)test_remove_track {
+    timeline timeline;
+    
+    timeline.add_track(10);
+    timeline.add_track(11);
+    
+    timeline.remove_track(10);
+    
+    XCTAssertEqual(timeline.track_count(), 1);
+    XCTAssertFalse(timeline.has_track(10));
+    XCTAssertTrue(timeline.has_track(11));
 }
 
 - (void)test_process {
