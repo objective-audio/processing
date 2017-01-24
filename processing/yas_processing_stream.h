@@ -21,6 +21,7 @@ namespace processing {
         sync_source const &sync_source() const;
 
         processing::channel &add_channel(channel_index_t const);
+        void remove_channel(channel_index_t const);
         bool has_channel(channel_index_t const);
         processing::channel const &channel(channel_index_t const) const;
         processing::channel &channel(channel_index_t const);

@@ -39,6 +39,13 @@ processing::channel &processing::stream::add_channel(channel_index_t const ch_id
     return channels.at(ch_idx);
 }
 
+void processing::stream::remove_channel(channel_index_t const ch_idx) {
+    auto &channels = this->impl_ptr<impl>()->_channels;
+    if (channels.count(ch_idx) > 0) {
+        channels.erase(ch_idx);
+    }
+}
+
 bool processing::stream::has_channel(channel_index_t const channel) {
     return this->impl_ptr<impl>()->_channels.count(channel) > 0;
 }
