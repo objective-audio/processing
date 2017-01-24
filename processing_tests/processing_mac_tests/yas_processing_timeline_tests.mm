@@ -60,12 +60,13 @@ using namespace yas::processing;
     timeline timeline;
     
     timeline.add_track(10);
-    
-    XCTAssertTrue(timeline.has_track(10));
+    timeline.add_track(11);
     
     timeline.remove_track(10);
     
+    XCTAssertEqual(timeline.track_count(), 1);
     XCTAssertFalse(timeline.has_track(10));
+    XCTAssertTrue(timeline.has_track(11));
 }
 
 - (void)test_process {
