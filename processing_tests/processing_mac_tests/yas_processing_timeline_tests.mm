@@ -39,14 +39,9 @@ using namespace yas::processing;
 - (void)test_track {
     timeline timeline;
 
-    track track1;
-    timeline.insert_track(1, track1);
-
-    track track2;
-    timeline.insert_track(2, track2);
-
-    track trackMinus1;
-    timeline.insert_track(-1, trackMinus1);
+    track &track1 = timeline.add_track(1);
+    track &track2 = timeline.add_track(2);
+    track &trackMinus1 = timeline.add_track(-1);
 
     XCTAssertEqual(timeline.track_count(), 3);
 
@@ -80,8 +75,7 @@ using namespace yas::processing;
 
     // setup track1 > インデックスをそのままセット
 
-    track track1;
-    timeline.insert_track(1, track1);
+    track &track1 = timeline.add_track(1);
 
     auto send_handler1 = [](processing::time::range const &time_range, sync_source const &,
                             channel_index_t const ch_idx, connector_index_t const con_idx, int16_t *const signal_ptr) {
@@ -100,8 +94,7 @@ using namespace yas::processing;
 
     // setup track2 > +1する
 
-    track track2;
-    timeline.insert_track(2, track2);
+    track &track2 = timeline.add_track(2);
 
     auto send_handler2 = [&process_signal, &called_send_time](
         processing::time::range const &time_range, sync_source const &, channel_index_t const ch_idx,
