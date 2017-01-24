@@ -60,6 +60,19 @@ using namespace yas::processing;
     XCTAssertFalse(stream.has_channel(0));
 }
 
+- (void)test_remove_channel {
+    processing::stream stream{sync_source{1, 1}};
+    
+    stream.add_channel(10);
+    stream.add_channel(11);
+    
+    stream.remove_channel(10);
+    
+    XCTAssertEqual(stream.channel_count(), 1);
+    XCTAssertFalse(stream.has_channel(10));
+    XCTAssertTrue(stream.has_channel(11));
+}
+
 - (void)test_add_channel_return {
     processing::stream stream{sync_source{1, 1}};
 
