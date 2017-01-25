@@ -4,6 +4,8 @@
 
 #include "yas_processing_timeline.h"
 #include "yas_processing_track.h"
+#include "yas_processing_stream.h"
+#include "yas_processing_sync_source.h"
 
 using namespace yas;
 
@@ -68,4 +70,26 @@ processing::track &processing::timeline::track(track_index_t const trk_idx) {
 
 void processing::timeline::process(time::range const &time_range, stream &stream) {
     this->impl_ptr<impl>()->process(time_range, stream);
+}
+
+void processing::timeline::process(time::range const &time_range, sync_source const &sync_src,
+                                   offline_process_f handler) {
+    frame_index_t frame = time_range.frame;
+
+    while (frame < time_range.next_frame()) {
+        frame_index_t const sync_next_frame = frame + sync_src.slice_length;
+        frame_index_t const &end_next_frame = time_range.next_frame();
+
+        stream stream{sync_src};
+
+        time::range const current_time_range = time::range{
+            frame,
+            static_cast<length_t>(sync_next_frame < end_next_frame ? sync_next_frame - frame : end_next_frame - frame)};
+
+        this->process(current_time_range, stream);
+
+        handler(current_time_range, stream);
+
+        frame += sync_src.slice_length;
+    }
 }
