@@ -208,4 +208,42 @@ using namespace yas::processing;
     }
 }
 
+- (void)test_process_offline {
+    timeline timeline;
+    
+    channel_index_t const ch_idx = 0;
+    length_t const process_length = 5;
+    
+    auto &track = timeline.add_track(0);
+    auto fast_each = make_fast_each<length_t>(process_length);
+    while (yas_fast_each_next(fast_each)) {
+        auto const &idx = yas_fast_each_index(fast_each);
+        auto module = constant::make_signal_module<int8_t>(idx);
+        module.connect_output(to_connector_index(constant::output_key::out), ch_idx);
+        track.insert_module({idx, 1}, std::move(module));
+    }
+    
+    std::vector<std::pair<time::range, std::vector<int8_t>>> called;
+    
+    timeline.process(time::range{0, process_length}, sync_source{1, 2}, [&ch_idx, &called](time::range const &time_range, stream const &stream){
+        auto const &channel = stream.channel(ch_idx);
+        auto const &pair = *channel.events().begin();
+        auto const signal = cast<signal_event>(pair.second);
+        called.emplace_back(std::make_pair(pair.first.get<time::range>(), signal.vector<int8_t>()));
+    });
+    
+    XCTAssertEqual(called.size(), 3);
+    
+    XCTAssertEqual(called[0].first, (time::range{0, 2}));
+    XCTAssertEqual(called[0].second[0], 0);
+    XCTAssertEqual(called[0].second[1], 1);
+    
+    XCTAssertEqual(called[1].first, (time::range{2, 2}));
+    XCTAssertEqual(called[1].second[0], 2);
+    XCTAssertEqual(called[1].second[1], 3);
+    
+    XCTAssertEqual(called[2].first, (time::range{4, 1}));
+    XCTAssertEqual(called[2].second[0], 4);
+}
+
 @end
