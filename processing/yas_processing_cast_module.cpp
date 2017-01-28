@@ -9,14 +9,15 @@ using namespace yas;
 processing::cast::signal_context::signal_context(processing::signal_event &&signal) : signal(std::move(signal)) {
 }
 
-void processing::cast::signal_context::reset() {
+void processing::cast::signal_context::reset(std::size_t const reserve_size) {
+    this->signal.reserve(reserve_size);
     this->signal.resize(0);
     this->time = nullptr;
 }
 
 template <typename T>
 processing::cast::signal_context_sptr processing::cast::make_signal_context() {
-    return std::make_shared<signal_context>(make_signal_event<T>(0, reserved_signal_size));
+    return std::make_shared<signal_context>(make_signal_event<T>(0));
 }
 
 template processing::cast::signal_context_sptr processing::cast::make_signal_context<double>();

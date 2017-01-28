@@ -24,7 +24,9 @@ namespace processing {
                 : left_signal(std::move(left_signal)), right_signal(std::move(right_signal)) {
             }
 
-            void reset() {
+            void reset(std::size_t const reserve_size) {
+                this->left_signal.reserve(reserve_size);
+                this->right_signal.reserve(reserve_size);
                 this->left_signal.resize(0);
                 this->right_signal.resize(0);
                 this->left_time = nullptr;
@@ -36,13 +38,12 @@ namespace processing {
 
         template <typename T>
         context_sptr make_context() {
-            return std::make_shared<context>(make_signal_event<T>(0, reserved_signal_size),
-                                             make_signal_event<T>(0, reserved_signal_size));
+            return std::make_shared<context>(make_signal_event<T>(0), make_signal_event<T>(0));
         }
 
         processor_f make_prepare_processor(context_sptr &context) {
-            return [context](time::range const &, connector_map_t const &, connector_map_t const &, stream &) mutable {
-                context->reset();
+            return [context](time::range const &, connector_map_t const &, connector_map_t const &, stream &stream) mutable {
+                context->reset(stream.sync_source().slice_length);
             };
         }
 
