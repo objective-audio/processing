@@ -7,6 +7,7 @@
 #include "yas_processing_receive_signal_processor.h"
 #include "yas_processing_module.h"
 #include "yas_processing_signal_event.h"
+#include "yas_processing_constants.h"
 #include "yas_fast_each.h"
 
 using namespace yas;
@@ -88,8 +89,8 @@ processing::module processing::make_signal_module(math2::kind const kind) {
                 processing::time const &right_time = context->right_time;
                 auto const left_offset = left_time ? time_range.frame - left_time.get<time::range>().frame : 0;
                 auto const right_offset = right_time ? time_range.frame - right_time.get<time::range>().frame : 0;
-                auto const &left_length = left_time ? left_time.get<time::range>().length : zero_length;
-                auto const &right_length = right_time ? right_time.get<time::range>().length : zero_length;
+                auto const &left_length = left_time ? left_time.get<time::range>().length : constant::zero_length;
+                auto const &right_length = right_time ? right_time.get<time::range>().length : constant::zero_length;
 
                 while (yas_fast_each_next(out_each)) {
                     auto const &idx = yas_fast_each_index(out_each);
