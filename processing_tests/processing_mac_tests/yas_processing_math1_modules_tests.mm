@@ -5,8 +5,6 @@
 #import <XCTest/XCTest.h>
 #import "yas_processing.h"
 
-#import <iostream>
-
 using namespace yas;
 using namespace yas::processing;
 

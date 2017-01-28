@@ -7,6 +7,7 @@
 #include "yas_processing_send_signal_processor.h"
 #include "yas_processing_receive_signal_processor.h"
 #include "yas_processing_signal_event.h"
+#include "yas_processing_constants.h"
 #include "yas_fast_each.h"
 
 using namespace yas;
@@ -68,7 +69,7 @@ processing::module processing::make_signal_module(math1::kind const kind) {
                 auto const *phase_ptr = phase_signal.data<T>();
                 processing::time const &phase_time = context->phase_time;
                 auto const phase_offset = phase_time ? time_range.frame - phase_time.get<time::range>().frame : 0;
-                auto const &phase_length = phase_time ? phase_time.get<time::range>().length : zero_length;
+                auto const &phase_length = phase_time ? phase_time.get<time::range>().length : constant::zero_length;
 
                 while (yas_fast_each_next(out_each)) {
                     auto const &idx = yas_fast_each_index(out_each);
