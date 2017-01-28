@@ -1,8 +1,8 @@
 //
-//  yas_processing_math_modules.cpp
+//  yas_processing_math2_modules.cpp
 //
 
-#include "yas_processing_math_modules.h"
+#include "yas_processing_math2_modules.h"
 #include "yas_processing_send_signal_processor.h"
 #include "yas_processing_receive_signal_processor.h"
 #include "yas_processing_module.h"
@@ -13,7 +13,7 @@ using namespace yas;
 
 namespace yas {
 namespace processing {
-    namespace math {
+    namespace math2 {
         struct context {
             signal_event left_signal;
             signal_event right_signal;
@@ -66,8 +66,8 @@ namespace processing {
 }
 
 template <typename T>
-processing::module processing::make_signal_module(math::kind const kind) {
-    using namespace yas::processing::math;
+processing::module processing::make_signal_module(math2::kind const kind) {
+    using namespace yas::processing::math2;
 
     auto context = make_context<T>();
 
@@ -120,13 +120,13 @@ processing::module processing::make_signal_module(math::kind const kind) {
     return processing::module{{std::move(prepare_processor), std::move(receive_processor), std::move(send_processor)}};
 }
 
-template processing::module processing::make_signal_module<double>(math::kind const);
-template processing::module processing::make_signal_module<float>(math::kind const);
-template processing::module processing::make_signal_module<int64_t>(math::kind const);
-template processing::module processing::make_signal_module<int32_t>(math::kind const);
-template processing::module processing::make_signal_module<int16_t>(math::kind const);
-template processing::module processing::make_signal_module<int8_t>(math::kind const);
-template processing::module processing::make_signal_module<uint64_t>(math::kind const);
-template processing::module processing::make_signal_module<uint32_t>(math::kind const);
-template processing::module processing::make_signal_module<uint16_t>(math::kind const);
-template processing::module processing::make_signal_module<uint8_t>(math::kind const);
+template processing::module processing::make_signal_module<double>(math2::kind const);
+template processing::module processing::make_signal_module<float>(math2::kind const);
+template processing::module processing::make_signal_module<int64_t>(math2::kind const);
+template processing::module processing::make_signal_module<int32_t>(math2::kind const);
+template processing::module processing::make_signal_module<int16_t>(math2::kind const);
+template processing::module processing::make_signal_module<int8_t>(math2::kind const);
+template processing::module processing::make_signal_module<uint64_t>(math2::kind const);
+template processing::module processing::make_signal_module<uint32_t>(math2::kind const);
+template processing::module processing::make_signal_module<uint16_t>(math2::kind const);
+template processing::module processing::make_signal_module<uint8_t>(math2::kind const);

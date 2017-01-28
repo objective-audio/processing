@@ -1,5 +1,5 @@
 //
-//  yas_processing_math_modules.h
+//  yas_processing_math2_modules.h
 //
 
 #pragma once
@@ -10,7 +10,7 @@ namespace yas {
 namespace processing {
     class module;
 
-    namespace math {
+    namespace math2 {
         enum class kind {
             plus,
             minus,
@@ -29,6 +29,6 @@ namespace processing {
     }
 
     template <typename T>
-    module make_signal_module(math::kind const);
+    module make_signal_module(math2::kind const);
 }
 }

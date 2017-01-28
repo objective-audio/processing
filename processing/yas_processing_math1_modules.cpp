@@ -1,8 +1,8 @@
 //
-//  yas_processing_trigonometric_modules.cpp
+//  yas_processing_math1_modules.cpp
 //
 
-#include "yas_processing_trigonometric_modules.h"
+#include "yas_processing_math1_modules.h"
 #include "yas_processing_module.h"
 #include "yas_processing_send_signal_processor.h"
 #include "yas_processing_receive_signal_processor.h"
@@ -13,7 +13,7 @@ using namespace yas;
 
 namespace yas {
 namespace processing {
-    namespace trigonometric {
+    namespace math1 {
         template <typename T>
         static T constexpr zero_value = 0;
 
@@ -42,8 +42,8 @@ namespace processing {
 }
 
 template <typename T>
-processing::module processing::make_signal_module(trigonometric::kind const kind) {
-    using namespace yas::processing::trigonometric;
+processing::module processing::make_signal_module(math1::kind const kind) {
+    using namespace yas::processing::math1;
 
     auto context = make_context<T>();
 
@@ -53,7 +53,7 @@ processing::module processing::make_signal_module(trigonometric::kind const kind
     auto receive_processor = processing::make_receive_signal_processor<T>(
         [context](time::range const &time_range, sync_source const &, channel_index_t const,
                   connector_index_t const con_idx, T const *const signal_ptr) mutable {
-            if (con_idx == to_connector_index(input_key::phase)) {
+            if (con_idx == to_connector_index(input_key::in)) {
                 context->phase_time = time_range;
                 context->phase_signal.copy_from(signal_ptr, time_range.length);
             }
@@ -88,5 +88,5 @@ processing::module processing::make_signal_module(trigonometric::kind const kind
     return processing::module{{std::move(prepare_processor), std::move(receive_processor), std::move(send_processor)}};
 }
 
-template processing::module processing::make_signal_module<double>(trigonometric::kind const);
-template processing::module processing::make_signal_module<float>(trigonometric::kind const);
+template processing::module processing::make_signal_module<double>(math1::kind const);
+template processing::module processing::make_signal_module<float>(math1::kind const);
