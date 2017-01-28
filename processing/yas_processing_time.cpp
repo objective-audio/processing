@@ -83,7 +83,7 @@ std::experimental::optional<processing::time::range> processing::time::range::in
     auto const start = std::max(this->frame, rhs.frame);
     auto const next = std::min(next_frame(), rhs.next_frame());
 
-    if (start <= next) {
+    if (start < next) {
         return time::range{start, static_cast<length_t>(next - start)};
     } else {
         return std::experimental::nullopt;
