@@ -30,6 +30,7 @@ namespace processing {
         std::size_t sample_byte_count() const;
         std::size_t size() const;
         void resize(std::size_t const);
+        void reserve(std::size_t const);
 
         template <typename T>
         std::vector<T> const &vector() const;

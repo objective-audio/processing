@@ -24,3 +24,7 @@ std::size_t processing::signal_event::size() const {
 void processing::signal_event::resize(std::size_t const size) {
     return this->impl_ptr<impl>()->resize(size);
 }
+
+void processing::signal_event::reserve(std::size_t const size) {
+    return this->impl_ptr<impl>()->reserve(size);
+}
