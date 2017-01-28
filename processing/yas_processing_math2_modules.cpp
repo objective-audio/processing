@@ -113,6 +113,9 @@ processing::module processing::make_signal_module(math2::kind const kind) {
                             yas_fast_each_value(out_each) =
                                 (left_value == 0 || right_value == 0) ? 0 : left_value / right_value;
                             break;
+                        case kind::atan2:
+                            yas_fast_each_value(out_each) = std::atan2(left_value, right_value);
+                            break;
                     }
                 }
             }

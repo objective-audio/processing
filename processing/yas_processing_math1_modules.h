@@ -13,6 +13,11 @@ namespace processing {
     namespace math1 {
         enum class kind {
             sin,
+            cos,
+            tan,
+            asin,
+            acos,
+            atan,
         };
 
         enum class input_key : connector_index_t {
