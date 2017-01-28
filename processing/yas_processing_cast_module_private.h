@@ -24,7 +24,7 @@ namespace processing {
 
             signal_context(signal_event &&);
 
-            void reset();
+            void reset(std::size_t const);
         };
 
         using signal_context_sptr = std::shared_ptr<signal_context>;
@@ -37,7 +37,7 @@ namespace processing {
             auto context = make_signal_context<In>();
 
             auto prepare_processor = [context](time::range const &, connector_map_t const &, connector_map_t const &,
-                                               stream &) mutable { context->reset(); };
+                                               stream &stream) mutable { context->reset(stream.sync_source().slice_length); };
 
             auto receive_processor = processing::make_receive_signal_processor<In>(
                 [context](processing::time::range const &time_range, sync_source const &, channel_index_t const,

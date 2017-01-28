@@ -24,7 +24,8 @@ namespace processing {
             context(signal_event &&phase_signal) : phase_signal(std::move(phase_signal)) {
             }
 
-            void reset() {
+            void reset(std::size_t const reserve_size) {
+                this->phase_signal.reserve(reserve_size);
                 this->phase_signal.resize(0);
                 this->phase_time = nullptr;
             }
@@ -34,7 +35,7 @@ namespace processing {
 
         template <typename T>
         context_sptr make_context() {
-            return std::make_shared<context>(make_signal_event<T>(0, reserved_signal_size));
+            return std::make_shared<context>(make_signal_event<T>(0));
         }
     }
 }
@@ -47,7 +48,7 @@ processing::module processing::make_signal_module(trigonometric::kind const kind
     auto context = make_context<T>();
 
     auto prepare_processor = [context](time::range const &, connector_map_t const &, connector_map_t const &,
-                                       stream &) mutable { context->reset(); };
+                                       stream &stream) mutable { context->reset(stream.sync_source().slice_length); };
 
     auto receive_processor = processing::make_receive_signal_processor<T>(
         [context](time::range const &time_range, sync_source const &, channel_index_t const,

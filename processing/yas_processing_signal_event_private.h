@@ -12,6 +12,7 @@ struct processing::signal_event::impl : event::impl {
     virtual std::size_t sample_byte_count() const = 0;
     virtual std::size_t size() const = 0;
     virtual void resize(std::size_t const) = 0;
+    virtual void reserve(std::size_t const) = 0;
 
     bool validate_time(time const &time) override {
         if (time.is_range_type()) {
@@ -44,6 +45,10 @@ struct processing::signal_event::type_impl : impl {
 
     void resize(std::size_t const size) override {
         this->_vector_ref.resize(size);
+    }
+    
+    void reserve(std::size_t const size) override {
+        this->_vector_ref.reserve(size);
     }
 
     std::vector<T> &vector() {

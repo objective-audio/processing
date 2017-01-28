@@ -9,8 +9,6 @@
 
 namespace yas {
 namespace processing {
-    static auto constexpr reserved_signal_size = 1024;
-
     using channel_index_t = int64_t;
     using track_index_t = int64_t;
     using frame_index_t = int64_t;
