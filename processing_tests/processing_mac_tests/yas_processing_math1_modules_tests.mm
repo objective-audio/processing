@@ -1,5 +1,5 @@
 //
-//  yas_processing_trigonometric_modules_tests.mm
+//  yas_processing_math1_modules_tests.mm
 //
 
 #import <XCTest/XCTest.h>
@@ -10,11 +10,11 @@
 using namespace yas;
 using namespace yas::processing;
 
-@interface yas_processing_trigonometric_modules_tests : XCTestCase
+@interface yas_processing_math1_modules_tests : XCTestCase
 
 @end
 
-@implementation yas_processing_trigonometric_modules_tests
+@implementation yas_processing_math1_modules_tests
 
 - (void)setUp {
     [super setUp];
@@ -27,9 +27,9 @@ using namespace yas::processing;
 - (void)test_sine {
     channel_index_t const ch_idx = 3;
 
-    auto sine_module = make_signal_module<double>(trigonometric::kind::sin);
-    sine_module.connect_output(to_connector_index(trigonometric::output_key::out), ch_idx);
-    sine_module.connect_input(to_connector_index(trigonometric::input_key::phase), ch_idx);
+    auto sine_module = make_signal_module<double>(math1::kind::sin);
+    sine_module.connect_output(to_connector_index(math1::output_key::out), ch_idx);
+    sine_module.connect_input(to_connector_index(math1::input_key::in), ch_idx);
 
     stream stream{sync_source{1, 8}};
 
