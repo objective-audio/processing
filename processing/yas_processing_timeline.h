@@ -8,17 +8,20 @@
 #include "yas_processing_time.h"
 #include "yas_processing_types.h"
 #include <experimental/optional>
+#include <functional>
 
 namespace yas {
 namespace processing {
     class track;
     class stream;
+    class sync_source;
 
     class timeline : public base {
         class impl;
 
        public:
         using track_map_t = std::map<track_index_t, track>;
+        using offline_process_f = std::function<void(time::range const &, stream const &)>;
 
         timeline();
         timeline(std::nullptr_t);
@@ -34,6 +37,7 @@ namespace processing {
         processing::track &track(track_index_t const);
 
         void process(time::range const &, stream &);
+        void process(time::range const &, sync_source const &, offline_process_f);
     };
 }
 }
