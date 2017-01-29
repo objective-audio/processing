@@ -16,6 +16,8 @@ namespace processing {
             minus,
             multiply,
             divide,
+            
+            atan2,
         };
 
         enum class output_key : connector_index_t {

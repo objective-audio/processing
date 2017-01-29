@@ -81,6 +81,21 @@ processing::module processing::make_signal_module(math1::kind const kind) {
                         case kind::sin:
                             yas_fast_each_value(out_each) = std::sin(phase_value);
                             break;
+                        case kind::cos:
+                            yas_fast_each_value(out_each) = std::cos(phase_value);
+                            break;
+                        case kind::tan:
+                            yas_fast_each_value(out_each) = std::tan(phase_value);
+                            break;
+                        case kind::asin:
+                            yas_fast_each_value(out_each) = std::asin(phase_value);
+                            break;
+                        case kind::acos:
+                            yas_fast_each_value(out_each) = std::acos(phase_value);
+                            break;
+                        case kind::atan:
+                            yas_fast_each_value(out_each) = std::atan(phase_value);
+                            break;
                     }
                 }
             }
