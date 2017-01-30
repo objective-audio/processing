@@ -19,6 +19,13 @@ namespace processing {
             acos,
             atan,
 
+            sinh,
+            cosh,
+            tanh,
+            asinh,
+            acosh,
+            atanh,
+
             sqrt,
             cbrt,
             abs,

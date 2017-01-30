@@ -97,6 +97,25 @@ processing::module processing::make_signal_module(math1::kind const kind) {
                             yas_fast_each_value(out_each) = std::atan(phase_value);
                             break;
 
+                        case kind::sinh:
+                            yas_fast_each_value(out_each) = std::sinh(phase_value);
+                            break;
+                        case kind::cosh:
+                            yas_fast_each_value(out_each) = std::cosh(phase_value);
+                            break;
+                        case kind::tanh:
+                            yas_fast_each_value(out_each) = std::tanh(phase_value);
+                            break;
+                        case kind::asinh:
+                            yas_fast_each_value(out_each) = std::asinh(phase_value);
+                            break;
+                        case kind::acosh:
+                            yas_fast_each_value(out_each) = std::acosh(phase_value);
+                            break;
+                        case kind::atanh:
+                            yas_fast_each_value(out_each) = std::atanh(phase_value);
+                            break;
+
                         case kind::sqrt:
                             yas_fast_each_value(out_each) = std::sqrt(phase_value);
                             break;
