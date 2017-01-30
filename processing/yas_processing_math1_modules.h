@@ -26,6 +26,14 @@ namespace processing {
             acosh,
             atanh,
 
+            exp,
+            exp2,
+            expm1,
+            log,
+            log10,
+            log1p,
+            log2,
+
             sqrt,
             cbrt,
             abs,
