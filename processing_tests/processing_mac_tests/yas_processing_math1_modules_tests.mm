@@ -449,4 +449,92 @@ namespace test {
     XCTAssertEqualWithAccuracy(vec[7], 2.0, 0.01);
 }
 
+- (void)test_ceil {
+    channel_index_t const ch_idx = 30;
+    
+    auto module = test::make_module(math1::kind::ceil, ch_idx);
+    auto stream = test::make_stream(test::linear_input_data, ch_idx);
+    
+    module.process(time::range{0, test::process_length}, stream);
+    
+    auto const &events = stream.channel(ch_idx).events();
+    auto const signal = cast<processing::signal_event>((*events.begin()).second);
+    auto const &vec = signal.vector<double>();
+    
+    XCTAssertEqualWithAccuracy(vec[0], std::ceil(test::linear_input_data[0]), 0.01);
+    XCTAssertEqualWithAccuracy(vec[1], std::ceil(test::linear_input_data[1]), 0.01);
+    XCTAssertEqualWithAccuracy(vec[2], std::ceil(test::linear_input_data[2]), 0.01);
+    XCTAssertEqualWithAccuracy(vec[3], std::ceil(test::linear_input_data[3]), 0.01);
+    XCTAssertEqualWithAccuracy(vec[4], std::ceil(test::linear_input_data[4]), 0.01);
+    XCTAssertEqualWithAccuracy(vec[5], std::ceil(test::linear_input_data[5]), 0.01);
+    XCTAssertEqualWithAccuracy(vec[6], std::ceil(test::linear_input_data[6]), 0.01);
+    XCTAssertEqualWithAccuracy(vec[7], std::ceil(test::linear_input_data[7]), 0.01);
+}
+
+- (void)test_floor {
+    channel_index_t const ch_idx = 31;
+    
+    auto module = test::make_module(math1::kind::floor, ch_idx);
+    auto stream = test::make_stream(test::linear_input_data, ch_idx);
+    
+    module.process(time::range{0, test::process_length}, stream);
+    
+    auto const &events = stream.channel(ch_idx).events();
+    auto const signal = cast<processing::signal_event>((*events.begin()).second);
+    auto const &vec = signal.vector<double>();
+    
+    XCTAssertEqualWithAccuracy(vec[0], std::floor(test::linear_input_data[0]), 0.01);
+    XCTAssertEqualWithAccuracy(vec[1], std::floor(test::linear_input_data[1]), 0.01);
+    XCTAssertEqualWithAccuracy(vec[2], std::floor(test::linear_input_data[2]), 0.01);
+    XCTAssertEqualWithAccuracy(vec[3], std::floor(test::linear_input_data[3]), 0.01);
+    XCTAssertEqualWithAccuracy(vec[4], std::floor(test::linear_input_data[4]), 0.01);
+    XCTAssertEqualWithAccuracy(vec[5], std::floor(test::linear_input_data[5]), 0.01);
+    XCTAssertEqualWithAccuracy(vec[6], std::floor(test::linear_input_data[6]), 0.01);
+    XCTAssertEqualWithAccuracy(vec[7], std::floor(test::linear_input_data[7]), 0.01);
+}
+
+- (void)test_trunc {
+    channel_index_t const ch_idx = 32;
+    
+    auto module = test::make_module(math1::kind::trunc, ch_idx);
+    auto stream = test::make_stream(test::linear_input_data, ch_idx);
+    
+    module.process(time::range{0, test::process_length}, stream);
+    
+    auto const &events = stream.channel(ch_idx).events();
+    auto const signal = cast<processing::signal_event>((*events.begin()).second);
+    auto const &vec = signal.vector<double>();
+    
+    XCTAssertEqualWithAccuracy(vec[0], std::trunc(test::linear_input_data[0]), 0.01);
+    XCTAssertEqualWithAccuracy(vec[1], std::trunc(test::linear_input_data[1]), 0.01);
+    XCTAssertEqualWithAccuracy(vec[2], std::trunc(test::linear_input_data[2]), 0.01);
+    XCTAssertEqualWithAccuracy(vec[3], std::trunc(test::linear_input_data[3]), 0.01);
+    XCTAssertEqualWithAccuracy(vec[4], std::trunc(test::linear_input_data[4]), 0.01);
+    XCTAssertEqualWithAccuracy(vec[5], std::trunc(test::linear_input_data[5]), 0.01);
+    XCTAssertEqualWithAccuracy(vec[6], std::trunc(test::linear_input_data[6]), 0.01);
+    XCTAssertEqualWithAccuracy(vec[7], std::trunc(test::linear_input_data[7]), 0.01);
+}
+
+- (void)test_round {
+    channel_index_t const ch_idx = 33;
+    
+    auto module = test::make_module(math1::kind::round, ch_idx);
+    auto stream = test::make_stream(test::linear_input_data, ch_idx);
+    
+    module.process(time::range{0, test::process_length}, stream);
+    
+    auto const &events = stream.channel(ch_idx).events();
+    auto const signal = cast<processing::signal_event>((*events.begin()).second);
+    auto const &vec = signal.vector<double>();
+    
+    XCTAssertEqualWithAccuracy(vec[0], std::round(test::linear_input_data[0]), 0.01);
+    XCTAssertEqualWithAccuracy(vec[1], std::round(test::linear_input_data[1]), 0.01);
+    XCTAssertEqualWithAccuracy(vec[2], std::round(test::linear_input_data[2]), 0.01);
+    XCTAssertEqualWithAccuracy(vec[3], std::round(test::linear_input_data[3]), 0.01);
+    XCTAssertEqualWithAccuracy(vec[4], std::round(test::linear_input_data[4]), 0.01);
+    XCTAssertEqualWithAccuracy(vec[5], std::round(test::linear_input_data[5]), 0.01);
+    XCTAssertEqualWithAccuracy(vec[6], std::round(test::linear_input_data[6]), 0.01);
+    XCTAssertEqualWithAccuracy(vec[7], std::round(test::linear_input_data[7]), 0.01);
+}
+
 @end
