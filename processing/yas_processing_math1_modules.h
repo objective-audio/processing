@@ -18,6 +18,10 @@ namespace processing {
             asin,
             acos,
             atan,
+
+            sqrt,
+            cbrt,
+            abs,
         };
 
         enum class input_key : connector_index_t {
