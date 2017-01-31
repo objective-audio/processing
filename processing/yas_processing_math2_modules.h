@@ -18,6 +18,9 @@ namespace processing {
             divide,
             
             atan2,
+            
+            pow,
+            hypot,
         };
 
         enum class output_key : connector_index_t {
