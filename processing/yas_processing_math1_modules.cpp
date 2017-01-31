@@ -139,13 +139,13 @@ processing::module processing::make_signal_module(math1::kind const kind) {
                             break;
 
                         case kind::sqrt:
-                            yas_fast_each_value(out_each) = std::sqrt(phase_value);
+                            yas_fast_each_value(out_each) = std::sqrt(input_value);
                             break;
                         case kind::cbrt:
-                            yas_fast_each_value(out_each) = std::cbrt(phase_value);
+                            yas_fast_each_value(out_each) = std::cbrt(input_value);
                             break;
                         case kind::abs:
-                            yas_fast_each_value(out_each) = std::abs(phase_value);
+                            yas_fast_each_value(out_each) = std::abs(input_value);
                             break;
                     }
                 }
