@@ -17,5 +17,17 @@ namespace processing {
 
     using connector_index_t = uint32_t;
     using connector_index_set_t = std::unordered_set<connector_index_t>;
+    
+    struct boolean {
+        bool value = false;
+        
+        bool operator==(boolean const &rhs) const {
+            return value == rhs.value;
+        }
+        
+        bool operator!=(boolean const &rhs) const {
+            return value != rhs.value;
+        }
+    };
 }
 }
