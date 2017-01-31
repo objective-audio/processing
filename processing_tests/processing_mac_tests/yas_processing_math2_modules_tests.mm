@@ -277,4 +277,78 @@ namespace yas {
     XCTAssertEqual(vec[8], std::atan2(0.0, 0.0));
 }
 
+- (void)test_pow {
+    length_t const process_length = 5;
+    
+    double const left_data[2] = {
+        2.0, 2.0
+    };
+    
+    double const right_data[2] = {
+        4.0, 4.0
+    };
+    
+    auto stream = test::make_stream(time::range{0, process_length}, left_data, time::range{1, 2}, 0, right_data, time::range{2, 2}, 1);
+    
+    auto calc_module = make_signal_module<double>(math2::kind::pow);
+    calc_module.connect_input(to_connector_index(math2::input_key::left), 0);
+    calc_module.connect_input(to_connector_index(math2::input_key::right), 1);
+    calc_module.connect_output(to_connector_index(constant::output_key::out), 2);
+    
+    calc_module.process({0, 5}, stream);
+    
+    XCTAssertTrue(stream.has_channel(2));
+    
+    auto const &events = stream.channel(2).events();
+    
+    XCTAssertEqual(events.size(), 1);
+    
+    auto const &signal = cast<signal_event>((*events.begin()).second);
+    auto const &vec = signal.vector<double>();
+    
+    XCTAssertEqual(vec.size(), 5);
+    XCTAssertEqual(vec[0], std::pow(0.0, 0.0));
+    XCTAssertEqual(vec[1], std::pow(2.0, 0.0));
+    XCTAssertEqual(vec[2], std::pow(2.0, 4.0));
+    XCTAssertEqual(vec[3], std::pow(0.0, 4.0));
+    XCTAssertEqual(vec[4], std::pow(0.0, 0.0));
+}
+
+- (void)test_hypot {
+    length_t const process_length = 5;
+    
+    double const left_data[2] = {
+        1.0, 1.0
+    };
+    
+    double const right_data[2] = {
+        3.0, 3.0
+    };
+    
+    auto stream = test::make_stream(time::range{0, process_length}, left_data, time::range{1, 2}, 0, right_data, time::range{2, 2}, 1);
+    
+    auto calc_module = make_signal_module<double>(math2::kind::hypot);
+    calc_module.connect_input(to_connector_index(math2::input_key::left), 0);
+    calc_module.connect_input(to_connector_index(math2::input_key::right), 1);
+    calc_module.connect_output(to_connector_index(constant::output_key::out), 2);
+    
+    calc_module.process({0, 5}, stream);
+    
+    XCTAssertTrue(stream.has_channel(2));
+    
+    auto const &events = stream.channel(2).events();
+    
+    XCTAssertEqual(events.size(), 1);
+    
+    auto const &signal = cast<signal_event>((*events.begin()).second);
+    auto const &vec = signal.vector<double>();
+    
+    XCTAssertEqual(vec.size(), 5);
+    XCTAssertEqual(vec[0], std::hypot(0.0, 0.0));
+    XCTAssertEqual(vec[1], std::hypot(1.0, 0.0));
+    XCTAssertEqual(vec[2], std::hypot(1.0, 3.0));
+    XCTAssertEqual(vec[3], std::hypot(0.0, 3.0));
+    XCTAssertEqual(vec[4], std::hypot(0.0, 0.0));
+}
+
 @end

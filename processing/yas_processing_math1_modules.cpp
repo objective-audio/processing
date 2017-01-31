@@ -96,6 +96,16 @@ processing::module processing::make_signal_module(math1::kind const kind) {
                         case kind::atan:
                             yas_fast_each_value(out_each) = std::atan(phase_value);
                             break;
+
+                        case kind::sqrt:
+                            yas_fast_each_value(out_each) = std::sqrt(phase_value);
+                            break;
+                        case kind::cbrt:
+                            yas_fast_each_value(out_each) = std::cbrt(phase_value);
+                            break;
+                        case kind::abs:
+                            yas_fast_each_value(out_each) = std::abs(phase_value);
+                            break;
                     }
                 }
             }

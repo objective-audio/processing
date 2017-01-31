@@ -229,4 +229,70 @@ namespace test {
     XCTAssertEqualWithAccuracy(vec[7], std::atan(test::linear_input_data[7]), 0.01);
 }
 
+- (void)test_sqrt {
+    channel_index_t const ch_idx = 9;
+
+    auto module = test::make_module(math1::kind::sqrt, ch_idx);
+    auto stream = test::make_stream(test::linear_input_data, ch_idx);
+
+    module.process(time::range{0, test::process_length}, stream);
+
+    auto const &events = stream.channel(ch_idx).events();
+    auto const signal = cast<processing::signal_event>((*events.begin()).second);
+    auto const &vec = signal.vector<double>();
+
+    XCTAssertTrue(std::isnan(vec[0]));
+    XCTAssertTrue(std::isnan(vec[1]));
+    XCTAssertTrue(std::isnan(vec[2]));
+    XCTAssertEqualWithAccuracy(vec[3], std::sqrt(test::linear_input_data[3]), 0.01);
+    XCTAssertEqualWithAccuracy(vec[4], std::sqrt(test::linear_input_data[4]), 0.01);
+    XCTAssertEqualWithAccuracy(vec[5], std::sqrt(test::linear_input_data[5]), 0.01);
+    XCTAssertEqualWithAccuracy(vec[6], std::sqrt(test::linear_input_data[6]), 0.01);
+    XCTAssertEqualWithAccuracy(vec[7], std::sqrt(test::linear_input_data[7]), 0.01);
+}
+
+- (void)test_cbrt {
+    channel_index_t const ch_idx = 10;
+    
+    auto module = test::make_module(math1::kind::cbrt, ch_idx);
+    auto stream = test::make_stream(test::linear_input_data, ch_idx);
+    
+    module.process(time::range{0, test::process_length}, stream);
+    
+    auto const &events = stream.channel(ch_idx).events();
+    auto const signal = cast<processing::signal_event>((*events.begin()).second);
+    auto const &vec = signal.vector<double>();
+    
+    XCTAssertEqualWithAccuracy(vec[0], std::cbrt(test::linear_input_data[0]), 0.01);
+    XCTAssertEqualWithAccuracy(vec[1], std::cbrt(test::linear_input_data[1]), 0.01);
+    XCTAssertEqualWithAccuracy(vec[2], std::cbrt(test::linear_input_data[2]), 0.01);
+    XCTAssertEqualWithAccuracy(vec[3], std::cbrt(test::linear_input_data[3]), 0.01);
+    XCTAssertEqualWithAccuracy(vec[4], std::cbrt(test::linear_input_data[4]), 0.01);
+    XCTAssertEqualWithAccuracy(vec[5], std::cbrt(test::linear_input_data[5]), 0.01);
+    XCTAssertEqualWithAccuracy(vec[6], std::cbrt(test::linear_input_data[6]), 0.01);
+    XCTAssertEqualWithAccuracy(vec[7], std::cbrt(test::linear_input_data[7]), 0.01);
+}
+
+- (void)test_abs {
+    channel_index_t const ch_idx = 11;
+    
+    auto module = test::make_module(math1::kind::abs, ch_idx);
+    auto stream = test::make_stream(test::linear_input_data, ch_idx);
+    
+    module.process(time::range{0, test::process_length}, stream);
+    
+    auto const &events = stream.channel(ch_idx).events();
+    auto const signal = cast<processing::signal_event>((*events.begin()).second);
+    auto const &vec = signal.vector<double>();
+    
+    XCTAssertEqualWithAccuracy(vec[0], 1.5, 0.01);
+    XCTAssertEqualWithAccuracy(vec[1], 1.0, 0.01);
+    XCTAssertEqualWithAccuracy(vec[2], 0.5, 0.01);
+    XCTAssertEqualWithAccuracy(vec[3], 0.0, 0.01);
+    XCTAssertEqualWithAccuracy(vec[4], 0.5, 0.01);
+    XCTAssertEqualWithAccuracy(vec[5], 1.0, 0.01);
+    XCTAssertEqualWithAccuracy(vec[6], 1.5, 0.01);
+    XCTAssertEqualWithAccuracy(vec[7], 2.0, 0.01);
+}
+
 @end
