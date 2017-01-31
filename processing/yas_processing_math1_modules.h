@@ -19,9 +19,29 @@ namespace processing {
             acos,
             atan,
 
+            sinh,
+            cosh,
+            tanh,
+            asinh,
+            acosh,
+            atanh,
+
+            exp,
+            exp2,
+            expm1,
+            log,
+            log10,
+            log1p,
+            log2,
+
             sqrt,
             cbrt,
             abs,
+
+            ceil,
+            floor,
+            trunc,
+            round,
         };
 
         enum class input_key : connector_index_t {
