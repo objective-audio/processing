@@ -37,6 +37,11 @@ namespace processing {
             sqrt,
             cbrt,
             abs,
+
+            ceil,
+            floor,
+            trunc,
+            round,
         };
 
         enum class input_key : connector_index_t {

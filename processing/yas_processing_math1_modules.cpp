@@ -147,6 +147,19 @@ processing::module processing::make_signal_module(math1::kind const kind) {
                         case kind::abs:
                             yas_fast_each_value(out_each) = std::abs(input_value);
                             break;
+
+                        case kind::ceil:
+                            yas_fast_each_value(out_each) = std::ceil(input_value);
+                            break;
+                        case kind::floor:
+                            yas_fast_each_value(out_each) = std::floor(input_value);
+                            break;
+                        case kind::trunc:
+                            yas_fast_each_value(out_each) = std::trunc(input_value);
+                            break;
+                        case kind::round:
+                            yas_fast_each_value(out_each) = std::round(input_value);
+                            break;
                     }
                 }
             }
