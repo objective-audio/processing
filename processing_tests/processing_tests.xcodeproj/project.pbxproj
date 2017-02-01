@@ -48,6 +48,8 @@
 		B64EBC761E21DD81002697C4 /* yas_processing_cast_module_tests.mm in Sources */ = {isa = PBXBuildFile; fileRef = B64EBC751E21DD81002697C4 /* yas_processing_cast_module_tests.mm */; };
 		B6593B7C1E33A3240061385B /* yas_processing_generator_modules_tests.mm in Sources */ = {isa = PBXBuildFile; fileRef = B6593B7B1E33A3240061385B /* yas_processing_generator_modules_tests.mm */; };
 		B6593B851E344F130061385B /* yas_processing_number_to_signal_module.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B6593B831E344F130061385B /* yas_processing_number_to_signal_module.cpp */; };
+		B671F7891E4211BF00C8866B /* yas_processing_compare_modules.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B671F7871E4211BF00C8866B /* yas_processing_compare_modules.cpp */; };
+		B671F7961E422C1200C8866B /* yas_boolean.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B671F7941E422C1200C8866B /* yas_boolean.cpp */; };
 		B6A078191E231BAA00F0CA21 /* yas_processing_remove_number_processor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B6A078171E231BAA00F0CA21 /* yas_processing_remove_number_processor.cpp */; };
 		B6A0781B1E231FEF00F0CA21 /* yas_processing_remove_number_processor_tests.mm in Sources */ = {isa = PBXBuildFile; fileRef = B6A0781A1E231FEF00F0CA21 /* yas_processing_remove_number_processor_tests.mm */; };
 		B6AF4F791E15048300805168 /* yas_processing_signal_processor_tests.mm in Sources */ = {isa = PBXBuildFile; fileRef = B6AF4F781E15048300805168 /* yas_processing_signal_processor_tests.mm */; };
@@ -170,6 +172,10 @@
 		B6593B831E344F130061385B /* yas_processing_number_to_signal_module.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = yas_processing_number_to_signal_module.cpp; path = ../../processing/yas_processing_number_to_signal_module.cpp; sourceTree = "<group>"; };
 		B6593B841E344F130061385B /* yas_processing_number_to_signal_module.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yas_processing_number_to_signal_module.h; path = ../../processing/yas_processing_number_to_signal_module.h; sourceTree = "<group>"; };
 		B65947F31DE6AA4C009D5E34 /* yas_processing_signal_event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yas_processing_signal_event.h; path = ../../processing/yas_processing_signal_event.h; sourceTree = "<group>"; };
+		B671F7871E4211BF00C8866B /* yas_processing_compare_modules.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = yas_processing_compare_modules.cpp; path = ../../processing/yas_processing_compare_modules.cpp; sourceTree = "<group>"; };
+		B671F7881E4211BF00C8866B /* yas_processing_compare_modules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yas_processing_compare_modules.h; path = ../../processing/yas_processing_compare_modules.h; sourceTree = "<group>"; };
+		B671F7941E422C1200C8866B /* yas_boolean.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = yas_boolean.cpp; sourceTree = "<group>"; };
+		B671F7951E422C1200C8866B /* yas_boolean.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yas_boolean.h; sourceTree = "<group>"; };
 		B6A078171E231BAA00F0CA21 /* yas_processing_remove_number_processor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = yas_processing_remove_number_processor.cpp; path = ../../processing/yas_processing_remove_number_processor.cpp; sourceTree = "<group>"; };
 		B6A078181E231BAA00F0CA21 /* yas_processing_remove_number_processor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yas_processing_remove_number_processor.h; path = ../../processing/yas_processing_remove_number_processor.h; sourceTree = "<group>"; };
 		B6A0781A1E231FEF00F0CA21 /* yas_processing_remove_number_processor_tests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = yas_processing_remove_number_processor_tests.mm; sourceTree = "<group>"; };
@@ -293,6 +299,8 @@
 				B63674841DD9DFF500C724DB /* yas_base.cpp */,
 				B63674851DD9DFF500C724DB /* yas_base.h */,
 				B63674861DD9DFF500C724DB /* yas_base_private.h */,
+				B671F7941E422C1200C8866B /* yas_boolean.cpp */,
+				B671F7951E422C1200C8866B /* yas_boolean.h */,
 				B63674871DD9DFF500C724DB /* yas_cf_ref.cpp */,
 				B63674881DD9DFF500C724DB /* yas_cf_ref.h */,
 				B63674891DD9DFF500C724DB /* yas_cf_ref_private.h */,
@@ -408,6 +416,8 @@
 				B64EBC771E21DE49002697C4 /* yas_processing_cast_module_private.h */,
 				B64EBC721E21C43F002697C4 /* yas_processing_cast_module.cpp */,
 				B64EBC731E21C43F002697C4 /* yas_processing_cast_module.h */,
+				B671F7871E4211BF00C8866B /* yas_processing_compare_modules.cpp */,
+				B671F7881E4211BF00C8866B /* yas_processing_compare_modules.h */,
 				B6E0CB341E17728600329906 /* yas_processing_constant_module.cpp */,
 				B6E0CB351E17728600329906 /* yas_processing_constant_module.h */,
 				B6EA4E191E3055D800FFAD3B /* yas_processing_generator_modules.cpp */,
@@ -501,6 +511,7 @@
 				B636DB2E1E3599110070D28B /* yas_processing_number_to_signal_module_tests.mm in Sources */,
 				B6C4DADE1DF6F76E00621F80 /* yas_processing_track_tests.mm in Sources */,
 				B64EBC741E21C43F002697C4 /* yas_processing_cast_module.cpp in Sources */,
+				B671F7961E422C1200C8866B /* yas_boolean.cpp in Sources */,
 				B6593B7C1E33A3240061385B /* yas_processing_generator_modules_tests.mm in Sources */,
 				B64C096C1DF024F900B9DCB1 /* yas_processing_channel_tests.mm in Sources */,
 				B6E0CB261E1762A100329906 /* yas_processing_send_signal_processor.cpp in Sources */,
@@ -527,6 +538,7 @@
 				B6A0781B1E231FEF00F0CA21 /* yas_processing_remove_number_processor_tests.mm in Sources */,
 				B6E0CB361E17728600329906 /* yas_processing_constant_module.cpp in Sources */,
 				B60477B61E1A8E8000195A0F /* yas_processing_math2_modules.cpp in Sources */,
+				B671F7891E4211BF00C8866B /* yas_processing_compare_modules.cpp in Sources */,
 				B60E73AD1E1FCD9C007957E2 /* yas_processing_number_event_tests.mm in Sources */,
 				B6EA4E181E2EFD7700FFAD3B /* yas_processing_math1_modules_tests.mm in Sources */,
 				B63674BD1DD9DFF500C724DB /* yas_objc_ptr.mm in Sources */,
