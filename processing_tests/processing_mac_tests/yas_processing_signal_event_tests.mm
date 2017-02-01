@@ -5,6 +5,7 @@
 #import <XCTest/XCTest.h>
 #import "yas_processing_signal_event.h"
 #import "yas_each_index.h"
+#import "yas_boolean.h"
 #import <string>
 
 using namespace yas;
@@ -146,11 +147,13 @@ using namespace yas::processing;
 - (void)test_sample_byte_count {
     XCTAssertEqual(processing::make_signal_event<int8_t>(1).sample_byte_count(), 1);
     XCTAssertEqual(processing::make_signal_event<double>(1).sample_byte_count(), 8);
+    XCTAssertEqual(processing::make_signal_event<boolean>(1).sample_byte_count(), 1);
 }
 
 - (void)test_sample_type {
     XCTAssertTrue(processing::make_signal_event<int8_t>(1).sample_type() == typeid(int8_t));
     XCTAssertTrue(processing::make_signal_event<double>(0.0).sample_type() == typeid(double));
+    XCTAssertTrue(processing::make_signal_event<boolean>(1).sample_type() == typeid(boolean));
 }
 
 - (void)test_copy_from {
@@ -175,6 +178,19 @@ using namespace yas::processing;
 
     XCTAssertEqual(vec[0], 1000);
     XCTAssertEqual(vec[1], 1001);
+}
+
+- (void)test_boolean_signal_event {
+    auto signal_event = make_signal_event<boolean>(2);
+    
+    auto &vec = signal_event.vector<boolean>();
+    vec[0] = true;
+    vec[1] = false;
+    
+    auto const *data = signal_event.data<boolean>();
+    
+    XCTAssertTrue(data[0]);
+    XCTAssertFalse(data[1]);
 }
 
 @end

@@ -4,6 +4,7 @@
 
 #import <XCTest/XCTest.h>
 #import "yas_processing.h"
+#import "yas_boolean.h"
 
 using namespace yas;
 using namespace yas::processing;
@@ -44,11 +45,13 @@ using namespace yas::processing;
 - (void)test_sample_byte_count {
     XCTAssertEqual(processing::number_event{int8_t(0)}.sample_byte_count(), 1);
     XCTAssertEqual(processing::number_event{double(0.0)}.sample_byte_count(), 8);
+    XCTAssertEqual(processing::number_event{boolean{false}}.sample_byte_count(), 1);
 }
 
 - (void)test_sample_type {
     XCTAssertTrue(processing::number_event{int8_t(0)}.sample_type() == typeid(int8_t));
     XCTAssertTrue(processing::number_event{double(0.0)}.sample_type() == typeid(double));
+    XCTAssertTrue(processing::number_event{boolean{false}}.sample_type() == typeid(boolean));
 }
 
 @end
