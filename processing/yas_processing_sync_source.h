@@ -13,7 +13,7 @@ namespace processing {
         length_t const slice_length;
 
         sync_source(sample_rate_t const, length_t const);
-        
+
         bool operator==(sync_source const &) const;
         bool operator!=(sync_source const &) const;
     };
