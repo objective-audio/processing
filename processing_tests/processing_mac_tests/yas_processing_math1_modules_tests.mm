@@ -3,7 +3,7 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "yas_processing.h"
+#import "yas_processing_test_utils.h"
 
 using namespace yas;
 using namespace yas::processing;
@@ -35,14 +35,6 @@ namespace test {
         1.5,
         2.0,
     };
-    
-    static module make_module(math1::kind const kind, channel_index_t const ch_idx) {
-        auto module = make_signal_module<double>(kind);
-        module.connect_output(to_connector_index(math1::output_key::out), ch_idx);
-        module.connect_input(to_connector_index(math1::input_key::in), ch_idx);
-        
-        return module;
-    }
     
     static stream make_stream(double const *const data, channel_index_t const ch_idx) {
         stream stream{sync_source{1, process_length}};
@@ -100,7 +92,7 @@ namespace test {
 - (void)test_sin{
     channel_index_t const ch_idx = 3;
 
-    auto module = test::make_module(math1::kind::sin, ch_idx);
+    auto module = test::make_module<double>(math1::kind::sin, ch_idx);
     auto stream = test::make_stream(test::radian_input_data, ch_idx);
 
     module.process(time::range{0, test::process_length}, stream);
@@ -122,7 +114,7 @@ namespace test {
 - (void)test_cos {
     channel_index_t const ch_idx = 4;
     
-    auto module = test::make_module(math1::kind::cos, ch_idx);
+    auto module = test::make_module<double>(math1::kind::cos, ch_idx);
     auto stream = test::make_stream(test::radian_input_data, ch_idx);
     
     module.process(time::range{0, test::process_length}, stream);
@@ -144,7 +136,7 @@ namespace test {
 - (void)test_tan {
     channel_index_t const ch_idx = 5;
     
-    auto module = test::make_module(math1::kind::tan, ch_idx);
+    auto module = test::make_module<double>(math1::kind::tan, ch_idx);
     auto stream = test::make_stream(test::radian_input_data, ch_idx);
     
     module.process(time::range{0, test::process_length}, stream);
@@ -166,7 +158,7 @@ namespace test {
 - (void)test_asin {
     channel_index_t const ch_idx = 6;
     
-    auto module = test::make_module(math1::kind::asin, ch_idx);
+    auto module = test::make_module<double>(math1::kind::asin, ch_idx);
     auto stream = test::make_stream(test::linear_input_data, ch_idx);
     
     module.process(time::range{0, test::process_length}, stream);
@@ -188,7 +180,7 @@ namespace test {
 - (void)test_acos {
     channel_index_t const ch_idx = 7;
     
-    auto module = test::make_module(math1::kind::acos, ch_idx);
+    auto module = test::make_module<double>(math1::kind::acos, ch_idx);
     auto stream = test::make_stream(test::linear_input_data, ch_idx);
     
     module.process(time::range{0, test::process_length}, stream);
@@ -210,7 +202,7 @@ namespace test {
 - (void)test_atan {
     channel_index_t const ch_idx = 8;
     
-    auto module = test::make_module(math1::kind::atan, ch_idx);
+    auto module = test::make_module<double>(math1::kind::atan, ch_idx);
     auto stream = test::make_stream(test::linear_input_data, ch_idx);
     
     module.process(time::range{0, test::process_length}, stream);
@@ -232,7 +224,7 @@ namespace test {
 - (void)test_exp {
     channel_index_t const ch_idx = 20;
     
-    auto module = test::make_module(math1::kind::exp, ch_idx);
+    auto module = test::make_module<double>(math1::kind::exp, ch_idx);
     auto stream = test::make_stream(test::linear_input_data, ch_idx);
     
     module.process(time::range{0, test::process_length}, stream);
@@ -254,7 +246,7 @@ namespace test {
 - (void)test_exp2 {
     channel_index_t const ch_idx = 21;
     
-    auto module = test::make_module(math1::kind::exp2, ch_idx);
+    auto module = test::make_module<double>(math1::kind::exp2, ch_idx);
     auto stream = test::make_stream(test::linear_input_data, ch_idx);
     
     module.process(time::range{0, test::process_length}, stream);
@@ -276,7 +268,7 @@ namespace test {
 - (void)test_expm1 {
     channel_index_t const ch_idx = 22;
     
-    auto module = test::make_module(math1::kind::expm1, ch_idx);
+    auto module = test::make_module<double>(math1::kind::expm1, ch_idx);
     auto stream = test::make_stream(test::linear_input_data, ch_idx);
     
     module.process(time::range{0, test::process_length}, stream);
@@ -298,7 +290,7 @@ namespace test {
 - (void)test_log {
     channel_index_t const ch_idx = 23;
     
-    auto module = test::make_module(math1::kind::log, ch_idx);
+    auto module = test::make_module<double>(math1::kind::log, ch_idx);
     auto stream = test::make_stream(test::linear_input_data, ch_idx);
     
     module.process(time::range{0, test::process_length}, stream);
@@ -320,7 +312,7 @@ namespace test {
 - (void)test_log10 {
     channel_index_t const ch_idx = 24;
     
-    auto module = test::make_module(math1::kind::log10, ch_idx);
+    auto module = test::make_module<double>(math1::kind::log10, ch_idx);
     auto stream = test::make_stream(test::linear_input_data, ch_idx);
     
     module.process(time::range{0, test::process_length}, stream);
@@ -342,7 +334,7 @@ namespace test {
 - (void)test_log1p {
     channel_index_t const ch_idx = 25;
     
-    auto module = test::make_module(math1::kind::log1p, ch_idx);
+    auto module = test::make_module<double>(math1::kind::log1p, ch_idx);
     auto stream = test::make_stream(test::linear_input_data, ch_idx);
     
     module.process(time::range{0, test::process_length}, stream);
@@ -364,7 +356,7 @@ namespace test {
 - (void)test_log2 {
     channel_index_t const ch_idx = 26;
     
-    auto module = test::make_module(math1::kind::log2, ch_idx);
+    auto module = test::make_module<double>(math1::kind::log2, ch_idx);
     auto stream = test::make_stream(test::linear_input_data, ch_idx);
     
     module.process(time::range{0, test::process_length}, stream);
@@ -386,7 +378,7 @@ namespace test {
 - (void)test_sqrt {
     channel_index_t const ch_idx = 9;
 
-    auto module = test::make_module(math1::kind::sqrt, ch_idx);
+    auto module = test::make_module<double>(math1::kind::sqrt, ch_idx);
     auto stream = test::make_stream(test::linear_input_data, ch_idx);
 
     module.process(time::range{0, test::process_length}, stream);
@@ -408,7 +400,7 @@ namespace test {
 - (void)test_cbrt {
     channel_index_t const ch_idx = 10;
     
-    auto module = test::make_module(math1::kind::cbrt, ch_idx);
+    auto module = test::make_module<double>(math1::kind::cbrt, ch_idx);
     auto stream = test::make_stream(test::linear_input_data, ch_idx);
     
     module.process(time::range{0, test::process_length}, stream);
@@ -430,7 +422,7 @@ namespace test {
 - (void)test_abs {
     channel_index_t const ch_idx = 11;
     
-    auto module = test::make_module(math1::kind::abs, ch_idx);
+    auto module = test::make_module<double>(math1::kind::abs, ch_idx);
     auto stream = test::make_stream(test::linear_input_data, ch_idx);
     
     module.process(time::range{0, test::process_length}, stream);
@@ -452,7 +444,7 @@ namespace test {
 - (void)test_ceil {
     channel_index_t const ch_idx = 30;
     
-    auto module = test::make_module(math1::kind::ceil, ch_idx);
+    auto module = test::make_module<double>(math1::kind::ceil, ch_idx);
     auto stream = test::make_stream(test::linear_input_data, ch_idx);
     
     module.process(time::range{0, test::process_length}, stream);
@@ -474,7 +466,7 @@ namespace test {
 - (void)test_floor {
     channel_index_t const ch_idx = 31;
     
-    auto module = test::make_module(math1::kind::floor, ch_idx);
+    auto module = test::make_module<double>(math1::kind::floor, ch_idx);
     auto stream = test::make_stream(test::linear_input_data, ch_idx);
     
     module.process(time::range{0, test::process_length}, stream);
@@ -496,7 +488,7 @@ namespace test {
 - (void)test_trunc {
     channel_index_t const ch_idx = 32;
     
-    auto module = test::make_module(math1::kind::trunc, ch_idx);
+    auto module = test::make_module<double>(math1::kind::trunc, ch_idx);
     auto stream = test::make_stream(test::linear_input_data, ch_idx);
     
     module.process(time::range{0, test::process_length}, stream);
@@ -518,7 +510,7 @@ namespace test {
 - (void)test_round {
     channel_index_t const ch_idx = 33;
     
-    auto module = test::make_module(math1::kind::round, ch_idx);
+    auto module = test::make_module<double>(math1::kind::round, ch_idx);
     auto stream = test::make_stream(test::linear_input_data, ch_idx);
     
     module.process(time::range{0, test::process_length}, stream);

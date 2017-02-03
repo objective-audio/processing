@@ -3,62 +3,7 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "yas_processing.h"
-
-using namespace yas;
-using namespace yas::processing;
-
-namespace yas {
-    namespace test {
-        template <typename T>
-        static module make_module(math1::kind const kind, channel_index_t const ch_idx) {
-            auto module = make_signal_module<T>(kind);
-            module.connect_output(to_connector_index(math1::output_key::out), ch_idx);
-            module.connect_input(to_connector_index(math1::input_key::in), ch_idx);
-            
-            return module;
-        }
-        
-        template <typename T>
-        static stream make_stream(time::range const time_range,
-                                  T const *const left_data,
-                                  time::range const left_time_range,
-                                  channel_index_t const left_ch_idx,
-                                  T const *const right_data,
-                                  time::range const right_time_range,
-                                  channel_index_t const right_ch_idx) {
-            stream stream{sync_source{1, time_range.length}};
-            
-            {
-                auto &channel = stream.add_channel(left_ch_idx);
-                
-                signal_event signal = make_signal_event<T>(left_time_range.length);
-                auto *out_data = signal.data<T>();
-                auto each = make_fast_each(out_data, left_time_range.length);
-                while (yas_fast_each_next(each)) {
-                    yas_fast_each_value(each) = left_data[yas_fast_each_index(each)];
-                }
-                
-                channel.insert_event(processing::time{left_time_range}, std::move(signal));
-            }
-            
-            {
-                auto &channel = stream.add_channel(right_ch_idx);
-                
-                signal_event signal = make_signal_event<T>(right_time_range.length);
-                auto *out_data = signal.data<T>();
-                auto each = make_fast_each(out_data, right_time_range.length);
-                while (yas_fast_each_next(each)) {
-                    yas_fast_each_value(each) = right_data[yas_fast_each_index(each)];
-                }
-                
-                channel.insert_event(processing::time{right_time_range}, std::move(signal));
-            }
-            
-            return stream;
-        }
-    }
-}
+#import "yas_processing_test_utils.h"
 
 @interface yas_processing_math2_modules_tests : XCTestCase
 
@@ -86,6 +31,15 @@ namespace yas {
 
     auto divide_module = make_signal_module<int16_t>(math2::kind::divide);
     XCTAssertTrue(divide_module);
+    
+    auto atan2_module = make_signal_module<int16_t>(math2::kind::atan2);
+    XCTAssertTrue(atan2_module);
+    
+    auto pow_module = make_signal_module<int16_t>(math2::kind::pow);
+    XCTAssertTrue(pow_module);
+    
+    auto hypot_module = make_signal_module<int16_t>(math2::kind::hypot);
+    XCTAssertTrue(hypot_module);
 }
 
 - (void)test_plus_process {
@@ -104,7 +58,7 @@ namespace yas {
     auto calc_module = make_signal_module<int16_t>(math2::kind::plus);
     calc_module.connect_input(to_connector_index(math2::input_key::left), 0);
     calc_module.connect_input(to_connector_index(math2::input_key::right), 1);
-    calc_module.connect_output(to_connector_index(constant::output_key::out), 2);
+    calc_module.connect_output(to_connector_index(math2::output_key::out), 2);
 
     calc_module.process({0, process_length}, stream);
 
@@ -141,7 +95,7 @@ namespace yas {
     auto calc_module = make_signal_module<int16_t>(math2::kind::minus);
     calc_module.connect_input(to_connector_index(math2::input_key::left), 0);
     calc_module.connect_input(to_connector_index(math2::input_key::right), 1);
-    calc_module.connect_output(to_connector_index(constant::output_key::out), 2);
+    calc_module.connect_output(to_connector_index(math2::output_key::out), 2);
 
     calc_module.process({0, 5}, stream);
 
@@ -178,7 +132,7 @@ namespace yas {
     auto calc_module = make_signal_module<int16_t>(math2::kind::multiply);
     calc_module.connect_input(to_connector_index(math2::input_key::left), 0);
     calc_module.connect_input(to_connector_index(math2::input_key::right), 1);
-    calc_module.connect_output(to_connector_index(constant::output_key::out), 2);
+    calc_module.connect_output(to_connector_index(math2::output_key::out), 2);
 
     calc_module.process({0, 5}, stream);
 
@@ -215,7 +169,7 @@ namespace yas {
     auto calc_module = make_signal_module<int16_t>(math2::kind::divide);
     calc_module.connect_input(to_connector_index(math2::input_key::left), 0);
     calc_module.connect_input(to_connector_index(math2::input_key::right), 1);
-    calc_module.connect_output(to_connector_index(constant::output_key::out), 2);
+    calc_module.connect_output(to_connector_index(math2::output_key::out), 2);
 
     calc_module.process({0, 5}, stream);
 
@@ -252,7 +206,7 @@ namespace yas {
     auto calc_module = make_signal_module<double>(math2::kind::atan2);
     calc_module.connect_input(to_connector_index(math2::input_key::left), 0);
     calc_module.connect_input(to_connector_index(math2::input_key::right), 1);
-    calc_module.connect_output(to_connector_index(constant::output_key::out), 2);
+    calc_module.connect_output(to_connector_index(math2::output_key::out), 2);
     
     calc_module.process({0, process_length}, stream);
 
@@ -293,7 +247,7 @@ namespace yas {
     auto calc_module = make_signal_module<double>(math2::kind::pow);
     calc_module.connect_input(to_connector_index(math2::input_key::left), 0);
     calc_module.connect_input(to_connector_index(math2::input_key::right), 1);
-    calc_module.connect_output(to_connector_index(constant::output_key::out), 2);
+    calc_module.connect_output(to_connector_index(math2::output_key::out), 2);
     
     calc_module.process({0, 5}, stream);
     
@@ -330,7 +284,7 @@ namespace yas {
     auto calc_module = make_signal_module<double>(math2::kind::hypot);
     calc_module.connect_input(to_connector_index(math2::input_key::left), 0);
     calc_module.connect_input(to_connector_index(math2::input_key::right), 1);
-    calc_module.connect_output(to_connector_index(constant::output_key::out), 2);
+    calc_module.connect_output(to_connector_index(math2::output_key::out), 2);
     
     calc_module.process({0, 5}, stream);
     
