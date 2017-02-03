@@ -20,6 +20,7 @@
 
 #include "yas_processing_constant_module.h"
 #include "yas_processing_generator_modules.h"
+#include "yas_processing_compare_modules.h"
 #include "yas_processing_math2_modules.h"
 #include "yas_processing_math1_modules.h"
 #include "yas_processing_cast_module.h"

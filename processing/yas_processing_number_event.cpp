@@ -3,6 +3,7 @@
 //
 
 #include "yas_processing_number_event.h"
+#include "yas_boolean.h"
 
 using namespace yas;
 
@@ -48,6 +49,7 @@ template processing::number_event::number_event(uint64_t);
 template processing::number_event::number_event(uint32_t);
 template processing::number_event::number_event(uint16_t);
 template processing::number_event::number_event(uint8_t);
+template processing::number_event::number_event(boolean);
 
 processing::number_event::number_event(std::nullptr_t) : event(nullptr) {
 }
@@ -75,6 +77,7 @@ template uint64_t const &processing::number_event::get() const;
 template uint32_t const &processing::number_event::get() const;
 template uint16_t const &processing::number_event::get() const;
 template uint8_t const &processing::number_event::get() const;
+template bool const &processing::number_event::get() const;
 
 template <typename T>
 processing::number_event processing::make_number_event(T value) {
@@ -91,3 +94,4 @@ template processing::number_event processing::make_number_event(uint64_t);
 template processing::number_event processing::make_number_event(uint32_t);
 template processing::number_event processing::make_number_event(uint16_t);
 template processing::number_event processing::make_number_event(uint8_t);
+template processing::number_event processing::make_number_event(boolean);

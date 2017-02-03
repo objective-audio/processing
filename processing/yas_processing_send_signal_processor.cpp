@@ -8,6 +8,7 @@
 #include "yas_processing_channel.h"
 #include "yas_processing_signal_event.h"
 #include "yas_stl_utils.h"
+#include "yas_boolean.h"
 
 using namespace yas;
 
@@ -84,3 +85,4 @@ template processing::processor_f processing::make_send_signal_processor(processi
 template processing::processor_f processing::make_send_signal_processor(processing::send_signal_process_f<uint32_t>);
 template processing::processor_f processing::make_send_signal_processor(processing::send_signal_process_f<uint16_t>);
 template processing::processor_f processing::make_send_signal_processor(processing::send_signal_process_f<uint8_t>);
+template processing::processor_f processing::make_send_signal_processor(processing::send_signal_process_f<boolean>);
