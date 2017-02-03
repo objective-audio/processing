@@ -29,7 +29,7 @@ namespace processing {
         template <typename T>
         T const &get() const;
     };
-    
+
     template <typename T>
     number_event make_number_event(T);
 }

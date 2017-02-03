@@ -46,7 +46,7 @@ struct processing::signal_event::type_impl : impl {
     void resize(std::size_t const size) override {
         this->_vector_ref.resize(size);
     }
-    
+
     void reserve(std::size_t const size) override {
         this->_vector_ref.reserve(size);
     }
