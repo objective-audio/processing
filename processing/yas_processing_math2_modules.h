@@ -16,9 +16,9 @@ namespace processing {
             minus,
             multiply,
             divide,
-            
+
             atan2,
-            
+
             pow,
             hypot,
         };

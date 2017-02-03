@@ -43,9 +43,8 @@ namespace processing {
         }
 
         processor_f make_prepare_processor(context_sptr &context) {
-            return [context](time::range const &, connector_map_t const &, connector_map_t const &, stream &stream) mutable {
-                context->reset(stream.sync_source().slice_length);
-            };
+            return [context](time::range const &, connector_map_t const &, connector_map_t const &,
+                             stream &stream) mutable { context->reset(stream.sync_source().slice_length); };
         }
 
         template <typename T>
