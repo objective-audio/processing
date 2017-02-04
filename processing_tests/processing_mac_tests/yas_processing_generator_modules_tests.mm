@@ -30,7 +30,7 @@ using namespace yas::processing;
     stream stream{sync_source{sr, 20}};
     
     auto second_module = make_signal_module<double>(generator::kind::second, 0);
-    second_module.connect_output(to_connector_index(generator::output_key::out), ch_idx);
+    second_module.connect_output(to_connector_index(generator::output_key::value), ch_idx);
     
     second_module.process(time::range{0, process_length}, stream);
     

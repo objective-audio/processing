@@ -20,7 +20,7 @@ processing::module processing::make_signal_module(generator::kind const kind, fr
     auto send_processor = processing::make_send_signal_processor<T>(
         [kind, offset](processing::time::range const &time_range, sync_source const &sync_src, channel_index_t const,
                        connector_index_t const con_idx, T *const signal_ptr) {
-            if (con_idx == to_connector_index(output_key::out)) {
+            if (con_idx == to_connector_index(output_key::value)) {
                 auto out_each = make_fast_each(signal_ptr, time_range.length);
                 auto const top_idx = offset + time_range.frame;
                 T const sr = sync_src.sample_rate;
