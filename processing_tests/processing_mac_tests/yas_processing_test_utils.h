@@ -25,6 +25,25 @@ namespace test {
     }
 
     template <typename T>
+    static stream make_stream(time::range const time_range, T const *const data, time::range const data_time_range,
+                              channel_index_t const ch_idx) {
+        stream stream{sync_source{1, time_range.length}};
+
+        auto &channel = stream.add_channel(ch_idx);
+
+        signal_event phase_signal = make_signal_event<T>(data_time_range.length);
+        auto *phase_data = phase_signal.data<T>();
+        auto each = make_fast_each(phase_data, data_time_range.length);
+        while (yas_fast_each_next(each)) {
+            yas_fast_each_value(each) = data[yas_fast_each_index(each)];
+        }
+
+        channel.insert_event(processing::time{data_time_range}, std::move(phase_signal));
+
+        return stream;
+    }
+
+    template <typename T>
     static stream make_stream(time::range const time_range, T const *const left_data, time::range const left_time_range,
                               channel_index_t const left_ch_idx, T const *const right_data,
                               time::range const right_time_range, channel_index_t const right_ch_idx) {
