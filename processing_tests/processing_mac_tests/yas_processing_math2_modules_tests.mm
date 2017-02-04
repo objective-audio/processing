@@ -58,7 +58,7 @@
     auto calc_module = make_signal_module<int16_t>(math2::kind::plus);
     calc_module.connect_input(to_connector_index(math2::input_key::left), 0);
     calc_module.connect_input(to_connector_index(math2::input_key::right), 1);
-    calc_module.connect_output(to_connector_index(math2::output_key::out), 2);
+    calc_module.connect_output(to_connector_index(math2::output_key::result), 2);
 
     calc_module.process({0, process_length}, stream);
 
@@ -95,7 +95,7 @@
     auto calc_module = make_signal_module<int16_t>(math2::kind::minus);
     calc_module.connect_input(to_connector_index(math2::input_key::left), 0);
     calc_module.connect_input(to_connector_index(math2::input_key::right), 1);
-    calc_module.connect_output(to_connector_index(math2::output_key::out), 2);
+    calc_module.connect_output(to_connector_index(math2::output_key::result), 2);
 
     calc_module.process({0, 5}, stream);
 
@@ -132,7 +132,7 @@
     auto calc_module = make_signal_module<int16_t>(math2::kind::multiply);
     calc_module.connect_input(to_connector_index(math2::input_key::left), 0);
     calc_module.connect_input(to_connector_index(math2::input_key::right), 1);
-    calc_module.connect_output(to_connector_index(math2::output_key::out), 2);
+    calc_module.connect_output(to_connector_index(math2::output_key::result), 2);
 
     calc_module.process({0, 5}, stream);
 
@@ -169,7 +169,7 @@
     auto calc_module = make_signal_module<int16_t>(math2::kind::divide);
     calc_module.connect_input(to_connector_index(math2::input_key::left), 0);
     calc_module.connect_input(to_connector_index(math2::input_key::right), 1);
-    calc_module.connect_output(to_connector_index(math2::output_key::out), 2);
+    calc_module.connect_output(to_connector_index(math2::output_key::result), 2);
 
     calc_module.process({0, 5}, stream);
 
@@ -206,7 +206,7 @@
     auto calc_module = make_signal_module<double>(math2::kind::atan2);
     calc_module.connect_input(to_connector_index(math2::input_key::left), 0);
     calc_module.connect_input(to_connector_index(math2::input_key::right), 1);
-    calc_module.connect_output(to_connector_index(math2::output_key::out), 2);
+    calc_module.connect_output(to_connector_index(math2::output_key::result), 2);
     
     calc_module.process({0, process_length}, stream);
 
@@ -247,7 +247,7 @@
     auto calc_module = make_signal_module<double>(math2::kind::pow);
     calc_module.connect_input(to_connector_index(math2::input_key::left), 0);
     calc_module.connect_input(to_connector_index(math2::input_key::right), 1);
-    calc_module.connect_output(to_connector_index(math2::output_key::out), 2);
+    calc_module.connect_output(to_connector_index(math2::output_key::result), 2);
     
     calc_module.process({0, 5}, stream);
     
@@ -284,7 +284,7 @@
     auto calc_module = make_signal_module<double>(math2::kind::hypot);
     calc_module.connect_input(to_connector_index(math2::input_key::left), 0);
     calc_module.connect_input(to_connector_index(math2::input_key::right), 1);
-    calc_module.connect_output(to_connector_index(math2::output_key::out), 2);
+    calc_module.connect_output(to_connector_index(math2::output_key::result), 2);
     
     calc_module.process({0, 5}, stream);
     
