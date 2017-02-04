@@ -19,7 +19,7 @@ namespace test {
     static module make_module(Kind const kind, channel_index_t const ch_idx) {
         auto module = make_signal_module<T>(kind);
         module.connect_output(to_connector_index(math1::output_key::result), ch_idx);
-        module.connect_input(to_connector_index(math1::input_key::in), ch_idx);
+        module.connect_input(to_connector_index(math1::input_key::parameter), ch_idx);
 
         return module;
     }

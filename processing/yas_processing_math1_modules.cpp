@@ -54,7 +54,7 @@ processing::module processing::make_signal_module(math1::kind const kind) {
     auto receive_processor = processing::make_receive_signal_processor<T>(
         [context](time::range const &time_range, sync_source const &, channel_index_t const,
                   connector_index_t const con_idx, T const *const signal_ptr) mutable {
-            if (con_idx == to_connector_index(input_key::in)) {
+            if (con_idx == to_connector_index(input_key::parameter)) {
                 context->input_time = time_range;
                 context->input_signal.copy_from(signal_ptr, time_range.length);
             }
