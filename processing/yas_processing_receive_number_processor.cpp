@@ -6,6 +6,7 @@
 #include "yas_processing_number_event.h"
 #include "yas_processing_channel.h"
 #include "yas_processing_stream.h"
+#include "yas_boolean.h"
 
 using namespace yas;
 
@@ -58,3 +59,5 @@ template processing::processor_f processing::make_receive_number_processor(
     processing::receive_number_process_f<uint16_t>);
 template processing::processor_f processing::make_receive_number_processor(
     processing::receive_number_process_f<uint8_t>);
+template processing::processor_f processing::make_receive_number_processor(
+    processing::receive_number_process_f<boolean>);

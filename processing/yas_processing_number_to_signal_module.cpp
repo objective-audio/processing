@@ -10,6 +10,7 @@
 #include "yas_processing_send_signal_processor.h"
 #include "yas_processing_remove_number_processor.h"
 #include "yas_fast_each.h"
+#include "yas_boolean.h"
 #include <map>
 
 using namespace yas;
@@ -92,3 +93,4 @@ template processing::module processing::make_number_to_signal_module<uint64_t>()
 template processing::module processing::make_number_to_signal_module<uint32_t>();
 template processing::module processing::make_number_to_signal_module<uint16_t>();
 template processing::module processing::make_number_to_signal_module<uint8_t>();
+template processing::module processing::make_number_to_signal_module<boolean>();
