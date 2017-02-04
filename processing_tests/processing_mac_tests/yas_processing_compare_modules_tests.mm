@@ -21,35 +21,12 @@
 }
 
 - (void)test_create_signal_modules {
-    {
-        auto module = make_signal_module<int16_t>(compare::kind::is_equal);
-        XCTAssertTrue(module);
-    }
-
-    {
-        auto module = make_signal_module<int16_t>(compare::kind::is_not_equal);
-        XCTAssertTrue(module);
-    }
-
-    {
-        auto module = make_signal_module<int16_t>(compare::kind::is_greater);
-        XCTAssertTrue(module);
-    }
-
-    {
-        auto module = make_signal_module<int16_t>(compare::kind::is_greater_equal);
-        XCTAssertTrue(module);
-    }
-
-    {
-        auto module = make_signal_module<int16_t>(compare::kind::is_less);
-        XCTAssertTrue(module);
-    }
-
-    {
-        auto module = make_signal_module<int16_t>(compare::kind::is_less_equal);
-        XCTAssertTrue(module);
-    }
+    XCTAssertTrue(make_signal_module<int16_t>(compare::kind::is_equal));
+    XCTAssertTrue(make_signal_module<int16_t>(compare::kind::is_not_equal));
+    XCTAssertTrue(make_signal_module<int16_t>(compare::kind::is_greater));
+    XCTAssertTrue(make_signal_module<int16_t>(compare::kind::is_greater_equal));
+    XCTAssertTrue(make_signal_module<int16_t>(compare::kind::is_less));
+    XCTAssertTrue(make_signal_module<int16_t>(compare::kind::is_less_equal));
 }
 
 - (void)test_is_equal {

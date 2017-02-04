@@ -4,6 +4,7 @@
 
 #import <XCTest/XCTest.h>
 #import "yas_processing.h"
+#import "yas_boolean.h"
 
 using namespace yas;
 using namespace yas::processing;

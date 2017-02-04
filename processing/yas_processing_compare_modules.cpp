@@ -137,3 +137,4 @@ template processing::module processing::make_signal_module<uint64_t>(compare::ki
 template processing::module processing::make_signal_module<uint32_t>(compare::kind const);
 template processing::module processing::make_signal_module<uint16_t>(compare::kind const);
 template processing::module processing::make_signal_module<uint8_t>(compare::kind const);
+template processing::module processing::make_signal_module<boolean>(compare::kind const);

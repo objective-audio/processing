@@ -4,6 +4,7 @@
 
 #import <XCTest/XCTest.h>
 #import "yas_processing.h"
+#import "yas_boolean.h"
 
 using namespace yas;
 using namespace yas::processing;
@@ -22,11 +23,18 @@ using namespace yas::processing;
     [super tearDown];
 }
 
-- (void)test_make_module {
-    double const value = 1.0;
-    auto module = constant::make_signal_module(value);
-
-    XCTAssertTrue(module);
+- (void)test_make_signal_module {
+    XCTAssertTrue(constant::make_signal_module(double(1.0)));
+    XCTAssertTrue(constant::make_signal_module(float(1.0)));
+    XCTAssertTrue(constant::make_signal_module(int64_t(1)));
+    XCTAssertTrue(constant::make_signal_module(int32_t(1)));
+    XCTAssertTrue(constant::make_signal_module(int16_t(1)));
+    XCTAssertTrue(constant::make_signal_module(int8_t(1)));
+    XCTAssertTrue(constant::make_signal_module(uint64_t(1)));
+    XCTAssertTrue(constant::make_signal_module(uint32_t(1)));
+    XCTAssertTrue(constant::make_signal_module(uint16_t(1)));
+    XCTAssertTrue(constant::make_signal_module(uint8_t(1)));
+    XCTAssertTrue(constant::make_signal_module(boolean(true)));
 }
 
 - (void)test_process {
