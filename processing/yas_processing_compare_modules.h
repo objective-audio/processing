@@ -21,7 +21,7 @@ namespace processing {
             is_less_equal,
         };
 
-        enum class input_key : connector_index_t {
+        enum class input : connector_index_t {
             left,
             right,
         };

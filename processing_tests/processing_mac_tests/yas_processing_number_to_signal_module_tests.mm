@@ -38,7 +38,7 @@ using namespace yas::processing;
     }
 
     auto num_to_sig_module = make_number_to_signal_module<int8_t>();
-    num_to_sig_module.connect_input(to_connector_index(number_to_signal::input_key::number), in_ch_idx);
+    num_to_sig_module.connect_input(to_connector_index(number_to_signal::input::number), in_ch_idx);
     num_to_sig_module.connect_output(to_connector_index(number_to_signal::output::signal), out_ch_idx);
 
     num_to_sig_module.process({0, process_length}, stream);

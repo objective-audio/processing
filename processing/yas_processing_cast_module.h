@@ -15,7 +15,7 @@ namespace processing {
             value,
         };
 
-        enum class input_key : connector_index_t {
+        enum class input : connector_index_t {
             value,
         };
 

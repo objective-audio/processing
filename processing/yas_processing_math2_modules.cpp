@@ -52,10 +52,10 @@ namespace processing {
             return processing::make_receive_signal_processor<T>(
                 [context](time::range const &time_range, sync_source const &, channel_index_t const,
                           connector_index_t const con_idx, T const *const signal_ptr) mutable {
-                    if (con_idx == to_connector_index(input_key::left)) {
+                    if (con_idx == to_connector_index(input::left)) {
                         context->left_time = time_range;
                         context->left_signal.copy_from(signal_ptr, time_range.length);
-                    } else if (con_idx == to_connector_index(input_key::right)) {
+                    } else if (con_idx == to_connector_index(input::right)) {
                         context->right_time = time_range;
                         context->right_signal.copy_from(signal_ptr, time_range.length);
                     }
