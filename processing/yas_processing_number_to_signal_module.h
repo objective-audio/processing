@@ -12,11 +12,11 @@ namespace processing {
 
     namespace number_to_signal {
         enum class output_key : connector_index_t {
-            out,
+            signal,
         };
 
         enum class input_key : connector_index_t {
-            in,
+            number,
         };
     }
 
