@@ -26,27 +26,27 @@ using namespace yas::processing;
     channel_index_t const ch_idx = 8;
     sample_rate_t const sr = 8;
     length_t const process_length = sr * 2;
-    
+
     stream stream{sync_source{sr, 20}};
-    
+
     auto second_module = make_signal_module<double>(generator::kind::second, 0);
     second_module.connect_output(to_connector_index(generator::output_key::value), ch_idx);
-    
+
     second_module.process(time::range{0, process_length}, stream);
-    
+
     XCTAssertTrue(stream.has_channel(ch_idx));
-    
+
     auto const &channel = stream.channel(ch_idx);
-    
+
     auto const &time = (*channel.events().begin()).first;
     auto const &time_range = time.get<time::range>();
-    
+
     XCTAssertEqual(time_range.frame, 0);
     XCTAssertEqual(time_range.length, process_length);
-    
+
     auto const &signal = cast<signal_event>((*channel.events().begin()).second);
     auto *data = signal.data<double>();
-    
+
     XCTAssertEqual(data[0], 0.0);
     XCTAssertEqual(data[1], 0.125);
     XCTAssertEqual(data[2], 0.25);

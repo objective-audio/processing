@@ -24,7 +24,7 @@ using namespace yas::processing;
 
 - (void)test_create {
     sync_source sync_source{1, 2};
-    
+
     XCTAssertEqual(sync_source.sample_rate, 1);
     XCTAssertEqual(sync_source.slice_length, 2);
 }
@@ -40,7 +40,7 @@ using namespace yas::processing;
     sync_source sync_source_1b{44100, 16};
     sync_source sync_source_2{48000, 16};
     sync_source sync_source_3{44100, 32};
-    
+
     XCTAssertTrue(sync_source_1a == sync_source_1a);
     XCTAssertTrue(sync_source_1a == sync_source_1b);
     XCTAssertFalse(sync_source_1a == sync_source_2);
@@ -52,7 +52,7 @@ using namespace yas::processing;
     sync_source sync_source_1b{44100, 16};
     sync_source sync_source_2{48000, 16};
     sync_source sync_source_3{44100, 32};
-    
+
     XCTAssertFalse(sync_source_1a != sync_source_1a);
     XCTAssertFalse(sync_source_1a != sync_source_1b);
     XCTAssertTrue(sync_source_1a != sync_source_2);
