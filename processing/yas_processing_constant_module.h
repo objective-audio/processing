@@ -12,7 +12,7 @@ namespace processing {
 
     namespace constant {
         enum class output_key : connector_index_t {
-            out,
+            value,
         };
 
         template <typename T>
