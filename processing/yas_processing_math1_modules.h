@@ -49,7 +49,7 @@ namespace processing {
         };
 
         enum class output_key : connector_index_t {
-            out,
+            result,
         };
     }
 
