@@ -77,7 +77,7 @@ template uint64_t const &processing::number_event::get() const;
 template uint32_t const &processing::number_event::get() const;
 template uint16_t const &processing::number_event::get() const;
 template uint8_t const &processing::number_event::get() const;
-template bool const &processing::number_event::get() const;
+template boolean const &processing::number_event::get() const;
 
 template <typename T>
 processing::number_event processing::make_number_event(T value) {
