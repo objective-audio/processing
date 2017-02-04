@@ -134,15 +134,15 @@ using namespace yas::processing;
     auto float_signal_0 = make_signal_event<float>(1);
     float_signal_0.data<float>()[0] = 0.0;
     channel.insert_event(make_range_time(0, 1), float_signal_0);
-    
+
     auto float_signal_1 = make_signal_event<float>(1);
     float_signal_1.data<float>()[0] = 1.0;
     channel.insert_event(make_range_time(0, 1), float_signal_1);
-    
+
     auto float_signal_2 = make_signal_event<float>(1);
     float_signal_2.data<float>()[0] = 2.0;
     channel.insert_event(make_range_time(1, 1), float_signal_2);
-    
+
     channel.insert_event(make_range_time(0, 1), make_signal_event<double>(1));
     channel.insert_event(make_frame_time(0), make_number_event<int8_t>(1));
 
@@ -154,17 +154,17 @@ using namespace yas::processing;
         }
         return false;
     });
-    
+
     XCTAssertEqual(channel.events().size(), 3);
-    
+
     auto const float_signal_events = channel.filtered_events<float, signal_event>();
     XCTAssertEqual(float_signal_events.size(), 1);
     signal_event const &float_event = (*float_signal_events.begin()).second;
     XCTAssertEqual(float_event.data<float>()[0], 0.0f);
-    
+
     auto const double_signal_events = channel.filtered_events<double, signal_event>();
     XCTAssertEqual(double_signal_events.size(), 1);
-    
+
     auto const int8_number_events = channel.filtered_events<int8_t, number_event>();
     XCTAssertEqual(int8_number_events.size(), 1);
 }

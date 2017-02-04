@@ -182,13 +182,13 @@ using namespace yas::processing;
 
 - (void)test_boolean_signal_event {
     auto signal_event = make_signal_event<boolean>(2);
-    
+
     auto &vec = signal_event.vector<boolean>();
     vec[0] = true;
     vec[1] = false;
-    
+
     auto const *data = signal_event.data<boolean>();
-    
+
     XCTAssertTrue(data[0]);
     XCTAssertFalse(data[1]);
 }

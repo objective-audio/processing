@@ -11,12 +11,12 @@ namespace processing {
     class module;
 
     namespace cast {
-        enum class output_key : connector_index_t {
-            out,
+        enum class output : connector_index_t {
+            value,
         };
 
-        enum class input_key : connector_index_t {
-            in,
+        enum class input : connector_index_t {
+            value,
         };
 
         template <typename In, typename Out>

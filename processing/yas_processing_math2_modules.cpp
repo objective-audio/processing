@@ -52,10 +52,10 @@ namespace processing {
             return processing::make_receive_signal_processor<T>(
                 [context](time::range const &time_range, sync_source const &, channel_index_t const,
                           connector_index_t const con_idx, T const *const signal_ptr) mutable {
-                    if (con_idx == to_connector_index(input_key::left)) {
+                    if (con_idx == to_connector_index(input::left)) {
                         context->left_time = time_range;
                         context->left_signal.copy_from(signal_ptr, time_range.length);
-                    } else if (con_idx == to_connector_index(input_key::right)) {
+                    } else if (con_idx == to_connector_index(input::right)) {
                         context->right_time = time_range;
                         context->right_signal.copy_from(signal_ptr, time_range.length);
                     }
@@ -78,7 +78,7 @@ processing::module processing::make_signal_module(math2::kind const kind) {
     auto send_processor = processing::make_send_signal_processor<T>(
         [context, kind](processing::time::range const &time_range, sync_source const &, channel_index_t const,
                         connector_index_t const con_idx, T *const signal_ptr) {
-            if (con_idx == to_connector_index(output_key::out)) {
+            if (con_idx == to_connector_index(output::result)) {
                 auto out_each = make_fast_each(signal_ptr, time_range.length);
                 processing::signal_event &left_signal = context->left_signal;
                 processing::signal_event &right_signal = context->right_signal;

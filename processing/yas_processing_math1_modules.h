@@ -44,12 +44,12 @@ namespace processing {
             round,
         };
 
-        enum class input_key : connector_index_t {
-            in,
+        enum class input : connector_index_t {
+            parameter,
         };
 
-        enum class output_key : connector_index_t {
-            out,
+        enum class output : connector_index_t {
+            result,
         };
     }
 

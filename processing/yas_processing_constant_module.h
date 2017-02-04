@@ -11,8 +11,8 @@ namespace processing {
     class module;
 
     namespace constant {
-        enum class output_key : connector_index_t {
-            out,
+        enum class output : connector_index_t {
+            value,
         };
 
         template <typename T>

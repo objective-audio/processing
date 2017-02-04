@@ -21,12 +21,12 @@ namespace processing {
             is_less_equal,
         };
 
-        enum class input_key : connector_index_t {
+        enum class input : connector_index_t {
             left,
             right,
         };
 
-        enum class output_key : connector_index_t {
+        enum class output : connector_index_t {
             result,
         };
     }

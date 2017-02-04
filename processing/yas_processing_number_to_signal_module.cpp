@@ -55,7 +55,7 @@ processing::module processing::make_number_to_signal_module() {
             context->number_events.emplace(std::make_pair(frame, value));
         });
 
-    auto remove_processor = make_remove_number_processor<T>({to_connector_index(number_to_signal::input_key::in)});
+    auto remove_processor = make_remove_number_processor<T>({to_connector_index(number_to_signal::input::number)});
 
     auto send_processor = make_send_signal_processor<T>(
         [context](processing::time::range const &time_range, sync_source const &, channel_index_t const,

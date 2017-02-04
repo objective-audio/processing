@@ -30,14 +30,14 @@ using namespace yas::processing;
 
 - (void)test_process_signal_diff_channel {
     auto constant_module1 = constant::make_signal_module(int8_t(1));
-    constant_module1.connect_output(to_connector_index(constant::output_key::out), 0);
+    constant_module1.connect_output(to_connector_index(constant::output::value), 0);
 
     auto constant_module2 = constant::make_signal_module(int8_t(2));
-    constant_module2.connect_output(to_connector_index(constant::output_key::out), 0);
+    constant_module2.connect_output(to_connector_index(constant::output::value), 0);
 
     auto cast_module = cast::make_signal_module<int8_t, float>();
-    cast_module.connect_input(to_connector_index(cast::input_key::in), 0);
-    cast_module.connect_output(to_connector_index(cast::output_key::out), 1);
+    cast_module.connect_input(to_connector_index(cast::input::value), 0);
+    cast_module.connect_output(to_connector_index(cast::output::value), 1);
 
     stream stream{sync_source{1, 2}};
 
@@ -62,14 +62,14 @@ using namespace yas::processing;
 
 - (void)test_process_signal_same_channel {
     auto constant_module1 = constant::make_signal_module(int8_t(32));
-    constant_module1.connect_output(to_connector_index(constant::output_key::out), 2);
+    constant_module1.connect_output(to_connector_index(constant::output::value), 2);
 
     auto constant_module2 = constant::make_signal_module(int8_t(64));
-    constant_module2.connect_output(to_connector_index(constant::output_key::out), 2);
+    constant_module2.connect_output(to_connector_index(constant::output::value), 2);
 
     auto cast_module = cast::make_signal_module<int8_t, double>();
-    cast_module.connect_input(to_connector_index(cast::input_key::in), 2);
-    cast_module.connect_output(to_connector_index(cast::output_key::out), 2);
+    cast_module.connect_input(to_connector_index(cast::input::value), 2);
+    cast_module.connect_output(to_connector_index(cast::output::value), 2);
 
     stream stream{sync_source{1, 2}};
 
@@ -98,8 +98,8 @@ using namespace yas::processing;
 
 - (void)test_process_number_diff_channel {
     auto cast_module = cast::make_number_module<int8_t, float>();
-    cast_module.connect_input(to_connector_index(cast::input_key::in), 0);
-    cast_module.connect_output(to_connector_index(cast::output_key::out), 1);
+    cast_module.connect_input(to_connector_index(cast::input::value), 0);
+    cast_module.connect_output(to_connector_index(cast::output::value), 1);
 
     stream stream{sync_source{1, 2}};
 
@@ -150,8 +150,8 @@ using namespace yas::processing;
 
 - (void)test_process_number_same_channel {
     auto cast_module = cast::make_number_module<int32_t, double>();
-    cast_module.connect_input(to_connector_index(cast::input_key::in), 3);
-    cast_module.connect_output(to_connector_index(cast::output_key::out), 3);
+    cast_module.connect_input(to_connector_index(cast::input::value), 3);
+    cast_module.connect_output(to_connector_index(cast::output::value), 3);
 
     stream stream{sync_source{1, 2}};
 
