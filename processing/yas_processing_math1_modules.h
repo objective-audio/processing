@@ -48,7 +48,7 @@ namespace processing {
             parameter,
         };
 
-        enum class output_key : connector_index_t {
+        enum class output : connector_index_t {
             result,
         };
     }

@@ -69,7 +69,7 @@
     auto calc_module = make_signal_module<int16_t>(compare::kind::is_equal);
     calc_module.connect_input(to_connector_index(compare::input_key::left), 0);
     calc_module.connect_input(to_connector_index(compare::input_key::right), 1);
-    calc_module.connect_output(to_connector_index(compare::output_key::result), 2);
+    calc_module.connect_output(to_connector_index(compare::output::result), 2);
 
     calc_module.process({0, process_length}, stream);
 
@@ -108,7 +108,7 @@
     auto calc_module = make_signal_module<int16_t>(compare::kind::is_not_equal);
     calc_module.connect_input(to_connector_index(compare::input_key::left), 0);
     calc_module.connect_input(to_connector_index(compare::input_key::right), 1);
-    calc_module.connect_output(to_connector_index(compare::output_key::result), 2);
+    calc_module.connect_output(to_connector_index(compare::output::result), 2);
 
     calc_module.process({0, process_length}, stream);
 
@@ -147,7 +147,7 @@
     auto calc_module = make_signal_module<int16_t>(compare::kind::is_greater);
     calc_module.connect_input(to_connector_index(compare::input_key::left), 0);
     calc_module.connect_input(to_connector_index(compare::input_key::right), 1);
-    calc_module.connect_output(to_connector_index(compare::output_key::result), 2);
+    calc_module.connect_output(to_connector_index(compare::output::result), 2);
 
     calc_module.process({0, process_length}, stream);
 
@@ -191,7 +191,7 @@
     auto calc_module = make_signal_module<int16_t>(compare::kind::is_greater_equal);
     calc_module.connect_input(to_connector_index(compare::input_key::left), 0);
     calc_module.connect_input(to_connector_index(compare::input_key::right), 1);
-    calc_module.connect_output(to_connector_index(compare::output_key::result), 2);
+    calc_module.connect_output(to_connector_index(compare::output::result), 2);
 
     calc_module.process({0, process_length}, stream);
 
@@ -235,7 +235,7 @@
     auto calc_module = make_signal_module<int16_t>(compare::kind::is_less);
     calc_module.connect_input(to_connector_index(compare::input_key::left), 0);
     calc_module.connect_input(to_connector_index(compare::input_key::right), 1);
-    calc_module.connect_output(to_connector_index(compare::output_key::result), 2);
+    calc_module.connect_output(to_connector_index(compare::output::result), 2);
 
     calc_module.process({0, process_length}, stream);
 
@@ -279,7 +279,7 @@
     auto calc_module = make_signal_module<int16_t>(compare::kind::is_less_equal);
     calc_module.connect_input(to_connector_index(compare::input_key::left), 0);
     calc_module.connect_input(to_connector_index(compare::input_key::right), 1);
-    calc_module.connect_output(to_connector_index(compare::output_key::result), 2);
+    calc_module.connect_output(to_connector_index(compare::output::result), 2);
 
     calc_module.process({0, process_length}, stream);
 

@@ -219,7 +219,7 @@ using namespace yas::processing;
     while (yas_fast_each_next(fast_each)) {
         auto const &idx = yas_fast_each_index(fast_each);
         auto module = constant::make_signal_module<int8_t>(idx);
-        module.connect_output(to_connector_index(constant::output_key::value), ch_idx);
+        module.connect_output(to_connector_index(constant::output::value), ch_idx);
         track.insert_module({idx, 1}, std::move(module));
     }
     

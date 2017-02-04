@@ -23,7 +23,7 @@ namespace processing {
             hypot,
         };
 
-        enum class output_key : connector_index_t {
+        enum class output : connector_index_t {
             result,
         };
 

@@ -11,7 +11,7 @@ namespace processing {
     class module;
 
     namespace constant {
-        enum class output_key : connector_index_t {
+        enum class output : connector_index_t {
             value,
         };
 
