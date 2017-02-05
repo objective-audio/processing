@@ -5,6 +5,7 @@
 #include "yas_processing_remove_signal_processor.h"
 #include "yas_processing_stream.h"
 #include "yas_processing_channel.h"
+#include "yas_boolean.h"
 
 using namespace yas;
 
@@ -64,3 +65,4 @@ template processing::processor_f processing::make_remove_signal_processor<uint64
 template processing::processor_f processing::make_remove_signal_processor<uint32_t>(connector_index_set_t);
 template processing::processor_f processing::make_remove_signal_processor<uint16_t>(connector_index_set_t);
 template processing::processor_f processing::make_remove_signal_processor<uint8_t>(connector_index_set_t);
+template processing::processor_f processing::make_remove_signal_processor<boolean>(connector_index_set_t);

@@ -20,26 +20,13 @@
 }
 
 - (void)test_create_signal_modules {
-    auto plus_module = make_signal_module<int16_t>(math2::kind::plus);
-    XCTAssertTrue(plus_module);
-
-    auto minus_module = make_signal_module<int16_t>(math2::kind::minus);
-    XCTAssertTrue(minus_module);
-
-    auto multiply_module = make_signal_module<int16_t>(math2::kind::multiply);
-    XCTAssertTrue(multiply_module);
-
-    auto divide_module = make_signal_module<int16_t>(math2::kind::divide);
-    XCTAssertTrue(divide_module);
-
-    auto atan2_module = make_signal_module<int16_t>(math2::kind::atan2);
-    XCTAssertTrue(atan2_module);
-
-    auto pow_module = make_signal_module<int16_t>(math2::kind::pow);
-    XCTAssertTrue(pow_module);
-
-    auto hypot_module = make_signal_module<int16_t>(math2::kind::hypot);
-    XCTAssertTrue(hypot_module);
+    XCTAssertTrue(make_signal_module<int16_t>(math2::kind::plus));
+    XCTAssertTrue(make_signal_module<int16_t>(math2::kind::minus));
+    XCTAssertTrue(make_signal_module<int16_t>(math2::kind::multiply));
+    XCTAssertTrue(make_signal_module<int16_t>(math2::kind::divide));
+    XCTAssertTrue(make_signal_module<int16_t>(math2::kind::atan2));
+    XCTAssertTrue(make_signal_module<int16_t>(math2::kind::pow));
+    XCTAssertTrue(make_signal_module<int16_t>(math2::kind::hypot));
 }
 
 - (void)test_plus_process {
