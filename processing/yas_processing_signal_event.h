@@ -26,6 +26,8 @@ namespace processing {
 
         signal_event(std::nullptr_t);
 
+        signal_event copy() const;
+
         std::type_info const &sample_type() const;
         std::size_t sample_byte_count() const;
         std::size_t size() const;
