@@ -193,4 +193,33 @@ using namespace yas::processing;
     XCTAssertFalse(data[1]);
 }
 
+- (void)test_copy {
+    auto src_signal_event = make_signal_event<int8_t>(2);
+    auto &src_vec = src_signal_event.vector<int8_t>();
+    src_vec[0] = 7;
+    src_vec[1] = 8;
+
+    auto copied_signal_event = src_signal_event.copy();
+    auto const &copied_vec = copied_signal_event.vector<int8_t>();
+
+    XCTAssertEqual(copied_vec[0], 7);
+    XCTAssertEqual(copied_vec[1], 8);
+}
+
+- (void)test_copy_and_src_change {
+    auto src_signal_event = make_signal_event<int8_t>(2);
+    auto &src_vec = src_signal_event.vector<int8_t>();
+    src_vec[0] = 16;
+    src_vec[1] = 32;
+
+    auto copied_signal_event = src_signal_event.copy();
+    auto const &copied_vec = copied_signal_event.vector<int8_t>();
+
+    src_vec[0] = 64;
+    src_vec[1] = 128;
+
+    XCTAssertEqual(copied_vec[0], 16);
+    XCTAssertEqual(copied_vec[1], 32);
+}
+
 @end
