@@ -30,6 +30,10 @@ namespace processing {
             return false;
         }
 
+        event copy() override {
+            return number_event{_value};
+        }
+
         T _value;
     };
 }

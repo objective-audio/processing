@@ -9,10 +9,6 @@ using namespace yas;
 processing::signal_event::signal_event(std::nullptr_t) : event(nullptr) {
 }
 
-processing::signal_event processing::signal_event::copy() const {
-    return this->impl_ptr<impl>()->copy();
-}
-
 std::type_info const &processing::signal_event::sample_type() const {
     return this->impl_ptr<impl>()->type();
 }
