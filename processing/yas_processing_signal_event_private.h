@@ -21,8 +21,6 @@ struct processing::signal_event::impl : event::impl {
 
         return false;
     }
-    
-    virtual signal_event copy() = 0;
 };
 
 template <typename T>
@@ -33,7 +31,7 @@ struct processing::signal_event::type_impl : impl {
     type_impl(std::vector<T> &bytes) : _vector_ref(bytes) {
     }
 
-    signal_event copy() override {
+    event copy() override {
         return signal_event{std::vector<T>{_vector_ref}};
     }
 
