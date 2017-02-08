@@ -43,15 +43,23 @@ using namespace yas::processing;
 }
 
 - (void)test_sample_byte_count {
-    XCTAssertEqual(processing::number_event{int8_t(0)}.sample_byte_count(), 1);
-    XCTAssertEqual(processing::number_event{double(0.0)}.sample_byte_count(), 8);
-    XCTAssertEqual(processing::number_event{boolean{false}}.sample_byte_count(), 1);
+    XCTAssertEqual(number_event{int8_t(0)}.sample_byte_count(), 1);
+    XCTAssertEqual(number_event{double(0.0)}.sample_byte_count(), 8);
+    XCTAssertEqual(number_event{boolean{false}}.sample_byte_count(), 1);
 }
 
 - (void)test_sample_type {
-    XCTAssertTrue(processing::number_event{int8_t(0)}.sample_type() == typeid(int8_t));
-    XCTAssertTrue(processing::number_event{double(0.0)}.sample_type() == typeid(double));
-    XCTAssertTrue(processing::number_event{boolean{false}}.sample_type() == typeid(boolean));
+    XCTAssertTrue(number_event{int8_t(0)}.sample_type() == typeid(int8_t));
+    XCTAssertTrue(number_event{double(0.0)}.sample_type() == typeid(double));
+    XCTAssertTrue(number_event{boolean{false}}.sample_type() == typeid(boolean));
+}
+
+- (void)test_copy {
+    auto src_event = number_event{uint32_t(11)};
+    auto copied_event = cast<number_event>(src_event.copy());
+
+    XCTAssertEqual(src_event, copied_event);
+    XCTAssertEqual(copied_event.get<uint32_t>(), 11);
 }
 
 @end
