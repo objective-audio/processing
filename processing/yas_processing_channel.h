@@ -10,8 +10,6 @@
 namespace yas {
 namespace processing {
     class event;
-    class signal_event;
-    class number_event;
 
     class channel : public base {
         class impl;
