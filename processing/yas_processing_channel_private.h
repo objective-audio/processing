@@ -4,8 +4,7 @@
 
 #pragma once
 
-#include "yas_processing_signal_event.h"
-#include "yas_processing_number_event.h"
+#include "yas_processing_event.h"
 #include "yas_stl_utils.h"
 
 namespace yas {
