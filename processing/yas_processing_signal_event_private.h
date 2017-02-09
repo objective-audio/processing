@@ -13,6 +13,8 @@ struct processing::signal_event::impl : event::impl {
     virtual std::size_t size() const = 0;
     virtual void resize(std::size_t const) = 0;
     virtual void reserve(std::size_t const) = 0;
+    virtual signal_event copy_in_range(time::range const &) = 0;
+    virtual std::vector<std::pair<time::range, signal_event>> erased_in_range(time::range const &) = 0;
 
     bool validate_time(time const &time) override {
         if (time.is_range_type()) {
@@ -53,6 +55,41 @@ struct processing::signal_event::type_impl : impl {
 
     void reserve(std::size_t const size) override {
         this->_vector_ref.reserve(size);
+    }
+
+    signal_event copy_in_range(time::range const &range) override {
+        if (range.next_frame() > size()) {
+            throw "out of range.";
+        }
+
+        std::vector<T> vec(range.length);
+        memcpy(vec.data(), &this->_vector_ref.at(range.frame), range.length);
+        return signal_event{std::move(vec)};
+    }
+
+    pair_vector_t erased_in_range(time::range const &range) override {
+        if (range.next_frame() > size()) {
+            throw "out of range.";
+        }
+
+        pair_vector_t result;
+
+        if (range.frame > 0) {
+            auto const length = static_cast<length_t>(range.frame);
+            std::vector<T> vec(length);
+            memcpy(vec.data(), this->_vector_ref.data(), length);
+            result.emplace_back(std::make_pair(time::range{0, length}, signal_event{std::move(vec)}));
+        }
+
+        if (range.next_frame() < size()) {
+            auto const top_frame = range.next_frame();
+            auto const length = static_cast<length_t>(size() - top_frame);
+            std::vector<T> vec(length);
+            memcpy(vec.data(), &this->_vector_ref.at(top_frame), length);
+            result.emplace_back(std::make_pair(time::range{top_frame, length}, signal_event{std::move(vec)}));
+        }
+
+        return result;
     }
 
     std::vector<T> &vector() {
