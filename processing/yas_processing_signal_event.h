@@ -18,6 +18,7 @@ namespace processing {
         class type_impl;
 
         using time_type = time::range;
+        using pair_vector_t = std::vector<std::pair<time::range, signal_event>>;
 
         template <typename T>
         explicit signal_event(std::vector<T> &&bytes);
@@ -46,6 +47,9 @@ namespace processing {
         void copy_from(T const *, std::size_t const);
         template <typename T>
         void copy_to(T *, std::size_t const) const;
+
+        signal_event copy_in_range(time::range const &) const;
+        pair_vector_t erased_in_range(time::range const &);
     };
 
     template <typename T>

@@ -28,3 +28,12 @@ void processing::signal_event::resize(std::size_t const size) {
 void processing::signal_event::reserve(std::size_t const size) {
     return this->impl_ptr<impl>()->reserve(size);
 }
+
+processing::signal_event processing::signal_event::copy_in_range(time::range const &range) const {
+    return this->impl_ptr<impl>()->copy_in_range(range);
+}
+
+std::vector<std::pair<processing::time::range, processing::signal_event>> processing::signal_event::erased_in_range(
+    time::range const &range) {
+    return this->impl_ptr<impl>()->erased_in_range(range);
+}
