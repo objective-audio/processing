@@ -50,7 +50,7 @@ using namespace yas::processing;
     auto const &channel = stream.channel(1);
     XCTAssertEqual(channel.events().size(), 1);
 
-    auto &event = (*channel.events().begin()).second;
+    auto &event = channel.events().begin()->second;
     auto const signal = cast<signal_event>(event);
     XCTAssertTrue(signal);
     XCTAssertTrue(signal.sample_type() == typeid(float));
@@ -121,31 +121,31 @@ using namespace yas::processing;
     auto const &channel0 = stream.channel(0);
     XCTAssertEqual(channel0.events().size(), 2);
     auto it = channel0.events().begin();
-    XCTAssertEqual((*it).first, make_frame_time(0));
-    XCTAssertEqual((*it).second, number_event{int16_t(-1)});
+    XCTAssertEqual(it->first, make_frame_time(0));
+    XCTAssertEqual(it->second, number_event{int16_t(-1)});
     ++it;
-    XCTAssertEqual((*it).first, make_frame_time(2));
-    XCTAssertEqual((*it).second, number_event{int8_t(2)});
+    XCTAssertEqual(it->first, make_frame_time(2));
+    XCTAssertEqual(it->second, number_event{int8_t(2)});
 
     XCTAssertTrue(stream.has_channel(1));
     auto const &channel1 = stream.channel(1);
     XCTAssertEqual(channel1.events().size(), 3);
     it = channel1.events().begin();
-    XCTAssertEqual((*it).first, make_frame_time(0));
-    XCTAssertEqual((*it).second, number_event{int8_t(10)});
+    XCTAssertEqual(it->first, make_frame_time(0));
+    XCTAssertEqual(it->second, number_event{int8_t(10)});
     ++it;
-    XCTAssertEqual((*it).first, make_frame_time(0));
-    XCTAssertEqual((*it).second, number_event{float(0.0f)});
+    XCTAssertEqual(it->first, make_frame_time(0));
+    XCTAssertEqual(it->second, number_event{float(0.0f)});
     ++it;
-    XCTAssertEqual((*it).first, make_frame_time(1));
-    XCTAssertEqual((*it).second, number_event{float(1.0f)});
+    XCTAssertEqual(it->first, make_frame_time(1));
+    XCTAssertEqual(it->second, number_event{float(1.0f)});
 
     XCTAssertTrue(stream.has_channel(2));
     auto const &channel2 = stream.channel(2);
     XCTAssertEqual(channel2.events().size(), 1);
     it = channel2.events().begin();
-    XCTAssertEqual((*it).first, make_frame_time(0));
-    XCTAssertEqual((*it).second, number_event{int8_t(20)});
+    XCTAssertEqual(it->first, make_frame_time(0));
+    XCTAssertEqual(it->second, number_event{int8_t(20)});
 }
 
 - (void)test_process_number_same_channel {
@@ -170,17 +170,17 @@ using namespace yas::processing;
     XCTAssertEqual(channel.events().size(), 4);
 
     auto it = channel.events().begin();
-    XCTAssertEqual((*it).first, make_frame_time(0));
-    XCTAssertEqual((*it).second, number_event{int16_t(-1)});
+    XCTAssertEqual(it->first, make_frame_time(0));
+    XCTAssertEqual(it->second, number_event{int16_t(-1)});
     ++it;
-    XCTAssertEqual((*it).first, make_frame_time(0));
-    XCTAssertEqual((*it).second, number_event{double(0.0)});
+    XCTAssertEqual(it->first, make_frame_time(0));
+    XCTAssertEqual(it->second, number_event{double(0.0)});
     ++it;
-    XCTAssertEqual((*it).first, make_frame_time(1));
-    XCTAssertEqual((*it).second, number_event{double(1.0)});
+    XCTAssertEqual(it->first, make_frame_time(1));
+    XCTAssertEqual(it->second, number_event{double(1.0)});
     ++it;
-    XCTAssertEqual((*it).first, make_frame_time(2));
-    XCTAssertEqual((*it).second, number_event{int32_t(2)});
+    XCTAssertEqual(it->first, make_frame_time(2));
+    XCTAssertEqual(it->second, number_event{int32_t(2)});
 }
 
 @end

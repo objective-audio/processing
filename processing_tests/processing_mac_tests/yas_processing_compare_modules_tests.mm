@@ -56,7 +56,7 @@
 
     XCTAssertEqual(events.size(), 1);
 
-    auto const signal = cast<signal_event>((*events.begin()).second);
+    auto const signal = cast<signal_event>(events.begin()->second);
     auto const &vec = signal.vector<boolean>();
 
     XCTAssertEqual(vec.size(), process_length);
@@ -95,7 +95,7 @@
 
     XCTAssertEqual(events.size(), 1);
 
-    auto const signal = cast<signal_event>((*events.begin()).second);
+    auto const signal = cast<signal_event>(events.begin()->second);
     auto const &vec = signal.vector<boolean>();
 
     XCTAssertEqual(vec.size(), process_length);
@@ -134,7 +134,7 @@
 
     XCTAssertEqual(events.size(), 1);
 
-    auto const signal = cast<signal_event>((*events.begin()).second);
+    auto const signal = cast<signal_event>(events.begin()->second);
     auto const &vec = signal.vector<boolean>();
 
     XCTAssertEqual(vec.size(), process_length);
@@ -178,7 +178,7 @@
 
     XCTAssertEqual(events.size(), 1);
 
-    auto const signal = cast<signal_event>((*events.begin()).second);
+    auto const signal = cast<signal_event>(events.begin()->second);
     auto const &vec = signal.vector<boolean>();
 
     XCTAssertEqual(vec.size(), process_length);
@@ -222,7 +222,7 @@
 
     XCTAssertEqual(events.size(), 1);
 
-    auto const signal = cast<signal_event>((*events.begin()).second);
+    auto const signal = cast<signal_event>(events.begin()->second);
     auto const &vec = signal.vector<boolean>();
 
     XCTAssertEqual(vec.size(), process_length);
@@ -266,7 +266,7 @@
 
     XCTAssertEqual(events.size(), 1);
 
-    auto const signal = cast<signal_event>((*events.begin()).second);
+    auto const signal = cast<signal_event>(events.begin()->second);
     auto const &vec = signal.vector<boolean>();
 
     XCTAssertEqual(vec.size(), process_length);
