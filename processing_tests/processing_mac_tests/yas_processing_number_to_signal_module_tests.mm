@@ -49,9 +49,9 @@ using namespace yas::processing;
         auto const &signal_events = channel.filtered_events<int8_t, signal_event>();
 
         XCTAssertEqual(signal_events.size(), 1);
-        XCTAssertEqual((*signal_events.begin()).first, (time::range{0, process_length}));
+        XCTAssertEqual(signal_events.begin()->first, (time::range{0, process_length}));
 
-        auto const &signal_event = (*signal_events.begin()).second;
+        auto const &signal_event = signal_events.begin()->second;
 
         auto const *const data = signal_event.data<int8_t>();
 
@@ -71,9 +71,9 @@ using namespace yas::processing;
         XCTAssertEqual(channel.events().size(), 2);
 
         auto iterator = channel.events().begin();
-        XCTAssertEqual((*iterator).first, make_frame_time(10));
+        XCTAssertEqual(iterator->first, make_frame_time(10));
         ++iterator;
-        XCTAssertEqual((*iterator).first, make_frame_time(13));
+        XCTAssertEqual(iterator->first, make_frame_time(13));
     }
 
     stream.channel(out_ch_idx).erase_event_if([](auto const &) { return true; });
@@ -87,9 +87,9 @@ using namespace yas::processing;
         auto const &signal_events = channel.filtered_events<int8_t, signal_event>();
 
         XCTAssertEqual(signal_events.size(), 1);
-        XCTAssertEqual((*signal_events.begin()).first, (time::range{process_length, process_length}));
+        XCTAssertEqual(signal_events.begin()->first, (time::range{process_length, process_length}));
 
-        auto const &signal_event = (*signal_events.begin()).second;
+        auto const &signal_event = signal_events.begin()->second;
         auto const *const data = signal_event.data<int8_t>();
 
         XCTAssertEqual(data[0], 3);

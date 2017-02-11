@@ -70,8 +70,8 @@ processing::module processing::make_number_to_signal_module() {
             while (yas_fast_each_next(out_each)) {
                 auto const frame = top_frame + yas_fast_each_index(out_each);
                 if (iterator != end_iterator) {
-                    if ((*iterator).first == frame) {
-                        last_value = (*iterator).second;
+                    if (iterator->first == frame) {
+                        last_value = iterator->second;
                         ++iterator;
                     }
                 }

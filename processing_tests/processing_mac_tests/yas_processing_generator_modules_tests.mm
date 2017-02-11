@@ -38,13 +38,13 @@ using namespace yas::processing;
 
     auto const &channel = stream.channel(ch_idx);
 
-    auto const &time = (*channel.events().begin()).first;
+    auto const &time = channel.events().begin()->first;
     auto const &time_range = time.get<time::range>();
 
     XCTAssertEqual(time_range.frame, 0);
     XCTAssertEqual(time_range.length, process_length);
 
-    auto const &signal = cast<signal_event>((*channel.events().begin()).second);
+    auto const &signal = cast<signal_event>(channel.events().begin()->second);
     auto *data = signal.data<double>();
 
     XCTAssertEqual(data[0], 0.0);

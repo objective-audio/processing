@@ -95,7 +95,7 @@ using namespace yas::processing;
 
     XCTAssertEqual(const_channel.events().size(), 1);
 
-    auto const const_signal = cast<processing::signal_event>((*const_channel.events().begin()).second);
+    auto const const_signal = cast<processing::signal_event>(const_channel.events().begin()->second);
     XCTAssertEqual(const_signal.vector<int8_t>()[0], 5);
     XCTAssertEqual(const_signal.vector<int8_t>()[1], 6);
 }
