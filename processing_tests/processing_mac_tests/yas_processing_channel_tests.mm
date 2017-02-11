@@ -29,6 +29,20 @@ using namespace yas::processing;
     XCTAssertEqual(channel.events().size(), 0);
 }
 
+- (void)test_create_channel_from_events {
+    processing::channel::events_map_t events;
+    events.emplace(std::make_pair(make_frame_time(10), make_number_event(int8_t(100))));
+
+    processing::channel channel{std::move(events)};
+
+    XCTAssertEqual(channel.events().size(), 1);
+
+    auto const pair = *channel.events().begin();
+
+    XCTAssertEqual(pair.first, make_frame_time(10));
+    XCTAssertEqual(pair.second, make_number_event(int8_t(100)));
+}
+
 - (void)test_create_null {
     processing::channel channel = nullptr;
 
@@ -167,6 +181,68 @@ using namespace yas::processing;
 
     auto const int8_number_events = channel.filtered_events<int8_t, number_event>();
     XCTAssertEqual(int8_number_events.size(), 1);
+}
+
+- (void)test_copied_events_number {
+    processing::channel channel;
+
+    channel.insert_event(make_frame_time(0), make_number_event(int8_t(0)));
+    channel.insert_event(make_frame_time(1), make_number_event(int8_t(1)));
+    channel.insert_event(make_frame_time(2), make_number_event(int8_t(2)));
+
+    auto const copied_events = channel.copied_events(time::range{2, 3});
+
+    XCTAssertEqual(copied_events.size(), 1);
+
+    auto const &pair = *copied_events.begin();
+
+    XCTAssertEqual(pair.first, make_frame_time(2));
+    XCTAssertEqual(pair.second, make_number_event(int8_t(2)));
+}
+
+- (void)test_copied_events_signal {
+    processing::channel channel;
+
+    auto src_signal_event1 = make_signal_event<int8_t>(3);
+    auto &src_vec1 = src_signal_event1.vector<int8_t>();
+    src_vec1[0] = 10;
+    src_vec1[1] = 11;
+    src_vec1[2] = 12;
+
+    channel.insert_event(make_range_time(0, 3), std::move(src_signal_event1));
+
+    auto src_signal_event2 = make_signal_event<int8_t>(3);
+    auto &src_vec2 = src_signal_event2.vector<int8_t>();
+    src_vec2[0] = 20;
+    src_vec2[1] = 21;
+    src_vec2[2] = 22;
+
+    channel.insert_event(make_range_time(4, 3), std::move(src_signal_event2));
+
+    auto const copied_events = channel.copied_events(time::range{2, 4});
+
+    XCTAssertEqual(copied_events.size(), 2);
+
+    auto iterator = copied_events.begin();
+
+    auto const &first_pair = *iterator;
+    auto const first_signal = cast<signal_event>(first_pair.second);
+    auto const &first_vec = first_signal.vector<int8_t>();
+
+    XCTAssertEqual(first_pair.first, make_range_time(2, 1));
+    XCTAssertEqual(first_vec.size(), 1);
+    XCTAssertEqual(first_vec[0], 12);
+
+    ++iterator;
+
+    auto const &second_pair = *iterator;
+    auto const second_signal = cast<signal_event>(second_pair.second);
+    auto const &second_vec = second_signal.vector<int8_t>();
+
+    XCTAssertEqual(second_pair.first, make_range_time(4, 2));
+    XCTAssertEqual(second_vec.size(), 2);
+    XCTAssertEqual(second_vec[0], 20);
+    XCTAssertEqual(second_vec[1], 21);
 }
 
 @end
