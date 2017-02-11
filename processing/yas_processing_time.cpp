@@ -1,4 +1,3 @@
-
 //
 //  yas_processing_time::range.cpp
 //
