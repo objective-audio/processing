@@ -39,6 +39,15 @@ processing::channel &processing::stream::add_channel(channel_index_t const ch_id
     return channels.at(ch_idx);
 }
 
+processing::channel &processing::stream::add_channel(channel_index_t const ch_idx, channel::events_map_t events) {
+    auto &channels = this->impl_ptr<impl>()->_channels;
+    if (channels.count(ch_idx) > 0) {
+        throw "channel exists.";
+    }
+    channels.emplace(ch_idx, processing::channel{std::move(events)});
+    return channels.at(ch_idx);
+}
+
 void processing::stream::remove_channel(channel_index_t const ch_idx) {
     auto &channels = this->impl_ptr<impl>()->_channels;
     if (channels.count(ch_idx) > 0) {
