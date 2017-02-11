@@ -31,6 +31,7 @@ namespace processing {
         events_map_t copied_events(time::range const &) const;
 
         void insert_event(time, event);
+        void insert_events(events_map_t);
 
         template <typename P>
         void erase_event_if(P predicate);
