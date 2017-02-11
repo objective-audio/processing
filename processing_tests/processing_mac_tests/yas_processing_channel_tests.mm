@@ -173,7 +173,7 @@ using namespace yas::processing;
 
     auto const float_signal_events = channel.filtered_events<float, signal_event>();
     XCTAssertEqual(float_signal_events.size(), 1);
-    signal_event const &float_event = (*float_signal_events.begin()).second;
+    signal_event const &float_event = float_signal_events.begin()->second;
     XCTAssertEqual(float_event.data<float>()[0], 0.0f);
 
     auto const double_signal_events = channel.filtered_events<double, signal_event>();
@@ -243,6 +243,62 @@ using namespace yas::processing;
     XCTAssertEqual(second_vec.size(), 2);
     XCTAssertEqual(second_vec[0], 20);
     XCTAssertEqual(second_vec[1], 21);
+}
+
+- (void)test_erase_events_with_time_range {
+    processing::channel channel;
+
+    channel.insert_event(make_frame_time(0), make_number_event(int16_t(1000)));
+    channel.insert_event(make_frame_time(2), make_number_event(int16_t(1002)));
+    channel.insert_event(make_frame_time(4), make_number_event(int16_t(1004)));
+    channel.insert_event(make_frame_time(6), make_number_event(int16_t(1006)));
+    channel.insert_event(make_frame_time(8), make_number_event(int16_t(1008)));
+
+    auto src_signal_event1 = make_signal_event<int16_t>(3);
+    auto &src_vec1 = src_signal_event1.vector<int16_t>();
+    src_vec1[0] = 100;
+    src_vec1[1] = 101;
+    src_vec1[2] = 102;
+
+    channel.insert_event(make_range_time(1, 3), std::move(src_signal_event1));
+
+    auto src_signal_event2 = make_signal_event<int16_t>(3);
+    auto &src_vec2 = src_signal_event2.vector<int16_t>();
+    src_vec2[0] = 200;
+    src_vec2[1] = 201;
+    src_vec2[2] = 202;
+
+    channel.insert_event(make_range_time(5, 3), std::move(src_signal_event2));
+
+    channel.erase_events(time::range{3, 3});
+
+    XCTAssertEqual(channel.events().size(), 6);
+
+    auto const number_events = channel.filtered_events<int16_t, number_event>();
+
+    XCTAssertEqual(number_events.size(), 4);
+
+    auto number_iterator = number_events.begin();
+    XCTAssertEqual(number_iterator->first, 0);
+    XCTAssertEqual(number_iterator->second.get<int16_t>(), 1000);
+    ++number_iterator;
+    XCTAssertEqual(number_iterator->first, 2);
+    XCTAssertEqual(number_iterator->second.get<int16_t>(), 1002);
+    ++number_iterator;
+    XCTAssertEqual(number_iterator->first, 6);
+    XCTAssertEqual(number_iterator->second.get<int16_t>(), 1006);
+    ++number_iterator;
+    XCTAssertEqual(number_iterator->first, 8);
+    XCTAssertEqual(number_iterator->second.get<int16_t>(), 1008);
+
+    auto const signal_events = channel.filtered_events<int16_t, signal_event>();
+
+    XCTAssertEqual(signal_events.size(), 2);
+
+    auto signal_iterator = signal_events.begin();
+    XCTAssertEqual(signal_iterator->first, time::range(1, 2));
+    ++signal_iterator;
+    XCTAssertEqual(signal_iterator->first, time::range(6, 2));
 }
 
 @end

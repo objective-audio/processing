@@ -38,6 +38,7 @@ namespace processing {
         void erase_event();
         template <typename T, typename Event, typename P>
         void erase_event(P predicate);
+        void erase_events(time::range const &);
     };
 }
 }

@@ -34,6 +34,6 @@ processing::signal_event processing::signal_event::copy_in_range(time::range con
 }
 
 std::vector<std::pair<processing::time::range, processing::signal_event>> processing::signal_event::erased_in_range(
-    time::range const &range) {
+    time::range const &range) const {
     return this->impl_ptr<impl>()->erased_in_range(range);
 }
