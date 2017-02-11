@@ -58,7 +58,7 @@ struct processing::signal_event::type_impl : impl {
     }
 
     signal_event copy_in_range(time::range const &range) override {
-        if (range.next_frame() > size()) {
+        if (!time::range{0, static_cast<length_t>(this->size())}.is_contain(range)) {
             throw "out of range.";
         }
 
@@ -68,7 +68,7 @@ struct processing::signal_event::type_impl : impl {
     }
 
     pair_vector_t erased_in_range(time::range const &range) override {
-        if (range.next_frame() > size()) {
+        if (!time::range{0, static_cast<length_t>(this->size())}.is_contain(range)) {
             throw "out of range.";
         }
 
