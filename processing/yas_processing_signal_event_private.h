@@ -14,7 +14,7 @@ struct processing::signal_event::impl : event::impl {
     virtual void resize(std::size_t const) = 0;
     virtual void reserve(std::size_t const) = 0;
     virtual signal_event copy_in_range(time::range const &) = 0;
-    virtual std::vector<std::pair<time::range, signal_event>> erased_in_range(time::range const &) = 0;
+    virtual std::vector<std::pair<time::range, signal_event>> cropped(time::range const &) = 0;
 
     bool validate_time(time const &time) override {
         if (time.is_range_type()) {
@@ -67,26 +67,22 @@ struct processing::signal_event::type_impl : impl {
         return signal_event{std::move(vec)};
     }
 
-    pair_vector_t erased_in_range(time::range const &range) override {
-        if (!time::range{0, static_cast<length_t>(this->size())}.is_contain(range)) {
+    pair_vector_t cropped(time::range const &range) override {
+        time::range this_range{0, static_cast<length_t>(this->size())};
+
+        if (!this_range.is_contain(range)) {
             throw "out of range.";
         }
 
         pair_vector_t result;
 
-        if (range.frame > 0) {
-            auto const length = static_cast<length_t>(range.frame);
-            std::vector<T> vec(length);
-            memcpy(vec.data(), this->_vector_ref.data(), length);
-            result.emplace_back(std::make_pair(time::range{0, length}, signal_event{std::move(vec)}));
-        }
+        auto const cropped_ranges = this_range.crop(range);
 
-        if (range.next_frame() < size()) {
-            auto const top_frame = range.next_frame();
-            auto const length = static_cast<length_t>(size() - top_frame);
+        for (auto const &cropped_range : cropped_ranges) {
+            auto const &length = cropped_range.length;
             std::vector<T> vec(length);
-            memcpy(vec.data(), &this->_vector_ref.at(top_frame), length);
-            result.emplace_back(std::make_pair(time::range{top_frame, length}, signal_event{std::move(vec)}));
+            memcpy(vec.data(), &this->_vector_ref.at(cropped_range.frame), length);
+            result.emplace_back(std::make_pair(cropped_range, signal_event{std::move(vec)}));
         }
 
         return result;

@@ -49,7 +49,7 @@ namespace processing {
         void copy_to(T *, std::size_t const) const;
 
         signal_event copy_in_range(time::range const &) const;
-        pair_vector_t erased_in_range(time::range const &) const;
+        pair_vector_t cropped(time::range const &) const;
     };
 
     template <typename T>

@@ -33,7 +33,7 @@ processing::signal_event processing::signal_event::copy_in_range(time::range con
     return this->impl_ptr<impl>()->copy_in_range(range);
 }
 
-std::vector<std::pair<processing::time::range, processing::signal_event>> processing::signal_event::erased_in_range(
+std::vector<std::pair<processing::time::range, processing::signal_event>> processing::signal_event::cropped(
     time::range const &range) const {
-    return this->impl_ptr<impl>()->erased_in_range(range);
+    return this->impl_ptr<impl>()->cropped(range);
 }
