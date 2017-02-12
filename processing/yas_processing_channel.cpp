@@ -102,8 +102,7 @@ void processing::channel::erase_events(time::range const &erase_range) {
                 for (auto const &erased_signal : erased_signals) {
                     auto const &erased_range = erased_signal.first;
                     remained_signal.emplace_back(
-                        std::make_pair(time::range{erased_range.frame + event_range.frame, erased_range.length},
-                                       erased_signal.second));
+                        std::make_pair(erased_range.offset(event_range.frame), erased_signal.second));
                 }
 
                 return true;
