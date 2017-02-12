@@ -97,11 +97,11 @@ void processing::channel::erase_events(time::range const &erase_range) {
             if (auto overlapped_range = erase_range.intersect(event_range)) {
                 auto const signal = cast<signal_event>(event_pair.second);
                 auto const range = time::range{overlapped_range->frame - event_range.frame, overlapped_range->length};
-                signal_event::pair_vector_t erased_signals = signal.erased_in_range(range);
-                for (auto const &erased_signal : erased_signals) {
-                    auto const &erased_range = erased_signal.first;
+                signal_event::pair_vector_t cropped_signals = signal.cropped(range);
+                for (auto const &cropped_signal : cropped_signals) {
+                    auto const &cropped_range = cropped_signal.first;
                     remained_signal.emplace_back(
-                        std::make_pair(erased_range.offset(event_range.frame), erased_signal.second));
+                        std::make_pair(cropped_range.offset(event_range.frame), cropped_signal.second));
                 }
 
                 return true;

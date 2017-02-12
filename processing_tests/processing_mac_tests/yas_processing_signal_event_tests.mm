@@ -278,18 +278,18 @@ using namespace yas::processing;
     XCTAssertThrows(src_signal_event.copy_in_range(time::range{3, 1}));
 }
 
-- (void)test_erased_in_range_top {
+- (void)test_cropped_top {
     auto src_signal_event = make_signal_event<int8_t>(3);
     auto &src_vec = src_signal_event.vector<int8_t>();
     src_vec[0] = 41;
     src_vec[1] = 42;
     src_vec[2] = 43;
 
-    auto erased_signal_events = src_signal_event.erased_in_range(time::range{0, 2});
+    auto cropped_signal_events = src_signal_event.cropped(time::range{0, 2});
 
-    XCTAssertEqual(erased_signal_events.size(), 1);
+    XCTAssertEqual(cropped_signal_events.size(), 1);
 
-    auto const &copied_pair = erased_signal_events.at(0);
+    auto const &copied_pair = cropped_signal_events.at(0);
 
     XCTAssertEqual(copied_pair.first, time::range(2, 1));
 
@@ -300,19 +300,19 @@ using namespace yas::processing;
     XCTAssertEqual(copied_vec[0], 43);
 }
 
-- (void)test_erased_in_range_middle {
+- (void)test_cropped_middle {
     auto src_signal_event = make_signal_event<int8_t>(3);
     auto &src_vec = src_signal_event.vector<int8_t>();
     src_vec[0] = 51;
     src_vec[1] = 52;
     src_vec[2] = 53;
 
-    auto erased_signal_events = src_signal_event.erased_in_range(time::range{1, 1});
+    auto cropped_signal_events = src_signal_event.cropped(time::range{1, 1});
 
-    XCTAssertEqual(erased_signal_events.size(), 2);
+    XCTAssertEqual(cropped_signal_events.size(), 2);
 
     {
-        auto const &copied_pair = erased_signal_events.at(0);
+        auto const &copied_pair = cropped_signal_events.at(0);
 
         XCTAssertEqual(copied_pair.first, time::range(0, 1));
 
@@ -324,7 +324,7 @@ using namespace yas::processing;
     }
 
     {
-        auto const &copied_pair = erased_signal_events.at(1);
+        auto const &copied_pair = cropped_signal_events.at(1);
 
         XCTAssertEqual(copied_pair.first, time::range(2, 1));
 
@@ -336,18 +336,18 @@ using namespace yas::processing;
     }
 }
 
-- (void)test_erased_in_range_tail {
+- (void)test_cropped_tail {
     auto src_signal_event = make_signal_event<int8_t>(3);
     auto &src_vec = src_signal_event.vector<int8_t>();
     src_vec[0] = 61;
     src_vec[1] = 62;
     src_vec[2] = 63;
 
-    auto erased_signal_events = src_signal_event.erased_in_range(time::range{1, 2});
+    auto cropped_signal_events = src_signal_event.cropped(time::range{1, 2});
 
-    XCTAssertEqual(erased_signal_events.size(), 1);
+    XCTAssertEqual(cropped_signal_events.size(), 1);
 
-    auto const &copied_pair = erased_signal_events.at(0);
+    auto const &copied_pair = cropped_signal_events.at(0);
 
     XCTAssertEqual(copied_pair.first, time::range(0, 1));
 
@@ -358,16 +358,16 @@ using namespace yas::processing;
     XCTAssertEqual(copied_vec[0], 61);
 }
 
-- (void)test_erased_in_range_failed {
+- (void)test_cropped_failed {
     auto src_signal_event = make_signal_event<int8_t>(3);
     auto &src_vec = src_signal_event.vector<int8_t>();
     src_vec[0] = 71;
     src_vec[1] = 72;
     src_vec[2] = 73;
     
-    XCTAssertThrows(src_signal_event.erased_in_range(time::range{0, 4}));
-    XCTAssertThrows(src_signal_event.erased_in_range(time::range{2, 2}));
-    XCTAssertThrows(src_signal_event.erased_in_range(time::range{3, 1}));
+    XCTAssertThrows(src_signal_event.cropped(time::range{0, 4}));
+    XCTAssertThrows(src_signal_event.cropped(time::range{2, 2}));
+    XCTAssertThrows(src_signal_event.cropped(time::range{3, 1}));
 }
 
 @end
