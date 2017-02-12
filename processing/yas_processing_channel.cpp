@@ -47,6 +47,12 @@ void processing::channel::insert_event(time time, event event) {
     this->impl_ptr<impl>()->_events.emplace(std::move(time), std::move(event));
 }
 
+void processing::channel::insert_events(events_map_t events) {
+    for (auto &event_pair : events) {
+        this->insert_event(event_pair.first, std::move(event_pair.second));
+    }
+}
+
 processing::channel::events_map_t processing::channel::copied_events(time::range const &copy_range) const {
     events_map_t result;
 

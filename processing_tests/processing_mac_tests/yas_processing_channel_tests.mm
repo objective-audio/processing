@@ -98,6 +98,26 @@ using namespace yas::processing;
     }
 }
 
+- (void)test_insert_events {
+    processing::channel src_channel;
+    processing::channel dst_channel;
+
+    src_channel.insert_event(make_frame_time(0), make_number_event(int8_t(10)));
+    src_channel.insert_event(make_frame_time(1), make_number_event(int8_t(11)));
+
+    dst_channel.insert_events(std::move(src_channel.events()));
+
+    auto iterator = dst_channel.events().begin();
+
+    XCTAssertEqual(iterator->first.get<time::frame>(), 0);
+    XCTAssertEqual(cast<number_event>(iterator->second).get<int8_t>(), 10);
+
+    ++iterator;
+
+    XCTAssertEqual(iterator->first.get<time::frame>(), 1);
+    XCTAssertEqual(cast<number_event>(iterator->second).get<int8_t>(), 11);
+}
+
 - (void)test_insert_same_time_range_signal_event {
     processing::channel channel;
 
