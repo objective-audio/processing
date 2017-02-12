@@ -22,9 +22,9 @@ processing::processor_f processing::make_send_signal_processor(processing::send_
                 auto const &connector = connector_pair.second;
 
                 auto const &ch_idx = connector.channel_index;
+                auto &channel = stream.add_channel(ch_idx);
 
-                if (stream.has_channel(ch_idx)) {
-                    auto &channel = stream.channel(ch_idx);
+                if (channel.events().size() > 0) {
                     processing::time::range combined_time_range = current_time_range;
 
                     auto predicate = [&current_time_range](auto const &pair) {
@@ -60,15 +60,12 @@ processing::processor_f processing::make_send_signal_processor(processing::send_
 
                         return;
                     }
-                } else {
-                    stream.add_channel(ch_idx);
                 }
 
                 std::vector<T> vec(current_time_range.length);
 
                 handler(current_time_range, stream.sync_source(), ch_idx, connector_idx, vec.data());
 
-                auto &channel = stream.channel(ch_idx);
                 channel.insert_event(time{current_time_range}, signal_event{std::move(vec)});
             }
         }
