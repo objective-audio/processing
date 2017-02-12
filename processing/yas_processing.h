@@ -26,3 +26,4 @@
 #include "yas_processing_cast_module.h"
 #include "yas_processing_number_to_signal_module.h"
 #include "yas_processing_routing_modules.h"
+#include "yas_processing_sub_timeline_module.h"
