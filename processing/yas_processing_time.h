@@ -52,6 +52,7 @@ namespace processing {
             std::experimental::optional<range> intersect(range const &) const;
             std::experimental::optional<range> combine(range const &) const;
             std::vector<range> crop(range const &) const;
+            range offset(frame_index_t const &) const;
         };
 
         time(frame_index_t const, length_t const);

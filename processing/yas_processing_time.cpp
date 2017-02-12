@@ -125,6 +125,10 @@ std::vector<processing::time::range> processing::time::range::crop(range const &
     return vec;
 }
 
+processing::time::range processing::time::range::offset(frame_index_t const &offset) const {
+    return time::range{this->frame + offset, this->length};
+}
+
 #pragma mark - time::any
 
 bool processing::time::any::operator==(time::any const &) const {
