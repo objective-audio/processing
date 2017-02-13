@@ -18,7 +18,8 @@ namespace processing {
         class type_impl;
 
         using time_type = time::range;
-        using pair_vector_t = std::vector<std::pair<time::range, signal_event>>;
+        using pair_t = std::pair<time::range, signal_event>;
+        using pair_vector_t = std::vector<pair_t>;
 
         template <typename T>
         explicit signal_event(std::vector<T> &&bytes);
@@ -50,6 +51,7 @@ namespace processing {
 
         signal_event copy_in_range(time::range const &) const;
         pair_vector_t cropped(time::range const &) const;
+        pair_t combined(time::range const &, pair_vector_t);
     };
 
     template <typename T>

@@ -37,3 +37,7 @@ std::vector<std::pair<processing::time::range, processing::signal_event>> proces
     time::range const &range) const {
     return this->impl_ptr<impl>()->cropped(range);
 }
+
+processing::signal_event::pair_t processing::signal_event::combined(time::range const &insert_range, pair_vector_t event_pairs) {
+    return this->impl_ptr<impl>()->combined(insert_range, event_pairs);
+}
