@@ -29,7 +29,7 @@ namespace processing {
         std::multimap<typename Event::time_type::type, Event> filtered_events() const;
         template <typename T, typename Event, typename P>
         std::multimap<typename Event::time_type::type, Event> filtered_events(P predicate) const;
-        events_map_t copied_events(time::range const &) const;
+        events_map_t copied_events(time::range const &, frame_index_t const offset) const;
 
         void insert_event(time, event);
         void insert_events(events_map_t);

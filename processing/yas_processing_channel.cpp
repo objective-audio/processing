@@ -87,7 +87,7 @@ processing::signal_event::pair_t processing::channel::combine_signal_event(time:
     }
 }
 
-processing::channel::events_map_t processing::channel::copied_events(time::range const &copy_range) const {
+processing::channel::events_map_t processing::channel::copied_events(time::range const &copy_range, frame_index_t const offset) const {
     events_map_t result;
 
     for (auto const &event_pair : this->events()) {
@@ -97,7 +97,7 @@ processing::channel::events_map_t processing::channel::copied_events(time::range
             result.emplace(std::make_pair(event_time, event.copy()));
         } else if (event_time.is_frame_type()) {
             if (copy_range.is_contain(event_time.get<time::frame>())) {
-                result.emplace(std::make_pair(event_time, event.copy()));
+                result.emplace(std::make_pair(make_frame_time(event_time.get<time::frame>() + offset), event.copy()));
             }
         } else if (event_time.is_range_type()) {
             auto const &event_range = event_time.get<time::range>();
@@ -106,7 +106,7 @@ processing::channel::events_map_t processing::channel::copied_events(time::range
                 auto const signal = cast<signal_event>(event);
                 auto copied_signal =
                     signal.copy_in_range(time::range{overlap_range.frame - event_range.frame, overlap_range.length});
-                result.emplace(std::make_pair(time{overlap_range}, std::move(copied_signal)));
+                result.emplace(std::make_pair(time{overlap_range.offset(offset)}, std::move(copied_signal)));
             }
         } else {
             throw "unreachable code.";
