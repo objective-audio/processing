@@ -15,6 +15,7 @@ struct processing::signal_event::impl : event::impl {
     virtual void reserve(std::size_t const) = 0;
     virtual signal_event copy_in_range(time::range const &) = 0;
     virtual std::vector<std::pair<time::range, signal_event>> cropped(time::range const &) = 0;
+    virtual pair_t combined(time::range const &, pair_vector_t) = 0;
 
     bool validate_time(time const &time) override {
         if (time.is_range_type()) {
@@ -57,6 +58,20 @@ struct processing::signal_event::type_impl : impl {
         this->_vector_ref.reserve(size);
     }
 
+    void copy_from(T const *ptr, std::size_t const size) {
+        auto &vec = this->_vector_ref;
+        vec.resize(size);
+        memcpy(vec.data(), ptr, size * sizeof(T));
+    }
+
+    void copy_to(T *ptr, std::size_t const size) const {
+        auto &vec = this->_vector_ref;
+        if (size > vec.size()) {
+            throw "out of range.";
+        }
+        memcpy(ptr, vec.data(), size * sizeof(T));
+    }
+
     signal_event copy_in_range(time::range const &range) override {
         if (!time::range{0, static_cast<length_t>(this->size())}.is_contain(range)) {
             throw "out of range.";
@@ -86,6 +101,38 @@ struct processing::signal_event::type_impl : impl {
         }
 
         return result;
+    }
+
+    pair_t combined(time::range const &current_range, pair_vector_t event_pairs) override {
+        if (event_pairs.size() == 0) {
+            throw "argument is empty.";
+        }
+
+        if (event_pairs.size() == 1) {
+            return *event_pairs.begin();
+        }
+
+        time::range combined_range = current_range;
+        for (auto const &event_pair : event_pairs) {
+            combined_range = *combined_range.combine(event_pair.first);
+        }
+
+        std::vector<T> vec(combined_range.length);
+
+        for (auto const &event_pair : event_pairs) {
+            auto const &event_range = event_pair.first;
+            signal_event const &event_signal = event_pair.second;
+
+            if (event_signal.sample_type() != typeid(T)) {
+                throw "sample type mismatch.";
+            }
+
+            event_signal.copy_to<T>(&vec[event_range.frame - combined_range.frame], event_range.length);
+        }
+        
+        this->copy_to(&vec[current_range.frame - combined_range.frame], current_range.length);
+
+        return std::make_pair(combined_range, signal_event{std::move(vec)});
     }
 
     std::vector<T> &vector() {
@@ -128,17 +175,12 @@ T *processing::signal_event::data() {
 
 template <typename T>
 void processing::signal_event::copy_from(T const *ptr, std::size_t const size) {
-    this->resize(size);
-    memcpy(this->data<T>(), ptr, size * sizeof(T));
+    this->impl_ptr<signal_event::type_impl<T>>()->copy_from(ptr, size);
 }
 
 template <typename T>
 void processing::signal_event::copy_to(T *ptr, std::size_t const size) const {
-    if (size > this->size()) {
-        throw "out of range.";
-    }
-
-    memcpy(ptr, data<T>(), size * sizeof(T));
+    this->impl_ptr<signal_event::type_impl<T>>()->copy_to(ptr, size);
 }
 
 template <typename T>

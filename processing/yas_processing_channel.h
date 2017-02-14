@@ -10,13 +10,14 @@
 namespace yas {
 namespace processing {
     class event;
+    class signal_event;
 
     class channel : public base {
         class impl;
 
        public:
         using events_map_t = std::multimap<time, event>;
-        
+
         channel();
         explicit channel(events_map_t);
         channel(std::nullptr_t);
@@ -32,6 +33,8 @@ namespace processing {
 
         void insert_event(time, event);
         void insert_events(events_map_t);
+
+        std::pair<time::range, signal_event> combine_signal_event(time::range const &, signal_event);
 
         template <typename P>
         void erase_event_if(P predicate);

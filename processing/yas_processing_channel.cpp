@@ -52,6 +52,41 @@ void processing::channel::insert_events(events_map_t events) {
     }
 }
 
+processing::signal_event::pair_t processing::channel::combine_signal_event(time::range const &insert_range,
+                                                                           signal_event signal) {
+    auto const &sample_type = signal.sample_type();
+
+    auto predicate = [&insert_range, &sample_type](auto const &pair) {
+        time const &time = pair.first;
+        if (time.is_range_type()) {
+            if (time.get<time::range>().can_combine(insert_range)) {
+                if (auto const signal = cast<signal_event>(pair.second)) {
+                    if (signal.sample_type() == sample_type) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    };
+
+    auto const filtered_events = filter(this->events(), predicate);
+
+    if (filtered_events.size() > 0) {
+        auto vec = to_vector<signal_event::pair_t>(filtered_events, [](auto const &pair){
+            time const &time = pair.first;
+            return std::make_pair(time.get<time::range>(), cast<signal_event>(pair.second));
+        });
+        auto combined_pair = signal.combined(insert_range, vec);
+        this->erase_event_if(predicate);
+        this->insert_event(time{combined_pair.first}, combined_pair.second);
+        return combined_pair;
+    } else {
+        this->insert_event(time{insert_range}, signal);
+        return std::make_pair(insert_range, signal);
+    }
+}
+
 processing::channel::events_map_t processing::channel::copied_events(time::range const &copy_range) const {
     events_map_t result;
 

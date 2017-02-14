@@ -364,10 +364,38 @@ using namespace yas::processing;
     src_vec[0] = 71;
     src_vec[1] = 72;
     src_vec[2] = 73;
-    
+
     XCTAssertThrows(src_signal_event.cropped(time::range{0, 4}));
     XCTAssertThrows(src_signal_event.cropped(time::range{2, 2}));
     XCTAssertThrows(src_signal_event.cropped(time::range{3, 1}));
+}
+
+- (void)test_combined {
+    auto main_signal_event = make_signal_event<int8_t>(1);
+    auto &main_vec = main_signal_event.vector<int8_t>();
+    main_vec[0] = 12;
+
+    auto sub_signal_event_0 = make_signal_event<int8_t>(1);
+    auto &sub_vec_0 = sub_signal_event_0.vector<int8_t>();
+    sub_vec_0[0] = 11;
+
+    auto sub_signal_event_1 = make_signal_event<int8_t>(1);
+    auto &sub_vec_1 = sub_signal_event_1.vector<int8_t>();
+    sub_vec_1[0] = 13;
+
+    auto const combined = main_signal_event.combined(
+        time::range{1, 1}, {std::make_pair(time::range{0, 1}, std::move(sub_signal_event_0)),
+                            std::make_pair(time::range{2, 1}, std::move(sub_signal_event_1))});
+
+    XCTAssertEqual(combined.first, time::range(0, 3));
+
+    auto const &combined_signal = combined.second;
+    auto const &combined_vec = combined_signal.vector<int8_t>();
+
+    XCTAssertEqual(combined_vec.size(), 3);
+    XCTAssertEqual(combined_vec[0], 11);
+    XCTAssertEqual(combined_vec[1], 12);
+    XCTAssertEqual(combined_vec[2], 13);
 }
 
 @end

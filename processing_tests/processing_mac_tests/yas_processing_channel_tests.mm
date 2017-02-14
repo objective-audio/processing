@@ -321,4 +321,83 @@ using namespace yas::processing;
     XCTAssertEqual(signal_iterator->first, time::range(6, 2));
 }
 
+- (void)test_combine_signal_event {
+    processing::channel channel;
+
+    auto signal_1 = make_signal_event<int8_t>(2);
+    auto &vec1 = signal_1.vector<int8_t>();
+    vec1[0] = 5;
+    vec1[1] = 6;
+
+    channel.insert_event(make_range_time(0, 2), std::move(signal_1));
+
+    auto signal_2 = make_signal_event<int8_t>(2);
+    auto &vec2 = signal_2.vector<int8_t>();
+    vec2[0] = 9;
+    vec2[1] = 10;
+
+    channel.insert_event(make_range_time(4, 2), std::move(signal_2));
+
+    auto signal_3 = make_signal_event<int8_t>(2);
+    auto &vec3 = signal_3.vector<int8_t>();
+    vec3[0] = 13;
+    vec3[1] = 14;
+
+    channel.insert_event(make_range_time(8, 2), std::move(signal_3));
+
+    auto insert_signal = make_signal_event<int8_t>(2);
+    auto &insert_vec = insert_signal.vector<int8_t>();
+    insert_vec[0] = 7;
+    insert_vec[1] = 8;
+
+    auto combined_pair = channel.combine_signal_event(time::range{2, 2}, std::move(insert_signal));
+
+    {
+        XCTAssertEqual(combined_pair.first, time::range(0, 6));
+
+        auto const &combined_signal = combined_pair.second;
+        auto const &combined_vec = combined_signal.vector<int8_t>();
+
+        XCTAssertEqual(combined_vec.size(), 6);
+        XCTAssertEqual(combined_vec[0], 5);
+        XCTAssertEqual(combined_vec[1], 6);
+        XCTAssertEqual(combined_vec[2], 7);
+        XCTAssertEqual(combined_vec[3], 8);
+        XCTAssertEqual(combined_vec[4], 9);
+        XCTAssertEqual(combined_vec[5], 10);
+    }
+
+    XCTAssertEqual(channel.events().size(), 2);
+
+    auto iterator = channel.events().begin();
+
+    {
+        XCTAssertEqual(iterator->first, make_range_time(0, 6));
+
+        auto const &combined_signal = cast<signal_event>(iterator->second);
+        auto const &combined_vec = combined_signal.vector<int8_t>();
+
+        XCTAssertEqual(combined_vec.size(), 6);
+        XCTAssertEqual(combined_vec[0], 5);
+        XCTAssertEqual(combined_vec[1], 6);
+        XCTAssertEqual(combined_vec[2], 7);
+        XCTAssertEqual(combined_vec[3], 8);
+        XCTAssertEqual(combined_vec[4], 9);
+        XCTAssertEqual(combined_vec[5], 10);
+    }
+
+    ++iterator;
+
+    {
+        XCTAssertEqual(iterator->first, make_range_time(8, 2));
+
+        auto const &remained_signal = cast<signal_event>(iterator->second);
+        auto const &remained_vec = remained_signal.vector<int8_t>();
+
+        XCTAssertEqual(remained_vec.size(), 2);
+        XCTAssertEqual(remained_vec[0], 13);
+        XCTAssertEqual(remained_vec[1], 14);
+    }
+}
+
 @end

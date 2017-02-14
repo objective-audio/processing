@@ -63,7 +63,16 @@ processing::module processing::make_module(processing::timeline timeline) {
                 auto const &sub_channel = sub_stream.channel(con_idx);
 
                 out_channel.erase_events(time_range);
-                out_channel.insert_events(sub_channel.events());
+
+                for (auto &event_pair : sub_channel.events()) {
+                    auto const &time = event_pair.first;
+                    auto const &event = event_pair.second;
+                    if (time.is_range_type()) {
+                        out_channel.combine_signal_event(time.get<time::range>(), cast<signal_event>(event));
+                    } else {
+                        out_channel.insert_event(time, event);
+                    }
+                }
             }
         }
     };
