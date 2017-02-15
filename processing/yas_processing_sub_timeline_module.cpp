@@ -48,7 +48,7 @@ processing::module processing::make_module(processing::timeline timeline) {
                     throw "channel already exists in sub_stream.";
                 }
 
-                sub_stream.add_channel(con_idx, input_channel.copied_events(time_range));
+                sub_stream.add_channel(con_idx, input_channel.copied_events(time_range, 0));
             }
         }
 
