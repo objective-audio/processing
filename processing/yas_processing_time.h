@@ -75,6 +75,8 @@ namespace processing {
 
         template <typename T>
         typename T::type const &get() const;
+        
+        time offset(frame_index_t const &) const;
 
        private:
         static std::shared_ptr<processing::time::impl<time::any>> const &any_impl_ptr();

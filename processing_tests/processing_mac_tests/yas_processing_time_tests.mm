@@ -276,9 +276,33 @@ using namespace yas::processing;
     XCTAssertTrue((cropped_ranges[0] == time::range{0, 3}));
 }
 
-- (void)test_offset {
+- (void)test_range_offset {
     XCTAssertEqual(time::range(0, 1).offset(1), time::range(1, 1));
     XCTAssertEqual(time::range(0, 1).offset(-1), time::range(-1, 1));
+}
+
+- (void)test_any_time_offset {
+    auto const any_time = make_any_time();
+    
+    XCTAssertEqual(any_time.offset(0), any_time);
+    XCTAssertEqual(any_time.offset(1), any_time);
+    XCTAssertEqual(any_time.offset(-1), any_time);
+}
+
+- (void)test_frame_time_offset {
+    auto const frame_time = make_frame_time(0);
+    
+    XCTAssertEqual(frame_time.offset(0), make_frame_time(0));
+    XCTAssertEqual(frame_time.offset(1), make_frame_time(1));
+    XCTAssertEqual(frame_time.offset(-1), make_frame_time(-1));
+}
+
+- (void)test_range_time_offset {
+    auto const range_time = make_range_time(0, 1);
+    
+    XCTAssertEqual(range_time.offset(0), make_range_time(0, 1));
+    XCTAssertEqual(range_time.offset(1), make_range_time(1, 1));
+    XCTAssertEqual(range_time.offset(-1), make_range_time(-1, 1));
 }
 
 @end

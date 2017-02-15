@@ -273,6 +273,20 @@ template processing::time::range::type const &processing::time::get<processing::
 template processing::time::frame::type const &processing::time::get<processing::time::frame>() const;
 template processing::time::any::type const &processing::time::get<processing::time::any>() const;
 
+processing::time processing::time::offset(frame_index_t const &offset) const {
+    if (offset == 0 || this->is_any_type()) {
+        return *this;
+    } else if (this->is_frame_type()) {
+        return make_frame_time(this->get<time::frame>() + offset);
+    } else if (this->is_range_type()) {
+        return time{this->get<time::range>().offset(offset)};
+    } else {
+        throw "unreachable code.";
+    }
+}
+
+#pragma mark - private
+
 std::shared_ptr<processing::time::impl<processing::time::any>> const &processing::time::any_impl_ptr() {
     static auto impl_ptr = std::make_shared<time::impl<time::any>>(time::any{});
     return impl_ptr;
