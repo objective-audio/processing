@@ -30,11 +30,11 @@ namespace processing {
 }
 }
 
-processing::module processing::make_module(processing::timeline timeline) {
+processing::module processing::make_module(timeline timeline, frame_index_t const offset) {
     auto context = sub_timeline::make_context(std::move(timeline));
 
-    auto processor = [context](time::range const &time_range, connector_map_t const &input_connectors,
-                               connector_map_t const &output_connectors, stream &stream) mutable {
+    auto processor = [context, offset](time::range const &time_range, connector_map_t const &input_connectors,
+                                       connector_map_t const &output_connectors, stream &stream) mutable {
         processing::stream sub_stream{stream.sync_source()};
 
         for (auto const &connector : input_connectors) {
@@ -48,11 +48,11 @@ processing::module processing::make_module(processing::timeline timeline) {
                     throw "channel already exists in sub_stream.";
                 }
 
-                sub_stream.add_channel(con_idx, input_channel.copied_events(time_range, 0));
+                sub_stream.add_channel(con_idx, input_channel.copied_events(time_range, -offset));
             }
         }
 
-        context->timeline.process(time_range, sub_stream);
+        context->timeline.process(time_range.offset(-offset), sub_stream);
 
         for (auto const &connector : output_connectors) {
             auto const &con_idx = connector.first;
@@ -68,9 +68,10 @@ processing::module processing::make_module(processing::timeline timeline) {
                     auto const &time = event_pair.first;
                     auto const &event = event_pair.second;
                     if (time.is_range_type()) {
-                        out_channel.combine_signal_event(time.get<time::range>(), cast<signal_event>(event));
+                        out_channel.combine_signal_event(time.get<time::range>().offset(offset),
+                                                         cast<signal_event>(event));
                     } else {
-                        out_channel.insert_event(time, event);
+                        out_channel.insert_event(time.offset(offset), event);
                     }
                 }
             }
