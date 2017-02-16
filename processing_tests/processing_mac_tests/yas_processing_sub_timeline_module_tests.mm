@@ -41,10 +41,10 @@ using namespace yas::processing;
     }
 
     {
-        auto left_module = constant::make_signal_module(int8_t(7));
+        auto left_module = make_signal_module(int8_t(7));
         left_module.connect_output(to_connector_index(constant::output::value), 0);
 
-        auto right_module = constant::make_signal_module(int8_t(8));
+        auto right_module = make_signal_module(int8_t(8));
         right_module.connect_output(to_connector_index(constant::output::value), 1);
 
         auto &main_track_0 = main_timeline.add_track(0);
@@ -118,7 +118,7 @@ using namespace yas::processing;
     timeline sub_timeline;
 
     {
-        auto main_module = constant::make_signal_module(int8_t(1));
+        auto main_module = make_signal_module(int8_t(1));
         main_module.connect_output(to_connector_index(constant::output::value), 0);
 
         auto &main_track = main_timeline.add_track(0);
@@ -126,7 +126,7 @@ using namespace yas::processing;
     }
 
     {
-        auto sub_module = constant::make_signal_module(int8_t(2));
+        auto sub_module = make_signal_module(int8_t(2));
         sub_module.connect_output(to_connector_index(constant::output::value), 0);
 
         auto &sub_track = sub_timeline.add_track(0);
@@ -178,10 +178,10 @@ using namespace yas::processing;
     }
 
     {
-        auto left_module = constant::make_signal_module(int8_t(7));
+        auto left_module = make_signal_module(int8_t(7));
         left_module.connect_output(to_connector_index(constant::output::value), 0);
 
-        auto right_module = constant::make_signal_module(int8_t(8));
+        auto right_module = make_signal_module(int8_t(8));
         right_module.connect_output(to_connector_index(constant::output::value), 1);
 
         auto &main_track_0 = main_timeline.add_track(0);

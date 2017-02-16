@@ -14,9 +14,9 @@ namespace processing {
         enum class output : connector_index_t {
             value,
         };
-
-        template <typename T>
-        module make_signal_module(T);
     }
+
+    template <typename T>
+    module make_signal_module(T);
 }
 }
