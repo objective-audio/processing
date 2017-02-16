@@ -17,6 +17,8 @@ namespace processing {
         class type_impl;
 
         using time_type = time::frame;
+        using pair_t = std::pair<time::frame, number_event>;
+        using pair_vector_t = std::vector<pair_t>;
 
         template <typename T>
         explicit number_event(T);
