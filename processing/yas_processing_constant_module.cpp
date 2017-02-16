@@ -11,7 +11,7 @@
 using namespace yas;
 
 template <typename T>
-processing::module processing::constant::make_signal_module(T value) {
+processing::module processing::make_signal_module(T value) {
     auto processor = processing::make_send_signal_processor<T>([value = std::move(value)](
         processing::time::range const &time_range, sync_source const &, channel_index_t const, connector_index_t const,
         T *const signal_ptr) {
@@ -25,14 +25,14 @@ processing::module processing::constant::make_signal_module(T value) {
     return processing::module{{std::move(processor)}};
 }
 
-template processing::module processing::constant::make_signal_module(double);
-template processing::module processing::constant::make_signal_module(float);
-template processing::module processing::constant::make_signal_module(int64_t);
-template processing::module processing::constant::make_signal_module(int32_t);
-template processing::module processing::constant::make_signal_module(int16_t);
-template processing::module processing::constant::make_signal_module(int8_t);
-template processing::module processing::constant::make_signal_module(uint64_t);
-template processing::module processing::constant::make_signal_module(uint32_t);
-template processing::module processing::constant::make_signal_module(uint16_t);
-template processing::module processing::constant::make_signal_module(uint8_t);
-template processing::module processing::constant::make_signal_module(boolean);
+template processing::module processing::make_signal_module(double);
+template processing::module processing::make_signal_module(float);
+template processing::module processing::make_signal_module(int64_t);
+template processing::module processing::make_signal_module(int32_t);
+template processing::module processing::make_signal_module(int16_t);
+template processing::module processing::make_signal_module(int8_t);
+template processing::module processing::make_signal_module(uint64_t);
+template processing::module processing::make_signal_module(uint32_t);
+template processing::module processing::make_signal_module(uint16_t);
+template processing::module processing::make_signal_module(uint8_t);
+template processing::module processing::make_signal_module(boolean);

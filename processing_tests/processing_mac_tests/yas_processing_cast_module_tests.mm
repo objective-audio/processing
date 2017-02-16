@@ -29,10 +29,10 @@ using namespace yas::processing;
 }
 
 - (void)test_process_signal_diff_channel {
-    auto constant_module1 = constant::make_signal_module(int8_t(1));
+    auto constant_module1 = make_signal_module(int8_t(1));
     constant_module1.connect_output(to_connector_index(constant::output::value), 0);
 
-    auto constant_module2 = constant::make_signal_module(int8_t(2));
+    auto constant_module2 = make_signal_module(int8_t(2));
     constant_module2.connect_output(to_connector_index(constant::output::value), 0);
 
     auto cast_module = cast::make_signal_module<int8_t, float>();
@@ -61,10 +61,10 @@ using namespace yas::processing;
 }
 
 - (void)test_process_signal_same_channel {
-    auto constant_module1 = constant::make_signal_module(int8_t(32));
+    auto constant_module1 = make_signal_module(int8_t(32));
     constant_module1.connect_output(to_connector_index(constant::output::value), 2);
 
-    auto constant_module2 = constant::make_signal_module(int8_t(64));
+    auto constant_module2 = make_signal_module(int8_t(64));
     constant_module2.connect_output(to_connector_index(constant::output::value), 2);
 
     auto cast_module = cast::make_signal_module<int8_t, double>();
