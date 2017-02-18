@@ -6,6 +6,7 @@
 #include "yas_processing_module.h"
 #include "yas_processing_send_signal_processor.h"
 #include "yas_processing_signal_event.h"
+#include "yas_processing_sync_source.h"
 #include "yas_fast_each.h"
 
 using namespace yas;
