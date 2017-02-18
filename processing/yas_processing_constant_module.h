@@ -18,5 +18,8 @@ namespace processing {
 
     template <typename T>
     module make_signal_module(T);
+
+    template <typename T>
+    module make_number_module(T);
 }
 }
