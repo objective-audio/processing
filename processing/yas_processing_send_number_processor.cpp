@@ -12,24 +12,24 @@ using namespace yas;
 template <typename T>
 processing::processor_f processing::make_send_number_processor(send_number_process_f<T> handler) {
     return [handler = std::move(handler)](time::range const &current_time_range, connector_map_t const &,
-                                          connector_map_t const &output_connectors, stream &stream){
+                                          connector_map_t const &output_connectors, stream &stream) {
         if (handler) {
             for (auto const &connector_pair : output_connectors) {
                 auto const &con_idx = connector_pair.first;
                 auto const &connector = connector_pair.second;
-                
+
                 auto const &ch_idx = connector.channel_index;
                 auto &channel = stream.add_channel(ch_idx);
-                
+
                 if (channel.events().size() > 0) {
-                    channel.erase_event<T, number_event>([&erase_range = current_time_range](auto const &pair){
+                    channel.erase_event<T, number_event>([&erase_range = current_time_range](auto const &pair) {
                         return erase_range.is_contain(pair.first);
                     });
                 }
-                
-                auto vec = handler(current_time_range, stream.sync_source(), ch_idx, con_idx);
-                
-                for (auto const &number_pair : vec) {
+
+                auto map = handler(current_time_range, stream.sync_source(), ch_idx, con_idx);
+
+                for (auto const &number_pair : map) {
                     channel.insert_event(make_frame_time(number_pair.first), make_number_event<T>(number_pair.second));
                 }
             }
