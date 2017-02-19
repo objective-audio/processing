@@ -43,7 +43,7 @@ processing::module processing::make_number_module(T value) {
     auto processor = processing::make_send_number_processor<T>([value](processing::time::range const &time_range,
                                                                        sync_source const &, channel_index_t const,
                                                                        connector_index_t const) {
-        return number_event::value_pair_vector_t<T>{{time_range.frame, value}};
+        return number_event::value_map_t<T>{{time_range.frame, value}};
     });
 
     return processing::module{{std::move(processor)}};
