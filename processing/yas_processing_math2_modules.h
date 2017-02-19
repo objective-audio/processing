@@ -35,5 +35,8 @@ namespace processing {
 
     template <typename T>
     module make_signal_module(math2::kind const);
+
+    template <typename T>
+    module make_number_module(math2::kind const);
 }
 }

@@ -4,24 +4,29 @@
 
 #include "yas_processing_math2_modules.h"
 #include "yas_processing_send_signal_processor.h"
+#include "yas_processing_send_number_processor.h"
 #include "yas_processing_receive_signal_processor.h"
+#include "yas_processing_receive_number_processor.h"
 #include "yas_processing_module.h"
 #include "yas_processing_signal_event.h"
+#include "yas_processing_number_event.h"
 #include "yas_processing_constants.h"
 #include "yas_fast_each.h"
 
 using namespace yas;
 
+#pragma mark - signal
+
 namespace yas {
 namespace processing {
     namespace math2 {
-        struct context {
+        struct signal_context {
             signal_event left_signal;
             signal_event right_signal;
             time left_time;
             time right_time;
 
-            context(signal_event &&left_signal, signal_event &&right_signal)
+            signal_context(signal_event &&left_signal, signal_event &&right_signal)
                 : left_signal(std::move(left_signal)), right_signal(std::move(right_signal)) {
             }
 
@@ -35,20 +40,20 @@ namespace processing {
             }
         };
 
-        using context_sptr = std::shared_ptr<context>;
+        using signal_context_sptr = std::shared_ptr<signal_context>;
 
         template <typename T>
-        context_sptr make_context() {
-            return std::make_shared<context>(make_signal_event<T>(0), make_signal_event<T>(0));
+        signal_context_sptr make_signal_context() {
+            return std::make_shared<signal_context>(make_signal_event<T>(0), make_signal_event<T>(0));
         }
 
-        processor_f make_prepare_processor(context_sptr &context) {
+        processor_f make_prepare_processor(signal_context_sptr &context) {
             return [context](time::range const &, connector_map_t const &, connector_map_t const &,
                              stream &stream) mutable { context->reset(stream.sync_source().slice_length); };
         }
 
         template <typename T>
-        processor_f make_receive_signal_processor(context_sptr const &context) {
+        processor_f make_receive_signal_processor(signal_context_sptr const &context) {
             return processing::make_receive_signal_processor<T>(
                 [context](time::range const &time_range, sync_source const &, channel_index_t const,
                           connector_index_t const con_idx, T const *const signal_ptr) mutable {
@@ -69,7 +74,7 @@ template <typename T>
 processing::module processing::make_signal_module(math2::kind const kind) {
     using namespace yas::processing::math2;
 
-    auto context = make_context<T>();
+    auto context = make_signal_context<T>();
 
     auto prepare_processor = make_prepare_processor(context);
 
@@ -141,3 +146,128 @@ template processing::module processing::make_signal_module<uint64_t>(math2::kind
 template processing::module processing::make_signal_module<uint32_t>(math2::kind const);
 template processing::module processing::make_signal_module<uint16_t>(math2::kind const);
 template processing::module processing::make_signal_module<uint8_t>(math2::kind const);
+
+#pragma mark - number
+
+namespace yas {
+namespace processing {
+    namespace math2 {
+        template <typename T>
+        struct number_input {
+            std::experimental::optional<T> left_value;
+            std::experimental::optional<T> right_value;
+        };
+
+        template <typename T>
+        struct number_context {
+            std::map<time::frame::type, number_input<T>> inputs;
+            T last_left_value = 0;
+            T last_right_value = 0;
+
+            void insert_input(frame_index_t const &frame, T const &value, math2::input const &direction) {
+                if (this->inputs.count(frame) == 0) {
+                    this->inputs.emplace(frame, number_input<T>{});
+                }
+                auto &input = this->inputs.at(frame);
+                switch (direction) {
+                    case input::left:
+                        input.left_value = value;
+                        break;
+                    case input::right:
+                        input.right_value = value;
+                        break;
+                }
+            }
+
+            void reset() {
+                this->inputs.clear();
+            }
+        };
+    }
+}
+}
+
+template <typename T>
+processing::module processing::make_number_module(math2::kind const kind) {
+    using namespace yas::processing::math2;
+
+    auto context = std::make_shared<number_context<T>>();
+
+    auto prepare_processor = [context](time::range const &, connector_map_t const &, connector_map_t const &,
+                                       stream &stream) mutable { context->reset(); };
+
+    auto receive_processor =
+        make_receive_number_processor<T>([context](processing::time::frame::type const &frame, channel_index_t const,
+                                                   connector_index_t const con_idx, T const &value) mutable {
+            if (con_idx == to_connector_index(input::left)) {
+                context->insert_input(frame, value, input::left);
+            } else if (con_idx == to_connector_index(input::right)) {
+                context->insert_input(frame, value, input::right);
+            }
+        });
+
+    auto send_processor =
+        make_send_number_processor<T>([context, kind](processing::time::range const &, sync_source const &,
+                                                      channel_index_t const, connector_index_t const con_idx) mutable {
+            number_event::value_map_t<T> result;
+
+            if (con_idx == to_connector_index(output::result)) {
+                for (auto const &input_pair : context->inputs) {
+                    auto const &input = input_pair.second;
+                    if (auto const &left_value = input.left_value) {
+                        context->last_left_value = *left_value;
+                    }
+                    if (auto const &right_value = input.right_value) {
+                        context->last_right_value = *right_value;
+                    }
+
+                    T const &left_value = context->last_left_value;
+                    T const &right_value = context->last_right_value;
+                    T result_value;
+
+                    switch (kind) {
+                        case kind::plus:
+                            result_value = left_value + right_value;
+                            break;
+                        case kind::minus:
+                            result_value = left_value - right_value;
+                            break;
+                        case kind::multiply:
+                            result_value = left_value * right_value;
+                            break;
+                        case kind::divide:
+                            result_value = (left_value == 0 || right_value == 0) ? 0 : left_value / right_value;
+                            break;
+
+                        case kind::atan2:
+                            result_value = std::atan2(left_value, right_value);
+                            break;
+
+                        case kind::pow:
+                            result_value = std::pow(left_value, right_value);
+                            break;
+                        case kind::hypot:
+                            result_value = std::hypot(left_value, right_value);
+                            break;
+                    }
+
+                    result.emplace(input_pair.first, result_value);
+                }
+            }
+
+            return result;
+        });
+
+    return processing::module{{std::move(prepare_processor), std::move(receive_processor), std::move(send_processor)}};
+}
+
+template processing::module processing::make_number_module<double>(math2::kind const);
+template processing::module processing::make_number_module<float>(math2::kind const);
+template processing::module processing::make_number_module<int64_t>(math2::kind const);
+template processing::module processing::make_number_module<int32_t>(math2::kind const);
+template processing::module processing::make_number_module<int16_t>(math2::kind const);
+template processing::module processing::make_number_module<int8_t>(math2::kind const);
+template processing::module processing::make_number_module<uint64_t>(math2::kind const);
+template processing::module processing::make_number_module<uint32_t>(math2::kind const);
+template processing::module processing::make_number_module<uint16_t>(math2::kind const);
+template processing::module processing::make_number_module<uint8_t>(math2::kind const);
