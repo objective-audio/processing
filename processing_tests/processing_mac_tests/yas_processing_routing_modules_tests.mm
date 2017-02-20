@@ -60,7 +60,7 @@ using namespace yas::processing;
     module.connect_input(to_connector_index(routing::input::value), input_ch_idx);
     module.connect_output(to_connector_index(routing::output::value), output_ch_idx);
 
-    auto stream = test::make_stream(time::range{0, process_length}, data, time::range{0, process_length}, 0);
+    auto stream = test::make_signal_stream(time::range{0, process_length}, data, time::range{0, process_length}, 0);
 
     module.process(time::range{0, process_length}, stream);
 
@@ -88,7 +88,7 @@ using namespace yas::processing;
     module.connect_input(to_connector_index(routing::input::value), input_ch_idx);
     module.connect_output(to_connector_index(routing::output::value), output_ch_idx);
 
-    auto stream = test::make_stream(time::range{0, process_length}, data, time::range{0, process_length}, 0);
+    auto stream = test::make_signal_stream(time::range{0, process_length}, data, time::range{0, process_length}, 0);
 
     module.process(time::range{1, 1}, stream);
 
@@ -124,7 +124,7 @@ using namespace yas::processing;
     module.connect_input(to_connector_index(routing::input::value), input_ch_idx);
     module.connect_output(to_connector_index(routing::output::value), output_ch_idx);
 
-    auto stream = test::make_stream(time::range{0, process_length}, data, time::range{0, process_length}, 0);
+    auto stream = test::make_signal_stream(time::range{0, process_length}, data, time::range{0, process_length}, 0);
 
     module.process(time::range{0, process_length}, stream);
 
@@ -158,7 +158,7 @@ using namespace yas::processing;
     module.connect_input(to_connector_index(routing::input::value), input_ch_idx);
     module.connect_output(to_connector_index(routing::output::value), output_ch_idx);
     
-    auto stream = test::make_stream(time::range{0, process_length}, data, time::range{0, process_length}, 0);
+    auto stream = test::make_signal_stream(time::range{0, process_length}, data, time::range{0, process_length}, 0);
     
     module.process(time::range{1, 1}, stream);
     

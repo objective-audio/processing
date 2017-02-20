@@ -36,8 +36,8 @@
 
     int16_t const right_data[2] = {10, 10};
 
-    auto stream = test::make_stream(time::range{0, process_length}, left_data, time::range{1, 2}, 0, right_data,
-                                    time::range{2, 2}, 1);
+    auto stream = test::make_signal_stream(time::range{0, process_length}, left_data, time::range{1, 2}, 0, right_data,
+                                           time::range{2, 2}, 1);
 
     auto calc_module = make_signal_module<int16_t>(math2::kind::plus);
     calc_module.connect_input(to_connector_index(math2::input::left), 0);
@@ -70,8 +70,8 @@
 
     int16_t const right_data[2] = {10, 10};
 
-    auto stream = test::make_stream(time::range{0, process_length}, left_data, time::range{1, 2}, 0, right_data,
-                                    time::range{2, 2}, 1);
+    auto stream = test::make_signal_stream(time::range{0, process_length}, left_data, time::range{1, 2}, 0, right_data,
+                                           time::range{2, 2}, 1);
 
     auto calc_module = make_signal_module<int16_t>(math2::kind::minus);
     calc_module.connect_input(to_connector_index(math2::input::left), 0);
@@ -104,8 +104,8 @@
 
     int16_t const right_data[2] = {4, 4};
 
-    auto stream = test::make_stream(time::range{0, process_length}, left_data, time::range{1, 2}, 0, right_data,
-                                    time::range{2, 2}, 1);
+    auto stream = test::make_signal_stream(time::range{0, process_length}, left_data, time::range{1, 2}, 0, right_data,
+                                           time::range{2, 2}, 1);
 
     auto calc_module = make_signal_module<int16_t>(math2::kind::multiply);
     calc_module.connect_input(to_connector_index(math2::input::left), 0);
@@ -138,8 +138,8 @@
 
     int16_t const right_data[2] = {2, 2};
 
-    auto stream = test::make_stream(time::range{0, process_length}, left_data, time::range{1, 2}, 0, right_data,
-                                    time::range{2, 2}, 1);
+    auto stream = test::make_signal_stream(time::range{0, process_length}, left_data, time::range{1, 2}, 0, right_data,
+                                           time::range{2, 2}, 1);
 
     auto calc_module = make_signal_module<int16_t>(math2::kind::divide);
     calc_module.connect_input(to_connector_index(math2::input::left), 0);
@@ -172,8 +172,8 @@
 
     double const right_data[6] = {1.0, -1.0, 1.0, -1.0, 1.0, -1.0};
 
-    auto stream = test::make_stream(time::range{0, process_length}, left_data, time::range{1, 6}, 0, right_data,
-                                    time::range{2, 6}, 1);
+    auto stream = test::make_signal_stream(time::range{0, process_length}, left_data, time::range{1, 6}, 0, right_data,
+                                           time::range{2, 6}, 1);
 
     auto calc_module = make_signal_module<double>(math2::kind::atan2);
     calc_module.connect_input(to_connector_index(math2::input::left), 0);
@@ -210,8 +210,8 @@
 
     double const right_data[2] = {4.0, 4.0};
 
-    auto stream = test::make_stream(time::range{0, process_length}, left_data, time::range{1, 2}, 0, right_data,
-                                    time::range{2, 2}, 1);
+    auto stream = test::make_signal_stream(time::range{0, process_length}, left_data, time::range{1, 2}, 0, right_data,
+                                           time::range{2, 2}, 1);
 
     auto calc_module = make_signal_module<double>(math2::kind::pow);
     calc_module.connect_input(to_connector_index(math2::input::left), 0);
@@ -244,8 +244,8 @@
 
     double const right_data[2] = {3.0, 3.0};
 
-    auto stream = test::make_stream(time::range{0, process_length}, left_data, time::range{1, 2}, 0, right_data,
-                                    time::range{2, 2}, 1);
+    auto stream = test::make_signal_stream(time::range{0, process_length}, left_data, time::range{1, 2}, 0, right_data,
+                                           time::range{2, 2}, 1);
 
     auto calc_module = make_signal_module<double>(math2::kind::hypot);
     calc_module.connect_input(to_connector_index(math2::input::left), 0);
