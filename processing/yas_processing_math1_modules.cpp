@@ -5,12 +5,16 @@
 #include "yas_processing_math1_modules.h"
 #include "yas_processing_module.h"
 #include "yas_processing_send_signal_processor.h"
+#include "yas_processing_send_number_processor.h"
 #include "yas_processing_receive_signal_processor.h"
+#include "yas_processing_receive_number_processor.h"
 #include "yas_processing_signal_event.h"
 #include "yas_processing_constants.h"
 #include "yas_fast_each.h"
 
 using namespace yas;
+
+#pragma mark - signal
 
 namespace yas {
 namespace processing {
@@ -170,3 +174,145 @@ processing::module processing::make_signal_module(math1::kind const kind) {
 
 template processing::module processing::make_signal_module<double>(math1::kind const);
 template processing::module processing::make_signal_module<float>(math1::kind const);
+
+#pragma mark - number
+
+namespace yas {
+namespace processing {
+    namespace math1 {
+        template <typename T>
+        struct number_context {
+            std::map<time::frame::type, T> inputs;
+
+            void reset() {
+                this->inputs.clear();
+            }
+        };
+    }
+}
+}
+
+template <typename T>
+processing::module processing::make_number_module(math1::kind const kind) {
+    using namespace yas::processing::math1;
+
+    auto context = std::make_shared<number_context<T>>();
+
+    auto prepare_processor = [context](time::range const &, connector_map_t const &, connector_map_t const &,
+                                       stream &stream) mutable { context->reset(); };
+
+    auto receive_processor =
+        make_receive_number_processor<T>([context](processing::time::frame::type const &frame, channel_index_t const,
+                                                   connector_index_t const con_idx, T const &value) mutable {
+            if (con_idx == to_connector_index(input::parameter)) {
+                context->inputs.emplace(frame, value);
+            }
+        });
+
+    auto send_processor =
+        make_send_number_processor<T>([context, kind](processing::time::range const &, sync_source const &,
+                                                      channel_index_t const, connector_index_t const con_idx) mutable {
+            number_event::value_map_t<T> result;
+
+            if (con_idx == to_connector_index(output::result)) {
+                for (auto const &input_pair : context->inputs) {
+                    auto const &input_value = input_pair.second;
+                    T result_value = 0;
+
+                    switch (kind) {
+                        case kind::sin:
+                            result_value = std::sin(input_value);
+                            break;
+                        case kind::cos:
+                            result_value = std::cos(input_value);
+                            break;
+                        case kind::tan:
+                            result_value = std::tan(input_value);
+                            break;
+                        case kind::asin:
+                            result_value = std::asin(input_value);
+                            break;
+                        case kind::acos:
+                            result_value = std::acos(input_value);
+                            break;
+                        case kind::atan:
+                            result_value = std::atan(input_value);
+                            break;
+
+                        case kind::sinh:
+                            result_value = std::sinh(input_value);
+                            break;
+                        case kind::cosh:
+                            result_value = std::cosh(input_value);
+                            break;
+                        case kind::tanh:
+                            result_value = std::tanh(input_value);
+                            break;
+                        case kind::asinh:
+                            result_value = std::asinh(input_value);
+                            break;
+                        case kind::acosh:
+                            result_value = std::acosh(input_value);
+                            break;
+                        case kind::atanh:
+                            result_value = std::atanh(input_value);
+                            break;
+
+                        case kind::exp:
+                            result_value = std::exp(input_value);
+                            break;
+                        case kind::exp2:
+                            result_value = std::exp2(input_value);
+                            break;
+                        case kind::expm1:
+                            result_value = std::expm1(input_value);
+                            break;
+                        case kind::log:
+                            result_value = std::log(input_value);
+                            break;
+                        case kind::log10:
+                            result_value = std::log10(input_value);
+                            break;
+                        case kind::log1p:
+                            result_value = std::log1p(input_value);
+                            break;
+                        case kind::log2:
+                            result_value = std::log2(input_value);
+                            break;
+
+                        case kind::sqrt:
+                            result_value = std::sqrt(input_value);
+                            break;
+                        case kind::cbrt:
+                            result_value = std::cbrt(input_value);
+                            break;
+                        case kind::abs:
+                            result_value = std::abs(input_value);
+                            break;
+
+                        case kind::ceil:
+                            result_value = std::ceil(input_value);
+                            break;
+                        case kind::floor:
+                            result_value = std::floor(input_value);
+                            break;
+                        case kind::trunc:
+                            result_value = std::trunc(input_value);
+                            break;
+                        case kind::round:
+                            result_value = std::round(input_value);
+                            break;
+                    }
+
+                    result.emplace(input_pair.first, result_value);
+                }
+            }
+
+            return result;
+        });
+
+    return processing::module{{std::move(prepare_processor), std::move(receive_processor), std::move(send_processor)}};
+}
+
+template processing::module processing::make_number_module<double>(math1::kind const);
+template processing::module processing::make_number_module<float>(math1::kind const);
