@@ -40,8 +40,8 @@
         2, 2, 2,
     };
 
-    auto stream = test::make_stream(time::range{0, process_length}, left_data, time::range{1, 3}, 0, right_data,
-                                    time::range{2, 3}, 1);
+    auto stream = test::make_signal_stream(time::range{0, process_length}, left_data, time::range{1, 3}, 0, right_data,
+                                           time::range{2, 3}, 1);
 
     auto calc_module = make_signal_module<int16_t>(compare::kind::is_equal);
     calc_module.connect_input(to_connector_index(compare::input::left), 0);
@@ -79,8 +79,8 @@
         2, 2, 2,
     };
 
-    auto stream = test::make_stream(time::range{0, process_length}, left_data, time::range{1, 3}, 0, right_data,
-                                    time::range{2, 3}, 1);
+    auto stream = test::make_signal_stream(time::range{0, process_length}, left_data, time::range{1, 3}, 0, right_data,
+                                           time::range{2, 3}, 1);
 
     auto calc_module = make_signal_module<int16_t>(compare::kind::is_not_equal);
     calc_module.connect_input(to_connector_index(compare::input::left), 0);
@@ -118,8 +118,8 @@
         3, 3, 3, 1, 0, -1,
     };
 
-    auto stream = test::make_stream(time::range{0, process_length}, left_data, time::range{1, 6}, 0, right_data,
-                                    time::range{4, 6}, 1);
+    auto stream = test::make_signal_stream(time::range{0, process_length}, left_data, time::range{1, 6}, 0, right_data,
+                                           time::range{4, 6}, 1);
 
     auto calc_module = make_signal_module<int16_t>(compare::kind::is_greater);
     calc_module.connect_input(to_connector_index(compare::input::left), 0);
@@ -162,8 +162,8 @@
         3, 3, 3, 1, 0, -1,
     };
 
-    auto stream = test::make_stream(time::range{0, process_length}, left_data, time::range{1, 6}, 0, right_data,
-                                    time::range{4, 6}, 1);
+    auto stream = test::make_signal_stream(time::range{0, process_length}, left_data, time::range{1, 6}, 0, right_data,
+                                           time::range{4, 6}, 1);
 
     auto calc_module = make_signal_module<int16_t>(compare::kind::is_greater_equal);
     calc_module.connect_input(to_connector_index(compare::input::left), 0);
@@ -206,8 +206,8 @@
         3, 3, 3, 1, 0, -1,
     };
 
-    auto stream = test::make_stream(time::range{0, process_length}, left_data, time::range{1, 6}, 0, right_data,
-                                    time::range{4, 6}, 1);
+    auto stream = test::make_signal_stream(time::range{0, process_length}, left_data, time::range{1, 6}, 0, right_data,
+                                           time::range{4, 6}, 1);
 
     auto calc_module = make_signal_module<int16_t>(compare::kind::is_less);
     calc_module.connect_input(to_connector_index(compare::input::left), 0);
@@ -250,8 +250,8 @@
         3, 3, 3, 1, 0, -1,
     };
 
-    auto stream = test::make_stream(time::range{0, process_length}, left_data, time::range{1, 6}, 0, right_data,
-                                    time::range{4, 6}, 1);
+    auto stream = test::make_signal_stream(time::range{0, process_length}, left_data, time::range{1, 6}, 0, right_data,
+                                           time::range{4, 6}, 1);
 
     auto calc_module = make_signal_module<int16_t>(compare::kind::is_less_equal);
     calc_module.connect_input(to_connector_index(compare::input::left), 0);
