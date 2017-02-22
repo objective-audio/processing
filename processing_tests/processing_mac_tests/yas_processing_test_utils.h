@@ -53,22 +53,6 @@ namespace test {
     }
 
     template <typename T>
-    static stream make_number_stream(T const *const data, time::range const data_time_range,
-                                     channel_index_t const ch_idx) {
-        stream stream{sync_source{1, data_time_range.length}};
-
-        auto &channel = stream.add_channel(ch_idx);
-
-        auto each = make_fast_each(data_time_range.length);
-        while (yas_fast_each_next(each)) {
-            auto const &idx = yas_fast_each_index(each);
-            channel.insert_event(make_frame_time(data_time_range.frame + idx), number_event(data[idx]));
-        }
-
-        return stream;
-    }
-
-    template <typename T>
     static stream make_signal_stream(time::range const time_range, T const *const left_data,
                                      time::range const left_time_range, channel_index_t const left_ch_idx,
                                      T const *const right_data, time::range const right_time_range,
@@ -99,6 +83,51 @@ namespace test {
             }
 
             channel.insert_event(processing::time{right_time_range}, std::move(signal));
+        }
+
+        return stream;
+    }
+
+    template <typename T>
+    static stream make_number_stream(T const *const data, time::range const data_time_range,
+                                     channel_index_t const ch_idx) {
+        stream stream{sync_source{1, data_time_range.length}};
+
+        auto &channel = stream.add_channel(ch_idx);
+
+        auto each = make_fast_each(data_time_range.length);
+        while (yas_fast_each_next(each)) {
+            auto const &idx = yas_fast_each_index(each);
+            channel.insert_event(make_frame_time(data_time_range.frame + idx), number_event(data[idx]));
+        }
+
+        return stream;
+    }
+
+    template <typename T>
+    static stream make_number_stream(T const *const left_data, time::range const left_time_range,
+                                     channel_index_t const left_ch_idx, T const *const right_data,
+                                     time::range const right_time_range, channel_index_t const right_ch_idx) {
+        stream stream{sync_source{1, left_time_range.length}};
+
+        {
+            auto &channel = stream.add_channel(left_ch_idx);
+
+            auto each = make_fast_each(left_time_range.length);
+            while (yas_fast_each_next(each)) {
+                auto const &idx = yas_fast_each_index(each);
+                channel.insert_event(make_frame_time(left_time_range.frame + idx), number_event(left_data[idx]));
+            }
+        }
+
+        {
+            auto &channel = stream.add_channel(right_ch_idx);
+
+            auto each = make_fast_each(right_time_range.length);
+            while (yas_fast_each_next(each)) {
+                auto const &idx = yas_fast_each_index(each);
+                channel.insert_event(make_frame_time(right_time_range.frame + idx), number_event(right_data[idx]));
+            }
         }
 
         return stream;

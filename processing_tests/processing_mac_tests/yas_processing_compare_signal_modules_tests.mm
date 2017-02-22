@@ -1,16 +1,16 @@
 //
-//  yas_processing_compare_modules_tests.mm
+//  yas_processing_compare_signal_modules_tests.mm
 //
 
 #import <XCTest/XCTest.h>
 #import "yas_processing_test_utils.h"
 #import "yas_boolean.h"
 
-@interface yas_processing_compare_modules_tests : XCTestCase
+@interface yas_processing_compare_signal_modules_tests : XCTestCase
 
 @end
 
-@implementation yas_processing_compare_modules_tests
+@implementation yas_processing_compare_signal_modules_tests
 
 - (void)setUp {
     [super setUp];
@@ -20,7 +20,7 @@
     [super tearDown];
 }
 
-- (void)test_create_signal_modules {
+- (void)test_make_signal_modules {
     XCTAssertTrue(make_signal_module<int16_t>(compare::kind::is_equal));
     XCTAssertTrue(make_signal_module<int16_t>(compare::kind::is_not_equal));
     XCTAssertTrue(make_signal_module<int16_t>(compare::kind::is_greater));

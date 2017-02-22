@@ -33,5 +33,8 @@ namespace processing {
 
     template <typename T>
     module make_signal_module(compare::kind const);
+
+    template <typename T>
+    module make_number_module(compare::kind const);
 }
 }
