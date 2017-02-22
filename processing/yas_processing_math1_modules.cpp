@@ -22,11 +22,11 @@ namespace processing {
         template <typename T>
         static T constexpr zero_value = 0;
 
-        struct context {
+        struct signal_context {
             signal_event input_signal;
             time input_time;
 
-            context(signal_event &&input_signal) : input_signal(std::move(input_signal)) {
+            signal_context(signal_event &&input_signal) : input_signal(std::move(input_signal)) {
             }
 
             void reset(std::size_t const reserve_size) {
@@ -35,13 +35,6 @@ namespace processing {
                 this->input_time = nullptr;
             }
         };
-
-        using context_sptr = std::shared_ptr<context>;
-
-        template <typename T>
-        context_sptr make_context() {
-            return std::make_shared<context>(make_signal_event<T>(0));
-        }
     }
 }
 }
@@ -50,7 +43,7 @@ template <typename T>
 processing::module processing::make_signal_module(math1::kind const kind) {
     using namespace yas::processing::math1;
 
-    auto context = make_context<T>();
+    auto context = std::make_shared<math1::signal_context>(make_signal_event<T>(0));
 
     auto prepare_processor = [context](time::range const &, connector_map_t const &, connector_map_t const &,
                                        stream &stream) mutable { context->reset(stream.sync_source().slice_length); };
