@@ -13,28 +13,16 @@
 #include "yas_processing_channel.h"
 #include "yas_processing_signal_event.h"
 #include "yas_processing_number_event.h"
+#include "yas_processing_signal_process_context.h"
+#include "yas_processing_number_process_context.h"
 #include "yas_fast_each.h"
 
 namespace yas {
 namespace processing {
     namespace cast {
-        struct signal_context {
-            signal_event signal;
-            time time;
-
-            signal_context(signal_event &&);
-
-            void reset(std::size_t const);
-        };
-
-        using signal_context_sptr = std::shared_ptr<signal_context>;
-
-        template <typename T>
-        signal_context_sptr make_signal_context();
-
         template <typename In, typename Out>
         processing::module make_signal_module() {
-            auto context = make_signal_context<In>();
+            auto context = std::make_shared<signal_process_context<In, 1>>();
 
             auto prepare_processor = [context](time::range const &, connector_map_t const &, connector_map_t const &,
                                                stream &stream) mutable {
@@ -43,10 +31,10 @@ namespace processing {
 
             auto receive_processor = processing::make_receive_signal_processor<In>(
                 [context](processing::time::range const &time_range, sync_source const &, channel_index_t const,
-                          connector_index_t const con_idx, In const *const signal_ptr) mutable {
-                    if (con_idx == to_connector_index(input::value)) {
-                        context->time = time_range;
-                        context->signal.copy_from(signal_ptr, time_range.length);
+                          connector_index_t const co_idx, In const *const signal_ptr) mutable {
+                    if (co_idx == to_connector_index(input::value)) {
+                        context->set_time(processing::time{time_range}, co_idx);
+                        context->copy_data_from(signal_ptr, time_range.length, co_idx);
                     }
                 });
 
@@ -54,15 +42,15 @@ namespace processing {
 
             auto send_processor = processing::make_send_signal_processor<Out>(
                 [context](processing::time::range const &time_range, sync_source const &, channel_index_t const,
-                          connector_index_t const con_idx, Out *const signal_ptr) {
-                    if (con_idx == to_connector_index(output::value)) {
-                        auto out_each = make_fast_each(signal_ptr, time_range.length);
-                        processing::signal_event const &signal = context->signal;
-                        auto const *src_ptr = signal.data<In>();
-                        processing::time const &src_time = context->time;
+                          connector_index_t const co_idx, Out *const signal_ptr) {
+                    if (co_idx == to_connector_index(output::value)) {
+                        auto const input_co_idx = to_connector_index(input::value);
+                        auto const *src_ptr = context->data(input_co_idx);
+                        processing::time const &src_time = context->time(input_co_idx);
                         auto const src_offset = src_time ? time_range.frame - src_time.get<time::range>().frame : 0;
                         auto const &src_length = src_time ? src_time.get<time::range>().length : 0;
 
+                        auto out_each = make_fast_each(signal_ptr, time_range.length);
                         while (yas_fast_each_next(out_each)) {
                             auto const &idx = yas_fast_each_index(out_each);
                             auto const src_idx = idx + src_offset;
@@ -76,31 +64,18 @@ namespace processing {
                                        std::move(remove_processor), std::move(send_processor)}};
         }
 
-        template <typename T>
-        struct number_context {
-            std::multimap<frame_index_t, T> numbers;
-
-            void reset();
-        };
-
-        template <typename T>
-        using number_context_sptr = std::shared_ptr<number_context<T>>;
-
-        template <typename T>
-        number_context_sptr<T> make_number_context();
-
         template <typename In, typename Out>
         processing::module make_number_module() {
-            auto context = make_number_context<In>();
+            auto context = std::make_shared<number_process_context<In, 2>>();
 
             auto prepare_processor = [context](time::range const &, connector_map_t const &, connector_map_t const &,
                                                stream &) mutable { context->reset(); };
 
             auto receive_processor = processing::make_receive_number_processor<In>(
                 [context](processing::time::frame::type const &frame, channel_index_t const ch_idx,
-                          connector_index_t const con_idx, In const &value) {
-                    if (con_idx == to_connector_index(input::value)) {
-                        context->numbers.emplace(std::make_pair(frame, value));
+                          connector_index_t const co_idx, In const &value) {
+                    if (co_idx == to_connector_index(input::value)) {
+                        context->insert_input(frame, value, co_idx);
                     }
                 });
 
@@ -108,13 +83,15 @@ namespace processing {
 
             auto send_processor = [context](time::range const &current_time_range, connector_map_t const &,
                                             connector_map_t const &output_connectors, stream &stream) {
-                auto const out_connector_index = to_connector_index(output::value);
-                if (output_connectors.count(out_connector_index) > 0) {
-                    auto const &connector = output_connectors.at(out_connector_index);
+                auto const out_co_idx = to_connector_index(output::value);
+                auto const input_co_idx = to_connector_index(input::value);
+                if (output_connectors.count(out_co_idx) > 0) {
+                    auto const &connector = output_connectors.at(out_co_idx);
                     auto const &ch_idx = connector.channel_index;
                     auto &channel = stream.has_channel(ch_idx) ? stream.channel(ch_idx) : stream.add_channel(ch_idx);
-                    for (auto const &pair : context->numbers) {
-                        channel.insert_event(make_frame_time(pair.first), number_event{static_cast<Out>(pair.second)});
+                    for (auto const &input_pair : context->inputs()) {
+                        channel.insert_event(make_frame_time(input_pair.first),
+                                             number_event{static_cast<Out>(*input_pair.second.values[input_co_idx])});
                     }
                 }
             };
