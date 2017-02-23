@@ -10,69 +10,50 @@
 #include "yas_processing_receive_number_processor.h"
 #include "yas_processing_signal_event.h"
 #include "yas_processing_constants.h"
+#include "yas_processing_number_process_context.h"
+#include "yas_processing_signal_process_context.h"
 #include "yas_fast_each.h"
 
 using namespace yas;
 
 #pragma mark - signal
 
-namespace yas {
-namespace processing {
-    namespace math1 {
-        template <typename T>
-        static T constexpr zero_value = 0;
-
-        struct signal_context {
-            signal_event input_signal;
-            time input_time;
-
-            signal_context(signal_event &&input_signal) : input_signal(std::move(input_signal)) {
-            }
-
-            void reset(std::size_t const reserve_size) {
-                this->input_signal.reserve(reserve_size);
-                this->input_signal.resize(0);
-                this->input_time = nullptr;
-            }
-        };
-    }
-}
-}
-
 template <typename T>
 processing::module processing::make_signal_module(math1::kind const kind) {
     using namespace yas::processing::math1;
 
-    auto context = std::make_shared<math1::signal_context>(make_signal_event<T>(0));
+    auto context = std::make_shared<signal_process_context<T, 1>>();
 
     auto prepare_processor = [context](time::range const &, connector_map_t const &, connector_map_t const &,
                                        stream &stream) mutable { context->reset(stream.sync_source().slice_length); };
 
     auto receive_processor = processing::make_receive_signal_processor<T>(
         [context](time::range const &time_range, sync_source const &, channel_index_t const,
-                  connector_index_t const con_idx, T const *const signal_ptr) mutable {
-            if (con_idx == to_connector_index(input::parameter)) {
-                context->input_time = time_range;
-                context->input_signal.copy_from(signal_ptr, time_range.length);
+                  connector_index_t const co_idx, T const *const signal_ptr) mutable {
+            if (co_idx == to_connector_index(input::parameter)) {
+                context->set_time(time{time_range}, co_idx);
+                context->copy_data_from(signal_ptr, time_range.length, co_idx);
             }
         });
 
     auto send_processor = processing::make_send_signal_processor<T>(
         [context, kind](processing::time::range const &time_range, sync_source const &, channel_index_t const,
-                        connector_index_t const con_idx, T *const signal_ptr) {
-            if (con_idx == to_connector_index(output::result)) {
+                        connector_index_t const co_idx, T *const signal_ptr) {
+            if (co_idx == to_connector_index(output::result)) {
                 auto out_each = make_fast_each(signal_ptr, time_range.length);
-                processing::signal_event &input_signal = context->input_signal;
-                auto const *const input_ptr = input_signal.data<T>();
-                processing::time const &input_time = context->input_time;
+                auto const input_co_idx = to_connector_index(input::parameter);
+                T const *const input_ptr = context->data(input_co_idx);
+                processing::time const &input_time = context->time(input_co_idx);
                 auto const input_offset = input_time ? time_range.frame - input_time.get<time::range>().frame : 0;
                 auto const &input_length = input_time ? input_time.get<time::range>().length : constant::zero_length;
 
                 while (yas_fast_each_next(out_each)) {
                     auto const &idx = yas_fast_each_index(out_each);
                     auto const input_idx = idx + input_offset;
+
+                    static T constexpr zero_value = 0;
                     auto const &input_value =
-                        (input_idx >= 0 && input_idx < input_length) ? input_ptr[input_idx] : zero_value<T>;
+                        (input_idx >= 0 && input_idx < input_length) ? input_ptr[input_idx] : zero_value;
 
                     switch (kind) {
                         case kind::sin:
@@ -170,46 +151,31 @@ template processing::module processing::make_signal_module<float>(math1::kind co
 
 #pragma mark - number
 
-namespace yas {
-namespace processing {
-    namespace math1 {
-        template <typename T>
-        struct number_context {
-            std::map<time::frame::type, T> inputs;
-
-            void reset() {
-                this->inputs.clear();
-            }
-        };
-    }
-}
-}
-
 template <typename T>
 processing::module processing::make_number_module(math1::kind const kind) {
     using namespace yas::processing::math1;
 
-    auto context = std::make_shared<number_context<T>>();
+    auto context = std::make_shared<number_process_context<T, 1>>();
 
     auto prepare_processor = [context](time::range const &, connector_map_t const &, connector_map_t const &,
                                        stream &stream) mutable { context->reset(); };
 
     auto receive_processor =
         make_receive_number_processor<T>([context](processing::time::frame::type const &frame, channel_index_t const,
-                                                   connector_index_t const con_idx, T const &value) mutable {
-            if (con_idx == to_connector_index(input::parameter)) {
-                context->inputs.emplace(frame, value);
+                                                   connector_index_t const co_idx, T const &value) mutable {
+            if (co_idx == to_connector_index(input::parameter)) {
+                context->insert_input(frame, value, 0);
             }
         });
 
     auto send_processor =
         make_send_number_processor<T>([context, kind](processing::time::range const &, sync_source const &,
-                                                      channel_index_t const, connector_index_t const con_idx) mutable {
+                                                      channel_index_t const, connector_index_t const co_idx) mutable {
             number_event::value_map_t<T> result;
 
-            if (con_idx == to_connector_index(output::result)) {
-                for (auto const &input_pair : context->inputs) {
-                    auto const &input_value = input_pair.second;
+            if (co_idx == to_connector_index(output::result)) {
+                for (auto const &input_pair : context->inputs()) {
+                    auto const &input_value = *input_pair.second.values[0];
                     T result_value = 0;
 
                     switch (kind) {

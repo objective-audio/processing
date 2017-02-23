@@ -10,6 +10,8 @@
 #include "yas_processing_module.h"
 #include "yas_processing_signal_event.h"
 #include "yas_processing_constants.h"
+#include "yas_processing_signal_process_context.h"
+#include "yas_processing_number_process_context.h"
 #include "yas_fast_each.h"
 #include "yas_boolean.h"
 
@@ -17,37 +19,11 @@ using namespace yas;
 
 #pragma mark - signal
 
-namespace yas {
-namespace processing {
-    namespace compare {
-        struct signal_context {
-            signal_event left_signal;
-            signal_event right_signal;
-            time left_time;
-            time right_time;
-
-            signal_context(signal_event &&left_signal, signal_event &&right_signal)
-                : left_signal(std::move(left_signal)), right_signal(std::move(right_signal)) {
-            }
-
-            void reset(std::size_t const reserve_size) {
-                this->left_signal.reserve(reserve_size);
-                this->right_signal.reserve(reserve_size);
-                this->left_signal.resize(0);
-                this->right_signal.resize(0);
-                this->left_time = nullptr;
-                this->right_time = nullptr;
-            }
-        };
-    }
-}
-}
-
 template <typename T>
 processing::module processing::make_signal_module(compare::kind const kind) {
     using namespace yas::processing::compare;
 
-    auto context = std::make_shared<signal_context>(make_signal_event<T>(0), make_signal_event<T>(0));
+    auto context = std::make_shared<signal_process_context<T, 2>>();
 
     auto prepare_processor = [context](time::range const &, connector_map_t const &, connector_map_t const &,
                                        stream &stream) mutable { context->reset(stream.sync_source().slice_length); };
@@ -55,12 +31,9 @@ processing::module processing::make_signal_module(compare::kind const kind) {
     auto receive_processor = processing::make_receive_signal_processor<T>(
         [context](time::range const &time_range, sync_source const &, channel_index_t const,
                   connector_index_t const co_idx, T const *const signal_ptr) mutable {
-            if (co_idx == to_connector_index(input::left)) {
-                context->left_time = time_range;
-                context->left_signal.copy_from(signal_ptr, time_range.length);
-            } else if (co_idx == to_connector_index(input::right)) {
-                context->right_time = time_range;
-                context->right_signal.copy_from(signal_ptr, time_range.length);
+            if (co_idx == to_connector_index(input::left) || co_idx == to_connector_index(input::right)) {
+                context->set_time(time{time_range}, co_idx);
+                context->copy_data_from(signal_ptr, time_range.length, co_idx);
             }
         });
 
@@ -68,18 +41,18 @@ processing::module processing::make_signal_module(compare::kind const kind) {
         [context, kind](processing::time::range const &time_range, sync_source const &, channel_index_t const,
                         connector_index_t const co_idx, boolean *const signal_ptr) {
             if (co_idx == to_connector_index(output::result)) {
-                auto out_each = make_fast_each(signal_ptr, time_range.length);
-                processing::signal_event &left_signal = context->left_signal;
-                processing::signal_event &right_signal = context->right_signal;
-                auto const *left_ptr = left_signal.data<T>();
-                auto const *right_ptr = right_signal.data<T>();
-                processing::time const &left_time = context->left_time;
-                processing::time const &right_time = context->right_time;
+                auto const left_co_idx = to_connector_index(input::left);
+                auto const right_co_idx = to_connector_index(input::right);
+                auto const *left_ptr = context->data(left_co_idx);
+                auto const *right_ptr = context->data(right_co_idx);
+                processing::time const &left_time = context->time(left_co_idx);
+                processing::time const &right_time = context->time(right_co_idx);
                 auto const left_offset = left_time ? time_range.frame - left_time.get<time::range>().frame : 0;
                 auto const right_offset = right_time ? time_range.frame - right_time.get<time::range>().frame : 0;
                 auto const &left_length = left_time ? left_time.get<time::range>().length : constant::zero_length;
                 auto const &right_length = right_time ? right_time.get<time::range>().length : constant::zero_length;
 
+                auto out_each = make_fast_each(signal_ptr, time_range.length);
                 while (yas_fast_each_next(out_each)) {
                     auto const &idx = yas_fast_each_index(out_each);
                     auto const left_idx = idx + left_offset;
@@ -129,49 +102,11 @@ template processing::module processing::make_signal_module<boolean>(compare::kin
 
 #pragma mark - number
 
-namespace yas {
-namespace processing {
-    namespace compare {
-        template <typename T>
-        struct number_input {
-            std::experimental::optional<T> left_value;
-            std::experimental::optional<T> right_value;
-        };
-
-        template <typename T>
-        struct number_context {
-            std::map<time::frame::type, number_input<T>> inputs;
-            T last_left_value = 0;
-            T last_right_value = 0;
-
-            void insert_input(frame_index_t const &frame, T const &value, compare::input const &direction) {
-                if (this->inputs.count(frame) == 0) {
-                    this->inputs.emplace(frame, number_input<T>{});
-                }
-                auto &input = this->inputs.at(frame);
-                switch (direction) {
-                    case input::left:
-                        input.left_value = value;
-                        break;
-                    case input::right:
-                        input.right_value = value;
-                        break;
-                }
-            }
-
-            void reset() {
-                this->inputs.clear();
-            }
-        };
-    }
-}
-}
-
 template <typename T>
 processing::module processing::make_number_module(compare::kind const kind) {
     using namespace yas::processing::compare;
 
-    auto context = std::make_shared<number_context<T>>();
+    auto context = std::make_shared<number_process_context<T, 2>>();
 
     auto prepare_processor = [context](time::range const &, connector_map_t const &, connector_map_t const &,
                                        stream &stream) mutable { context->reset(); };
@@ -180,9 +115,9 @@ processing::module processing::make_number_module(compare::kind const kind) {
         make_receive_number_processor<T>([context](processing::time::frame::type const &frame, channel_index_t const,
                                                    connector_index_t const co_idx, T const &value) mutable {
             if (co_idx == to_connector_index(input::left)) {
-                context->insert_input(frame, value, input::left);
+                context->insert_input(frame, value, co_idx);
             } else if (co_idx == to_connector_index(input::right)) {
-                context->insert_input(frame, value, input::right);
+                context->insert_input(frame, value, co_idx);
             }
         });
 
@@ -192,17 +127,17 @@ processing::module processing::make_number_module(compare::kind const kind) {
             number_event::value_map_t<boolean> result;
 
             if (co_idx == to_connector_index(output::result)) {
-                for (auto const &input_pair : context->inputs) {
-                    auto const &input = input_pair.second;
-                    if (auto const &left_value = input.left_value) {
-                        context->last_left_value = *left_value;
-                    }
-                    if (auto const &right_value = input.right_value) {
-                        context->last_right_value = *right_value;
-                    }
+                auto const left_co_idx = to_connector_index(input::left);
+                auto const right_co_idx = to_connector_index(input::right);
+                auto const *last_values = context->last_values();
 
-                    T const &left_value = context->last_left_value;
-                    T const &right_value = context->last_right_value;
+                for (auto const &input_pair : context->inputs()) {
+                    auto const &input = input_pair.second;
+                    context->update_last_values(input);
+
+                    T const &left_value = last_values[left_co_idx];
+                    T const &right_value = last_values[right_co_idx];
+
                     boolean result_value;
 
                     switch (kind) {
