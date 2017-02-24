@@ -57,11 +57,11 @@ processing::module processing::make_signal_module(math2::kind const kind) {
 
     auto receive_processor = processing::make_receive_signal_processor<T>(
         [context](time::range const &time_range, sync_source const &, channel_index_t const,
-                  connector_index_t const con_idx, T const *const signal_ptr) mutable {
-            if (con_idx == to_connector_index(input::left)) {
+                  connector_index_t const co_idx, T const *const signal_ptr) mutable {
+            if (co_idx == to_connector_index(input::left)) {
                 context->left_time = time_range;
                 context->left_signal.copy_from(signal_ptr, time_range.length);
-            } else if (con_idx == to_connector_index(input::right)) {
+            } else if (co_idx == to_connector_index(input::right)) {
                 context->right_time = time_range;
                 context->right_signal.copy_from(signal_ptr, time_range.length);
             }
@@ -69,8 +69,8 @@ processing::module processing::make_signal_module(math2::kind const kind) {
 
     auto send_processor = processing::make_send_signal_processor<T>(
         [context, kind](processing::time::range const &time_range, sync_source const &, channel_index_t const,
-                        connector_index_t const con_idx, T *const signal_ptr) {
-            if (con_idx == to_connector_index(output::result)) {
+                        connector_index_t const co_idx, T *const signal_ptr) {
+            if (co_idx == to_connector_index(output::result)) {
                 auto out_each = make_fast_each(signal_ptr, time_range.length);
                 processing::signal_event &left_signal = context->left_signal;
                 processing::signal_event &right_signal = context->right_signal;
@@ -147,24 +147,24 @@ processing::module processing::make_number_module(math2::kind const kind) {
 
     auto receive_processor =
         make_receive_number_processor<T>([context](processing::time::frame::type const &frame, channel_index_t const,
-                                                   connector_index_t const con_idx, T const &value) mutable {
-            if (con_idx == to_connector_index(input::left)) {
+                                                   connector_index_t const co_idx, T const &value) mutable {
+            if (co_idx == to_connector_index(input::left)) {
                 context->insert_input(frame, value, to_connector_index(input::left));
-            } else if (con_idx == to_connector_index(input::right)) {
+            } else if (co_idx == to_connector_index(input::right)) {
                 context->insert_input(frame, value, to_connector_index(input::right));
             }
         });
 
     auto send_processor =
         make_send_number_processor<T>([context, kind](processing::time::range const &, sync_source const &,
-                                                      channel_index_t const, connector_index_t const con_idx) mutable {
+                                                      channel_index_t const, connector_index_t const co_idx) mutable {
             number_event::value_map_t<T> result;
             T const *last_values = context->last_values();
 
-            if (con_idx == to_connector_index(output::result)) {
+            if (co_idx == to_connector_index(output::result)) {
                 static auto const left_co_idx = to_connector_index(input::left);
                 static auto const right_co_idx = to_connector_index(input::right);
-                
+
                 for (auto const &input_pair : context->inputs()) {
                     context->update_last_values(input_pair.second);
                     T const &left_value = last_values[left_co_idx];

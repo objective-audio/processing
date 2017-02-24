@@ -42,25 +42,25 @@ processing::module processing::make_module(timeline timeline, frame_index_t cons
 
             if (stream.has_channel(ch_idx)) {
                 auto const &input_channel = stream.channel(ch_idx);
-                auto const &con_idx = connector.first;
+                auto const &co_idx = connector.first;
 
-                if (sub_stream.has_channel(con_idx)) {
+                if (sub_stream.has_channel(co_idx)) {
                     throw "channel already exists in sub_stream.";
                 }
 
-                sub_stream.add_channel(con_idx, input_channel.copied_events(time_range, -offset));
+                sub_stream.add_channel(co_idx, input_channel.copied_events(time_range, -offset));
             }
         }
 
         context->timeline.process(time_range.offset(-offset), sub_stream);
 
         for (auto const &connector : output_connectors) {
-            auto const &con_idx = connector.first;
+            auto const &co_idx = connector.first;
 
-            if (sub_stream.has_channel(con_idx)) {
+            if (sub_stream.has_channel(co_idx)) {
                 auto const &ch_idx = connector.second.channel_index;
                 auto &out_channel = stream.add_channel(ch_idx);
-                auto const &sub_channel = sub_stream.channel(con_idx);
+                auto const &sub_channel = sub_stream.channel(co_idx);
 
                 out_channel.erase_events(time_range);
 

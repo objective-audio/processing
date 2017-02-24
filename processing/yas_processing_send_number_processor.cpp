@@ -15,7 +15,7 @@ processing::processor_f processing::make_send_number_processor(send_number_proce
                                           connector_map_t const &output_connectors, stream &stream) {
         if (handler) {
             for (auto const &connector_pair : output_connectors) {
-                auto const &con_idx = connector_pair.first;
+                auto const &co_idx = connector_pair.first;
                 auto const &connector = connector_pair.second;
 
                 auto const &ch_idx = connector.channel_index;
@@ -27,7 +27,7 @@ processing::processor_f processing::make_send_number_processor(send_number_proce
                     });
                 }
 
-                auto map = handler(current_time_range, stream.sync_source(), ch_idx, con_idx);
+                auto map = handler(current_time_range, stream.sync_source(), ch_idx, co_idx);
 
                 for (auto const &number_pair : map) {
                     channel.insert_event(make_frame_time(number_pair.first), make_number_event<T>(number_pair.second));

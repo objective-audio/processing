@@ -25,28 +25,28 @@ using namespace yas::processing;
 
 - (void)test_send_signal_processor {
     auto const ch_idx = 5;
-    connector_index_t const out_con_idx = 2;
+    connector_index_t const out_co_idx = 2;
 
     processing::time called_time = nullptr;
-    connector_index_t called_con_idx;
+    connector_index_t called_co_idx;
     channel_index_t called_ch_idx;
     sample_rate_t called_sample_rate = 0;
     length_t called_slice_length = 0;
 
-    auto clear = [&called_time, &called_con_idx, &called_ch_idx, &called_sample_rate, &called_slice_length]() {
+    auto clear = [&called_time, &called_co_idx, &called_ch_idx, &called_sample_rate, &called_slice_length]() {
         called_time = make_any_time();
         called_time = make_any_time();
-        called_con_idx = 0;
+        called_co_idx = 0;
         called_ch_idx = 0;
         called_sample_rate = 0;
         called_slice_length = 0;
     };
 
-    auto handler = [&called_time, &called_con_idx, &called_ch_idx, &called_sample_rate, &called_slice_length](
+    auto handler = [&called_time, &called_co_idx, &called_ch_idx, &called_sample_rate, &called_slice_length](
         processing::time::range const &time_range, sync_source const &sync_src, channel_index_t const ch_idx,
-        connector_index_t const con_idx, int64_t *const signal_ptr) {
+        connector_index_t const co_idx, int64_t *const signal_ptr) {
         called_time = processing::time{time_range};
-        called_con_idx = con_idx;
+        called_co_idx = co_idx;
         called_ch_idx = ch_idx;
         called_sample_rate = sync_src.sample_rate;
         called_slice_length = sync_src.slice_length;
@@ -58,7 +58,7 @@ using namespace yas::processing;
     auto processor = processing::make_send_signal_processor<int64_t>(std::move(handler));
 
     auto module = processing::module{{std::move(processor)}};
-    module.connect_output(out_con_idx, ch_idx);
+    module.connect_output(out_co_idx, ch_idx);
 
     {
         clear();
@@ -69,7 +69,7 @@ using namespace yas::processing;
 
         XCTAssertEqual(called_time.get<time::range>().frame, 0);
         XCTAssertEqual(called_time.get<time::range>().length, 2);
-        XCTAssertEqual(called_con_idx, out_con_idx);
+        XCTAssertEqual(called_co_idx, out_co_idx);
         XCTAssertEqual(called_ch_idx, ch_idx);
         XCTAssertEqual(called_sample_rate, 1);
         XCTAssertEqual(called_slice_length, 2);
@@ -91,7 +91,7 @@ using namespace yas::processing;
 
         XCTAssertEqual(called_time.get<time::range>().frame, 1);
         XCTAssertEqual(called_time.get<time::range>().length, 1);
-        XCTAssertEqual(called_con_idx, out_con_idx);
+        XCTAssertEqual(called_co_idx, out_co_idx);
         XCTAssertEqual(called_ch_idx, ch_idx);
         XCTAssertEqual(called_sample_rate, 2);
         XCTAssertEqual(called_slice_length, 1);
@@ -112,7 +112,7 @@ using namespace yas::processing;
 
         XCTAssertEqual(called_time.get<time::range>().frame, 0);
         XCTAssertEqual(called_time.get<time::range>().length, 1);
-        XCTAssertEqual(called_con_idx, out_con_idx);
+        XCTAssertEqual(called_co_idx, out_co_idx);
         XCTAssertEqual(called_ch_idx, ch_idx);
         XCTAssertEqual(called_sample_rate, 8);
         XCTAssertEqual(called_slice_length, 1);
@@ -127,10 +127,10 @@ using namespace yas::processing;
 
 - (void)test_receive_signal_processor {
     auto const ch_idx = 7;
-    connector_index_t const in_con_idx = 10;
+    connector_index_t const in_co_idx = 10;
 
     processing::time called_time = nullptr;
-    connector_index_t called_con_idx;
+    connector_index_t called_co_idx;
     channel_index_t called_ch_idx;
     sample_rate_t called_sample_rate;
     length_t called_slice_length;
@@ -141,9 +141,10 @@ using namespace yas::processing;
     stream_vec[0] = 10;
     stream_vec[1] = 11;
 
-    auto clear = [&called_time, &called_con_idx, &called_ch_idx, &called_sample_rate, &called_slice_length, &called_signal]() {
+    auto clear = [&called_time, &called_co_idx, &called_ch_idx, &called_sample_rate, &called_slice_length,
+                  &called_signal]() {
         called_time = make_any_time();
-        called_con_idx = 0;
+        called_co_idx = 0;
         called_ch_idx = 0;
         called_sample_rate = 0;
         called_slice_length = 0;
@@ -161,11 +162,12 @@ using namespace yas::processing;
         return stream;
     };
 
-    auto handler = [&called_time, &called_con_idx, &called_ch_idx, &called_sample_rate, &called_slice_length, &called_signal](
-        processing::time::range const &time_range, sync_source const &sync_src, channel_index_t const ch_idx,
-        connector_index_t const con_idx, int64_t const *const signal_ptr) {
+    auto handler = [&called_time, &called_co_idx, &called_ch_idx, &called_sample_rate, &called_slice_length,
+                    &called_signal](processing::time::range const &time_range, sync_source const &sync_src,
+                                    channel_index_t const ch_idx, connector_index_t const co_idx,
+                                    int64_t const *const signal_ptr) {
         called_time = processing::time{time_range};
-        called_con_idx = con_idx;
+        called_co_idx = co_idx;
         called_ch_idx = ch_idx;
         called_sample_rate = sync_src.sample_rate;
         called_slice_length = sync_src.slice_length;
@@ -177,7 +179,7 @@ using namespace yas::processing;
     auto processor = make_receive_signal_processor<int64_t>(std::move(handler));
 
     auto module = processing::module{{std::move(processor)}};
-    module.connect_input(in_con_idx, ch_idx);
+    module.connect_input(in_co_idx, ch_idx);
 
     {
         clear();
@@ -188,7 +190,7 @@ using namespace yas::processing;
 
         XCTAssertEqual(called_time.get<time::range>().frame, 0);
         XCTAssertEqual(called_time.get<time::range>().length, 2);
-        XCTAssertEqual(called_con_idx, in_con_idx);
+        XCTAssertEqual(called_co_idx, in_co_idx);
         XCTAssertEqual(called_ch_idx, ch_idx);
         XCTAssertEqual(called_sample_rate, 1);
         XCTAssertEqual(called_slice_length, 2);
@@ -206,7 +208,7 @@ using namespace yas::processing;
 
         XCTAssertEqual(called_time.get<time::range>().frame, 0);
         XCTAssertEqual(called_time.get<time::range>().length, 1);
-        XCTAssertEqual(called_con_idx, in_con_idx);
+        XCTAssertEqual(called_co_idx, in_co_idx);
         XCTAssertEqual(called_ch_idx, ch_idx);
         XCTAssertEqual(called_sample_rate, 4);
         XCTAssertEqual(called_slice_length, 1);
@@ -224,7 +226,7 @@ using namespace yas::processing;
 
         XCTAssertEqual(called_time.get<time::range>().frame, 1);
         XCTAssertEqual(called_time.get<time::range>().length, 1);
-        XCTAssertEqual(called_con_idx, in_con_idx);
+        XCTAssertEqual(called_co_idx, in_co_idx);
         XCTAssertEqual(called_ch_idx, ch_idx);
         XCTAssertEqual(called_sample_rate, 16);
         XCTAssertEqual(called_slice_length, 1);
@@ -237,8 +239,8 @@ using namespace yas::processing;
 - (void)test_receive_and_send_signal_processor {
     auto const receive_ch_idx = 3;
     auto const send_ch_idx = 9;
-    connector_index_t const out_con_idx = 5;
-    connector_index_t const in_con_idx = 6;
+    connector_index_t const out_co_idx = 5;
+    connector_index_t const in_co_idx = 6;
 
     processing::time process_time{0, 2};
 
@@ -276,8 +278,8 @@ using namespace yas::processing;
     auto receive_processor = make_receive_signal_processor<int16_t>(std::move(receive_handler));
     auto send_processor = processing::make_send_signal_processor<int16_t>(std::move(send_handler));
     auto module = processing::module{{std::move(receive_processor), std::move(send_processor)}};
-    module.connect_input(in_con_idx, receive_ch_idx);
-    module.connect_output(out_con_idx, send_ch_idx);
+    module.connect_input(in_co_idx, receive_ch_idx);
+    module.connect_output(out_co_idx, send_ch_idx);
 
     module.process(process_time.get<time::range>(), stream);
 

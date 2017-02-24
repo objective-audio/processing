@@ -91,8 +91,8 @@ using namespace yas::processing;
     track &track1 = timeline.add_track(1);
 
     auto send_handler1 = [](processing::time::range const &time_range, sync_source const &,
-                            channel_index_t const ch_idx, connector_index_t const con_idx, int16_t *const signal_ptr) {
-        if (con_idx == 0) {
+                            channel_index_t const ch_idx, connector_index_t const co_idx, int16_t *const signal_ptr) {
+        if (co_idx == 0) {
             for (auto const &idx : make_each(time_range.length)) {
                 signal_ptr[idx] = idx;
             }
@@ -111,10 +111,10 @@ using namespace yas::processing;
 
     auto send_handler2 = [&process_signal, &called_send_time](
         processing::time::range const &time_range, sync_source const &, channel_index_t const ch_idx,
-        connector_index_t const con_idx, int16_t *const signal_ptr) {
+        connector_index_t const co_idx, int16_t *const signal_ptr) {
         called_send_time = processing::time{time_range};
 
-        if (con_idx == 0) {
+        if (co_idx == 0) {
             auto &vec = process_signal.vector<int16_t>();
             for (auto const &idx : make_each(time_range.length)) {
                 signal_ptr[idx] = vec[idx];
@@ -124,10 +124,10 @@ using namespace yas::processing;
 
     auto receive_handler2 = [&process_signal, &called_receive_time](
         processing::time::range const &time_range, sync_source const &, channel_index_t const ch_idx,
-        connector_index_t const con_idx, int16_t const *const signal_ptr) {
+        connector_index_t const co_idx, int16_t const *const signal_ptr) {
         called_receive_time = processing::time{time_range};
 
-        if (con_idx == 0) {
+        if (co_idx == 0) {
             auto &vec = process_signal.vector<int16_t>();
             for (auto const &idx : make_each(time_range.length)) {
                 vec[idx] = signal_ptr[idx] + 1;
