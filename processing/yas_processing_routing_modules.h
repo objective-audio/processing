@@ -15,7 +15,7 @@ namespace processing {
             move,
             copy,
         };
-        
+
         enum class input : connector_index_t {
             value,
         };
@@ -24,7 +24,7 @@ namespace processing {
             value,
         };
     }
-    
+
     template <typename T>
     module make_signal_module(routing::kind const);
 }

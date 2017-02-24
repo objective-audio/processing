@@ -21,9 +21,7 @@ namespace processing {
             }
         };
 
-        using context_sptr = std::shared_ptr<context>;
-
-        context_sptr make_context(timeline &&timeline) {
+        std::shared_ptr<context> make_context(timeline &&timeline) {
             return std::make_shared<context>(std::move(timeline));
         }
     }
