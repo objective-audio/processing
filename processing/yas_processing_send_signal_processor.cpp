@@ -17,7 +17,7 @@ processing::processor_f processing::make_send_signal_processor(processing::send_
                                           connector_map_t const &output_connectors, stream &stream) {
         if (handler) {
             for (auto const &connector_pair : output_connectors) {
-                auto const &connector_idx = connector_pair.first;
+                auto const &co_idx = connector_pair.first;
                 auto const &connector = connector_pair.second;
 
                 auto const &ch_idx = connector.channel_index;
@@ -52,7 +52,7 @@ processing::processor_f processing::make_send_signal_processor(processing::send_
 
                         channel.erase_event<T, signal_event>(std::move(predicate));
 
-                        handler(current_time_range, stream.sync_source(), ch_idx, connector_idx,
+                        handler(current_time_range, stream.sync_source(), ch_idx, co_idx,
                                 &vec[current_time_range.frame - combined_time_range.frame]);
 
                         channel.insert_event(time{combined_time_range}, signal_event{std::move(vec)});
@@ -63,7 +63,7 @@ processing::processor_f processing::make_send_signal_processor(processing::send_
 
                 std::vector<T> vec(current_time_range.length);
 
-                handler(current_time_range, stream.sync_source(), ch_idx, connector_idx, vec.data());
+                handler(current_time_range, stream.sync_source(), ch_idx, co_idx, vec.data());
 
                 channel.insert_event(time{current_time_range}, signal_event{std::move(vec)});
             }

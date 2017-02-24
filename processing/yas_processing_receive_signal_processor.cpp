@@ -18,7 +18,7 @@ processing::processor_f processing::make_receive_signal_processor(processing::re
                                           stream &stream) {
         if (handler) {
             for (auto const &connector_pair : input_connectors) {
-                auto const &connector_idx = connector_pair.first;
+                auto const &co_idx = connector_pair.first;
                 auto const &connector = connector_pair.second;
 
                 auto const &ch_idx = connector.channel_index;
@@ -34,7 +34,7 @@ processing::processor_f processing::make_receive_signal_processor(processing::re
                             signal_event const &signal = pair.second;
                             auto const *ptr = signal.data<T>();
                             auto const idx = time_range.frame - event_time_range.frame;
-                            handler(time_range, stream.sync_source(), ch_idx, connector_idx, &ptr[idx]);
+                            handler(time_range, stream.sync_source(), ch_idx, co_idx, &ptr[idx]);
                         }
                     }
                 }
