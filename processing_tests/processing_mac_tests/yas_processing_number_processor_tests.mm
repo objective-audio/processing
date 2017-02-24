@@ -26,7 +26,7 @@ using namespace yas::processing;
     struct called {
         time::frame::type frame;
         channel_index_t ch_idx;
-        connector_index_t con_idx;
+        connector_index_t co_idx;
         int64_t value;
     };
 
@@ -34,8 +34,8 @@ using namespace yas::processing;
 
     auto processor = make_receive_number_processor<int64_t>(
         [&called_params](processing::time::frame::type const &frame, channel_index_t const ch_idx,
-                         connector_index_t const con_idx, int64_t const &value) {
-            called called{.frame = frame, .ch_idx = ch_idx, .con_idx = con_idx, .value = value};
+                         connector_index_t const co_idx, int64_t const &value) {
+            called called{.frame = frame, .ch_idx = ch_idx, .co_idx = co_idx, .value = value};
             called_params.emplace_back(std::move(called));
         });
 
@@ -68,10 +68,10 @@ using namespace yas::processing;
     XCTAssertEqual(called_params[2].ch_idx, 0);
     XCTAssertEqual(called_params[3].ch_idx, 1);
 
-    XCTAssertEqual(called_params[0].con_idx, 10);
-    XCTAssertEqual(called_params[1].con_idx, 10);
-    XCTAssertEqual(called_params[2].con_idx, 10);
-    XCTAssertEqual(called_params[3].con_idx, 11);
+    XCTAssertEqual(called_params[0].co_idx, 10);
+    XCTAssertEqual(called_params[1].co_idx, 10);
+    XCTAssertEqual(called_params[2].co_idx, 10);
+    XCTAssertEqual(called_params[3].co_idx, 11);
 
     XCTAssertEqual(called_params[0].value, 0);
     XCTAssertEqual(called_params[1].value, 100);

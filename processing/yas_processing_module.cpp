@@ -78,12 +78,12 @@ processing::connector_map_t const &processing::module::output_connectors() const
     return this->impl_ptr<impl>()->output_connectors();
 }
 
-void processing::module::connect_input(connector_index_t const con_idx, channel_index_t const ch_idx) {
-    connect(this->impl_ptr<impl>()->input_connectors(), con_idx, ch_idx);
+void processing::module::connect_input(connector_index_t const co_idx, channel_index_t const ch_idx) {
+    connect(this->impl_ptr<impl>()->input_connectors(), co_idx, ch_idx);
 }
 
-void processing::module::connect_output(connector_index_t const con_idx, channel_index_t const ch_idx) {
-    connect(this->impl_ptr<impl>()->output_connectors(), con_idx, ch_idx);
+void processing::module::connect_output(connector_index_t const co_idx, channel_index_t const ch_idx) {
+    connect(this->impl_ptr<impl>()->output_connectors(), co_idx, ch_idx);
 }
 
 void processing::module::disconnect_input(connector_index_t const idx) {

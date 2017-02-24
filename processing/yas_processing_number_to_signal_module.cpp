@@ -58,9 +58,9 @@ processing::module processing::make_number_to_signal_module() {
 
     auto remove_processor = make_remove_number_processor<T>({to_connector_index(number_to_signal::input::number)});
 
-    auto send_processor = make_send_signal_processor<T>(
-        [context](processing::time::range const &time_range, sync_source const &, channel_index_t const,
-                  connector_index_t const con_idx, T *const signal_ptr) {
+    auto send_processor =
+        make_send_signal_processor<T>([context](processing::time::range const &time_range, sync_source const &,
+                                                channel_index_t const, connector_index_t const, T *const signal_ptr) {
             auto const top_frame = time_range.frame;
             auto iterator = context->number_events.begin();
             auto const end_iterator = context->number_events.end();

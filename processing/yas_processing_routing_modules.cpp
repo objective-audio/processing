@@ -51,8 +51,8 @@ processing::module processing::make_signal_module(processing::routing::kind cons
 
     auto receive_processor = processing::make_receive_signal_processor<T>(
         [context](time::range const &time_range, sync_source const &, channel_index_t const,
-                  connector_index_t const con_idx, T const *const signal_ptr) mutable {
-            if (con_idx == to_connector_index(routing::input::value)) {
+                  connector_index_t const co_idx, T const *const signal_ptr) mutable {
+            if (co_idx == to_connector_index(routing::input::value)) {
                 context->time = time_range;
                 context->signal.copy_from(signal_ptr, time_range.length);
             }
@@ -62,8 +62,8 @@ processing::module processing::make_signal_module(processing::routing::kind cons
 
     auto send_processor = processing::make_send_signal_processor<T>(
         [context, kind](processing::time::range const &time_range, sync_source const &, channel_index_t const,
-                        connector_index_t const con_idx, T *const signal_ptr) {
-            if (con_idx == to_connector_index(routing::output::value)) {
+                        connector_index_t const co_idx, T *const signal_ptr) {
+            if (co_idx == to_connector_index(routing::output::value)) {
                 auto out_each = make_fast_each(signal_ptr, time_range.length);
                 processing::signal_event const &input_signal = context->signal;
                 auto const *src_ptr = input_signal.data<T>();
