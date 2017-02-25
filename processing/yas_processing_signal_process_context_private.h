@@ -55,6 +55,9 @@ namespace processing {
 
     template <typename T, std::size_t N>
     void signal_process_context<T, N>::set_time(processing::time time, std::size_t const idx) {
+        if (!time.is_range_type()) {
+            throw "time is not range type.";
+        }
         this->_times.at(idx) = time;
     }
 
