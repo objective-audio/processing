@@ -32,7 +32,9 @@ namespace processing {
             auto receive_processor = processing::make_receive_signal_processor<In>(
                 [context](processing::time::range const &time_range, sync_source const &, channel_index_t const,
                           connector_index_t const co_idx, In const *const signal_ptr) mutable {
-                    if (co_idx == to_connector_index(input::value)) {
+                    static auto const input_co_idx = to_connector_index(input::value);
+
+                    if (co_idx == input_co_idx) {
                         context->set_time(processing::time{time_range}, co_idx);
                         context->copy_data_from(signal_ptr, time_range.length, co_idx);
                     }
@@ -43,8 +45,10 @@ namespace processing {
             auto send_processor = processing::make_send_signal_processor<Out>(
                 [context](processing::time::range const &time_range, sync_source const &, channel_index_t const,
                           connector_index_t const co_idx, Out *const signal_ptr) {
-                    if (co_idx == to_connector_index(output::value)) {
-                        auto const input_co_idx = to_connector_index(input::value);
+                    static auto const output_co_idx = to_connector_index(output::value);
+                    static auto const input_co_idx = to_connector_index(input::value);
+
+                    if (co_idx == output_co_idx) {
                         auto const *src_ptr = context->data(input_co_idx);
                         processing::time const &src_time = context->time(input_co_idx);
                         auto const src_offset = src_time ? time_range.frame - src_time.get<time::range>().frame : 0;
@@ -83,8 +87,9 @@ namespace processing {
 
             auto send_processor = [context](time::range const &current_time_range, connector_map_t const &,
                                             connector_map_t const &output_connectors, stream &stream) {
-                auto const out_co_idx = to_connector_index(output::value);
-                auto const input_co_idx = to_connector_index(input::value);
+                static auto const out_co_idx = to_connector_index(output::value);
+                static auto const input_co_idx = to_connector_index(input::value);
+
                 if (output_connectors.count(out_co_idx) > 0) {
                     auto const &connector = output_connectors.at(out_co_idx);
                     auto const &ch_idx = connector.channel_index;
