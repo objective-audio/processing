@@ -40,13 +40,14 @@ processing::module processing::make_signal_module(math1::kind const kind) {
         [context, kind](processing::time::range const &time_range, sync_source const &, channel_index_t const,
                         connector_index_t const co_idx, T *const signal_ptr) {
             if (co_idx == to_connector_index(output::result)) {
-                auto out_each = make_fast_each(signal_ptr, time_range.length);
                 auto const input_co_idx = to_connector_index(input::parameter);
+
                 T const *const input_ptr = context->data(input_co_idx);
                 processing::time const &input_time = context->time(input_co_idx);
                 auto const input_offset = input_time ? time_range.frame - input_time.get<time::range>().frame : 0;
                 auto const &input_length = input_time ? input_time.get<time::range>().length : constant::zero_length;
 
+                auto out_each = make_fast_each(signal_ptr, time_range.length);
                 while (yas_fast_each_next(out_each)) {
                     auto const &idx = yas_fast_each_index(out_each);
                     auto const input_idx = idx + input_offset;
@@ -174,8 +175,10 @@ processing::module processing::make_number_module(math1::kind const kind) {
             number_event::value_map_t<T> result;
 
             if (co_idx == to_connector_index(output::result)) {
+                static auto const input_co_idx = to_connector_index(input::parameter);
+
                 for (auto const &input_pair : context->inputs()) {
-                    auto const &input_value = *input_pair.second.values[0];
+                    auto const &input_value = *input_pair.second.values[input_co_idx];
                     T result_value = 0;
 
                     switch (kind) {
