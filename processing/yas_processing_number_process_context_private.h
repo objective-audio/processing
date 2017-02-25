@@ -9,6 +9,10 @@
 namespace yas {
 namespace processing {
     template <typename T, std::size_t N>
+    number_process_context<T, N>::number_process_context() : _last_values(N) {
+    }
+
+    template <typename T, std::size_t N>
     void number_process_context<T, N>::insert_input(frame_index_t const &frame, T const &value, std::size_t const idx) {
         if (this->_inputs.count(frame) == 0) {
             this->_inputs.emplace(frame, input{});
@@ -19,10 +23,9 @@ namespace processing {
 
     template <typename T, std::size_t N>
     void number_process_context<T, N>::update_last_values(input const &input) {
-        auto each = make_fast_each(_last_values, N);
+        auto each = make_fast_each(this->_last_values.data(), N);
         while (yas_fast_each_next(each)) {
-            auto const &idx = yas_fast_each_index(each);
-            if (auto const &value = input.values[idx]) {
+            if (auto const &value = input.values[yas_fast_each_index(each)]) {
                 yas_fast_each_value(each) = *value;
             }
         }
@@ -41,7 +44,7 @@ namespace processing {
 
     template <typename T, std::size_t N>
     T const *number_process_context<T, N>::last_values() const {
-        return this->_last_values;
+        return this->_last_values.data();
     }
 }
 }

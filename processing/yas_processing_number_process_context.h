@@ -4,7 +4,9 @@
 
 #pragma once
 
+#include "yas_processing_types.h"
 #include <map>
+#include <vector>
 #include <experimental/optional>
 
 namespace yas {
@@ -15,6 +17,8 @@ namespace processing {
             std::experimental::optional<T> values[N];
         };
 
+        number_process_context();
+
         void insert_input(frame_index_t const &frame, T const &value, std::size_t const idx);
         void update_last_values(input const &input);
         void reset();
@@ -24,7 +28,7 @@ namespace processing {
 
        private:
         std::map<frame_index_t, input> _inputs;
-        T _last_values[N];
+        std::vector<T> _last_values;
     };
 }
 }
