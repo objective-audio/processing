@@ -6,14 +6,11 @@
 #import "yas_processing_test_utils.h"
 #import "yas_boolean.h"
 
-using namespace yas;
-using namespace yas::processing;
-
-@interface yas_processing_routing_modules_tests : XCTestCase
+@interface yas_processing_routing_signal_module_tests : XCTestCase
 
 @end
 
-@implementation yas_processing_routing_modules_tests
+@implementation yas_processing_routing_signal_module_tests
 
 - (void)setUp {
     [super setUp];
@@ -49,7 +46,7 @@ using namespace yas::processing;
     XCTAssertTrue(make_signal_module<boolean>(routing::kind::copy));
 }
 
-- (void)test_move_process {
+- (void)test_move_signal_process {
     length_t const process_length = 2;
     channel_index_t const input_ch_idx = 0;
     channel_index_t const output_ch_idx = 1;
@@ -77,7 +74,7 @@ using namespace yas::processing;
     XCTAssertEqual(vec[1], 2);
 }
 
-- (void)test_move_process_part {
+- (void)test_move_signal_process_part {
     length_t const process_length = 2;
     channel_index_t const input_ch_idx = 0;
     channel_index_t const output_ch_idx = 1;
@@ -113,7 +110,7 @@ using namespace yas::processing;
     XCTAssertEqual(processed_vec[0], 2);
 }
 
-- (void)test_copy_process {
+- (void)test_copy_signal_process {
     length_t const process_length = 2;
     channel_index_t const input_ch_idx = 0;
     channel_index_t const output_ch_idx = 1;
@@ -147,7 +144,7 @@ using namespace yas::processing;
     XCTAssertEqual(output_vec[1], 2);
 }
 
-- (void)test_copy_process_part {
+- (void)test_copy_signal_process_part {
     length_t const process_length = 2;
     channel_index_t const input_ch_idx = 0;
     channel_index_t const output_ch_idx = 1;

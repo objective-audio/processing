@@ -27,5 +27,8 @@ namespace processing {
 
     template <typename T>
     module make_signal_module(routing::kind const);
+
+    template <typename T>
+    module make_number_module(routing::kind const);
 }
 }
