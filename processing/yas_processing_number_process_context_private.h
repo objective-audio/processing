@@ -10,6 +10,7 @@ namespace yas {
 namespace processing {
     template <typename T, std::size_t N>
     number_process_context<T, N>::number_process_context() : _last_values(N) {
+        static_assert(N > 0, "N must greater than 0");
     }
 
     template <typename T, std::size_t N>

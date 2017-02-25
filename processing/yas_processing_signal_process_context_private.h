@@ -10,6 +10,8 @@ namespace yas {
 namespace processing {
     template <typename T, std::size_t N>
     signal_process_context<T, N>::signal_process_context() {
+        static_assert(N > 0, "N must greater than 0");
+
         this->_signals.reserve(N);
 
         auto each = make_fast_each(N);
