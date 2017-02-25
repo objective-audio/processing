@@ -41,8 +41,9 @@ processing::module processing::make_signal_module(compare::kind const kind) {
         [context, kind](processing::time::range const &time_range, sync_source const &, channel_index_t const,
                         connector_index_t const co_idx, boolean *const signal_ptr) {
             if (co_idx == to_connector_index(output::result)) {
-                auto const left_co_idx = to_connector_index(input::left);
-                auto const right_co_idx = to_connector_index(input::right);
+                static auto const left_co_idx = to_connector_index(input::left);
+                static auto const right_co_idx = to_connector_index(input::right);
+                
                 auto const *left_ptr = context->data(left_co_idx);
                 auto const *right_ptr = context->data(right_co_idx);
                 processing::time const &left_time = context->time(left_co_idx);
