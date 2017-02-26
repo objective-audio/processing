@@ -130,7 +130,7 @@ processing::module processing::make_number_module(compare::kind const kind) {
             if (co_idx == to_connector_index(output::result)) {
                 auto const left_co_idx = to_connector_index(input::left);
                 auto const right_co_idx = to_connector_index(input::right);
-                auto const *last_values = context->last_values();
+                T const *last_values = context->last_values().data();
 
                 for (auto const &input_pair : context->inputs()) {
                     auto const &input = input_pair.second;

@@ -130,7 +130,7 @@ processing::module processing::make_number_module(math2::kind const kind) {
         make_send_number_processor<T>([context, kind](processing::time::range const &, sync_source const &,
                                                       channel_index_t const, connector_index_t const co_idx) mutable {
             number_event::value_map_t<T> result;
-            T const *last_values = context->last_values();
+            T const *last_values = context->last_values().data();
 
             if (co_idx == to_connector_index(output::result)) {
                 static auto const left_co_idx = to_connector_index(input::left);
