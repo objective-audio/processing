@@ -25,13 +25,12 @@ using namespace yas::processing;
 - (void)test_create_by_size_2 {
     signal_process_context<int8_t, 2> context;
 
-    XCTAssertEqual(context.signals().size(), 2);
-    XCTAssertEqual(context.times().size(), 2);
+    XCTAssertEqual(context.inputs().size(), 2);
 
-    XCTAssertEqual(context.signals().at(0).size(), 0);
-    XCTAssertEqual(context.signals().at(1).size(), 0);
-    XCTAssertFalse(context.times().at(0));
-    XCTAssertFalse(context.times().at(1));
+    XCTAssertFalse(context.inputs().at(0).first);
+    XCTAssertFalse(context.inputs().at(1).first);
+    XCTAssertEqual(context.inputs().at(0).second.size(), 0);
+    XCTAssertEqual(context.inputs().at(1).second.size(), 0);
 }
 
 - (void)test_set_time {
@@ -39,16 +38,16 @@ using namespace yas::processing;
 
     context.set_time(make_range_time(0, 1), 0);
 
-    XCTAssertTrue(context.times().at(0));
-    XCTAssertEqual(context.times().at(0).get<time::range>(), time::range(0, 1));
-    XCTAssertFalse(context.times().at(1));
+    XCTAssertTrue(context.inputs().at(0).first);
+    XCTAssertEqual(context.inputs().at(0).first.get<time::range>(), time::range(0, 1));
+    XCTAssertFalse(context.inputs().at(1).first);
 
     context.set_time(make_range_time(1, 2), 1);
 
-    XCTAssertTrue(context.times().at(0));
-    XCTAssertEqual(context.times().at(0).get<time::range>(), time::range(0, 1));
-    XCTAssertTrue(context.times().at(1));
-    XCTAssertEqual(context.times().at(1).get<time::range>(), time::range(1, 2));
+    XCTAssertTrue(context.inputs().at(0).first);
+    XCTAssertEqual(context.inputs().at(0).first.get<time::range>(), time::range(0, 1));
+    XCTAssertTrue(context.inputs().at(1).first);
+    XCTAssertEqual(context.inputs().at(1).first.get<time::range>(), time::range(1, 2));
 }
 
 - (void)test_time {
@@ -70,21 +69,21 @@ using namespace yas::processing;
     int8_t data0[2] = {11, 12};
     context.copy_data_from(data0, 2, 0);
 
-    XCTAssertEqual(context.signals().at(0).size(), 2);
-    XCTAssertEqual(context.signals().at(0).data<int8_t>()[0], 11);
-    XCTAssertEqual(context.signals().at(0).data<int8_t>()[1], 12);
-    XCTAssertEqual(context.signals().at(1).size(), 0);
+    XCTAssertEqual(context.inputs().at(0).second.size(), 2);
+    XCTAssertEqual(context.inputs().at(0).second.data<int8_t>()[0], 11);
+    XCTAssertEqual(context.inputs().at(0).second.data<int8_t>()[1], 12);
+    XCTAssertEqual(context.inputs().at(1).second.size(), 0);
 
     int8_t data1[3] = {21, 22, 23};
     context.copy_data_from(data1, 3, 1);
 
-    XCTAssertEqual(context.signals().at(0).size(), 2);
-    XCTAssertEqual(context.signals().at(0).data<int8_t>()[0], 11);
-    XCTAssertEqual(context.signals().at(0).data<int8_t>()[1], 12);
-    XCTAssertEqual(context.signals().at(1).size(), 3);
-    XCTAssertEqual(context.signals().at(1).data<int8_t>()[0], 21);
-    XCTAssertEqual(context.signals().at(1).data<int8_t>()[1], 22);
-    XCTAssertEqual(context.signals().at(1).data<int8_t>()[2], 23);
+    XCTAssertEqual(context.inputs().at(0).second.size(), 2);
+    XCTAssertEqual(context.inputs().at(0).second.data<int8_t>()[0], 11);
+    XCTAssertEqual(context.inputs().at(0).second.data<int8_t>()[1], 12);
+    XCTAssertEqual(context.inputs().at(1).second.size(), 3);
+    XCTAssertEqual(context.inputs().at(1).second.data<int8_t>()[0], 21);
+    XCTAssertEqual(context.inputs().at(1).second.data<int8_t>()[1], 22);
+    XCTAssertEqual(context.inputs().at(1).second.data<int8_t>()[2], 23);
 }
 
 - (void)test_data {
@@ -113,8 +112,8 @@ using namespace yas::processing;
 
     context.reset(2);
 
-    XCTAssertEqual(context.signals().at(0).size(), 0);
-    XCTAssertFalse(context.times().at(0));
+    XCTAssertFalse(context.inputs().at(0).first);
+    XCTAssertEqual(context.inputs().at(0).second.size(), 0);
 }
 
 @end

@@ -11,12 +11,14 @@ namespace yas {
 namespace processing {
     template <typename T, std::size_t N>
     struct signal_process_context {
+        using pair_t = std::pair<time, signal_event>;
+        using pair_vector_t = std::vector<pair_t>;
+
         signal_process_context();
 
         void reset(std::size_t const reserve_size);
 
-        std::vector<signal_event> const &signals() const;
-        std::vector<time> const &times() const;
+        pair_vector_t const &inputs() const;
 
         void copy_data_from(T const *ptr, std::size_t const size, std::size_t const idx);
         T const *data(std::size_t const idx) const;
@@ -25,8 +27,7 @@ namespace processing {
         time const &time(std::size_t const idx) const;
 
        private:
-        std::vector<signal_event> _signals;
-        std::vector<processing::time> _times;
+        pair_vector_t _inputs;
     };
 }
 }
