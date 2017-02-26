@@ -39,13 +39,13 @@ namespace processing {
 
     template <typename T, std::size_t N>
     std::map<frame_index_t, typename number_process_context<T, N>::input> const &
-    number_process_context<T, N>::inputs() {
+    number_process_context<T, N>::inputs() const {
         return this->_inputs;
     }
 
     template <typename T, std::size_t N>
-    T const *number_process_context<T, N>::last_values() const {
-        return this->_last_values.data();
+    std::vector<T> const &number_process_context<T, N>::last_values() const {
+        return this->_last_values;
     }
 }
 }

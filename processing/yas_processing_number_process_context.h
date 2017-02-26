@@ -23,8 +23,8 @@ namespace processing {
         void update_last_values(input const &input);
         void reset();
 
-        std::map<frame_index_t, input> const &inputs();
-        T const *last_values() const;
+        std::map<frame_index_t, input> const &inputs() const;
+        std::vector<T> const &last_values() const;
 
        private:
         std::map<frame_index_t, input> _inputs;
