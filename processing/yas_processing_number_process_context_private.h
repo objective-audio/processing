@@ -33,13 +33,22 @@ namespace processing {
     }
 
     template <typename T, std::size_t N>
-    void number_process_context<T, N>::reset() {
-        this->_inputs.clear();
+    void number_process_context<T, N>::reset(time::range const &current_range) {
+        if (_last_process_range) {
+            if (current_range.frame != _last_process_range->next_frame()) {
+                this->_last_values.resize(0);
+                this->_last_values.resize(N);
+            }
+
+            this->_inputs.clear();
+        }
+
+        _last_process_range = current_range;
     }
 
     template <typename T, std::size_t N>
-    std::map<frame_index_t, typename number_process_context<T, N>::input> const &
-    number_process_context<T, N>::inputs() const {
+    std::map<frame_index_t, typename number_process_context<T, N>::input> const &number_process_context<T, N>::inputs()
+        const {
         return this->_inputs;
     }
 

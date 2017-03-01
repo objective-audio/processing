@@ -113,8 +113,9 @@ processing::module processing::make_number_module(math2::kind const kind) {
 
     auto context = std::make_shared<number_process_context<T, 2>>();
 
-    auto prepare_processor = [context](time::range const &, connector_map_t const &, connector_map_t const &,
-                                       stream &stream) mutable { context->reset(); };
+    auto prepare_processor = [context](time::range const &current_range, connector_map_t const &,
+                                       connector_map_t const &,
+                                       stream &stream) mutable { context->reset(current_range); };
 
     auto receive_processor =
         make_receive_number_processor<T>([context](processing::time::frame::type const &frame, channel_index_t const,

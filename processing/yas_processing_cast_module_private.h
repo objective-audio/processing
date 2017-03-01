@@ -72,8 +72,9 @@ namespace processing {
         processing::module make_number_module() {
             auto context = std::make_shared<number_process_context<In, 2>>();
 
-            auto prepare_processor = [context](time::range const &, connector_map_t const &, connector_map_t const &,
-                                               stream &) mutable { context->reset(); };
+            auto prepare_processor = [context](time::range const &current_range, connector_map_t const &,
+                                               connector_map_t const &,
+                                               stream &) mutable { context->reset(current_range); };
 
             auto receive_processor = processing::make_receive_number_processor<In>(
                 [context](processing::time::frame::type const &frame, channel_index_t const ch_idx,
