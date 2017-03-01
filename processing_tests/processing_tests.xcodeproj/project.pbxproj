@@ -438,6 +438,17 @@
 			path = processing_mac_tests;
 			sourceTree = "<group>";
 		};
+		B6AA83541E66CC2E00120472 /* context */ = {
+			isa = PBXGroup;
+			children = (
+				B6347C2A1E5DDC4D0042B1CF /* yas_processing_number_process_context_private.h */,
+				B6347C231E5D83CE0042B1CF /* yas_processing_number_process_context.h */,
+				B6347C2B1E5E7A870042B1CF /* yas_processing_signal_process_context_private.h */,
+				B6347C2C1E5E7A870042B1CF /* yas_processing_signal_process_context.h */,
+			);
+			name = context;
+			sourceTree = "<group>";
+		};
 		B6E0CB231E17628100329906 /* processor */ = {
 			isa = PBXGroup;
 			children = (
@@ -460,6 +471,7 @@
 		B6E0CB301E17721F00329906 /* module */ = {
 			isa = PBXGroup;
 			children = (
+				B6AA83541E66CC2E00120472 /* context */,
 				B64EBC771E21DE49002697C4 /* yas_processing_cast_module_private.h */,
 				B64EBC731E21C43F002697C4 /* yas_processing_cast_module.h */,
 				B671F7871E4211BF00C8866B /* yas_processing_compare_modules.cpp */,
@@ -472,14 +484,10 @@
 				B63378511E2CF17D0008B7C9 /* yas_processing_math1_modules.h */,
 				B60477B41E1A8E8000195A0F /* yas_processing_math2_modules.cpp */,
 				B60477B51E1A8E8000195A0F /* yas_processing_math2_modules.h */,
-				B6347C2A1E5DDC4D0042B1CF /* yas_processing_number_process_context_private.h */,
-				B6347C231E5D83CE0042B1CF /* yas_processing_number_process_context.h */,
 				B6593B831E344F130061385B /* yas_processing_number_to_signal_module.cpp */,
 				B6593B841E344F130061385B /* yas_processing_number_to_signal_module.h */,
 				B671F7991E4577FC00C8866B /* yas_processing_routing_modules.cpp */,
 				B671F79A1E4577FC00C8866B /* yas_processing_routing_modules.h */,
-				B6347C2B1E5E7A870042B1CF /* yas_processing_signal_process_context_private.h */,
-				B6347C2C1E5E7A870042B1CF /* yas_processing_signal_process_context.h */,
 				B671F79E1E480F8600C8866B /* yas_processing_sub_timeline_module.cpp */,
 				B671F79F1E480F8600C8866B /* yas_processing_sub_timeline_module.h */,
 			);

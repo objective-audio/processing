@@ -90,19 +90,34 @@ using namespace yas::processing;
     XCTAssertEqual(context.last_values()[1], 5);
 }
 
-- (void)test_reset {
+- (void)test_reset_next {
     number_process_context<int8_t, 1> context;
 
+    context.reset(time::range{0, 1});
     context.insert_input(0, 31, 0);
 
-    number_process_context<int8_t, 1>::input input;
-    input.values[0] = 32;
+    auto const &input = context.inputs().begin()->second;
     context.update_last_values(input);
 
-    context.reset();
+    context.reset(time::range{1, 1});
 
     XCTAssertEqual(context.inputs().size(), 0);
-    XCTAssertEqual(context.last_values()[0], 32);
+    XCTAssertEqual(context.last_values()[0], 31);
+}
+
+- (void)test_reset_return {
+    number_process_context<int8_t, 1> context;
+
+    context.reset(time::range{0, 1});
+    context.insert_input(0, 31, 0);
+
+    auto const &input = context.inputs().begin()->second;
+    context.update_last_values(input);
+
+    context.reset(time::range{0, 1});
+
+    XCTAssertEqual(context.inputs().size(), 0);
+    XCTAssertEqual(context.last_values()[0], 0);
 }
 
 @end
