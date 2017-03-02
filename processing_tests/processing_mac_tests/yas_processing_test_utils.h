@@ -89,9 +89,9 @@ namespace test {
     }
 
     template <typename T>
-    static stream make_number_stream(T const *const data, time::range const data_time_range,
-                                     channel_index_t const ch_idx) {
-        stream stream{sync_source{1, data_time_range.length}};
+    static stream make_number_stream(length_t const slice_length, T const *const data,
+                                     time::range const data_time_range, channel_index_t const ch_idx) {
+        stream stream{sync_source{1, slice_length}};
 
         auto &channel = stream.add_channel(ch_idx);
 
@@ -105,10 +105,11 @@ namespace test {
     }
 
     template <typename T>
-    static stream make_number_stream(T const *const left_data, time::range const left_time_range,
-                                     channel_index_t const left_ch_idx, T const *const right_data,
-                                     time::range const right_time_range, channel_index_t const right_ch_idx) {
-        stream stream{sync_source{1, left_time_range.length}};
+    static stream make_number_stream(length_t const slice_length, T const *const left_data,
+                                     time::range const left_time_range, channel_index_t const left_ch_idx,
+                                     T const *const right_data, time::range const right_time_range,
+                                     channel_index_t const right_ch_idx) {
+        stream stream{sync_source{1, slice_length}};
 
         {
             auto &channel = stream.add_channel(left_ch_idx);

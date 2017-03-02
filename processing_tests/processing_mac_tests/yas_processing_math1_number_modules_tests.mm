@@ -76,8 +76,8 @@ namespace test {
     channel_index_t const ch_idx = 3;
 
     auto module = test::make_number_module<double>(math1::kind::sin, ch_idx);
-    auto stream =
-        test::make_number_stream<double>(test::radian_input_data, time::range{0, test::process_length}, ch_idx);
+    auto stream = test::make_number_stream<double>(test::process_length, test::radian_input_data,
+                                                   time::range{0, test::process_length}, ch_idx);
 
     module.process(time::range{0, test::process_length}, stream);
 
@@ -101,8 +101,8 @@ namespace test {
     channel_index_t const ch_idx = 4;
 
     auto module = test::make_number_module<double>(math1::kind::cos, ch_idx);
-    auto stream =
-        test::make_number_stream<double>(test::radian_input_data, time::range{0, test::process_length}, ch_idx);
+    auto stream = test::make_number_stream<double>(test::process_length, test::radian_input_data,
+                                                   time::range{0, test::process_length}, ch_idx);
 
     module.process(time::range{0, test::process_length}, stream);
 
@@ -127,7 +127,7 @@ namespace test {
 
     auto module = test::make_number_module<double>(math1::kind::tan, ch_idx);
     auto stream =
-        test::make_number_stream<double>(test::radian_input_data, time::range{0, test::process_length}, ch_idx);
+        test::make_number_stream<double>(test::process_length, test::radian_input_data, time::range{0, test::process_length}, ch_idx);
 
     module.process(time::range{0, test::process_length}, stream);
 
@@ -151,8 +151,8 @@ namespace test {
     channel_index_t const ch_idx = 6;
 
     auto module = test::make_number_module<double>(math1::kind::asin, ch_idx);
-    auto stream =
-        test::make_number_stream<double>(test::linear_input_data, time::range{0, test::process_length}, ch_idx);
+    auto stream = test::make_number_stream<double>(test::process_length, test::linear_input_data,
+                                                   time::range{0, test::process_length}, ch_idx);
 
     module.process(time::range{0, test::process_length}, stream);
 
@@ -176,8 +176,8 @@ namespace test {
     channel_index_t const ch_idx = 7;
 
     auto module = test::make_number_module<double>(math1::kind::acos, ch_idx);
-    auto stream =
-        test::make_number_stream<double>(test::linear_input_data, time::range{0, test::process_length}, ch_idx);
+    auto stream = test::make_number_stream<double>(test::process_length, test::linear_input_data,
+                                                   time::range{0, test::process_length}, ch_idx);
 
     module.process(time::range{0, test::process_length}, stream);
 
@@ -201,8 +201,8 @@ namespace test {
     channel_index_t const ch_idx = 8;
 
     auto module = test::make_number_module<double>(math1::kind::atan, ch_idx);
-    auto stream =
-        test::make_number_stream<double>(test::linear_input_data, time::range{0, test::process_length}, ch_idx);
+    auto stream = test::make_number_stream<double>(test::process_length, test::linear_input_data,
+                                                   time::range{0, test::process_length}, ch_idx);
 
     module.process(time::range{0, test::process_length}, stream);
 
@@ -226,8 +226,8 @@ namespace test {
     channel_index_t const ch_idx = 40;
 
     auto module = test::make_number_module<double>(math1::kind::sinh, ch_idx);
-    auto stream =
-        test::make_number_stream<double>(test::linear_input_data, time::range{0, test::process_length}, ch_idx);
+    auto stream = test::make_number_stream<double>(test::process_length, test::linear_input_data,
+                                                   time::range{0, test::process_length}, ch_idx);
 
     module.process(time::range{0, test::process_length}, stream);
 
@@ -249,8 +249,8 @@ namespace test {
     channel_index_t const ch_idx = 41;
 
     auto module = test::make_number_module<double>(math1::kind::cosh, ch_idx);
-    auto stream =
-        test::make_number_stream<double>(test::linear_input_data, time::range{0, test::process_length}, ch_idx);
+    auto stream = test::make_number_stream<double>(test::process_length, test::linear_input_data,
+                                                   time::range{0, test::process_length}, ch_idx);
 
     module.process(time::range{0, test::process_length}, stream);
 
@@ -272,8 +272,8 @@ namespace test {
     channel_index_t const ch_idx = 42;
 
     auto module = test::make_number_module<double>(math1::kind::tanh, ch_idx);
-    auto stream =
-        test::make_number_stream<double>(test::linear_input_data, time::range{0, test::process_length}, ch_idx);
+    auto stream = test::make_number_stream<double>(test::process_length, test::linear_input_data,
+                                                   time::range{0, test::process_length}, ch_idx);
 
     module.process(time::range{0, test::process_length}, stream);
 
@@ -295,8 +295,8 @@ namespace test {
     channel_index_t const ch_idx = 43;
 
     auto module = test::make_number_module<double>(math1::kind::asinh, ch_idx);
-    auto stream =
-        test::make_number_stream<double>(test::linear_input_data, time::range{0, test::process_length}, ch_idx);
+    auto stream = test::make_number_stream<double>(test::process_length, test::linear_input_data,
+                                                   time::range{0, test::process_length}, ch_idx);
 
     module.process(time::range{0, test::process_length}, stream);
 
@@ -318,8 +318,8 @@ namespace test {
     channel_index_t const ch_idx = 44;
 
     auto module = test::make_number_module<double>(math1::kind::acosh, ch_idx);
-    auto stream =
-        test::make_number_stream<double>(test::linear_input_data, time::range{0, test::process_length}, ch_idx);
+    auto stream = test::make_number_stream<double>(test::process_length, test::linear_input_data,
+                                                   time::range{0, test::process_length}, ch_idx);
 
     module.process(time::range{0, test::process_length}, stream);
 
@@ -341,8 +341,8 @@ namespace test {
     channel_index_t const ch_idx = 45;
 
     auto module = test::make_number_module<double>(math1::kind::atanh, ch_idx);
-    auto stream =
-        test::make_number_stream<double>(test::linear_input_data, time::range{0, test::process_length}, ch_idx);
+    auto stream = test::make_number_stream<double>(test::process_length, test::linear_input_data,
+                                                   time::range{0, test::process_length}, ch_idx);
 
     module.process(time::range{0, test::process_length}, stream);
 
@@ -362,17 +362,17 @@ namespace test {
 
 - (void)test_exp {
     channel_index_t const ch_idx = 20;
-    
+
     auto module = test::make_number_module<double>(math1::kind::exp, ch_idx);
-    auto stream =
-    test::make_number_stream<double>(test::linear_input_data, time::range{0, test::process_length}, ch_idx);
-    
+    auto stream = test::make_number_stream<double>(test::process_length, test::linear_input_data,
+                                                   time::range{0, test::process_length}, ch_idx);
+
     module.process(time::range{0, test::process_length}, stream);
-    
+
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
-    
+
     auto event_iterator = events.begin();
-    
+
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::exp(test::linear_input_data[0]), 0.01);
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::exp(test::linear_input_data[1]), 0.01);
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::exp(test::linear_input_data[2]), 0.01);
@@ -385,17 +385,17 @@ namespace test {
 
 - (void)test_exp2 {
     channel_index_t const ch_idx = 21;
-    
+
     auto module = test::make_number_module<double>(math1::kind::exp2, ch_idx);
-    auto stream =
-    test::make_number_stream<double>(test::linear_input_data, time::range{0, test::process_length}, ch_idx);
-    
+    auto stream = test::make_number_stream<double>(test::process_length, test::linear_input_data,
+                                                   time::range{0, test::process_length}, ch_idx);
+
     module.process(time::range{0, test::process_length}, stream);
-    
+
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
-    
+
     auto event_iterator = events.begin();
-    
+
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::exp2(test::linear_input_data[0]), 0.01);
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::exp2(test::linear_input_data[1]), 0.01);
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::exp2(test::linear_input_data[2]), 0.01);
@@ -408,17 +408,17 @@ namespace test {
 
 - (void)test_expm1 {
     channel_index_t const ch_idx = 22;
-    
+
     auto module = test::make_number_module<double>(math1::kind::expm1, ch_idx);
-    auto stream =
-    test::make_number_stream<double>(test::linear_input_data, time::range{0, test::process_length}, ch_idx);
-    
+    auto stream = test::make_number_stream<double>(test::process_length, test::linear_input_data,
+                                                   time::range{0, test::process_length}, ch_idx);
+
     module.process(time::range{0, test::process_length}, stream);
-    
+
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
-    
+
     auto event_iterator = events.begin();
-    
+
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::expm1(test::linear_input_data[0]), 0.01);
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::expm1(test::linear_input_data[1]), 0.01);
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::expm1(test::linear_input_data[2]), 0.01);
@@ -431,17 +431,17 @@ namespace test {
 
 - (void)test_log {
     channel_index_t const ch_idx = 23;
-    
+
     auto module = test::make_number_module<double>(math1::kind::log, ch_idx);
-    auto stream =
-    test::make_number_stream<double>(test::linear_input_data, time::range{0, test::process_length}, ch_idx);
-    
+    auto stream = test::make_number_stream<double>(test::process_length, test::linear_input_data,
+                                                   time::range{0, test::process_length}, ch_idx);
+
     module.process(time::range{0, test::process_length}, stream);
-    
+
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
-    
+
     auto event_iterator = events.begin();
-    
+
     XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
     XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
     XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
@@ -454,17 +454,17 @@ namespace test {
 
 - (void)test_log10 {
     channel_index_t const ch_idx = 24;
-    
+
     auto module = test::make_number_module<double>(math1::kind::log10, ch_idx);
-    auto stream =
-    test::make_number_stream<double>(test::linear_input_data, time::range{0, test::process_length}, ch_idx);
-    
+    auto stream = test::make_number_stream<double>(test::process_length, test::linear_input_data,
+                                                   time::range{0, test::process_length}, ch_idx);
+
     module.process(time::range{0, test::process_length}, stream);
-    
+
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
-    
+
     auto event_iterator = events.begin();
-    
+
     XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
     XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
     XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
@@ -477,17 +477,17 @@ namespace test {
 
 - (void)test_log1p {
     channel_index_t const ch_idx = 25;
-    
+
     auto module = test::make_number_module<double>(math1::kind::log1p, ch_idx);
-    auto stream =
-    test::make_number_stream<double>(test::linear_input_data, time::range{0, test::process_length}, ch_idx);
-    
+    auto stream = test::make_number_stream<double>(test::process_length, test::linear_input_data,
+                                                   time::range{0, test::process_length}, ch_idx);
+
     module.process(time::range{0, test::process_length}, stream);
-    
+
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
-    
+
     auto event_iterator = events.begin();
-    
+
     XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::log1p(test::linear_input_data[1]), 0.01);
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::log1p(test::linear_input_data[2]), 0.01);
@@ -500,17 +500,17 @@ namespace test {
 
 - (void)test_log2 {
     channel_index_t const ch_idx = 26;
-    
+
     auto module = test::make_number_module<double>(math1::kind::log2, ch_idx);
-    auto stream =
-    test::make_number_stream<double>(test::linear_input_data, time::range{0, test::process_length}, ch_idx);
-    
+    auto stream = test::make_number_stream<double>(test::process_length, test::linear_input_data,
+                                                   time::range{0, test::process_length}, ch_idx);
+
     module.process(time::range{0, test::process_length}, stream);
-    
+
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
-    
+
     auto event_iterator = events.begin();
-    
+
     XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
     XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
     XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
@@ -523,17 +523,17 @@ namespace test {
 
 - (void)test_sqrt {
     channel_index_t const ch_idx = 9;
-    
+
     auto module = test::make_number_module<double>(math1::kind::sqrt, ch_idx);
-    auto stream =
-    test::make_number_stream<double>(test::linear_input_data, time::range{0, test::process_length}, ch_idx);
-    
+    auto stream = test::make_number_stream<double>(test::process_length, test::linear_input_data,
+                                                   time::range{0, test::process_length}, ch_idx);
+
     module.process(time::range{0, test::process_length}, stream);
-    
+
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
-    
+
     auto event_iterator = events.begin();
-    
+
     XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
     XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
     XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
@@ -546,17 +546,17 @@ namespace test {
 
 - (void)test_cbrt {
     channel_index_t const ch_idx = 10;
-    
+
     auto module = test::make_number_module<double>(math1::kind::cbrt, ch_idx);
-    auto stream =
-    test::make_number_stream<double>(test::linear_input_data, time::range{0, test::process_length}, ch_idx);
-    
+    auto stream = test::make_number_stream<double>(test::process_length, test::linear_input_data,
+                                                   time::range{0, test::process_length}, ch_idx);
+
     module.process(time::range{0, test::process_length}, stream);
-    
+
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
-    
+
     auto event_iterator = events.begin();
-    
+
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::cbrt(test::linear_input_data[0]), 0.01);
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::cbrt(test::linear_input_data[1]), 0.01);
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::cbrt(test::linear_input_data[2]), 0.01);
@@ -569,17 +569,17 @@ namespace test {
 
 - (void)test_abs {
     channel_index_t const ch_idx = 11;
-    
+
     auto module = test::make_number_module<double>(math1::kind::abs, ch_idx);
-    auto stream =
-    test::make_number_stream<double>(test::linear_input_data, time::range{0, test::process_length}, ch_idx);
-    
+    auto stream = test::make_number_stream<double>(test::process_length, test::linear_input_data,
+                                                   time::range{0, test::process_length}, ch_idx);
+
     module.process(time::range{0, test::process_length}, stream);
-    
+
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
-    
+
     auto event_iterator = events.begin();
-    
+
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), 1.5, 0.01);
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), 1.0, 0.01);
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), 0.5, 0.01);
@@ -592,17 +592,17 @@ namespace test {
 
 - (void)test_ceil {
     channel_index_t const ch_idx = 30;
-    
+
     auto module = test::make_number_module<double>(math1::kind::ceil, ch_idx);
-    auto stream =
-    test::make_number_stream<double>(test::linear_input_data, time::range{0, test::process_length}, ch_idx);
-    
+    auto stream = test::make_number_stream<double>(test::process_length, test::linear_input_data,
+                                                   time::range{0, test::process_length}, ch_idx);
+
     module.process(time::range{0, test::process_length}, stream);
-    
+
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
-    
+
     auto event_iterator = events.begin();
-    
+
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::ceil(test::linear_input_data[0]), 0.01);
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::ceil(test::linear_input_data[1]), 0.01);
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::ceil(test::linear_input_data[2]), 0.01);
@@ -615,17 +615,17 @@ namespace test {
 
 - (void)test_floor {
     channel_index_t const ch_idx = 31;
-    
+
     auto module = test::make_number_module<double>(math1::kind::floor, ch_idx);
-    auto stream =
-    test::make_number_stream<double>(test::linear_input_data, time::range{0, test::process_length}, ch_idx);
-    
+    auto stream = test::make_number_stream<double>(test::process_length, test::linear_input_data,
+                                                   time::range{0, test::process_length}, ch_idx);
+
     module.process(time::range{0, test::process_length}, stream);
-    
+
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
-    
+
     auto event_iterator = events.begin();
-    
+
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::floor(test::linear_input_data[0]), 0.01);
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::floor(test::linear_input_data[1]), 0.01);
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::floor(test::linear_input_data[2]), 0.01);
@@ -638,17 +638,17 @@ namespace test {
 
 - (void)test_trunc {
     channel_index_t const ch_idx = 32;
-    
+
     auto module = test::make_number_module<double>(math1::kind::trunc, ch_idx);
-    auto stream =
-    test::make_number_stream<double>(test::linear_input_data, time::range{0, test::process_length}, ch_idx);
-    
+    auto stream = test::make_number_stream<double>(test::process_length, test::linear_input_data,
+                                                   time::range{0, test::process_length}, ch_idx);
+
     module.process(time::range{0, test::process_length}, stream);
-    
+
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
-    
+
     auto event_iterator = events.begin();
-    
+
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::trunc(test::linear_input_data[0]), 0.01);
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::trunc(test::linear_input_data[1]), 0.01);
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::trunc(test::linear_input_data[2]), 0.01);
@@ -661,17 +661,17 @@ namespace test {
 
 - (void)test_round {
     channel_index_t const ch_idx = 33;
-    
+
     auto module = test::make_number_module<double>(math1::kind::round, ch_idx);
-    auto stream =
-    test::make_number_stream<double>(test::linear_input_data, time::range{0, test::process_length}, ch_idx);
-    
+    auto stream = test::make_number_stream<double>(test::process_length, test::linear_input_data,
+                                                   time::range{0, test::process_length}, ch_idx);
+
     module.process(time::range{0, test::process_length}, stream);
-    
+
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
-    
+
     auto event_iterator = events.begin();
-    
+
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::round(test::linear_input_data[0]), 0.01);
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::round(test::linear_input_data[1]), 0.01);
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::round(test::linear_input_data[2]), 0.01);
