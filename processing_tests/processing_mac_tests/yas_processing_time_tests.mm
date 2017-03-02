@@ -305,4 +305,14 @@ using namespace yas::processing;
     XCTAssertEqual(range_time.offset(-1), make_range_time(-1, 1));
 }
 
+- (void)test_time_to_string {
+    XCTAssertEqual(to_string(make_frame_time(3)), "3");
+    XCTAssertEqual(to_string(make_range_time(4, 5)), "{4, 5}");
+    XCTAssertEqual(to_string(make_any_time()), "any");
+}
+
+- (void)test_time_range_to_string {
+    XCTAssertEqual(to_string(time::range{1, 2}), "{1, 2}");
+}
+
 @end
