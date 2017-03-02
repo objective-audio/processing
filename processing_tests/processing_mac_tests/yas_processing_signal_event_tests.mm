@@ -30,6 +30,7 @@ using namespace yas::processing;
 
     XCTAssertEqual(signal_event.sample_byte_count(), 4);
     XCTAssertEqual(signal_event.size(), 16);
+    XCTAssertEqual(signal_event.byte_size(), 64);
 
     XCTAssertEqual(signal_event.vector<float>().size(), 16);
 
@@ -54,6 +55,7 @@ using namespace yas::processing;
 
     XCTAssertEqual(signal_event.sample_byte_count(), 8);
     XCTAssertEqual(signal_event.size(), 4);
+    XCTAssertEqual(signal_event.byte_size(), 32);
 
     XCTAssertEqual(signal_event.vector<double>().size(), 4);
 
@@ -74,6 +76,7 @@ using namespace yas::processing;
 
     XCTAssertEqual(signal_event.sample_byte_count(), 4);
     XCTAssertEqual(signal_event.size(), 3);
+    XCTAssertEqual(signal_event.byte_size(), 12);
 
     XCTAssertEqual(signal_event.vector<int32_t>().size(), 3);
     XCTAssertTrue(vec.data() == signal_event.vector<int32_t>().data());
@@ -97,6 +100,7 @@ using namespace yas::processing;
 
     XCTAssertEqual(signal_event.sample_byte_count(), sizeof(element));
     XCTAssertEqual(signal_event.size(), 2);
+    XCTAssertEqual(signal_event.byte_size(), (2 * sizeof(element)));
 
     XCTAssertEqual(signal_event.vector<element>().size(), 2);
 

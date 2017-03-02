@@ -31,6 +31,7 @@ namespace processing {
         std::type_info const &sample_type() const;
         std::size_t sample_byte_count() const;
         std::size_t size() const;
+        std::size_t byte_size() const;
         void resize(std::size_t const);
         void reserve(std::size_t const);
 

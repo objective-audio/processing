@@ -11,6 +11,7 @@ struct processing::signal_event::impl : event::impl {
     virtual std::type_info const &type() const = 0;
     virtual std::size_t sample_byte_count() const = 0;
     virtual std::size_t size() const = 0;
+    virtual std::size_t byte_size() const = 0;
     virtual void resize(std::size_t const) = 0;
     virtual void reserve(std::size_t const) = 0;
     virtual signal_event copy_in_range(time::range const &) = 0;
@@ -48,6 +49,10 @@ struct processing::signal_event::type_impl : impl {
 
     std::size_t size() const override {
         return this->_vector_ref.size();
+    }
+    
+    std::size_t byte_size() const override {
+        return sizeof(T) * this->_vector_ref.size();
     }
 
     void resize(std::size_t const size) override {

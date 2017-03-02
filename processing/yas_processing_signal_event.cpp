@@ -21,6 +21,10 @@ std::size_t processing::signal_event::size() const {
     return this->impl_ptr<impl>()->size();
 }
 
+std::size_t processing::signal_event::byte_size() const {
+    return this->impl_ptr<impl>()->byte_size();
+}
+
 void processing::signal_event::resize(std::size_t const size) {
     return this->impl_ptr<impl>()->resize(size);
 }
