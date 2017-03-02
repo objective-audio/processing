@@ -86,4 +86,7 @@ namespace processing {
     time make_frame_time(frame_index_t const);
     time make_any_time();
 }
+
+std::string to_string(processing::time const &);
+std::string to_string(processing::time::range const &);
 }

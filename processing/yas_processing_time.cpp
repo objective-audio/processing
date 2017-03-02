@@ -285,6 +285,22 @@ processing::time processing::time::offset(frame_index_t const &offset) const {
     }
 }
 
+std::string yas::to_string(processing::time const &time) {
+    if (time.is_range_type()) {
+        return yas::to_string(time.get<processing::time::range>());
+    } else if (time.is_frame_type()) {
+        return std::to_string(time.get<processing::time::frame>());
+    } else if (time.is_any_type()) {
+        return "any";
+    } else {
+        throw "unreachable code.";
+    }
+}
+
+std::string yas::to_string(processing::time::range const &range) {
+    return "{" + std::to_string(range.frame) + ", " + std::to_string(range.length) + "}";
+}
+
 #pragma mark - private
 
 std::shared_ptr<processing::time::impl<processing::time::any>> const &processing::time::any_impl_ptr() {
