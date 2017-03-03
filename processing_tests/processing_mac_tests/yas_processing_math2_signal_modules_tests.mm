@@ -39,12 +39,12 @@
     auto stream = test::make_signal_stream(time::range{0, process_length}, left_data, time::range{1, 2}, 0, right_data,
                                            time::range{2, 2}, 1);
 
-    auto calc_module = make_signal_module<int16_t>(math2::kind::plus);
-    calc_module.connect_input(to_connector_index(math2::input::left), 0);
-    calc_module.connect_input(to_connector_index(math2::input::right), 1);
-    calc_module.connect_output(to_connector_index(math2::output::result), 2);
+    auto module = make_signal_module<int16_t>(math2::kind::plus);
+    connect(module, math2::input::left, 0);
+    connect(module, math2::input::right, 1);
+    connect(module, math2::output::result, 2);
 
-    calc_module.process({0, process_length}, stream);
+    module.process({0, process_length}, stream);
 
     XCTAssertTrue(stream.has_channel(2));
 
@@ -73,12 +73,12 @@
     auto stream = test::make_signal_stream(time::range{0, process_length}, left_data, time::range{1, 2}, 0, right_data,
                                            time::range{2, 2}, 1);
 
-    auto calc_module = make_signal_module<int16_t>(math2::kind::minus);
-    calc_module.connect_input(to_connector_index(math2::input::left), 0);
-    calc_module.connect_input(to_connector_index(math2::input::right), 1);
-    calc_module.connect_output(to_connector_index(math2::output::result), 2);
+    auto module = make_signal_module<int16_t>(math2::kind::minus);
+    connect(module, math2::input::left, 0);
+    connect(module, math2::input::right, 1);
+    connect(module, math2::output::result, 2);
 
-    calc_module.process({0, 5}, stream);
+    module.process({0, 5}, stream);
 
     XCTAssertTrue(stream.has_channel(2));
 
@@ -107,12 +107,12 @@
     auto stream = test::make_signal_stream(time::range{0, process_length}, left_data, time::range{1, 2}, 0, right_data,
                                            time::range{2, 2}, 1);
 
-    auto calc_module = make_signal_module<int16_t>(math2::kind::multiply);
-    calc_module.connect_input(to_connector_index(math2::input::left), 0);
-    calc_module.connect_input(to_connector_index(math2::input::right), 1);
-    calc_module.connect_output(to_connector_index(math2::output::result), 2);
+    auto module = make_signal_module<int16_t>(math2::kind::multiply);
+    connect(module, math2::input::left, 0);
+    connect(module, math2::input::right, 1);
+    connect(module, math2::output::result, 2);
 
-    calc_module.process({0, 5}, stream);
+    module.process({0, 5}, stream);
 
     XCTAssertTrue(stream.has_channel(2));
 
@@ -141,12 +141,12 @@
     auto stream = test::make_signal_stream(time::range{0, process_length}, left_data, time::range{1, 2}, 0, right_data,
                                            time::range{2, 2}, 1);
 
-    auto calc_module = make_signal_module<int16_t>(math2::kind::divide);
-    calc_module.connect_input(to_connector_index(math2::input::left), 0);
-    calc_module.connect_input(to_connector_index(math2::input::right), 1);
-    calc_module.connect_output(to_connector_index(math2::output::result), 2);
+    auto module = make_signal_module<int16_t>(math2::kind::divide);
+    connect(module, math2::input::left, 0);
+    connect(module, math2::input::right, 1);
+    connect(module, math2::output::result, 2);
 
-    calc_module.process({0, 5}, stream);
+    module.process({0, 5}, stream);
 
     XCTAssertTrue(stream.has_channel(2));
 
@@ -175,12 +175,12 @@
     auto stream = test::make_signal_stream(time::range{0, process_length}, left_data, time::range{1, 6}, 0, right_data,
                                            time::range{2, 6}, 1);
 
-    auto calc_module = make_signal_module<double>(math2::kind::atan2);
-    calc_module.connect_input(to_connector_index(math2::input::left), 0);
-    calc_module.connect_input(to_connector_index(math2::input::right), 1);
-    calc_module.connect_output(to_connector_index(math2::output::result), 2);
+    auto module = make_signal_module<double>(math2::kind::atan2);
+    connect(module, math2::input::left, 0);
+    connect(module, math2::input::right, 1);
+    connect(module, math2::output::result, 2);
 
-    calc_module.process({0, process_length}, stream);
+    module.process({0, process_length}, stream);
 
     XCTAssertTrue(stream.has_channel(2));
 
@@ -213,12 +213,12 @@
     auto stream = test::make_signal_stream(time::range{0, process_length}, left_data, time::range{1, 2}, 0, right_data,
                                            time::range{2, 2}, 1);
 
-    auto calc_module = make_signal_module<double>(math2::kind::pow);
-    calc_module.connect_input(to_connector_index(math2::input::left), 0);
-    calc_module.connect_input(to_connector_index(math2::input::right), 1);
-    calc_module.connect_output(to_connector_index(math2::output::result), 2);
+    auto module = make_signal_module<double>(math2::kind::pow);
+    connect(module, math2::input::left, 0);
+    connect(module, math2::input::right, 1);
+    connect(module, math2::output::result, 2);
 
-    calc_module.process({0, 5}, stream);
+    module.process({0, 5}, stream);
 
     XCTAssertTrue(stream.has_channel(2));
 
@@ -247,12 +247,12 @@
     auto stream = test::make_signal_stream(time::range{0, process_length}, left_data, time::range{1, 2}, 0, right_data,
                                            time::range{2, 2}, 1);
 
-    auto calc_module = make_signal_module<double>(math2::kind::hypot);
-    calc_module.connect_input(to_connector_index(math2::input::left), 0);
-    calc_module.connect_input(to_connector_index(math2::input::right), 1);
-    calc_module.connect_output(to_connector_index(math2::output::result), 2);
+    auto module = make_signal_module<double>(math2::kind::hypot);
+    connect(module, math2::input::left, 0);
+    connect(module, math2::input::right, 1);
+    connect(module, math2::output::result, 2);
 
-    calc_module.process({0, 5}, stream);
+    module.process({0, 5}, stream);
 
     XCTAssertTrue(stream.has_channel(2));
 

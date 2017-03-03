@@ -54,8 +54,8 @@
     int8_t data[process_length] = {1, 2};
 
     auto module = make_signal_module<int8_t>(routing::kind::move);
-    module.connect_input(to_connector_index(routing::input::value), input_ch_idx);
-    module.connect_output(to_connector_index(routing::output::value), output_ch_idx);
+    connect(module, routing::input::value, input_ch_idx);
+    connect(module, routing::output::value, output_ch_idx);
 
     auto stream = test::make_signal_stream(time::range{0, process_length}, data, time::range{0, process_length}, 0);
 

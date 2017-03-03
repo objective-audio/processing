@@ -43,12 +43,12 @@
     auto stream = test::make_signal_stream(time::range{0, process_length}, left_data, time::range{1, 3}, 0, right_data,
                                            time::range{2, 3}, 1);
 
-    auto calc_module = make_signal_module<int16_t>(compare::kind::is_equal);
-    calc_module.connect_input(to_connector_index(compare::input::left), 0);
-    calc_module.connect_input(to_connector_index(compare::input::right), 1);
-    calc_module.connect_output(to_connector_index(compare::output::result), 2);
+    auto module = make_signal_module<int16_t>(compare::kind::is_equal);
+    connect(module, compare::input::left, 0);
+    connect(module, compare::input::right, 1);
+    connect(module, compare::output::result, 2);
 
-    calc_module.process({0, process_length}, stream);
+    module.process({0, process_length}, stream);
 
     XCTAssertTrue(stream.has_channel(2));
 
@@ -82,12 +82,12 @@
     auto stream = test::make_signal_stream(time::range{0, process_length}, left_data, time::range{1, 3}, 0, right_data,
                                            time::range{2, 3}, 1);
 
-    auto calc_module = make_signal_module<int16_t>(compare::kind::is_not_equal);
-    calc_module.connect_input(to_connector_index(compare::input::left), 0);
-    calc_module.connect_input(to_connector_index(compare::input::right), 1);
-    calc_module.connect_output(to_connector_index(compare::output::result), 2);
+    auto module = make_signal_module<int16_t>(compare::kind::is_not_equal);
+    connect(module, compare::input::left, 0);
+    connect(module, compare::input::right, 1);
+    connect(module, compare::output::result, 2);
 
-    calc_module.process({0, process_length}, stream);
+    module.process({0, process_length}, stream);
 
     XCTAssertTrue(stream.has_channel(2));
 
@@ -121,12 +121,12 @@
     auto stream = test::make_signal_stream(time::range{0, process_length}, left_data, time::range{1, 6}, 0, right_data,
                                            time::range{4, 6}, 1);
 
-    auto calc_module = make_signal_module<int16_t>(compare::kind::is_greater);
-    calc_module.connect_input(to_connector_index(compare::input::left), 0);
-    calc_module.connect_input(to_connector_index(compare::input::right), 1);
-    calc_module.connect_output(to_connector_index(compare::output::result), 2);
+    auto module = make_signal_module<int16_t>(compare::kind::is_greater);
+    connect(module, compare::input::left, 0);
+    connect(module, compare::input::right, 1);
+    connect(module, compare::output::result, 2);
 
-    calc_module.process({0, process_length}, stream);
+    module.process({0, process_length}, stream);
 
     XCTAssertTrue(stream.has_channel(2));
 
@@ -165,12 +165,12 @@
     auto stream = test::make_signal_stream(time::range{0, process_length}, left_data, time::range{1, 6}, 0, right_data,
                                            time::range{4, 6}, 1);
 
-    auto calc_module = make_signal_module<int16_t>(compare::kind::is_greater_equal);
-    calc_module.connect_input(to_connector_index(compare::input::left), 0);
-    calc_module.connect_input(to_connector_index(compare::input::right), 1);
-    calc_module.connect_output(to_connector_index(compare::output::result), 2);
+    auto module = make_signal_module<int16_t>(compare::kind::is_greater_equal);
+    connect(module, compare::input::left, 0);
+    connect(module, compare::input::right, 1);
+    connect(module, compare::output::result, 2);
 
-    calc_module.process({0, process_length}, stream);
+    module.process({0, process_length}, stream);
 
     XCTAssertTrue(stream.has_channel(2));
 
@@ -209,12 +209,12 @@
     auto stream = test::make_signal_stream(time::range{0, process_length}, left_data, time::range{1, 6}, 0, right_data,
                                            time::range{4, 6}, 1);
 
-    auto calc_module = make_signal_module<int16_t>(compare::kind::is_less);
-    calc_module.connect_input(to_connector_index(compare::input::left), 0);
-    calc_module.connect_input(to_connector_index(compare::input::right), 1);
-    calc_module.connect_output(to_connector_index(compare::output::result), 2);
+    auto module = make_signal_module<int16_t>(compare::kind::is_less);
+    connect(module, compare::input::left, 0);
+    connect(module, compare::input::right, 1);
+    connect(module, compare::output::result, 2);
 
-    calc_module.process({0, process_length}, stream);
+    module.process({0, process_length}, stream);
 
     XCTAssertTrue(stream.has_channel(2));
 
@@ -253,12 +253,12 @@
     auto stream = test::make_signal_stream(time::range{0, process_length}, left_data, time::range{1, 6}, 0, right_data,
                                            time::range{4, 6}, 1);
 
-    auto calc_module = make_signal_module<int16_t>(compare::kind::is_less_equal);
-    calc_module.connect_input(to_connector_index(compare::input::left), 0);
-    calc_module.connect_input(to_connector_index(compare::input::right), 1);
-    calc_module.connect_output(to_connector_index(compare::output::result), 2);
+    auto module = make_signal_module<int16_t>(compare::kind::is_less_equal);
+    connect(module, compare::input::left, 0);
+    connect(module, compare::input::right, 1);
+    connect(module, compare::output::result, 2);
 
-    calc_module.process({0, process_length}, stream);
+    module.process({0, process_length}, stream);
 
     XCTAssertTrue(stream.has_channel(2));
 
