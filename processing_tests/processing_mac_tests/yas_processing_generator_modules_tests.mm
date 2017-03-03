@@ -65,4 +65,20 @@ using namespace yas::processing;
     XCTAssertEqual(data[15], 1.875);
 }
 
+- (void)test_connect_output {
+    auto module = make_number_module<int32_t>(1);
+    connect(module, generator::output::value, 9);
+    
+    auto const &connectors = module.output_connectors();
+    
+    XCTAssertEqual(connectors.size(), 1);
+    XCTAssertEqual(connectors.begin()->first, to_connector_index(generator::output::value));
+    XCTAssertEqual(connectors.begin()->second.channel_index, 9);
+}
+
+- (void)test_output_to_string {
+    XCTAssertEqual(to_string(generator::output::value), "value");
+}
+
+
 @end
