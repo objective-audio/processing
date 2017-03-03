@@ -43,4 +43,20 @@ processing::module processing::make_signal_module(generator::kind const kind, fr
 template processing::module processing::make_signal_module<double>(generator::kind const, frame_index_t const);
 template processing::module processing::make_signal_module<float>(generator::kind const, frame_index_t const);
 
-;
+#pragma mark -
+
+void yas::connect(processing::module &module, processing::generator::output const &output,
+                  processing::channel_index_t const &ch_idx) {
+    module.connect_output(processing::to_connector_index(output), ch_idx);
+}
+
+std::string yas::to_string(processing::generator::output const &output) {
+    using namespace yas::processing::generator;
+
+    switch (output) {
+        case output::value:
+            return "value";
+    }
+
+    throw "output not found.";
+}

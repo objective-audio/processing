@@ -5,6 +5,7 @@
 #pragma once
 
 #include "yas_processing_types.h"
+#include <string>
 
 namespace yas {
 namespace processing {
@@ -55,8 +56,15 @@ namespace processing {
 
     template <typename T>
     module make_signal_module(math1::kind const);
-    
+
     template <typename T>
     module make_number_module(math1::kind const);
 }
+
+void connect(processing::module &, processing::math1::input const &, processing::channel_index_t const &);
+void connect(processing::module &, processing::math1::output const &, processing::channel_index_t const &);
+
+std::string to_string(processing::math1::kind const &);
+std::string to_string(processing::math1::input const &);
+std::string to_string(processing::math1::output const &);
 }

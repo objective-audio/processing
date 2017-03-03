@@ -183,4 +183,33 @@ using namespace yas::processing;
     XCTAssertEqual(it->second, number_event{int32_t(2)});
 }
 
+- (void)test_connect_input {
+    auto module = cast::make_number_module<int32_t, double>();
+    connect(module, cast::input::value, 3);
+
+    auto const &connectors = module.input_connectors();
+    XCTAssertEqual(connectors.size(), 1);
+    XCTAssertEqual(connectors.begin()->first, to_connector_index(cast::input::value));
+    XCTAssertEqual(connectors.begin()->second.channel_index, 3);
+}
+
+- (void)test_connect_output {
+    auto module = cast::make_number_module<int32_t, double>();
+    connect(module, cast::output::value, 4);
+    
+    auto const &connectors = module.output_connectors();
+    
+    XCTAssertEqual(connectors.size(), 1);
+    XCTAssertEqual(connectors.begin()->first, to_connector_index(cast::output::value));
+    XCTAssertEqual(connectors.begin()->second.channel_index, 4);
+}
+
+- (void)test_input_to_string {
+    XCTAssertEqual(to_string(cast::input::value), "value");
+}
+
+- (void)test_output_to_string {
+    XCTAssertEqual(to_string(cast::output::value), "value");
+}
+
 @end

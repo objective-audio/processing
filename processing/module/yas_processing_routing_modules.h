@@ -31,4 +31,10 @@ namespace processing {
     template <typename T>
     module make_number_module(routing::kind const);
 }
+
+void connect(processing::module &, processing::routing::input const &, processing::channel_index_t const &);
+void connect(processing::module &, processing::routing::output const &, processing::channel_index_t const &);
+
+std::string to_string(processing::routing::input const &);
+std::string to_string(processing::routing::output const &);
 }

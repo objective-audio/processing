@@ -37,4 +37,10 @@ namespace processing {
     template <typename T>
     module make_number_module(compare::kind const);
 }
+
+void connect(processing::module &, processing::compare::input const &, processing::channel_index_t const &);
+void connect(processing::module &, processing::compare::output const &, processing::channel_index_t const &);
+
+std::string to_string(processing::compare::input const &);
+std::string to_string(processing::compare::output const &);
 }

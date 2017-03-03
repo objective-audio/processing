@@ -348,4 +348,47 @@ using namespace yas::processing;
     XCTAssertEqual((event_iterator++)->second, number_event(std::hypot(0.0, 3.0)));
 }
 
+- (void)test_connect_input {
+    auto module = make_number_module<double>(math2::kind::plus);
+    connect(module, math2::input::left, 11);
+
+    auto const &connectors = module.input_connectors();
+
+    XCTAssertEqual(connectors.size(), 1);
+    XCTAssertEqual(connectors.begin()->first, to_connector_index(math2::input::left));
+    XCTAssertEqual(connectors.begin()->second.channel_index, 11);
+}
+
+- (void)test_connect_output {
+    auto module = make_number_module<double>(math2::kind::minus);
+    connect(module, math2::output::result, 2);
+
+    auto const &connectors = module.output_connectors();
+
+    XCTAssertEqual(connectors.size(), 1);
+    XCTAssertEqual(connectors.begin()->first, to_connector_index(math2::output::result));
+    XCTAssertEqual(connectors.begin()->second.channel_index, 2);
+}
+
+- (void)test_kind_to_string {
+    XCTAssertEqual(to_string(math2::kind::plus), "plus");
+    XCTAssertEqual(to_string(math2::kind::minus), "minus");
+    XCTAssertEqual(to_string(math2::kind::multiply), "multiply");
+    XCTAssertEqual(to_string(math2::kind::divide), "divide");
+
+    XCTAssertEqual(to_string(math2::kind::atan2), "atan2");
+
+    XCTAssertEqual(to_string(math2::kind::pow), "pow");
+    XCTAssertEqual(to_string(math2::kind::hypot), "hypot");
+}
+
+- (void)test_input_to_string {
+    XCTAssertEqual(to_string(math2::input::left), "left");
+    XCTAssertEqual(to_string(math2::input::right), "right");
+}
+
+- (void)test_output_to_string {
+    XCTAssertEqual(to_string(math2::output::result), "result");
+}
+
 @end

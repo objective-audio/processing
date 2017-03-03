@@ -65,6 +65,7 @@
 		B6AA84401E67F22700120472 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6AA843E1E67F22700120472 /* AudioToolbox.framework */; };
 		B6AA84411E67F22700120472 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6AA843F1E67F22700120472 /* AudioUnit.framework */; };
 		B6AA84431E67F23400120472 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6AA84421E67F23400120472 /* Accelerate.framework */; };
+		B6AA84491E691B6000120472 /* yas_processing_cast_module.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B6AA84481E691B6000120472 /* yas_processing_cast_module.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -220,6 +221,7 @@
 		B6AA843E1E67F22700120472 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		B6AA843F1E67F22700120472 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
 		B6AA84421E67F23400120472 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		B6AA84481E691B6000120472 /* yas_processing_cast_module.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = yas_processing_cast_module.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -406,6 +408,7 @@
 			children = (
 				B6AA83C31E67ED8800120472 /* context */,
 				B6AA83C81E67ED8800120472 /* yas_processing_cast_module.h */,
+				B6AA84481E691B6000120472 /* yas_processing_cast_module.cpp */,
 				B6AA83C91E67ED8800120472 /* yas_processing_cast_module_private.h */,
 				B6AA83CA1E67ED8800120472 /* yas_processing_compare_modules.cpp */,
 				B6AA83CB1E67ED8800120472 /* yas_processing_compare_modules.h */,
@@ -598,6 +601,7 @@
 				B6AA84041E67ED8900120472 /* yas_processing_math2_modules.cpp in Sources */,
 				B6AA84361E67F18D00120472 /* yas_audio_objc_utils.mm in Sources */,
 				B6AA840E1E67ED8900120472 /* yas_processing_channel.cpp in Sources */,
+				B6AA84491E691B6000120472 /* yas_processing_cast_module.cpp in Sources */,
 				B6AA84391E67F18D00120472 /* yas_audio_types.cpp in Sources */,
 				B6AA840D1E67ED8900120472 /* yas_processing_send_signal_processor.cpp in Sources */,
 				B636747A1DD9DFE900C724DB /* yas_delaying_caller.cpp in Sources */,

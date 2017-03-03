@@ -139,3 +139,37 @@ template processing::module processing::make_number_module<uint32_t>(processing:
 template processing::module processing::make_number_module<uint16_t>(processing::routing::kind const);
 template processing::module processing::make_number_module<uint8_t>(processing::routing::kind const);
 template processing::module processing::make_number_module<boolean>(processing::routing::kind const);
+
+#pragma mark -
+
+void yas::connect(processing::module &module, processing::routing::input const &input,
+                  processing::channel_index_t const &ch_idx) {
+    module.connect_input(processing::to_connector_index(input), ch_idx);
+}
+
+void yas::connect(processing::module &module, processing::routing::output const &output,
+                  processing::channel_index_t const &ch_idx) {
+    module.connect_output(processing::to_connector_index(output), ch_idx);
+}
+
+std::string yas::to_string(processing::routing::input const &input) {
+    using namespace yas::processing::routing;
+
+    switch (input) {
+        case input::value:
+            return "value";
+    }
+
+    throw "input not found.";
+}
+
+std::string yas::to_string(processing::routing::output const &output) {
+    using namespace yas::processing::routing;
+
+    switch (output) {
+        case output::value:
+            return "value";
+    }
+
+    throw "output not found.";
+}

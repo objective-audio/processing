@@ -262,4 +262,34 @@ using namespace yas::processing;
     XCTAssertFalse((event_iterator++)->second.get<boolean>());  // 0 <= -1
 }
 
+- (void)test_connect_input {
+    auto module = make_number_module<int16_t>(compare::kind::is_equal);
+    connect(module, compare::input::left, 5);
+
+    auto const &connectors = module.input_connectors();
+    XCTAssertEqual(connectors.size(), 1);
+    XCTAssertEqual(connectors.begin()->first, to_connector_index(compare::input::left));
+    XCTAssertEqual(connectors.begin()->second.channel_index, 5);
+}
+
+- (void)test_connect_output {
+    auto module = make_number_module<int16_t>(compare::kind::is_equal);
+    connect(module, compare::output::result, 6);
+
+    auto const &connectors = module.output_connectors();
+
+    XCTAssertEqual(connectors.size(), 1);
+    XCTAssertEqual(connectors.begin()->first, to_connector_index(compare::output::result));
+    XCTAssertEqual(connectors.begin()->second.channel_index, 6);
+}
+
+- (void)test_input_to_string {
+    XCTAssertEqual(to_string(compare::input::left), "left");
+    XCTAssertEqual(to_string(compare::input::right), "right");
+}
+
+- (void)test_output_to_string {
+    XCTAssertEqual(to_string(compare::output::result), "result");
+}
+
 @end

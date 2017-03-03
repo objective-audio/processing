@@ -65,3 +65,37 @@ template processing::module processing::make_number_to_signal_module<uint32_t>()
 template processing::module processing::make_number_to_signal_module<uint16_t>();
 template processing::module processing::make_number_to_signal_module<uint8_t>();
 template processing::module processing::make_number_to_signal_module<boolean>();
+
+#pragma mark -
+
+void yas::connect(processing::module &module, processing::number_to_signal::input const &input,
+                  processing::channel_index_t const &ch_idx) {
+    module.connect_input(processing::to_connector_index(input), ch_idx);
+}
+
+void yas::connect(processing::module &module, processing::number_to_signal::output const &output,
+                  processing::channel_index_t const &ch_idx) {
+    module.connect_output(processing::to_connector_index(output), ch_idx);
+}
+
+std::string yas::to_string(processing::number_to_signal::input const &input) {
+    using namespace yas::processing::number_to_signal;
+
+    switch (input) {
+        case input::number:
+            return "number";
+    }
+
+    throw "input not found.";
+}
+
+std::string yas::to_string(processing::number_to_signal::output const &output) {
+    using namespace yas::processing::number_to_signal;
+
+    switch (output) {
+        case output::signal:
+            return "signal";
+    }
+
+    throw "output not found.";
+}
