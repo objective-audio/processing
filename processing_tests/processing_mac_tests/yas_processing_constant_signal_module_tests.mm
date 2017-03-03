@@ -53,7 +53,7 @@ using namespace yas::processing;
 
     XCTAssertEqual(channel.events().size(), 1);
 
-    auto const &event_pair = *channel.events().begin();
+    auto const &event_pair = *channel.events().cbegin();
     auto const &time = event_pair.first;
     auto const signal = cast<processing::signal_event>(event_pair.second);
 

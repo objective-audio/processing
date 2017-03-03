@@ -155,7 +155,7 @@ using namespace yas::processing;
         XCTAssertTrue(stream.has_channel(0));
         auto &events = stream.channel(0).events();
         XCTAssertEqual(events.size(), 1);
-        auto const &vec = cast<processing::signal_event>(events.begin()->second).vector<int16_t>();
+        auto const &vec = cast<processing::signal_event>(events.cbegin()->second).vector<int16_t>();
         XCTAssertEqual(vec.size(), 2);
         XCTAssertEqual(vec[0], 1);
         XCTAssertEqual(vec[1], 2);
@@ -174,7 +174,7 @@ using namespace yas::processing;
         XCTAssertTrue(stream.has_channel(0));
         auto &events = stream.channel(0).events();
         XCTAssertEqual(events.size(), 1);
-        auto const &vec = cast<processing::signal_event>(events.begin()->second).vector<int16_t>();
+        auto const &vec = cast<processing::signal_event>(events.cbegin()->second).vector<int16_t>();
         XCTAssertEqual(vec.size(), 1);
         XCTAssertEqual(vec[0], 1);
     }
@@ -192,7 +192,7 @@ using namespace yas::processing;
         XCTAssertTrue(stream.has_channel(0));
         auto &events = stream.channel(0).events();
         XCTAssertEqual(events.size(), 1);
-        auto const &vec = cast<processing::signal_event>(events.begin()->second).vector<int16_t>();
+        auto const &vec = cast<processing::signal_event>(events.cbegin()->second).vector<int16_t>();
         XCTAssertEqual(vec.size(), 1);
         XCTAssertEqual(vec[0], 1);
     }
@@ -228,7 +228,7 @@ using namespace yas::processing;
     timeline.process(time::range{0, process_length}, sync_source{1, 2},
                      [&ch_idx, &called](time::range const &time_range, stream const &stream) {
                          auto const &channel = stream.channel(ch_idx);
-                         auto const &pair = *channel.events().begin();
+                         auto const &pair = *channel.events().cbegin();
                          auto const signal = cast<signal_event>(pair.second);
                          called.emplace_back(std::make_pair(pair.first.get<time::range>(), signal.vector<int8_t>()));
                      });

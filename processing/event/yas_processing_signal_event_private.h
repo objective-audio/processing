@@ -114,7 +114,7 @@ struct processing::signal_event::type_impl : impl {
         }
 
         if (event_pairs.size() == 1) {
-            return *event_pairs.begin();
+            return *event_pairs.cbegin();
         }
 
         time::range combined_range = current_range;

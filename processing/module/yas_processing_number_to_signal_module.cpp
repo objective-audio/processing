@@ -33,8 +33,8 @@ processing::module processing::make_number_to_signal_module() {
         make_send_signal_processor<T>([context](processing::time::range const &time_range, sync_source const &,
                                                 channel_index_t const, connector_index_t const, T *const signal_ptr) {
             auto const top_frame = time_range.frame;
-            auto iterator = context->inputs().begin();
-            auto const end_iterator = context->inputs().end();
+            auto iterator = context->inputs().cbegin();
+            auto const end_iterator = context->inputs().cend();
             T const &last_value = context->last_values()[0];
 
             auto out_each = make_fast_each(signal_ptr, time_range.length);

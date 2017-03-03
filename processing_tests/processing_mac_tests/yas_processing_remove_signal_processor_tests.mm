@@ -53,15 +53,15 @@ using namespace yas::processing;
 
     XCTAssertEqual(channel.events().size(), 2);
 
-    auto it = channel.events().begin();
-    XCTAssertEqual(it->first.get<time::range>().frame, 0);
-    XCTAssertEqual(it->first.get<time::range>().length, 1);
-    XCTAssertEqual(cast<signal_event>(it->second).data<int16_t>()[0], 100);
+    auto iterator = channel.events().cbegin();
+    XCTAssertEqual(iterator->first.get<time::range>().frame, 0);
+    XCTAssertEqual(iterator->first.get<time::range>().length, 1);
+    XCTAssertEqual(cast<signal_event>(iterator->second).data<int16_t>()[0], 100);
 
-    ++it;
-    XCTAssertEqual(it->first.get<time::range>().frame, 2);
-    XCTAssertEqual(it->first.get<time::range>().length, 1);
-    XCTAssertEqual(cast<signal_event>(it->second).data<int16_t>()[0], 102);
+    ++iterator;
+    XCTAssertEqual(iterator->first.get<time::range>().frame, 2);
+    XCTAssertEqual(iterator->first.get<time::range>().length, 1);
+    XCTAssertEqual(cast<signal_event>(iterator->second).data<int16_t>()[0], 102);
 }
 
 - (void)test_type {
@@ -79,10 +79,10 @@ using namespace yas::processing;
 
     XCTAssertEqual(channel.events().size(), 2);
 
-    auto it = channel.events().begin();
-    XCTAssertTrue(cast<signal_event>(it->second).sample_type() != typeid(int16_t));
-    ++it;
-    XCTAssertTrue(cast<signal_event>(it->second).sample_type() != typeid(int16_t));
+    auto iterator = channel.events().cbegin();
+    XCTAssertTrue(cast<signal_event>(iterator->second).sample_type() != typeid(int16_t));
+    ++iterator;
+    XCTAssertTrue(cast<signal_event>(iterator->second).sample_type() != typeid(int16_t));
 }
 
 - (void)test_key {

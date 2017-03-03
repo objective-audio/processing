@@ -38,13 +38,13 @@ using namespace yas::processing;
 
     auto const &channel = stream.channel(ch_idx);
 
-    auto const &time = channel.events().begin()->first;
+    auto const &time = channel.events().cbegin()->first;
     auto const &time_range = time.get<time::range>();
 
     XCTAssertEqual(time_range.frame, 0);
     XCTAssertEqual(time_range.length, process_length);
 
-    auto const &signal = cast<signal_event>(channel.events().begin()->second);
+    auto const &signal = cast<signal_event>(channel.events().cbegin()->second);
     auto *data = signal.data<double>();
 
     XCTAssertEqual(data[0], 0.0);
@@ -72,8 +72,8 @@ using namespace yas::processing;
     auto const &connectors = module.output_connectors();
     
     XCTAssertEqual(connectors.size(), 1);
-    XCTAssertEqual(connectors.begin()->first, to_connector_index(generator::output::value));
-    XCTAssertEqual(connectors.begin()->second.channel_index, 9);
+    XCTAssertEqual(connectors.cbegin()->first, to_connector_index(generator::output::value));
+    XCTAssertEqual(connectors.cbegin()->second.channel_index, 9);
 }
 
 - (void)test_output_to_string {

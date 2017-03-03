@@ -45,12 +45,12 @@ using namespace yas::processing;
 
     auto const &channel = stream.channel(ch_idx);
 
-    auto const &time = channel.events().begin()->first;
+    auto const &time = channel.events().cbegin()->first;
     auto const &time_range = time.get<time::range>();
 
     XCTAssertEqual(time_range, time::range(0, process_length));
 
-    auto const &signal = cast<signal_event>(channel.events().begin()->second);
+    auto const &signal = cast<signal_event>(channel.events().cbegin()->second);
     auto *data = signal.data<int8_t>();
 
     XCTAssertEqual(data[0], 2);
@@ -77,12 +77,12 @@ using namespace yas::processing;
     
     auto const &channel = stream.channel(ch_idx);
     
-    auto const &time = channel.events().begin()->first;
+    auto const &time = channel.events().cbegin()->first;
     auto const &time_range = time.get<time::range>();
     
     XCTAssertEqual(time_range, time::range(0, process_length));
     
-    auto const &signal = cast<signal_event>(channel.events().begin()->second);
+    auto const &signal = cast<signal_event>(channel.events().cbegin()->second);
     auto *data = signal.data<int8_t>();
     
     XCTAssertEqual(data[0], 0);

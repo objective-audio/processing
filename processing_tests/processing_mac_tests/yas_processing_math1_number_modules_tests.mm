@@ -85,7 +85,7 @@ namespace test {
 
     XCTAssertEqual(events.size(), 8);
 
-    auto event_iterator = events.begin();
+    auto event_iterator = events.cbegin();
 
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::sin(test::radian_input_data[0]), 0.01);
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::sin(test::radian_input_data[1]), 0.01);
@@ -110,7 +110,7 @@ namespace test {
 
     XCTAssertEqual(events.size(), 8);
 
-    auto event_iterator = events.begin();
+    auto event_iterator = events.cbegin();
 
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::cos(test::radian_input_data[0]), 0.01);
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::cos(test::radian_input_data[1]), 0.01);
@@ -135,7 +135,7 @@ namespace test {
 
     XCTAssertEqual(events.size(), 8);
 
-    auto event_iterator = events.begin();
+    auto event_iterator = events.cbegin();
 
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::tan(test::radian_input_data[0]), 0.01);
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::tan(test::radian_input_data[1]), 0.01);
@@ -160,7 +160,7 @@ namespace test {
 
     XCTAssertEqual(events.size(), 8);
 
-    auto event_iterator = events.begin();
+    auto event_iterator = events.cbegin();
 
     XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::asin(test::linear_input_data[1]), 0.01);
@@ -185,7 +185,7 @@ namespace test {
 
     XCTAssertEqual(events.size(), 8);
 
-    auto event_iterator = events.begin();
+    auto event_iterator = events.cbegin();
 
     XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::acos(test::linear_input_data[1]), 0.01);
@@ -210,7 +210,7 @@ namespace test {
 
     XCTAssertEqual(events.size(), 8);
 
-    auto event_iterator = events.begin();
+    auto event_iterator = events.cbegin();
 
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::atan(test::linear_input_data[0]), 0.01);
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::atan(test::linear_input_data[1]), 0.01);
@@ -233,7 +233,7 @@ namespace test {
 
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
 
-    auto event_iterator = events.begin();
+    auto event_iterator = events.cbegin();
 
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::sinh(test::linear_input_data[0]), 0.01);
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::sinh(test::linear_input_data[1]), 0.01);
@@ -256,7 +256,7 @@ namespace test {
 
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
 
-    auto event_iterator = events.begin();
+    auto event_iterator = events.cbegin();
 
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::cosh(test::linear_input_data[0]), 0.01);
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::cosh(test::linear_input_data[1]), 0.01);
@@ -279,7 +279,7 @@ namespace test {
 
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
 
-    auto event_iterator = events.begin();
+    auto event_iterator = events.cbegin();
 
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::tanh(test::linear_input_data[0]), 0.01);
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::tanh(test::linear_input_data[1]), 0.01);
@@ -302,7 +302,7 @@ namespace test {
 
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
 
-    auto event_iterator = events.begin();
+    auto event_iterator = events.cbegin();
 
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::asinh(test::linear_input_data[0]), 0.01);
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::asinh(test::linear_input_data[1]), 0.01);
@@ -325,7 +325,7 @@ namespace test {
 
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
 
-    auto event_iterator = events.begin();
+    auto event_iterator = events.cbegin();
 
     XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
     XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
@@ -348,7 +348,7 @@ namespace test {
 
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
 
-    auto event_iterator = events.begin();
+    auto event_iterator = events.cbegin();
 
     XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::atanh(test::linear_input_data[1]), 0.01);
@@ -371,7 +371,7 @@ namespace test {
 
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
 
-    auto event_iterator = events.begin();
+    auto event_iterator = events.cbegin();
 
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::exp(test::linear_input_data[0]), 0.01);
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::exp(test::linear_input_data[1]), 0.01);
@@ -394,7 +394,7 @@ namespace test {
 
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
 
-    auto event_iterator = events.begin();
+    auto event_iterator = events.cbegin();
 
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::exp2(test::linear_input_data[0]), 0.01);
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::exp2(test::linear_input_data[1]), 0.01);
@@ -417,7 +417,7 @@ namespace test {
 
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
 
-    auto event_iterator = events.begin();
+    auto event_iterator = events.cbegin();
 
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::expm1(test::linear_input_data[0]), 0.01);
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::expm1(test::linear_input_data[1]), 0.01);
@@ -440,7 +440,7 @@ namespace test {
 
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
 
-    auto event_iterator = events.begin();
+    auto event_iterator = events.cbegin();
 
     XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
     XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
@@ -463,7 +463,7 @@ namespace test {
 
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
 
-    auto event_iterator = events.begin();
+    auto event_iterator = events.cbegin();
 
     XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
     XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
@@ -486,7 +486,7 @@ namespace test {
 
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
 
-    auto event_iterator = events.begin();
+    auto event_iterator = events.cbegin();
 
     XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::log1p(test::linear_input_data[1]), 0.01);
@@ -509,7 +509,7 @@ namespace test {
 
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
 
-    auto event_iterator = events.begin();
+    auto event_iterator = events.cbegin();
 
     XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
     XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
@@ -532,7 +532,7 @@ namespace test {
 
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
 
-    auto event_iterator = events.begin();
+    auto event_iterator = events.cbegin();
 
     XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
     XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
@@ -555,7 +555,7 @@ namespace test {
 
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
 
-    auto event_iterator = events.begin();
+    auto event_iterator = events.cbegin();
 
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::cbrt(test::linear_input_data[0]), 0.01);
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::cbrt(test::linear_input_data[1]), 0.01);
@@ -578,7 +578,7 @@ namespace test {
 
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
 
-    auto event_iterator = events.begin();
+    auto event_iterator = events.cbegin();
 
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), 1.5, 0.01);
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), 1.0, 0.01);
@@ -601,7 +601,7 @@ namespace test {
 
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
 
-    auto event_iterator = events.begin();
+    auto event_iterator = events.cbegin();
 
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::ceil(test::linear_input_data[0]), 0.01);
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::ceil(test::linear_input_data[1]), 0.01);
@@ -624,7 +624,7 @@ namespace test {
 
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
 
-    auto event_iterator = events.begin();
+    auto event_iterator = events.cbegin();
 
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::floor(test::linear_input_data[0]), 0.01);
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::floor(test::linear_input_data[1]), 0.01);
@@ -647,7 +647,7 @@ namespace test {
 
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
 
-    auto event_iterator = events.begin();
+    auto event_iterator = events.cbegin();
 
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::trunc(test::linear_input_data[0]), 0.01);
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::trunc(test::linear_input_data[1]), 0.01);
@@ -670,7 +670,7 @@ namespace test {
 
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
 
-    auto event_iterator = events.begin();
+    auto event_iterator = events.cbegin();
 
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::round(test::linear_input_data[0]), 0.01);
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::round(test::linear_input_data[1]), 0.01);
@@ -689,8 +689,8 @@ namespace test {
     auto const &connectors = module.input_connectors();
 
     XCTAssertEqual(connectors.size(), 1);
-    XCTAssertEqual(connectors.begin()->first, to_connector_index(math1::input::parameter));
-    XCTAssertEqual(connectors.begin()->second.channel_index, 1);
+    XCTAssertEqual(connectors.cbegin()->first, to_connector_index(math1::input::parameter));
+    XCTAssertEqual(connectors.cbegin()->second.channel_index, 1);
 }
 
 - (void)test_connect_output {
@@ -700,8 +700,8 @@ namespace test {
     auto const &connectors = module.output_connectors();
 
     XCTAssertEqual(connectors.size(), 1);
-    XCTAssertEqual(connectors.begin()->first, to_connector_index(math1::output::result));
-    XCTAssertEqual(connectors.begin()->second.channel_index, 2);
+    XCTAssertEqual(connectors.cbegin()->first, to_connector_index(math1::output::result));
+    XCTAssertEqual(connectors.cbegin()->second.channel_index, 2);
 }
 
 - (void)test_kind_to_string {

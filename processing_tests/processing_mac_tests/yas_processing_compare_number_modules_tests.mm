@@ -59,7 +59,7 @@ using namespace yas::processing;
 
     XCTAssertEqual(events.size(), 4);
 
-    auto event_iterator = events.begin();
+    auto event_iterator = events.cbegin();
 
     XCTAssertFalse((event_iterator++)->second.get<boolean>());  // 1 == 0
     XCTAssertTrue((event_iterator++)->second.get<boolean>());   // 2 == 2
@@ -94,7 +94,7 @@ using namespace yas::processing;
 
     XCTAssertEqual(events.size(), 4);
 
-    auto event_iterator = events.begin();
+    auto event_iterator = events.cbegin();
 
     XCTAssertTrue((event_iterator++)->second.get<boolean>());   // 1 != 0
     XCTAssertFalse((event_iterator++)->second.get<boolean>());  // 2 != 2
@@ -129,7 +129,7 @@ using namespace yas::processing;
 
     XCTAssertEqual(events.size(), 9);
 
-    auto event_iterator = events.begin();
+    auto event_iterator = events.cbegin();
 
     XCTAssertFalse((event_iterator++)->second.get<boolean>());  // -1 > 0
     XCTAssertFalse((event_iterator++)->second.get<boolean>());  // 0 > 0
@@ -169,7 +169,7 @@ using namespace yas::processing;
 
     XCTAssertEqual(events.size(), 9);
 
-    auto event_iterator = events.begin();
+    auto event_iterator = events.cbegin();
 
     XCTAssertFalse((event_iterator++)->second.get<boolean>());  // -1 >= 0
     XCTAssertTrue((event_iterator++)->second.get<boolean>());   // 0 >= 0
@@ -209,7 +209,7 @@ using namespace yas::processing;
 
     XCTAssertEqual(events.size(), 9);
 
-    auto event_iterator = events.begin();
+    auto event_iterator = events.cbegin();
 
     XCTAssertTrue((event_iterator++)->second.get<boolean>());   // -1 < 0
     XCTAssertFalse((event_iterator++)->second.get<boolean>());  // 0 < 0
@@ -249,7 +249,7 @@ using namespace yas::processing;
 
     XCTAssertEqual(events.size(), 9);
 
-    auto event_iterator = events.begin();
+    auto event_iterator = events.cbegin();
 
     XCTAssertTrue((event_iterator++)->second.get<boolean>());   // -1 <= 0
     XCTAssertTrue((event_iterator++)->second.get<boolean>());   // 0 <= 0
@@ -268,8 +268,8 @@ using namespace yas::processing;
 
     auto const &connectors = module.input_connectors();
     XCTAssertEqual(connectors.size(), 1);
-    XCTAssertEqual(connectors.begin()->first, to_connector_index(compare::input::left));
-    XCTAssertEqual(connectors.begin()->second.channel_index, 5);
+    XCTAssertEqual(connectors.cbegin()->first, to_connector_index(compare::input::left));
+    XCTAssertEqual(connectors.cbegin()->second.channel_index, 5);
 }
 
 - (void)test_connect_output {
@@ -279,8 +279,8 @@ using namespace yas::processing;
     auto const &connectors = module.output_connectors();
 
     XCTAssertEqual(connectors.size(), 1);
-    XCTAssertEqual(connectors.begin()->first, to_connector_index(compare::output::result));
-    XCTAssertEqual(connectors.begin()->second.channel_index, 6);
+    XCTAssertEqual(connectors.cbegin()->first, to_connector_index(compare::output::result));
+    XCTAssertEqual(connectors.cbegin()->second.channel_index, 6);
 }
 
 - (void)test_input_to_string {

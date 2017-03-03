@@ -80,7 +80,7 @@ namespace test {
     module.process(time::range{0, test::process_length}, stream);
 
     auto const &events = stream.channel(ch_idx).events();
-    auto const signal = cast<processing::signal_event>(events.begin()->second);
+    auto const signal = cast<processing::signal_event>(events.cbegin()->second);
     auto const &vec = signal.vector<double>();
 
     XCTAssertEqualWithAccuracy(vec[0], std::sin(test::radian_input_data[0]), 0.01);
@@ -103,7 +103,7 @@ namespace test {
     module.process(time::range{0, test::process_length}, stream);
 
     auto const &events = stream.channel(ch_idx).events();
-    auto const signal = cast<processing::signal_event>(events.begin()->second);
+    auto const signal = cast<processing::signal_event>(events.cbegin()->second);
     auto const &vec = signal.vector<double>();
 
     XCTAssertEqualWithAccuracy(vec[0], std::cos(test::radian_input_data[0]), 0.01);
@@ -126,7 +126,7 @@ namespace test {
     module.process(time::range{0, test::process_length}, stream);
 
     auto const &events = stream.channel(ch_idx).events();
-    auto const signal = cast<processing::signal_event>(events.begin()->second);
+    auto const signal = cast<processing::signal_event>(events.cbegin()->second);
     auto const &vec = signal.vector<double>();
 
     XCTAssertEqualWithAccuracy(vec[0], std::tan(test::radian_input_data[0]), 0.01);
@@ -149,7 +149,7 @@ namespace test {
     module.process(time::range{0, test::process_length}, stream);
 
     auto const &events = stream.channel(ch_idx).events();
-    auto const signal = cast<processing::signal_event>(events.begin()->second);
+    auto const signal = cast<processing::signal_event>(events.cbegin()->second);
     auto const &vec = signal.vector<double>();
 
     XCTAssertTrue(std::isnan(vec[0]));
@@ -172,7 +172,7 @@ namespace test {
     module.process(time::range{0, test::process_length}, stream);
 
     auto const &events = stream.channel(ch_idx).events();
-    auto const signal = cast<processing::signal_event>(events.begin()->second);
+    auto const signal = cast<processing::signal_event>(events.cbegin()->second);
     auto const &vec = signal.vector<double>();
 
     XCTAssertTrue(std::isnan(vec[0]));
@@ -195,7 +195,7 @@ namespace test {
     module.process(time::range{0, test::process_length}, stream);
 
     auto const &events = stream.channel(ch_idx).events();
-    auto const signal = cast<processing::signal_event>(events.begin()->second);
+    auto const signal = cast<processing::signal_event>(events.cbegin()->second);
     auto const &vec = signal.vector<double>();
 
     XCTAssertEqualWithAccuracy(vec[0], std::atan(test::linear_input_data[0]), 0.01);
@@ -218,7 +218,7 @@ namespace test {
     module.process(time::range{0, test::process_length}, stream);
     
     auto const &events = stream.channel(ch_idx).events();
-    auto const signal = cast<processing::signal_event>(events.begin()->second);
+    auto const signal = cast<processing::signal_event>(events.cbegin()->second);
     auto const &vec = signal.vector<double>();
     
     XCTAssertEqualWithAccuracy(vec[0], std::sinh(test::linear_input_data[0]), 0.01);
@@ -241,7 +241,7 @@ namespace test {
     module.process(time::range{0, test::process_length}, stream);
     
     auto const &events = stream.channel(ch_idx).events();
-    auto const signal = cast<processing::signal_event>(events.begin()->second);
+    auto const signal = cast<processing::signal_event>(events.cbegin()->second);
     auto const &vec = signal.vector<double>();
     
     XCTAssertEqualWithAccuracy(vec[0], std::cosh(test::linear_input_data[0]), 0.01);
@@ -264,7 +264,7 @@ namespace test {
     module.process(time::range{0, test::process_length}, stream);
     
     auto const &events = stream.channel(ch_idx).events();
-    auto const signal = cast<processing::signal_event>(events.begin()->second);
+    auto const signal = cast<processing::signal_event>(events.cbegin()->second);
     auto const &vec = signal.vector<double>();
     
     XCTAssertEqualWithAccuracy(vec[0], std::tanh(test::linear_input_data[0]), 0.01);
@@ -287,7 +287,7 @@ namespace test {
     module.process(time::range{0, test::process_length}, stream);
     
     auto const &events = stream.channel(ch_idx).events();
-    auto const signal = cast<processing::signal_event>(events.begin()->second);
+    auto const signal = cast<processing::signal_event>(events.cbegin()->second);
     auto const &vec = signal.vector<double>();
     
     XCTAssertEqualWithAccuracy(vec[0], std::asinh(test::linear_input_data[0]), 0.01);
@@ -310,7 +310,7 @@ namespace test {
     module.process(time::range{0, test::process_length}, stream);
     
     auto const &events = stream.channel(ch_idx).events();
-    auto const signal = cast<processing::signal_event>(events.begin()->second);
+    auto const signal = cast<processing::signal_event>(events.cbegin()->second);
     auto const &vec = signal.vector<double>();
     
     XCTAssertTrue(std::isnan(vec[0]));
@@ -333,7 +333,7 @@ namespace test {
     module.process(time::range{0, test::process_length}, stream);
     
     auto const &events = stream.channel(ch_idx).events();
-    auto const signal = cast<processing::signal_event>(events.begin()->second);
+    auto const signal = cast<processing::signal_event>(events.cbegin()->second);
     auto const &vec = signal.vector<double>();
     
     XCTAssertTrue(std::isnan(vec[0]));
@@ -356,7 +356,7 @@ namespace test {
     module.process(time::range{0, test::process_length}, stream);
 
     auto const &events = stream.channel(ch_idx).events();
-    auto const signal = cast<processing::signal_event>(events.begin()->second);
+    auto const signal = cast<processing::signal_event>(events.cbegin()->second);
     auto const &vec = signal.vector<double>();
 
     XCTAssertEqualWithAccuracy(vec[0], std::exp(test::linear_input_data[0]), 0.01);
@@ -379,7 +379,7 @@ namespace test {
     module.process(time::range{0, test::process_length}, stream);
 
     auto const &events = stream.channel(ch_idx).events();
-    auto const signal = cast<processing::signal_event>(events.begin()->second);
+    auto const signal = cast<processing::signal_event>(events.cbegin()->second);
     auto const &vec = signal.vector<double>();
 
     XCTAssertEqualWithAccuracy(vec[0], std::exp2(test::linear_input_data[0]), 0.01);
@@ -402,7 +402,7 @@ namespace test {
     module.process(time::range{0, test::process_length}, stream);
 
     auto const &events = stream.channel(ch_idx).events();
-    auto const signal = cast<processing::signal_event>(events.begin()->second);
+    auto const signal = cast<processing::signal_event>(events.cbegin()->second);
     auto const &vec = signal.vector<double>();
 
     XCTAssertEqualWithAccuracy(vec[0], std::expm1(test::linear_input_data[0]), 0.01);
@@ -425,7 +425,7 @@ namespace test {
     module.process(time::range{0, test::process_length}, stream);
 
     auto const &events = stream.channel(ch_idx).events();
-    auto const signal = cast<processing::signal_event>(events.begin()->second);
+    auto const signal = cast<processing::signal_event>(events.cbegin()->second);
     auto const &vec = signal.vector<double>();
 
     XCTAssertTrue(std::isnan(vec[0]));
@@ -448,7 +448,7 @@ namespace test {
     module.process(time::range{0, test::process_length}, stream);
 
     auto const &events = stream.channel(ch_idx).events();
-    auto const signal = cast<processing::signal_event>(events.begin()->second);
+    auto const signal = cast<processing::signal_event>(events.cbegin()->second);
     auto const &vec = signal.vector<double>();
 
     XCTAssertTrue(std::isnan(vec[0]));
@@ -471,7 +471,7 @@ namespace test {
     module.process(time::range{0, test::process_length}, stream);
 
     auto const &events = stream.channel(ch_idx).events();
-    auto const signal = cast<processing::signal_event>(events.begin()->second);
+    auto const signal = cast<processing::signal_event>(events.cbegin()->second);
     auto const &vec = signal.vector<double>();
 
     XCTAssertTrue(std::isnan(vec[0]));
@@ -494,7 +494,7 @@ namespace test {
     module.process(time::range{0, test::process_length}, stream);
 
     auto const &events = stream.channel(ch_idx).events();
-    auto const signal = cast<processing::signal_event>(events.begin()->second);
+    auto const signal = cast<processing::signal_event>(events.cbegin()->second);
     auto const &vec = signal.vector<double>();
 
     XCTAssertTrue(std::isnan(vec[0]));
@@ -517,7 +517,7 @@ namespace test {
     module.process(time::range{0, test::process_length}, stream);
 
     auto const &events = stream.channel(ch_idx).events();
-    auto const signal = cast<processing::signal_event>(events.begin()->second);
+    auto const signal = cast<processing::signal_event>(events.cbegin()->second);
     auto const &vec = signal.vector<double>();
 
     XCTAssertTrue(std::isnan(vec[0]));
@@ -540,7 +540,7 @@ namespace test {
     module.process(time::range{0, test::process_length}, stream);
 
     auto const &events = stream.channel(ch_idx).events();
-    auto const signal = cast<processing::signal_event>(events.begin()->second);
+    auto const signal = cast<processing::signal_event>(events.cbegin()->second);
     auto const &vec = signal.vector<double>();
 
     XCTAssertEqualWithAccuracy(vec[0], std::cbrt(test::linear_input_data[0]), 0.01);
@@ -563,7 +563,7 @@ namespace test {
     module.process(time::range{0, test::process_length}, stream);
 
     auto const &events = stream.channel(ch_idx).events();
-    auto const signal = cast<processing::signal_event>(events.begin()->second);
+    auto const signal = cast<processing::signal_event>(events.cbegin()->second);
     auto const &vec = signal.vector<double>();
 
     XCTAssertEqualWithAccuracy(vec[0], 1.5, 0.01);
@@ -586,7 +586,7 @@ namespace test {
     module.process(time::range{0, test::process_length}, stream);
 
     auto const &events = stream.channel(ch_idx).events();
-    auto const signal = cast<processing::signal_event>(events.begin()->second);
+    auto const signal = cast<processing::signal_event>(events.cbegin()->second);
     auto const &vec = signal.vector<double>();
 
     XCTAssertEqualWithAccuracy(vec[0], std::ceil(test::linear_input_data[0]), 0.01);
@@ -609,7 +609,7 @@ namespace test {
     module.process(time::range{0, test::process_length}, stream);
 
     auto const &events = stream.channel(ch_idx).events();
-    auto const signal = cast<processing::signal_event>(events.begin()->second);
+    auto const signal = cast<processing::signal_event>(events.cbegin()->second);
     auto const &vec = signal.vector<double>();
 
     XCTAssertEqualWithAccuracy(vec[0], std::floor(test::linear_input_data[0]), 0.01);
@@ -632,7 +632,7 @@ namespace test {
     module.process(time::range{0, test::process_length}, stream);
 
     auto const &events = stream.channel(ch_idx).events();
-    auto const signal = cast<processing::signal_event>(events.begin()->second);
+    auto const signal = cast<processing::signal_event>(events.cbegin()->second);
     auto const &vec = signal.vector<double>();
 
     XCTAssertEqualWithAccuracy(vec[0], std::trunc(test::linear_input_data[0]), 0.01);
@@ -655,7 +655,7 @@ namespace test {
     module.process(time::range{0, test::process_length}, stream);
 
     auto const &events = stream.channel(ch_idx).events();
-    auto const signal = cast<processing::signal_event>(events.begin()->second);
+    auto const signal = cast<processing::signal_event>(events.cbegin()->second);
     auto const &vec = signal.vector<double>();
 
     XCTAssertEqualWithAccuracy(vec[0], std::round(test::linear_input_data[0]), 0.01);

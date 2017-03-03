@@ -76,7 +76,7 @@ using namespace yas::processing;
 
         XCTAssertTrue(stream.has_channel(ch_idx));
         auto const &vec =
-            cast<processing::signal_event>(stream.channel(ch_idx).events().begin()->second).vector<int64_t>();
+            cast<processing::signal_event>(stream.channel(ch_idx).events().cbegin()->second).vector<int64_t>();
         XCTAssertEqual(vec.size(), 2);
         XCTAssertEqual(vec.at(0), 0);
         XCTAssertEqual(vec.at(1), 1);
@@ -98,7 +98,7 @@ using namespace yas::processing;
 
         XCTAssertTrue(stream.has_channel(ch_idx));
         auto const &vec =
-            cast<processing::signal_event>(stream.channel(ch_idx).events().begin()->second).vector<int64_t>();
+            cast<processing::signal_event>(stream.channel(ch_idx).events().cbegin()->second).vector<int64_t>();
         XCTAssertEqual(vec.size(), 1);
         XCTAssertEqual(vec.at(0), 1);
     }
@@ -119,7 +119,7 @@ using namespace yas::processing;
 
         XCTAssertTrue(stream.has_channel(ch_idx));
         auto const &vec =
-            cast<processing::signal_event>(stream.channel(ch_idx).events().begin()->second).vector<int64_t>();
+            cast<processing::signal_event>(stream.channel(ch_idx).events().cbegin()->second).vector<int64_t>();
         XCTAssertEqual(vec.size(), 1);
         XCTAssertEqual(vec.at(0), 0);
     }
@@ -286,7 +286,7 @@ using namespace yas::processing;
     XCTAssertTrue(stream.has_channel(send_ch_idx));
 
     auto const &send_channel = stream.channel(send_ch_idx);
-    auto const &send_vec = cast<processing::signal_event>(send_channel.events().begin()->second).vector<int16_t>();
+    auto const &send_vec = cast<processing::signal_event>(send_channel.events().cbegin()->second).vector<int16_t>();
 
     XCTAssertEqual(send_vec.size(), 2);
     XCTAssertEqual(send_vec[0], 2);
@@ -296,7 +296,7 @@ using namespace yas::processing;
 
     auto const &receive_channel = stream.channel(receive_ch_idx);
     auto const &receive_vec =
-        cast<processing::signal_event>(receive_channel.events().begin()->second).vector<int16_t>();
+        cast<processing::signal_event>(receive_channel.events().cbegin()->second).vector<int16_t>();
 
     XCTAssertEqual(receive_vec.size(), 2);
     XCTAssertEqual(receive_vec[0], 1);
