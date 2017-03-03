@@ -126,8 +126,8 @@ namespace test {
     channel_index_t const ch_idx = 5;
 
     auto module = test::make_number_module<double>(math1::kind::tan, ch_idx);
-    auto stream =
-        test::make_number_stream<double>(test::process_length, test::radian_input_data, time::range{0, test::process_length}, ch_idx);
+    auto stream = test::make_number_stream<double>(test::process_length, test::radian_input_data,
+                                                   time::range{0, test::process_length}, ch_idx);
 
     module.process(time::range{0, test::process_length}, stream);
 
@@ -680,6 +680,69 @@ namespace test {
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::round(test::linear_input_data[5]), 0.01);
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::round(test::linear_input_data[6]), 0.01);
     XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::round(test::linear_input_data[7]), 0.01);
+}
+
+- (void)test_connect_input {
+    auto module = make_number_module<double>(math1::kind::sin);
+    connect(module, math1::input::parameter, 1);
+
+    auto const &connectors = module.input_connectors();
+
+    XCTAssertEqual(connectors.size(), 1);
+    XCTAssertEqual(connectors.begin()->first, 0);
+    XCTAssertEqual(connectors.begin()->second.channel_index, 1);
+}
+
+- (void)test_connect_output {
+    auto module = make_number_module<double>(math1::kind::cos);
+    connect(module, math1::output::result, 2);
+
+    auto const &connectors = module.output_connectors();
+
+    XCTAssertEqual(connectors.size(), 1);
+    XCTAssertEqual(connectors.begin()->first, 0);
+    XCTAssertEqual(connectors.begin()->second.channel_index, 2);
+}
+
+- (void)test_kind_to_string {
+    XCTAssertEqual(to_string(math1::kind::sin), "sin");
+    XCTAssertEqual(to_string(math1::kind::cos), "cos");
+    XCTAssertEqual(to_string(math1::kind::tan), "tan");
+    XCTAssertEqual(to_string(math1::kind::asin), "asin");
+    XCTAssertEqual(to_string(math1::kind::acos), "acos");
+    XCTAssertEqual(to_string(math1::kind::atan), "atan");
+
+    XCTAssertEqual(to_string(math1::kind::sinh), "sinh");
+    XCTAssertEqual(to_string(math1::kind::cosh), "cosh");
+    XCTAssertEqual(to_string(math1::kind::tanh), "tanh");
+    XCTAssertEqual(to_string(math1::kind::asinh), "asinh");
+    XCTAssertEqual(to_string(math1::kind::acosh), "acosh");
+    XCTAssertEqual(to_string(math1::kind::atanh), "atanh");
+    
+    XCTAssertEqual(to_string(math1::kind::exp), "exp");
+    XCTAssertEqual(to_string(math1::kind::exp2), "exp2");
+    XCTAssertEqual(to_string(math1::kind::expm1), "expm1");
+    XCTAssertEqual(to_string(math1::kind::log), "log");
+    XCTAssertEqual(to_string(math1::kind::log10), "log10");
+    XCTAssertEqual(to_string(math1::kind::log1p), "log1p");
+    XCTAssertEqual(to_string(math1::kind::log2), "log2");
+    
+    XCTAssertEqual(to_string(math1::kind::sqrt), "sqrt");
+    XCTAssertEqual(to_string(math1::kind::cbrt), "cbrt");
+    XCTAssertEqual(to_string(math1::kind::abs), "abs");
+    
+    XCTAssertEqual(to_string(math1::kind::ceil), "ceil");
+    XCTAssertEqual(to_string(math1::kind::floor), "floor");
+    XCTAssertEqual(to_string(math1::kind::trunc), "trunc");
+    XCTAssertEqual(to_string(math1::kind::round), "round");
+}
+
+- (void)test_input_to_string {
+    XCTAssertEqual(to_string(math1::input::parameter), "parameter");
+}
+
+- (void)test_output_to_string {
+    XCTAssertEqual(to_string(math1::output::result), "result");
 }
 
 @end
