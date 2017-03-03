@@ -279,3 +279,103 @@ processing::module processing::make_number_module(math1::kind const kind) {
 
 template processing::module processing::make_number_module<double>(math1::kind const);
 template processing::module processing::make_number_module<float>(math1::kind const);
+
+#pragma mark -
+
+void yas::connect(processing::module &module, processing::math1::input const &input,
+                  processing::channel_index_t const &ch_idx) {
+    module.connect_input(processing::to_connector_index(input), ch_idx);
+}
+
+void yas::connect(processing::module &module, processing::math1::output const &output,
+                  processing::channel_index_t const &ch_idx) {
+    module.connect_output(processing::to_connector_index(output), ch_idx);
+}
+
+std::string yas::to_string(processing::math1::kind const &kind) {
+    using namespace processing::math1;
+    
+    switch (kind) {
+        case kind::sin:
+            return "sin";
+            
+        case kind::cos:
+            return "cos";
+        case kind::tan:
+            return "tan";
+        case kind::asin:
+            return "asin";
+        case kind::acos:
+            return "acos";
+        case kind::atan:
+            return "atan";
+            
+        case kind::sinh:
+            return "sinh";
+        case kind::cosh:
+            return "cosh";
+        case kind::tanh:
+            return "tanh";
+        case kind::asinh:
+            return "asinh";
+        case kind::acosh:
+            return "acosh";
+        case kind::atanh:
+            return "atanh";
+            
+        case kind::exp:
+            return "exp";
+        case kind::exp2:
+            return "exp2";
+        case kind::expm1:
+            return "expm1";
+        case kind::log:
+            return "log";
+        case kind::log10:
+            return "log10";
+        case kind::log1p:
+            return "log1p";
+        case kind::log2:
+            return "log2";
+            
+        case kind::sqrt:
+            return "sqrt";
+        case kind::cbrt:
+            return "cbrt";
+        case kind::abs:
+            return "abs";
+            
+        case kind::ceil:
+            return "ceil";
+        case kind::floor:
+            return "floor";
+        case kind::trunc:
+            return "trunc";
+        case kind::round:
+            return "round";
+    }
+    
+    throw "kind not found.";
+}
+
+std::string yas::to_string(processing::math1::input const &input) {
+    using namespace processing::math1;
+    
+    switch (input) {
+        case input::parameter:
+            return "parameter";
+    }
+    
+    throw "input not found.";
+}
+
+std::string yas::to_string(processing::math1::output const &output) {
+    using namespace processing::math1;
+    
+    switch (output) {
+        case output::result:
+            return "output::result";
+    }
+    
+    throw "output not found.";
+}
