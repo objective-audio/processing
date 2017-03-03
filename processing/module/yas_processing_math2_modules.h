@@ -39,4 +39,11 @@ namespace processing {
     template <typename T>
     module make_number_module(math2::kind const);
 }
+
+void connect(processing::module &, processing::math2::input const &, processing::channel_index_t const &);
+void connect(processing::module &, processing::math2::output const &, processing::channel_index_t const &);
+
+std::string to_string(processing::math2::kind const &);
+std::string to_string(processing::math2::input const &);
+std::string to_string(processing::math2::output const &);
 }

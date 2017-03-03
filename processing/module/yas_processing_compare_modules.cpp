@@ -43,7 +43,7 @@ processing::module processing::make_signal_module(compare::kind const kind) {
             if (co_idx == to_connector_index(output::result)) {
                 static auto const left_co_idx = to_connector_index(input::left);
                 static auto const right_co_idx = to_connector_index(input::right);
-                
+
                 auto const *left_ptr = context->data(left_co_idx);
                 auto const *right_ptr = context->data(right_co_idx);
                 processing::time const &left_time = context->time(left_co_idx);
@@ -185,3 +185,39 @@ template processing::module processing::make_number_module<uint32_t>(compare::ki
 template processing::module processing::make_number_module<uint16_t>(compare::kind const);
 template processing::module processing::make_number_module<uint8_t>(compare::kind const);
 template processing::module processing::make_number_module<boolean>(compare::kind const);
+
+#pragma mark -
+
+void yas::connect(processing::module &module, processing::compare::input const &input,
+                  processing::channel_index_t const &ch_idx) {
+    module.connect_input(processing::to_connector_index(input), ch_idx);
+}
+
+void yas::connect(processing::module &module, processing::compare::output const &output,
+                  processing::channel_index_t const &ch_idx) {
+    module.connect_output(processing::to_connector_index(output), ch_idx);
+}
+
+std::string yas::to_string(processing::compare::input const &input) {
+    using namespace yas::processing::compare;
+
+    switch (input) {
+        case input::left:
+            return "left";
+        case input::right:
+            return "right";
+    }
+
+    throw "input not found.";
+}
+
+std::string yas::to_string(processing::compare::output const &output) {
+    using namespace yas::processing::compare;
+
+    switch (output) {
+        case output::result:
+            return "result";
+    }
+
+    throw "output not found.";
+}

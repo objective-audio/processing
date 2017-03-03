@@ -189,3 +189,65 @@ template processing::module processing::make_number_module<uint64_t>(math2::kind
 template processing::module processing::make_number_module<uint32_t>(math2::kind const);
 template processing::module processing::make_number_module<uint16_t>(math2::kind const);
 template processing::module processing::make_number_module<uint8_t>(math2::kind const);
+
+#pragma mark -
+
+void yas::connect(processing::module &module, processing::math2::input const &input,
+                  processing::channel_index_t const &ch_idx) {
+    module.connect_input(processing::to_connector_index(input), ch_idx);
+}
+
+void yas::connect(processing::module &module, processing::math2::output const &output,
+                  processing::channel_index_t const &ch_idx) {
+    module.connect_output(processing::to_connector_index(output), ch_idx);
+}
+
+std::string yas::to_string(processing::math2::kind const &kind) {
+    using namespace processing::math2;
+
+    switch (kind) {
+        case kind::plus:
+            return "plus";
+
+        case kind::minus:
+            return "minus";
+        case kind::multiply:
+            return "multiply";
+        case kind::divide:
+            return "divide";
+
+        case kind::atan2:
+            return "atan2";
+
+        case kind::pow:
+            return "pow";
+        case kind::hypot:
+            return "hypot";
+    }
+
+    throw "kind not found.";
+}
+
+std::string yas::to_string(processing::math2::input const &input) {
+    using namespace processing::math2;
+
+    switch (input) {
+        case input::left:
+            return "left";
+        case input::right:
+            return "right";
+    }
+
+    throw "input not found.";
+}
+
+std::string yas::to_string(processing::math2::output const &output) {
+    using namespace processing::math2;
+
+    switch (output) {
+        case output::result:
+            return "result";
+    }
+
+    throw "output not found.";
+}

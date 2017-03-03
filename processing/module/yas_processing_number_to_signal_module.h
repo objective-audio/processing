@@ -23,4 +23,10 @@ namespace processing {
     template <typename T>
     module make_number_to_signal_module();
 }
+
+void connect(processing::module &, processing::number_to_signal::input const &, processing::channel_index_t const &);
+void connect(processing::module &, processing::number_to_signal::output const &, processing::channel_index_t const &);
+
+std::string to_string(processing::number_to_signal::input const &);
+std::string to_string(processing::number_to_signal::output const &);
 }
