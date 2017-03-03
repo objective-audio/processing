@@ -689,7 +689,7 @@ namespace test {
     auto const &connectors = module.input_connectors();
 
     XCTAssertEqual(connectors.size(), 1);
-    XCTAssertEqual(connectors.begin()->first, 0);
+    XCTAssertEqual(connectors.begin()->first, to_connector_index(math1::input::parameter));
     XCTAssertEqual(connectors.begin()->second.channel_index, 1);
 }
 
@@ -700,7 +700,7 @@ namespace test {
     auto const &connectors = module.output_connectors();
 
     XCTAssertEqual(connectors.size(), 1);
-    XCTAssertEqual(connectors.begin()->first, 0);
+    XCTAssertEqual(connectors.begin()->first, to_connector_index(math1::output::result));
     XCTAssertEqual(connectors.begin()->second.channel_index, 2);
 }
 
