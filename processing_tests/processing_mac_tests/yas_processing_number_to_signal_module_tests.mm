@@ -49,9 +49,9 @@ using namespace yas::processing;
         auto const &signal_events = channel.filtered_events<int8_t, signal_event>();
 
         XCTAssertEqual(signal_events.size(), 1);
-        XCTAssertEqual(signal_events.begin()->first, (time::range{0, process_length}));
+        XCTAssertEqual(signal_events.cbegin()->first, (time::range{0, process_length}));
 
-        auto const &signal_event = signal_events.begin()->second;
+        auto const &signal_event = signal_events.cbegin()->second;
 
         auto const *const data = signal_event.data<int8_t>();
 
@@ -70,7 +70,7 @@ using namespace yas::processing;
 
         XCTAssertEqual(channel.events().size(), 2);
 
-        auto iterator = channel.events().begin();
+        auto iterator = channel.events().cbegin();
         XCTAssertEqual(iterator->first, make_frame_time(10));
         ++iterator;
         XCTAssertEqual(iterator->first, make_frame_time(13));
@@ -87,9 +87,9 @@ using namespace yas::processing;
         auto const &signal_events = channel.filtered_events<int8_t, signal_event>();
 
         XCTAssertEqual(signal_events.size(), 1);
-        XCTAssertEqual(signal_events.begin()->first, (time::range{process_length, process_length}));
+        XCTAssertEqual(signal_events.cbegin()->first, (time::range{process_length, process_length}));
 
-        auto const &signal_event = signal_events.begin()->second;
+        auto const &signal_event = signal_events.cbegin()->second;
         auto const *const data = signal_event.data<int8_t>();
 
         XCTAssertEqual(data[0], 3);
@@ -109,8 +109,8 @@ using namespace yas::processing;
 
     auto const &connectors = module.input_connectors();
     XCTAssertEqual(connectors.size(), 1);
-    XCTAssertEqual(connectors.begin()->first, to_connector_index(number_to_signal::input::number));
-    XCTAssertEqual(connectors.begin()->second.channel_index, 13);
+    XCTAssertEqual(connectors.cbegin()->first, to_connector_index(number_to_signal::input::number));
+    XCTAssertEqual(connectors.cbegin()->second.channel_index, 13);
 }
 
 - (void)test_connect_output {
@@ -120,8 +120,8 @@ using namespace yas::processing;
     auto const &connectors = module.output_connectors();
 
     XCTAssertEqual(connectors.size(), 1);
-    XCTAssertEqual(connectors.begin()->first, to_connector_index(number_to_signal::output::signal));
-    XCTAssertEqual(connectors.begin()->second.channel_index, 14);
+    XCTAssertEqual(connectors.cbegin()->first, to_connector_index(number_to_signal::output::signal));
+    XCTAssertEqual(connectors.cbegin()->second.channel_index, 14);
 }
 
 - (void)test_input_to_string {

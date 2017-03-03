@@ -70,7 +70,7 @@ using namespace yas::processing;
     auto const &output_events = stream.channel(output_ch_idx).filtered_events<int8_t, number_event>();
     XCTAssertEqual(output_events.size(), 2);
 
-    auto event_iterator = output_events.begin();
+    auto event_iterator = output_events.cbegin();
     XCTAssertEqual((event_iterator++)->second.get<int8_t>(), 1);
     XCTAssertEqual((event_iterator++)->second.get<int8_t>(), 2);
 }
@@ -93,14 +93,14 @@ using namespace yas::processing;
     auto const &unprocessed_events = stream.channel(input_ch_idx).filtered_events<int8_t, number_event>();
     XCTAssertEqual(unprocessed_events.size(), 1);
 
-    XCTAssertEqual(unprocessed_events.begin()->first, 0);
-    XCTAssertEqual(unprocessed_events.begin()->second.get<int8_t>(), 1);
+    XCTAssertEqual(unprocessed_events.cbegin()->first, 0);
+    XCTAssertEqual(unprocessed_events.cbegin()->second.get<int8_t>(), 1);
 
     auto const &processed_events = stream.channel(output_ch_idx).filtered_events<int8_t, number_event>();
     XCTAssertEqual(processed_events.size(), 1);
 
-    XCTAssertEqual(processed_events.begin()->first, 1);
-    XCTAssertEqual(processed_events.begin()->second.get<int8_t>(), 2);
+    XCTAssertEqual(processed_events.cbegin()->first, 1);
+    XCTAssertEqual(processed_events.cbegin()->second.get<int8_t>(), 2);
 }
 
 - (void)test_copy_number_process {
@@ -121,14 +121,14 @@ using namespace yas::processing;
     auto const &input_events = stream.channel(input_ch_idx).filtered_events<int8_t, number_event>();
     XCTAssertEqual(input_events.size(), 2);
 
-    auto input_iterator = input_events.begin();
+    auto input_iterator = input_events.cbegin();
     XCTAssertEqual((input_iterator++)->second.get<int8_t>(), 1);
     XCTAssertEqual((input_iterator++)->second.get<int8_t>(), 2);
 
     auto const &output_events = stream.channel(output_ch_idx).filtered_events<int8_t, number_event>();
     XCTAssertEqual(output_events.size(), 2);
 
-    auto output_iterator = output_events.begin();
+    auto output_iterator = output_events.cbegin();
     XCTAssertEqual((output_iterator++)->second.get<int8_t>(), 1);
     XCTAssertEqual((output_iterator++)->second.get<int8_t>(), 2);
 }
@@ -151,7 +151,7 @@ using namespace yas::processing;
     auto const &input_events = stream.channel(input_ch_idx).filtered_events<int8_t, number_event>();
     XCTAssertEqual(input_events.size(), 2);
 
-    auto input_iterator = input_events.begin();
+    auto input_iterator = input_events.cbegin();
     XCTAssertEqual(input_iterator->first, 0);
     XCTAssertEqual((input_iterator++)->second.get<int8_t>(), 1);
     XCTAssertEqual(input_iterator->first, 1);
@@ -160,7 +160,7 @@ using namespace yas::processing;
     auto const &output_events = stream.channel(output_ch_idx).filtered_events<int8_t, number_event>();
     XCTAssertEqual(output_events.size(), 1);
 
-    auto output_iterator = output_events.begin();
+    auto output_iterator = output_events.cbegin();
     XCTAssertEqual(output_iterator->first, 1);
     XCTAssertEqual(output_iterator->second.get<int8_t>(), 2);
 }
@@ -171,8 +171,8 @@ using namespace yas::processing;
 
     auto const &connectors = module.input_connectors();
     XCTAssertEqual(connectors.size(), 1);
-    XCTAssertEqual(connectors.begin()->first, to_connector_index(routing::input::value));
-    XCTAssertEqual(connectors.begin()->second.channel_index, 15);
+    XCTAssertEqual(connectors.cbegin()->first, to_connector_index(routing::input::value));
+    XCTAssertEqual(connectors.cbegin()->second.channel_index, 15);
 }
 
 - (void)test_connect_output {
@@ -182,8 +182,8 @@ using namespace yas::processing;
     auto const &connectors = module.output_connectors();
 
     XCTAssertEqual(connectors.size(), 1);
-    XCTAssertEqual(connectors.begin()->first, to_connector_index(routing::output::value));
-    XCTAssertEqual(connectors.begin()->second.channel_index, 16);
+    XCTAssertEqual(connectors.cbegin()->first, to_connector_index(routing::output::value));
+    XCTAssertEqual(connectors.cbegin()->second.channel_index, 16);
 }
 
 - (void)test_input_to_string {

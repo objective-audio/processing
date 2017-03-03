@@ -76,9 +76,9 @@ using namespace yas::processing;
     {
         auto const &channel = stream.channel(0);
         XCTAssertEqual(channel.events().size(), 1);
-        XCTAssertEqual(channel.events().begin()->first, make_range_time(0, 4));
+        XCTAssertEqual(channel.events().cbegin()->first, make_range_time(0, 4));
 
-        auto const signal = cast<signal_event>(channel.events().begin()->second);
+        auto const signal = cast<signal_event>(channel.events().cbegin()->second);
         auto const &vec = signal.vector<int8_t>();
         XCTAssertEqual(vec.size(), 4);
         for (auto const &value : vec) {
@@ -89,9 +89,9 @@ using namespace yas::processing;
     {
         auto const &channel = stream.channel(1);
         XCTAssertEqual(channel.events().size(), 1);
-        XCTAssertEqual(channel.events().begin()->first, make_range_time(0, 4));
+        XCTAssertEqual(channel.events().cbegin()->first, make_range_time(0, 4));
 
-        auto const signal = cast<signal_event>(channel.events().begin()->second);
+        auto const signal = cast<signal_event>(channel.events().cbegin()->second);
         auto const &vec = signal.vector<int8_t>();
         XCTAssertEqual(vec.size(), 4);
         for (auto const &value : vec) {
@@ -102,9 +102,9 @@ using namespace yas::processing;
     {
         auto const &channel = stream.channel(20);
         XCTAssertEqual(channel.events().size(), 1);
-        XCTAssertEqual(channel.events().begin()->first, make_range_time(1, 2));
+        XCTAssertEqual(channel.events().cbegin()->first, make_range_time(1, 2));
 
-        auto const signal = cast<signal_event>(channel.events().begin()->second);
+        auto const signal = cast<signal_event>(channel.events().cbegin()->second);
         auto const &vec = signal.vector<int8_t>();
         XCTAssertEqual(vec.size(), 2);
         for (auto const &value : vec) {
@@ -151,9 +151,9 @@ using namespace yas::processing;
     {
         auto const &channel = stream.channel(0);
         XCTAssertEqual(channel.events().size(), 1);
-        XCTAssertEqual(channel.events().begin()->first, make_range_time(0, 4));
+        XCTAssertEqual(channel.events().cbegin()->first, make_range_time(0, 4));
 
-        auto const signal = cast<signal_event>(channel.events().begin()->second);
+        auto const signal = cast<signal_event>(channel.events().cbegin()->second);
         auto const &vec = signal.vector<int8_t>();
         XCTAssertEqual(vec.size(), 4);
         XCTAssertEqual(vec[0], 1);
@@ -213,9 +213,9 @@ using namespace yas::processing;
     {
         auto const &channel = stream.channel(0);
         XCTAssertEqual(channel.events().size(), 1);
-        XCTAssertEqual(channel.events().begin()->first, make_range_time(0, 4));
+        XCTAssertEqual(channel.events().cbegin()->first, make_range_time(0, 4));
 
-        auto const signal = cast<signal_event>(channel.events().begin()->second);
+        auto const signal = cast<signal_event>(channel.events().cbegin()->second);
         auto const &vec = signal.vector<int8_t>();
         XCTAssertEqual(vec.size(), 4);
         for (auto const &value : vec) {
@@ -226,9 +226,9 @@ using namespace yas::processing;
     {
         auto const &channel = stream.channel(1);
         XCTAssertEqual(channel.events().size(), 1);
-        XCTAssertEqual(channel.events().begin()->first, make_range_time(0, 4));
+        XCTAssertEqual(channel.events().cbegin()->first, make_range_time(0, 4));
 
-        auto const signal = cast<signal_event>(channel.events().begin()->second);
+        auto const signal = cast<signal_event>(channel.events().cbegin()->second);
         auto const &vec = signal.vector<int8_t>();
         XCTAssertEqual(vec.size(), 4);
         for (auto const &value : vec) {
@@ -239,9 +239,9 @@ using namespace yas::processing;
     {
         auto const &channel = stream.channel(20);
         XCTAssertEqual(channel.events().size(), 1);
-        XCTAssertEqual(channel.events().begin()->first, make_range_time(1, 2));
+        XCTAssertEqual(channel.events().cbegin()->first, make_range_time(1, 2));
 
-        auto const signal = cast<signal_event>(channel.events().begin()->second);
+        auto const signal = cast<signal_event>(channel.events().cbegin()->second);
         auto const &vec = signal.vector<int8_t>();
         XCTAssertEqual(vec.size(), 2);
         for (auto const &value : vec) {
@@ -310,8 +310,8 @@ using namespace yas::processing;
 
         auto const left_events = left_channel.filtered_events<int8_t, number_event>();
         auto const right_events = right_channel.filtered_events<int8_t, number_event>();
-        auto left_iterator = left_events.begin();
-        auto right_iterator = right_events.begin();
+        auto left_iterator = left_events.cbegin();
+        auto right_iterator = right_events.cbegin();
 
         auto each = make_fast_each(3);
         while (yas_fast_each_next(each)) {
@@ -328,8 +328,8 @@ using namespace yas::processing;
     {
         auto const &channel = stream.channel(20);
         XCTAssertEqual(channel.events().size(), 1);
-        XCTAssertEqual(channel.events().begin()->first, make_frame_time(1));
-        XCTAssertEqual(cast<number_event>(channel.events().begin()->second).get<int8_t>(), 15);
+        XCTAssertEqual(channel.events().cbegin()->first, make_frame_time(1));
+        XCTAssertEqual(cast<number_event>(channel.events().cbegin()->second).get<int8_t>(), 15);
     }
 }
 
@@ -379,7 +379,7 @@ using namespace yas::processing;
         XCTAssertEqual(channel.events().size(), 4);
 
         auto const events = channel.filtered_events<int8_t, number_event>();
-        auto event_iterator = events.begin();
+        auto event_iterator = events.cbegin();
 
         XCTAssertEqual(event_iterator->first, 0);
         XCTAssertEqual(event_iterator->second.get<int8_t>(), 1);
@@ -453,7 +453,7 @@ using namespace yas::processing;
 
         XCTAssertEqual(events.size(), 2);
 
-        auto event_iterator = events.begin();
+        auto event_iterator = events.cbegin();
 
         XCTAssertEqual(event_iterator->first, 1);
         XCTAssertEqual(event_iterator->second.get<int8_t>(), 15);

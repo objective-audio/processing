@@ -37,7 +37,7 @@ using namespace yas::processing;
 
     XCTAssertEqual(channel.events().size(), 1);
 
-    auto const pair = *channel.events().begin();
+    auto const pair = *channel.events().cbegin();
 
     XCTAssertEqual(pair.first, make_frame_time(10));
     XCTAssertEqual(pair.second, make_number_event(int8_t(100)));
@@ -107,7 +107,7 @@ using namespace yas::processing;
 
     dst_channel.insert_events(std::move(src_channel.events()));
 
-    auto iterator = dst_channel.events().begin();
+    auto iterator = dst_channel.events().cbegin();
 
     XCTAssertEqual(iterator->first.get<time::frame>(), 0);
     XCTAssertEqual(cast<number_event>(iterator->second).get<int8_t>(), 10);
@@ -193,7 +193,7 @@ using namespace yas::processing;
 
     auto const float_signal_events = channel.filtered_events<float, signal_event>();
     XCTAssertEqual(float_signal_events.size(), 1);
-    signal_event const &float_event = float_signal_events.begin()->second;
+    signal_event const &float_event = float_signal_events.cbegin()->second;
     XCTAssertEqual(float_event.data<float>()[0], 0.0f);
 
     auto const double_signal_events = channel.filtered_events<double, signal_event>();
@@ -214,7 +214,7 @@ using namespace yas::processing;
 
     XCTAssertEqual(copied_events.size(), 1);
 
-    auto const &pair = *copied_events.begin();
+    auto const &pair = *copied_events.cbegin();
 
     XCTAssertEqual(pair.first, make_frame_time(2));
     XCTAssertEqual(pair.second, make_number_event(int8_t(2)));
@@ -231,7 +231,7 @@ using namespace yas::processing;
 
     XCTAssertEqual(copied_events.size(), 1);
 
-    auto const &pair = *copied_events.begin();
+    auto const &pair = *copied_events.cbegin();
 
     XCTAssertEqual(pair.first, make_frame_time(12));
     XCTAssertEqual(pair.second, make_number_event(int8_t(2)));
@@ -260,7 +260,7 @@ using namespace yas::processing;
 
     XCTAssertEqual(copied_events.size(), 2);
 
-    auto iterator = copied_events.begin();
+    auto iterator = copied_events.cbegin();
 
     auto const &first_pair = *iterator;
     auto const first_signal = cast<signal_event>(first_pair.second);
@@ -305,7 +305,7 @@ using namespace yas::processing;
 
     XCTAssertEqual(copied_events.size(), 2);
 
-    auto iterator = copied_events.begin();
+    auto iterator = copied_events.cbegin();
 
     auto const &first_pair = *iterator;
     auto const first_signal = cast<signal_event>(first_pair.second);
@@ -360,7 +360,7 @@ using namespace yas::processing;
 
     XCTAssertEqual(number_events.size(), 4);
 
-    auto number_iterator = number_events.begin();
+    auto number_iterator = number_events.cbegin();
     XCTAssertEqual(number_iterator->first, 0);
     XCTAssertEqual(number_iterator->second.get<int16_t>(), 1000);
     ++number_iterator;
@@ -377,7 +377,7 @@ using namespace yas::processing;
 
     XCTAssertEqual(signal_events.size(), 2);
 
-    auto signal_iterator = signal_events.begin();
+    auto signal_iterator = signal_events.cbegin();
     XCTAssertEqual(signal_iterator->first, time::range(1, 2));
     ++signal_iterator;
     XCTAssertEqual(signal_iterator->first, time::range(6, 2));
@@ -431,7 +431,7 @@ using namespace yas::processing;
 
     XCTAssertEqual(channel.events().size(), 2);
 
-    auto iterator = channel.events().begin();
+    auto iterator = channel.events().cbegin();
 
     {
         XCTAssertEqual(iterator->first, make_range_time(0, 6));

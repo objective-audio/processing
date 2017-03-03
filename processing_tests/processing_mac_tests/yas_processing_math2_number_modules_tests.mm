@@ -53,7 +53,7 @@ using namespace yas::processing;
 
     XCTAssertEqual(result_channel.events().size(), 1);
 
-    auto const &event_pair = *result_channel.events().begin();
+    auto const &event_pair = *result_channel.events().cbegin();
 
     XCTAssertEqual(event_pair.first, make_frame_time(0));
 }
@@ -80,7 +80,7 @@ using namespace yas::processing;
 
     XCTAssertEqual(result_channel.events().size(), 1);
 
-    auto const &event_pair = *result_channel.events().begin();
+    auto const &event_pair = *result_channel.events().cbegin();
 
     XCTAssertEqual(event_pair.first, make_frame_time(0));
     XCTAssertEqual(event_pair.second, number_event{int8_t(11)});
@@ -112,7 +112,7 @@ using namespace yas::processing;
 
     XCTAssertEqual(result_channel.events().size(), 3);
 
-    auto event_iterator = result_channel.events().begin();
+    auto event_iterator = result_channel.events().cbegin();
 
     XCTAssertEqual(event_iterator->first, make_frame_time(0));
     XCTAssertEqual(event_iterator->second, number_event(int8_t(1)));
@@ -152,7 +152,7 @@ using namespace yas::processing;
 
     XCTAssertEqual(result_channel.events().size(), 1);
 
-    auto const &event_pair = *result_channel.events().begin();
+    auto const &event_pair = *result_channel.events().cbegin();
 
     XCTAssertEqual(event_pair.first, make_frame_time(0));
     XCTAssertEqual(event_pair.second, number_event(int8_t(1)));
@@ -182,7 +182,7 @@ using namespace yas::processing;
 
     XCTAssertEqual(result_channel.events().size(), 1);
 
-    auto const &event_pair = *result_channel.events().begin();
+    auto const &event_pair = *result_channel.events().cbegin();
 
     XCTAssertEqual(event_pair.first, make_frame_time(0));
     XCTAssertEqual(event_pair.second, number_event(int8_t(8)));
@@ -212,7 +212,7 @@ using namespace yas::processing;
 
     XCTAssertEqual(result_channel.events().size(), 1);
 
-    auto const &event_pair = *result_channel.events().begin();
+    auto const &event_pair = *result_channel.events().cbegin();
 
     XCTAssertEqual(event_pair.first, make_frame_time(0));
     XCTAssertEqual(event_pair.second, number_event(int8_t(2)));
@@ -252,7 +252,7 @@ using namespace yas::processing;
 
     XCTAssertEqual(result_channel.events().size(), 8);
 
-    auto event_iterator = result_channel.events().begin();
+    auto event_iterator = result_channel.events().cbegin();
 
     XCTAssertEqual((event_iterator++)->second, number_event(std::atan2(0.0, 0.0)));
     XCTAssertEqual((event_iterator++)->second, number_event(std::atan2(1.0, 0.0)));
@@ -298,7 +298,7 @@ using namespace yas::processing;
 
     XCTAssertEqual(result_channel.events().size(), 4);
 
-    auto event_iterator = result_channel.events().begin();
+    auto event_iterator = result_channel.events().cbegin();
 
     XCTAssertEqual((event_iterator++)->second, number_event(std::pow(0.0, 0.0)));
     XCTAssertEqual((event_iterator++)->second, number_event(std::pow(2.0, 0.0)));
@@ -340,7 +340,7 @@ using namespace yas::processing;
 
     XCTAssertEqual(result_channel.events().size(), 4);
 
-    auto event_iterator = result_channel.events().begin();
+    auto event_iterator = result_channel.events().cbegin();
 
     XCTAssertEqual((event_iterator++)->second, number_event(std::hypot(0.0, 0.0)));
     XCTAssertEqual((event_iterator++)->second, number_event(std::hypot(1.0, 0.0)));
@@ -355,8 +355,8 @@ using namespace yas::processing;
     auto const &connectors = module.input_connectors();
 
     XCTAssertEqual(connectors.size(), 1);
-    XCTAssertEqual(connectors.begin()->first, to_connector_index(math2::input::left));
-    XCTAssertEqual(connectors.begin()->second.channel_index, 11);
+    XCTAssertEqual(connectors.cbegin()->first, to_connector_index(math2::input::left));
+    XCTAssertEqual(connectors.cbegin()->second.channel_index, 11);
 }
 
 - (void)test_connect_output {
@@ -366,8 +366,8 @@ using namespace yas::processing;
     auto const &connectors = module.output_connectors();
 
     XCTAssertEqual(connectors.size(), 1);
-    XCTAssertEqual(connectors.begin()->first, to_connector_index(math2::output::result));
-    XCTAssertEqual(connectors.begin()->second.channel_index, 2);
+    XCTAssertEqual(connectors.cbegin()->first, to_connector_index(math2::output::result));
+    XCTAssertEqual(connectors.cbegin()->second.channel_index, 2);
 }
 
 - (void)test_kind_to_string {
