@@ -44,8 +44,8 @@ using namespace yas::processing;
     left_channel.insert_event(make_frame_time(1), number_event(int8_t(3)));
 
     auto module = make_number_module<int8_t>(math2::kind::plus);
-    module.connect_input(to_connector_index(math2::input::left), 0);
-    module.connect_output(to_connector_index(math2::output::result), 2);
+    connect(module, math2::input::left, 0);
+    connect(module, math2::output::result, 2);
 
     module.process({0, process_length}, stream);
 
@@ -70,9 +70,9 @@ using namespace yas::processing;
     right_channel.insert_event(make_frame_time(0), number_event(int8_t(10)));
 
     auto module = make_number_module<int8_t>(math2::kind::plus);
-    module.connect_input(to_connector_index(math2::input::left), 0);
-    module.connect_input(to_connector_index(math2::input::right), 1);
-    module.connect_output(to_connector_index(math2::output::result), 0);
+    connect(module, math2::input::left, 0);
+    connect(module, math2::input::right, 1);
+    connect(module, math2::output::result, 0);
 
     module.process({0, process_length}, stream);
 
@@ -100,9 +100,9 @@ using namespace yas::processing;
     right_channel.insert_event(make_frame_time(3), number_event(int8_t(20)));
 
     auto module = make_number_module<int8_t>(math2::kind::plus);
-    module.connect_input(to_connector_index(math2::input::left), 0);
-    module.connect_input(to_connector_index(math2::input::right), 1);
-    module.connect_output(to_connector_index(math2::output::result), 2);
+    connect(module, math2::input::left, 0);
+    connect(module, math2::input::right, 1);
+    connect(module, math2::output::result, 2);
 
     module.process({0, process_length}, stream);
 
@@ -140,9 +140,9 @@ using namespace yas::processing;
     right_channel.insert_event(make_frame_time(0), number_event(int8_t(2)));
 
     auto module = make_number_module<int8_t>(math2::kind::minus);
-    module.connect_input(to_connector_index(math2::input::left), 0);
-    module.connect_input(to_connector_index(math2::input::right), 1);
-    module.connect_output(to_connector_index(math2::output::result), 2);
+    connect(module, math2::input::left, 0);
+    connect(module, math2::input::right, 1);
+    connect(module, math2::output::result, 2);
 
     module.process({0, process_length}, stream);
 
@@ -170,9 +170,9 @@ using namespace yas::processing;
     right_channel.insert_event(make_frame_time(0), number_event(int8_t(4)));
 
     auto module = make_number_module<int8_t>(math2::kind::multiply);
-    module.connect_input(to_connector_index(math2::input::left), 0);
-    module.connect_input(to_connector_index(math2::input::right), 1);
-    module.connect_output(to_connector_index(math2::output::result), 2);
+    connect(module, math2::input::left, 0);
+    connect(module, math2::input::right, 1);
+    connect(module, math2::output::result, 2);
 
     module.process({0, process_length}, stream);
 
@@ -200,9 +200,9 @@ using namespace yas::processing;
     right_channel.insert_event(make_frame_time(0), number_event(int8_t(8)));
 
     auto module = make_number_module<int8_t>(math2::kind::divide);
-    module.connect_input(to_connector_index(math2::input::left), 0);
-    module.connect_input(to_connector_index(math2::input::right), 1);
-    module.connect_output(to_connector_index(math2::output::result), 2);
+    connect(module, math2::input::left, 0);
+    connect(module, math2::input::right, 1);
+    connect(module, math2::output::result, 2);
 
     module.process({0, process_length}, stream);
 
@@ -240,9 +240,9 @@ using namespace yas::processing;
     }
 
     auto module = make_number_module<double>(math2::kind::atan2);
-    module.connect_input(to_connector_index(math2::input::left), 0);
-    module.connect_input(to_connector_index(math2::input::right), 1);
-    module.connect_output(to_connector_index(math2::output::result), 2);
+    connect(module, math2::input::left, 0);
+    connect(module, math2::input::right, 1);
+    connect(module, math2::output::result, 2);
 
     module.process({0, process_length}, stream);
 
@@ -286,9 +286,9 @@ using namespace yas::processing;
     }
 
     auto module = make_number_module<double>(math2::kind::pow);
-    module.connect_input(to_connector_index(math2::input::left), 0);
-    module.connect_input(to_connector_index(math2::input::right), 1);
-    module.connect_output(to_connector_index(math2::output::result), 2);
+    connect(module, math2::input::left, 0);
+    connect(module, math2::input::right, 1);
+    connect(module, math2::output::result, 2);
 
     module.process({0, process_length}, stream);
 
@@ -328,9 +328,9 @@ using namespace yas::processing;
     }
 
     auto module = make_number_module<double>(math2::kind::hypot);
-    module.connect_input(to_connector_index(math2::input::left), 0);
-    module.connect_input(to_connector_index(math2::input::right), 1);
-    module.connect_output(to_connector_index(math2::output::result), 2);
+    connect(module, math2::input::left, 0);
+    connect(module, math2::input::right, 1);
+    connect(module, math2::output::result, 2);
 
     module.process({0, process_length}, stream);
 

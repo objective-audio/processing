@@ -18,8 +18,8 @@ namespace test {
     template <typename T, typename Kind>
     static module make_signal_module(Kind const kind, channel_index_t const ch_idx) {
         auto module = processing::make_signal_module<T>(kind);
-        module.connect_output(to_connector_index(math1::output::result), ch_idx);
-        module.connect_input(to_connector_index(math1::input::parameter), ch_idx);
+        connect(module, math1::input::parameter, ch_idx);
+        connect(module, math1::output::result, ch_idx);
 
         return module;
     }
@@ -27,8 +27,8 @@ namespace test {
     template <typename T, typename Kind>
     static module make_number_module(Kind const kind, channel_index_t const ch_idx) {
         auto module = processing::make_number_module<T>(kind);
-        module.connect_output(to_connector_index(math1::output::result), ch_idx);
-        module.connect_input(to_connector_index(math1::input::parameter), ch_idx);
+        connect(module, math1::input::parameter, ch_idx);
+        connect(module, math1::output::result, ch_idx);
 
         return module;
     }
