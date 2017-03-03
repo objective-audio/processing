@@ -38,11 +38,11 @@ using namespace yas::processing;
         channel.insert_event(make_frame_time(13), make_number_event<int8_t>(13));
     }
 
-    auto num_to_sig_module = make_number_to_signal_module<int8_t>();
-    connect(num_to_sig_module, number_to_signal::input::number, in_ch_idx);
-    connect(num_to_sig_module, number_to_signal::output::signal, out_ch_idx);
+    auto module = make_number_to_signal_module<int8_t>();
+    connect(module, number_to_signal::input::number, in_ch_idx);
+    connect(module, number_to_signal::output::signal, out_ch_idx);
 
-    num_to_sig_module.process({0, process_length}, stream);
+    module.process({0, process_length}, stream);
 
     {
         auto const &channel = stream.channel(out_ch_idx);
@@ -80,7 +80,7 @@ using namespace yas::processing;
 
     XCTAssertEqual(stream.channel(out_ch_idx).events().size(), 0);
 
-    num_to_sig_module.process({process_length, process_length}, stream);
+    module.process({process_length, process_length}, stream);
 
     {
         auto const &channel = stream.channel(out_ch_idx);
