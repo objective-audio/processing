@@ -31,17 +31,14 @@ namespace processing {
 
             T value(frame_index_t const env_frame) {
                 if (_prev == _end) {
-                    // もともと値がない
                     return 0;
                 }
 
                 if (_prev == _next) {
-                    // 生成したばかり
                     ++_next;
                 }
 
                 if (env_frame < _prev->first) {
-                    // 最初のanchorに到達していない
                     return _prev->second;
                 }
 
@@ -51,7 +48,6 @@ namespace processing {
                 }
 
                 if (_next == _end) {
-                    // 最後まで到達している
                     return _prev->second;
                 } else {
                     auto const &prev_value = _prev->second;
