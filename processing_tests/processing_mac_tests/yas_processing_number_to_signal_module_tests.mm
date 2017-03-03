@@ -103,4 +103,33 @@ using namespace yas::processing;
     }
 }
 
+- (void)test_connect_input {
+    auto module = make_number_to_signal_module<int32_t>();
+    connect(module, number_to_signal::input::number, 13);
+
+    auto const &connectors = module.input_connectors();
+    XCTAssertEqual(connectors.size(), 1);
+    XCTAssertEqual(connectors.begin()->first, to_connector_index(number_to_signal::input::number));
+    XCTAssertEqual(connectors.begin()->second.channel_index, 13);
+}
+
+- (void)test_connect_output {
+    auto module = make_number_to_signal_module<int32_t>();
+    connect(module, number_to_signal::output::signal, 14);
+
+    auto const &connectors = module.output_connectors();
+
+    XCTAssertEqual(connectors.size(), 1);
+    XCTAssertEqual(connectors.begin()->first, to_connector_index(number_to_signal::output::signal));
+    XCTAssertEqual(connectors.begin()->second.channel_index, 14);
+}
+
+- (void)test_input_to_string {
+    XCTAssertEqual(to_string(number_to_signal::input::number), "number");
+}
+
+- (void)test_output_to_string {
+    XCTAssertEqual(to_string(number_to_signal::output::signal), "signal");
+}
+
 @end
