@@ -165,4 +165,33 @@ using namespace yas::processing;
     XCTAssertEqual(output_iterator->second.get<int8_t>(), 2);
 }
 
+- (void)test_connect_input {
+    auto module = make_number_module<int8_t>(routing::kind::copy);
+    connect(module, routing::input::value, 15);
+
+    auto const &connectors = module.input_connectors();
+    XCTAssertEqual(connectors.size(), 1);
+    XCTAssertEqual(connectors.begin()->first, to_connector_index(routing::input::value));
+    XCTAssertEqual(connectors.begin()->second.channel_index, 15);
+}
+
+- (void)test_connect_output {
+    auto module = make_number_module<int8_t>(routing::kind::move);
+    connect(module, routing::output::value, 16);
+
+    auto const &connectors = module.output_connectors();
+
+    XCTAssertEqual(connectors.size(), 1);
+    XCTAssertEqual(connectors.begin()->first, to_connector_index(routing::output::value));
+    XCTAssertEqual(connectors.begin()->second.channel_index, 16);
+}
+
+- (void)test_input_to_string {
+    XCTAssertEqual(to_string(routing::input::value), "value");
+}
+
+- (void)test_output_to_string {
+    XCTAssertEqual(to_string(routing::output::value), "value");
+}
+
 @end
