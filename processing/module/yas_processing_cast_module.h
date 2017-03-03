@@ -5,6 +5,7 @@
 #pragma once
 
 #include "yas_processing_types.h"
+#include <string>
 
 namespace yas {
 namespace processing {
@@ -26,6 +27,12 @@ namespace processing {
         module make_number_module();
     }
 }
+
+void connect(processing::module &, processing::cast::input const &, processing::channel_index_t const &);
+void connect(processing::module &, processing::cast::output const &, processing::channel_index_t const &);
+
+std::string to_string(processing::cast::input const &);
+std::string to_string(processing::cast::output const &);
 }
 
 #include "yas_processing_cast_module_private.h"
