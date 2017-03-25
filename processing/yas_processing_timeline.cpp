@@ -88,8 +88,14 @@ void processing::timeline::process(time::range const &time_range, sync_source co
 
         this->process(current_time_range, stream);
 
-        handler(current_time_range, stream);
+        bool stop = false;
+        
+        handler(current_time_range, stream, stop);
 
+        if (stop) {
+            break;
+        }
+        
         frame += sync_src.slice_length;
     }
 }
