@@ -226,7 +226,7 @@ using namespace yas::processing;
     std::vector<std::pair<time::range, std::vector<int8_t>>> called;
 
     timeline.process(time::range{0, process_length}, sync_source{1, 2},
-                     [&ch_idx, &called](time::range const &time_range, stream const &stream) {
+                     [&ch_idx, &called](time::range const &time_range, stream const &stream, bool &) {
                          auto const &channel = stream.channel(ch_idx);
                          auto const &pair = *channel.events().cbegin();
                          auto const signal = cast<signal_event>(pair.second);
@@ -245,6 +245,24 @@ using namespace yas::processing;
 
     XCTAssertEqual(called[2].first, (time::range{4, 1}));
     XCTAssertEqual(called[2].second[0], 4);
+}
+
+- (void)test_stop_process_offline {
+    timeline timeline;
+
+    length_t const process_length = 10;
+    frame_index_t last_frame = 0;
+
+    timeline.process(time::range{0, process_length}, sync_source{1, 1},
+                     [&last_frame](time::range const &time_range, stream const &, bool &stop) {
+                         last_frame = time_range.frame;
+
+                         if (time_range.frame == 5) {
+                             stop = true;
+                         }
+                     });
+
+    XCTAssertEqual(last_frame, 5);
 }
 
 @end

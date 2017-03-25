@@ -21,7 +21,7 @@ namespace processing {
 
        public:
         using track_map_t = std::map<track_index_t, track>;
-        using offline_process_f = std::function<void(time::range const &, stream const &)>;
+        using offline_process_f = std::function<void(time::range const &, stream const &, bool &stop)>;
 
         timeline();
         timeline(std::nullptr_t);

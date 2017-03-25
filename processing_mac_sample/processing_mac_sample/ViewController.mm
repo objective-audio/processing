@@ -53,7 +53,7 @@ typedef NS_ENUM(NSUInteger, SampleBits) {
     self.startGainSlider.floatValue = 1.0f;
     self.endGainSlider.floatValue = 1.0f;
     self.totalGainSlider.floatValue = 0.1f;
-    
+
     self.bitsField.integerValue = [self bitsValue];
     self.sampleRateField.integerValue = [self sampleRateValue];
     self.freqField.integerValue = [self freqValue];
@@ -96,12 +96,14 @@ typedef NS_ENUM(NSUInteger, SampleBits) {
 }
 
 - (IBAction)bitsFieldValueChanged:(NSTextField *)sender {
-    [self updateSlider:self.bitsSlider fromTextField:sender formatter:^(NSString *stringValue) {
-        if (stringValue.doubleValue >= 32.0) {
-            return (double)SampleBits32;
-        }
-        return (double)SampleBits16;
-    }];
+    [self updateSlider:self.bitsSlider
+         fromTextField:sender
+             formatter:^(NSString *stringValue) {
+                 if (stringValue.doubleValue >= 32.0) {
+                     return (double)SampleBits32;
+                 }
+                 return (double)SampleBits16;
+             }];
     sender.integerValue = [self bitsValue];
 }
 
@@ -239,33 +241,36 @@ typedef NS_ENUM(NSUInteger, SampleBits) {
         length_t const slice_length = 1024;
 
         audio::pcm_buffer buffer{file.processing_format(), slice_length};
-        bool stop = false;
 
-        timeline.process(process_range, sync_source{sample_rate, slice_length},
-                         [file, buffer, stop](time::range const &current_range, stream const &stream) mutable {
-                             if (stop) {
-                                 return;
-                             }
+        bool write_failed = false;
 
-                             auto const &channel = stream.channel(0);
-                             auto const &events = channel.filtered_events<float, signal_event>();
-                             if (events.size() > 0) {
-                                 buffer.reset();
-                                 buffer.set_frame_length(current_range.length);
+        timeline.process(
+            process_range, sync_source{sample_rate, slice_length},
+            [file, buffer, &write_failed](time::range const &current_range, stream const &stream, bool &stop) mutable {
+                auto const &channel = stream.channel(0);
+                auto const &events = channel.filtered_events<float, signal_event>();
+                if (events.size() > 0) {
+                    buffer.reset();
+                    buffer.set_frame_length(current_range.length);
 
-                                 float *buffer_data = buffer.data_ptr_at_channel<float>(0);
+                    float *buffer_data = buffer.data_ptr_at_channel<float>(0);
 
-                                 auto const &signal = events.begin()->second;
-                                 float const *stream_data = signal.data<float>();
+                    auto const &signal = events.begin()->second;
+                    float const *stream_data = signal.data<float>();
 
-                                 memcpy(buffer_data, stream_data, signal.byte_size());
+                    memcpy(buffer_data, stream_data, signal.byte_size());
 
-                                 auto write_result = file.write_from_buffer(buffer);
-                                 if (!write_result) {
-                                     stop = true;
-                                 }
-                             }
-                         });
+                    auto write_result = file.write_from_buffer(buffer);
+                    if (!write_result) {
+                        stop = true;
+                        write_failed = true;
+                    }
+                }
+            });
+
+        if (write_failed) {
+            NSLog(@"write to file failed.");
+        }
 
         file.close();
     }
@@ -279,7 +284,7 @@ typedef NS_ENUM(NSUInteger, SampleBits) {
     switch ([self bitsSliderValue]) {
         case SampleBits16:
             return 16;
-            
+
         case SampleBits32:
             return 32;
     }
@@ -315,7 +320,9 @@ typedef NS_ENUM(NSUInteger, SampleBits) {
     [self updateSlider:slider fromTextField:textField formatter:NULL];
 }
 
-- (void)updateSlider:(NSSlider *)slider fromTextField:(NSTextField *)textField formatter:(double(^)(NSString *))formatter {
+- (void)updateSlider:(NSSlider *)slider
+       fromTextField:(NSTextField *)textField
+           formatter:(double (^)(NSString *))formatter {
     double const doubleValue = formatter ? formatter(textField.stringValue) : textField.doubleValue;
     if (doubleValue < slider.minValue) {
         slider.doubleValue = slider.minValue;
