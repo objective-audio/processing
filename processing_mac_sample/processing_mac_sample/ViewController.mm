@@ -3,15 +3,327 @@
 //
 
 #import "ViewController.h"
+#import "yas_audio_file.h"
+#import "yas_audio_file_utils.h"
+#import "yas_audio_pcm_buffer.h"
+#import "yas_result.h"
+#import "yas_processing.h"
+#import "yas_audio_format.h"
+#import "yas_fast_each.h"
+#import "yas_objc_macros.h"
+#import <iostream>
+
+using namespace yas;
+using namespace yas::processing;
+
+typedef NS_ENUM(NSUInteger, SampleBits) {
+    SampleBits16,
+    SampleBits32,
+};
+
+@interface ViewController ()
+
+@property (nonatomic, assign) IBOutlet NSSlider *bitsSlider;
+@property (nonatomic, assign) IBOutlet NSSlider *sampleRateSlider;
+@property (nonatomic, assign) IBOutlet NSSlider *freqSlider;
+@property (nonatomic, assign) IBOutlet NSSlider *lengthSlider;
+@property (nonatomic, assign) IBOutlet NSSlider *startGainSlider;
+@property (nonatomic, assign) IBOutlet NSSlider *endGainSlider;
+@property (nonatomic, assign) IBOutlet NSSlider *totalGainSlider;
+
+@property (nonatomic, assign) IBOutlet NSTextField *bitsField;
+@property (nonatomic, assign) IBOutlet NSTextField *sampleRateField;
+@property (nonatomic, assign) IBOutlet NSTextField *freqField;
+@property (nonatomic, assign) IBOutlet NSTextField *lengthField;
+@property (nonatomic, assign) IBOutlet NSTextField *startGainField;
+@property (nonatomic, assign) IBOutlet NSTextField *endGainField;
+@property (nonatomic, assign) IBOutlet NSTextField *totalGainField;
+
+@end
 
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    self.bitsSlider.integerValue = 0;
+    self.sampleRateSlider.integerValue = 48000;
+    self.freqSlider.integerValue = 1000;
+    self.lengthSlider.integerValue = 1;
+    self.startGainSlider.floatValue = 1.0f;
+    self.endGainSlider.floatValue = 1.0f;
+    self.totalGainSlider.floatValue = 0.1f;
+    
+    self.bitsField.integerValue = [self bitsValue];
+    self.sampleRateField.integerValue = [self sampleRateValue];
+    self.freqField.integerValue = [self freqValue];
+    self.lengthField.integerValue = [self lengthValue];
+    self.startGainField.floatValue = [self startGainValue];
+    self.endGainField.floatValue = [self endGainValue];
+    self.totalGainField.floatValue = [self totalGainValue];
 }
 
 - (void)setRepresentedObject:(id)representedObject {
     [super setRepresentedObject:representedObject];
+}
+
+- (IBAction)bitsSliderValueChanged:(NSSlider *)sender {
+    self.bitsField.integerValue = [self bitsValue];
+}
+
+- (IBAction)sampleRateSliderValueChanged:(NSSlider *)sender {
+    self.sampleRateField.integerValue = [self sampleRateValue];
+}
+
+- (IBAction)freqSliderValueChanged:(NSSlider *)sender {
+    self.freqField.integerValue = [self freqValue];
+}
+
+- (IBAction)lengthSliderValueChanged:(NSSlider *)sender {
+    self.lengthField.integerValue = [self lengthValue];
+}
+
+- (IBAction)startGainSliderValueChanged:(NSSlider *)sender {
+    self.startGainField.floatValue = [self startGainValue];
+}
+
+- (IBAction)endGainSliderValueChanged:(NSSlider *)sender {
+    self.endGainField.floatValue = [self endGainValue];
+}
+
+- (IBAction)totalGainSliderValueChanged:(NSSlider *)sender {
+    self.totalGainField.floatValue = [self totalGainValue];
+}
+
+- (IBAction)bitsFieldValueChanged:(NSTextField *)sender {
+    [self updateSlider:self.bitsSlider fromTextField:sender formatter:^(NSString *stringValue) {
+        if (stringValue.doubleValue >= 32.0) {
+            return (double)SampleBits32;
+        }
+        return (double)SampleBits16;
+    }];
+    sender.integerValue = [self bitsValue];
+}
+
+- (IBAction)sampleRateFieldValueChanged:(NSTextField *)sender {
+    [self updateSlider:self.sampleRateSlider fromTextField:sender];
+    sender.integerValue = [self sampleRateValue];
+}
+
+- (IBAction)freqFieldValueChanged:(NSTextField *)sender {
+    [self updateSlider:self.freqSlider fromTextField:sender];
+    sender.integerValue = [self freqValue];
+}
+
+- (IBAction)lengthFieldValueChanged:(NSTextField *)sender {
+    [self updateSlider:self.lengthSlider fromTextField:sender];
+    sender.integerValue = [self lengthValue];
+}
+
+- (IBAction)startGainFieldValueChanged:(NSTextField *)sender {
+    [self updateSlider:self.startGainSlider fromTextField:sender];
+    sender.floatValue = [self startGainValue];
+}
+
+- (IBAction)endGainFieldValueChanged:(NSTextField *)sender {
+    [self updateSlider:self.endGainSlider fromTextField:sender];
+    sender.floatValue = [self endGainValue];
+}
+
+- (IBAction)totalGainFieldValueChanged:(NSTextField *)sender {
+    [self updateSlider:self.totalGainSlider fromTextField:sender];
+    sender.floatValue = [self totalGainValue];
+}
+
+- (IBAction)makeAudioFile:(id)sender {
+    NSSavePanel *panel = [NSSavePanel savePanel];
+    panel.allowedFileTypes = @[@"wav"];
+    panel.canCreateDirectories = YES;
+
+    if ([panel runModal] == NSFileHandlingPanelOKButton) {
+        uint32_t const bits = [self bitsValue];
+        sample_rate_t const sample_rate = [self sampleRateValue];
+        NSInteger const freqValue = [self freqValue];
+        length_t const lengthValue = [self lengthValue];
+        float const startGainValue = [self startGainValue];
+        float const endGainValue = [self endGainValue];
+        float const totalGainValue = [self totalGainValue];
+
+        time::range process_range{0, sample_rate * lengthValue};
+
+        auto wave_settings = audio::wave_file_settings(double(sample_rate), 1, bits);
+        auto create_result = audio::make_created_file(
+            {.file_url = (__bridge CFURLRef)panel.URL, .file_type = audio::file_type::wave, .settings = wave_settings});
+
+        if (!create_result) {
+            std::cout << __PRETTY_FUNCTION__ << " - error:" << to_string(create_result.error()) << std::endl;
+            return;
+        }
+
+        audio::file &file = create_result.value();
+
+        track_index_t trk_idx = 0;
+
+        timeline timeline;
+
+        if (auto &second_track = timeline.add_track(trk_idx++)) {
+            auto second_module = make_signal_module<float>(generator::kind::second, 0);
+            second_module.connect_output(to_connector_index(generator::output::value), 0);
+            second_track.insert_module(process_range, std::move(second_module));
+        }
+
+        if (auto &floor_track = timeline.add_track(trk_idx++)) {
+            auto floor_module = make_signal_module<float>(math1::kind::floor);
+            floor_module.connect_input(to_connector_index(math1::input::parameter), 0);
+            floor_track.insert_module(process_range, std::move(floor_module));
+        }
+
+        if (auto &minus_track = timeline.add_track(trk_idx++)) {
+            auto minus_module = make_signal_module<float>(math2::kind::minus);
+            minus_module.connect_input(to_connector_index(math2::input::left), 0);
+            minus_module.connect_input(to_connector_index(math2::input::right), 1);
+            minus_module.connect_output(to_connector_index(math2::output::result), 0);
+            minus_track.insert_module(process_range, std::move(minus_module));
+        }
+
+        if (auto &pi_track = timeline.add_track(trk_idx++)) {
+            auto pi_module = make_signal_module<float>(2.0f * M_PI * freqValue);
+            pi_module.connect_output(to_connector_index(constant::output::value), 1);
+            pi_track.insert_module(process_range, std::move(pi_module));
+        }
+
+        if (auto &multiply_track = timeline.add_track(trk_idx++)) {
+            auto multiply_module = make_signal_module<float>(math2::kind::multiply);
+            multiply_module.connect_input(to_connector_index(math2::input::left), 0);
+            multiply_module.connect_input(to_connector_index(math2::input::right), 1);
+            multiply_module.connect_output(to_connector_index(math2::output::result), 0);
+            multiply_track.insert_module(process_range, std::move(multiply_module));
+        }
+
+        if (auto &sine_track = timeline.add_track(trk_idx++)) {
+            auto sine_module = make_signal_module<float>(math1::kind::sin);
+            sine_module.connect_input(to_connector_index(math1::input::parameter), 0);
+            sine_module.connect_output(to_connector_index(math1::output::result), 0);
+            sine_track.insert_module(process_range, std::move(sine_module));
+        }
+
+        if (auto &env_track = timeline.add_track(trk_idx++)) {
+            envelope::anchors_t<float> anchors{{0, startGainValue}, {process_range.length, endGainValue}};
+            auto env_module = envelope::make_signal_module(std::move(anchors), 0);
+            connect(env_module, envelope::output::value, 1);
+            env_track.insert_module(process_range, std::move(env_module));
+        }
+
+        if (auto &gain_track = timeline.add_track(trk_idx++)) {
+            auto gain_module = make_signal_module<float>(math2::kind::multiply);
+            gain_module.connect_input(to_connector_index(math2::input::left), 0);
+            gain_module.connect_input(to_connector_index(math2::input::right), 1);
+            gain_module.connect_output(to_connector_index(math2::output::result), 0);
+            gain_track.insert_module(process_range, std::move(gain_module));
+        }
+
+        if (auto &level_track = timeline.add_track(trk_idx++)) {
+            auto level_module = make_signal_module<float>(totalGainValue);
+            level_module.connect_output(to_connector_index(constant::output::value), 1);
+            level_track.insert_module(process_range, std::move(level_module));
+        }
+
+        if (auto &gain_track = timeline.add_track(trk_idx++)) {
+            auto gain_module = make_signal_module<float>(math2::kind::multiply);
+            gain_module.connect_input(to_connector_index(math2::input::left), 0);
+            gain_module.connect_input(to_connector_index(math2::input::right), 1);
+            gain_module.connect_output(to_connector_index(math2::output::result), 0);
+            gain_track.insert_module(process_range, std::move(gain_module));
+        }
+
+        length_t const slice_length = 1024;
+
+        audio::pcm_buffer buffer{file.processing_format(), slice_length};
+        bool stop = false;
+
+        timeline.process(process_range, sync_source{sample_rate, slice_length},
+                         [file, buffer, stop](time::range const &current_range, stream const &stream) mutable {
+                             if (stop) {
+                                 return;
+                             }
+
+                             auto const &channel = stream.channel(0);
+                             auto const &events = channel.filtered_events<float, signal_event>();
+                             if (events.size() > 0) {
+                                 buffer.reset();
+                                 buffer.set_frame_length(current_range.length);
+
+                                 float *buffer_data = buffer.data_ptr_at_channel<float>(0);
+
+                                 auto const &signal = events.begin()->second;
+                                 float const *stream_data = signal.data<float>();
+
+                                 memcpy(buffer_data, stream_data, signal.byte_size());
+
+                                 auto write_result = file.write_from_buffer(buffer);
+                                 if (!write_result) {
+                                     stop = true;
+                                 }
+                             }
+                         });
+
+        file.close();
+    }
+}
+
+- (SampleBits)bitsSliderValue {
+    return (SampleBits)self.bitsSlider.integerValue;
+}
+
+- (uint32_t)bitsValue {
+    switch ([self bitsSliderValue]) {
+        case SampleBits16:
+            return 16;
+            
+        case SampleBits32:
+            return 32;
+    }
+}
+
+- (sample_rate_t)sampleRateValue {
+    return (sample_rate_t)self.sampleRateSlider.integerValue;
+}
+
+- (NSInteger)freqValue {
+    return self.freqSlider.integerValue;
+}
+
+- (length_t)lengthValue {
+    return (length_t)self.lengthSlider.integerValue;
+}
+
+- (float)startGainValue {
+    return self.startGainSlider.floatValue;
+}
+
+- (float)endGainValue {
+    return self.endGainSlider.floatValue;
+}
+
+- (float)totalGainValue {
+    return self.totalGainSlider.floatValue;
+}
+
+#pragma mark -
+
+- (void)updateSlider:(NSSlider *)slider fromTextField:(NSTextField *)textField {
+    [self updateSlider:slider fromTextField:textField formatter:NULL];
+}
+
+- (void)updateSlider:(NSSlider *)slider fromTextField:(NSTextField *)textField formatter:(double(^)(NSString *))formatter {
+    double const doubleValue = formatter ? formatter(textField.stringValue) : textField.doubleValue;
+    if (doubleValue < slider.minValue) {
+        slider.doubleValue = slider.minValue;
+    } else if (slider.maxValue < doubleValue) {
+        slider.doubleValue = slider.maxValue;
+    } else {
+        slider.doubleValue = doubleValue;
+    }
 }
 
 @end
