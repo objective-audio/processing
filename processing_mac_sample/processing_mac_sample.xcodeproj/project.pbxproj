@@ -86,8 +86,6 @@
 		B63674521DD9DFE900C724DB /* yas_delaying_caller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yas_delaying_caller.h; sourceTree = "<group>"; };
 		B63674531DD9DFE900C724DB /* yas_each_dictionary.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = yas_each_dictionary.cpp; sourceTree = "<group>"; };
 		B63674541DD9DFE900C724DB /* yas_each_dictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yas_each_dictionary.h; sourceTree = "<group>"; };
-		B63674551DD9DFE900C724DB /* yas_each_index.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yas_each_index.h; sourceTree = "<group>"; };
-		B63674561DD9DFE900C724DB /* yas_each_index_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yas_each_index_private.h; sourceTree = "<group>"; };
 		B63674571DD9DFE900C724DB /* yas_exception.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = yas_exception.cpp; sourceTree = "<group>"; };
 		B63674581DD9DFE900C724DB /* yas_exception.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yas_exception.h; sourceTree = "<group>"; };
 		B63674591DD9DFE900C724DB /* yas_flagset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yas_flagset.h; sourceTree = "<group>"; };
@@ -263,8 +261,6 @@
 				B63674521DD9DFE900C724DB /* yas_delaying_caller.h */,
 				B63674531DD9DFE900C724DB /* yas_each_dictionary.cpp */,
 				B63674541DD9DFE900C724DB /* yas_each_dictionary.h */,
-				B63674561DD9DFE900C724DB /* yas_each_index_private.h */,
-				B63674551DD9DFE900C724DB /* yas_each_index.h */,
 				B63674571DD9DFE900C724DB /* yas_exception.cpp */,
 				B63674581DD9DFE900C724DB /* yas_exception.h */,
 				B6AA84161E67EDB800120472 /* yas_fast_each_private.h */,
