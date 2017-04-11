@@ -4,7 +4,7 @@
 
 #import <XCTest/XCTest.h>
 #import "yas_processing.h"
-#import "yas_each_index.h"
+#import "yas_fast_each.h"
 
 using namespace yas;
 using namespace yas::processing;
@@ -81,8 +81,10 @@ using namespace yas::processing;
         called_send_time = {};
         called_receive_time = {};
         auto &vec = process_signal.vector<int16_t>();
-        for (auto const &idx : make_each(2)) {
-            vec[idx] = 0;
+        
+        auto each = make_each(2);
+        while (yas_each_next(each)) {
+            vec[yas_each_index(each)] = 0;
         }
     };
 
@@ -93,7 +95,9 @@ using namespace yas::processing;
     auto send_handler1 = [](processing::time::range const &time_range, sync_source const &,
                             channel_index_t const ch_idx, connector_index_t const co_idx, int16_t *const signal_ptr) {
         if (co_idx == 0) {
-            for (auto const &idx : make_each(time_range.length)) {
+            auto each = make_each(time_range.length);
+            while (yas_each_next(each)) {
+                auto const &idx = yas_each_index(each);
                 signal_ptr[idx] = idx;
             }
         }
@@ -116,7 +120,9 @@ using namespace yas::processing;
 
         if (co_idx == 0) {
             auto &vec = process_signal.vector<int16_t>();
-            for (auto const &idx : make_each(time_range.length)) {
+            auto each = make_each(time_range.length);
+            while (yas_each_next(each)) {
+                auto const &idx = yas_each_index(each);
                 signal_ptr[idx] = vec[idx];
             }
         }
@@ -129,7 +135,9 @@ using namespace yas::processing;
 
         if (co_idx == 0) {
             auto &vec = process_signal.vector<int16_t>();
-            for (auto const &idx : make_each(time_range.length)) {
+            auto each = make_each(time_range.length);
+            while (yas_each_next(each)) {
+                auto const &idx = yas_each_index(each);
                 vec[idx] = signal_ptr[idx] + 1;
             }
         }
@@ -215,9 +223,9 @@ using namespace yas::processing;
     length_t const process_length = 5;
 
     auto &track = timeline.add_track(0);
-    auto fast_each = make_fast_each<length_t>(process_length);
-    while (yas_fast_each_next(fast_each)) {
-        auto const &idx = yas_fast_each_index(fast_each);
+    auto fast_each = make_each<length_t>(process_length);
+    while (yas_each_next(fast_each)) {
+        auto const &idx = yas_each_index(fast_each);
         auto module = make_signal_module<int8_t>(idx);
         module.connect_output(to_connector_index(constant::output::value), ch_idx);
         track.insert_module({idx, 1}, std::move(module));

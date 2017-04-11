@@ -42,9 +42,9 @@ namespace test {
 
         signal_event phase_signal = make_signal_event<T>(data_time_range.length);
         auto *phase_data = phase_signal.data<T>();
-        auto each = make_fast_each(phase_data, data_time_range.length);
-        while (yas_fast_each_next(each)) {
-            yas_fast_each_value(each) = data[yas_fast_each_index(each)];
+        auto each = make_each(phase_data, data_time_range.length);
+        while (yas_each_next(each)) {
+            yas_each_value(each) = data[yas_each_index(each)];
         }
 
         channel.insert_event(processing::time{data_time_range}, std::move(phase_signal));
@@ -64,9 +64,9 @@ namespace test {
 
             signal_event signal = make_signal_event<T>(left_time_range.length);
             auto *out_data = signal.data<T>();
-            auto each = make_fast_each(out_data, left_time_range.length);
-            while (yas_fast_each_next(each)) {
-                yas_fast_each_value(each) = left_data[yas_fast_each_index(each)];
+            auto each = make_each(out_data, left_time_range.length);
+            while (yas_each_next(each)) {
+                yas_each_value(each) = left_data[yas_each_index(each)];
             }
 
             channel.insert_event(processing::time{left_time_range}, std::move(signal));
@@ -77,9 +77,9 @@ namespace test {
 
             signal_event signal = make_signal_event<T>(right_time_range.length);
             auto *out_data = signal.data<T>();
-            auto each = make_fast_each(out_data, right_time_range.length);
-            while (yas_fast_each_next(each)) {
-                yas_fast_each_value(each) = right_data[yas_fast_each_index(each)];
+            auto each = make_each(out_data, right_time_range.length);
+            while (yas_each_next(each)) {
+                yas_each_value(each) = right_data[yas_each_index(each)];
             }
 
             channel.insert_event(processing::time{right_time_range}, std::move(signal));
@@ -95,9 +95,9 @@ namespace test {
 
         auto &channel = stream.add_channel(ch_idx);
 
-        auto each = make_fast_each(data_time_range.length);
-        while (yas_fast_each_next(each)) {
-            auto const &idx = yas_fast_each_index(each);
+        auto each = make_each(data_time_range.length);
+        while (yas_each_next(each)) {
+            auto const &idx = yas_each_index(each);
             channel.insert_event(make_frame_time(data_time_range.frame + idx), number_event(data[idx]));
         }
 
@@ -114,9 +114,9 @@ namespace test {
         {
             auto &channel = stream.add_channel(left_ch_idx);
 
-            auto each = make_fast_each(left_time_range.length);
-            while (yas_fast_each_next(each)) {
-                auto const &idx = yas_fast_each_index(each);
+            auto each = make_each(left_time_range.length);
+            while (yas_each_next(each)) {
+                auto const &idx = yas_each_index(each);
                 channel.insert_event(make_frame_time(left_time_range.frame + idx), number_event(left_data[idx]));
             }
         }
@@ -124,9 +124,9 @@ namespace test {
         {
             auto &channel = stream.add_channel(right_ch_idx);
 
-            auto each = make_fast_each(right_time_range.length);
-            while (yas_fast_each_next(each)) {
-                auto const &idx = yas_fast_each_index(each);
+            auto each = make_each(right_time_range.length);
+            while (yas_each_next(each)) {
+                auto const &idx = yas_each_index(each);
                 channel.insert_event(make_frame_time(right_time_range.frame + idx), number_event(right_data[idx]));
             }
         }
