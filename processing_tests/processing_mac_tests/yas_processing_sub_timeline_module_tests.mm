@@ -4,6 +4,7 @@
 
 #import <XCTest/XCTest.h>
 #import "yas_processing.h"
+#import "yas_each_index.h"
 
 using namespace yas;
 using namespace yas::processing;
@@ -266,8 +267,8 @@ using namespace yas::processing;
 
     {
         auto each = make_fast_each(3);
-        while (yas_fast_each_next(each)) {
-            auto const &idx = yas_fast_each_index(each);
+        while (yas_each_next(each)) {
+            auto const &idx = yas_each_index(each);
 
             auto left_module = make_number_module(int8_t(7));
             left_module.connect_output(to_connector_index(constant::output::value), 0);
@@ -314,9 +315,9 @@ using namespace yas::processing;
         auto right_iterator = right_events.cbegin();
 
         auto each = make_fast_each(3);
-        while (yas_fast_each_next(each)) {
-            XCTAssertEqual(left_iterator->first, yas_fast_each_index(each));
-            XCTAssertEqual(right_iterator->first, yas_fast_each_index(each));
+        while (yas_each_next(each)) {
+            XCTAssertEqual(left_iterator->first, yas_each_index(each));
+            XCTAssertEqual(right_iterator->first, yas_each_index(each));
             XCTAssertEqual(left_iterator->second.get<int8_t>(), 7);
             XCTAssertEqual(right_iterator->second.get<int8_t>(), 8);
 
@@ -339,23 +340,23 @@ using namespace yas::processing;
 
     {
         auto each = make_fast_each(4);
-        while (yas_fast_each_next(each)) {
+        while (yas_each_next(each)) {
             auto main_module = make_number_module(int8_t(1));
             main_module.connect_output(to_connector_index(constant::output::value), 0);
 
             auto &main_track = main_timeline.add_track(0);
-            main_track.insert_module(time::range{yas_fast_each_index(each), 1}, std::move(main_module));
+            main_track.insert_module(time::range{yas_each_index(each), 1}, std::move(main_module));
         }
     }
 
     {
         auto each = make_fast_each(2);
-        while (yas_fast_each_next(each)) {
+        while (yas_each_next(each)) {
             auto sub_module = make_number_module(int8_t(2));
             sub_module.connect_output(to_connector_index(constant::output::value), 0);
 
             auto &sub_track = sub_timeline.add_track(0);
-            sub_track.insert_module(time::range{1 + yas_fast_each_index(each), 2}, std::move(sub_module));
+            sub_track.insert_module(time::range{1 + yas_each_index(each), 2}, std::move(sub_module));
         }
     }
 
@@ -411,8 +412,8 @@ using namespace yas::processing;
 
     {
         auto each = make_fast_each(4);
-        while (yas_fast_each_next(each)) {
-            auto const &idx = yas_fast_each_index(each);
+        while (yas_each_next(each)) {
+            auto const &idx = yas_each_index(each);
 
             auto left_module = make_number_module(int8_t(7));
             left_module.connect_output(to_connector_index(constant::output::value), 0);

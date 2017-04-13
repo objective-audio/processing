@@ -50,7 +50,7 @@ using namespace yas::processing;
         called_ch_idx = ch_idx;
         called_sample_rate = sync_src.sample_rate;
         called_slice_length = sync_src.slice_length;
-        for (auto const &idx : make_each(time_range.length)) {
+        for (auto const &idx : make_each_index(time_range.length)) {
             signal_ptr[idx] = idx + time_range.frame;
         }
     };
@@ -171,7 +171,7 @@ using namespace yas::processing;
         called_ch_idx = ch_idx;
         called_sample_rate = sync_src.sample_rate;
         called_slice_length = sync_src.slice_length;
-        for (auto const &idx : make_each(time_range.length)) {
+        for (auto const &idx : make_each_index(time_range.length)) {
             called_signal[idx] = signal_ptr[idx];
         }
     };
@@ -261,7 +261,7 @@ using namespace yas::processing;
                                              channel_index_t const ch_idx, connector_index_t const,
                                              int16_t const *const signal_ptr) {
         auto &process_vec = process_signal.vector<int16_t>();
-        for (auto const &idx : make_each(time_range.length)) {
+        for (auto const &idx : make_each_index(time_range.length)) {
             process_vec[idx] = signal_ptr[idx] * 2;
         }
     };
@@ -270,7 +270,7 @@ using namespace yas::processing;
                                           channel_index_t const ch_idx, connector_index_t const,
                                           int16_t *const signal_ptr) {
         auto &process_vec = process_signal.vector<int16_t>();
-        for (auto const &idx : make_each(time_range.length)) {
+        for (auto const &idx : make_each_index(time_range.length)) {
             signal_ptr[idx] = process_vec[idx];
         }
     };

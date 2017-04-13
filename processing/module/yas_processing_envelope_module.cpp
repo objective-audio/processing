@@ -82,10 +82,10 @@ processing::module processing::envelope::make_signal_module(anchors_t<T> anchors
         if (co_idx == output_co_idx) {
             auto out_each = make_fast_each(signal_ptr, time_range.length);
 
-            while (yas_fast_each_next(out_each)) {
-                auto const &idx = yas_fast_each_index(out_each);
+            while (yas_each_next(out_each)) {
+                auto const &idx = yas_each_index(out_each);
                 auto const env_idx = time_range.frame + idx - offset;
-                yas_fast_each_value(out_each) = context->value(env_idx);
+                yas_each_value(out_each) = context->value(env_idx);
             }
         }
     });

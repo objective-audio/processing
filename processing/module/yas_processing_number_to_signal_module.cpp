@@ -38,15 +38,15 @@ processing::module processing::make_number_to_signal_module() {
             T const &last_value = context->last_values()[0];
 
             auto out_each = make_fast_each(signal_ptr, time_range.length);
-            while (yas_fast_each_next(out_each)) {
-                auto const frame = top_frame + yas_fast_each_index(out_each);
+            while (yas_each_next(out_each)) {
+                auto const frame = top_frame + yas_each_index(out_each);
                 if (iterator != end_iterator) {
                     if (iterator->first == frame) {
                         context->update_last_values(iterator->second);
                         ++iterator;
                     }
                 }
-                yas_fast_each_value(out_each) = last_value;
+                yas_each_value(out_each) = last_value;
             }
         });
 

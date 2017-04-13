@@ -54,8 +54,8 @@ processing::module processing::make_signal_module(compare::kind const kind) {
                 auto const &right_length = right_time ? right_time.get<time::range>().length : constant::zero_length;
 
                 auto out_each = make_fast_each(signal_ptr, time_range.length);
-                while (yas_fast_each_next(out_each)) {
-                    auto const &idx = yas_fast_each_index(out_each);
+                while (yas_each_next(out_each)) {
+                    auto const &idx = yas_each_index(out_each);
                     auto const left_idx = idx + left_offset;
                     auto const right_idx = idx + right_offset;
                     auto const &left_value = (left_idx >= 0 && left_idx < left_length) ? left_ptr[left_idx] : 0;
@@ -63,23 +63,23 @@ processing::module processing::make_signal_module(compare::kind const kind) {
 
                     switch (kind) {
                         case kind::is_equal:
-                            yas_fast_each_value(out_each) = left_value == right_value;
+                            yas_each_value(out_each) = left_value == right_value;
                             break;
                         case kind::is_not_equal:
-                            yas_fast_each_value(out_each) = left_value != right_value;
+                            yas_each_value(out_each) = left_value != right_value;
                             break;
 
                         case kind::is_greater:
-                            yas_fast_each_value(out_each) = left_value > right_value;
+                            yas_each_value(out_each) = left_value > right_value;
                             break;
                         case kind::is_greater_equal:
-                            yas_fast_each_value(out_each) = left_value >= right_value;
+                            yas_each_value(out_each) = left_value >= right_value;
                             break;
                         case kind::is_less:
-                            yas_fast_each_value(out_each) = left_value < right_value;
+                            yas_each_value(out_each) = left_value < right_value;
                             break;
                         case kind::is_less_equal:
-                            yas_fast_each_value(out_each) = left_value <= right_value;
+                            yas_each_value(out_each) = left_value <= right_value;
                             break;
                     }
                 }

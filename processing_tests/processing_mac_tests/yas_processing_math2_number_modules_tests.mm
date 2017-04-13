@@ -227,15 +227,15 @@ using namespace yas::processing;
 
     auto &left_channel = stream.add_channel(0);
     auto left_each = make_fast_each(process_length);
-    while (yas_fast_each_next(left_each)) {
-        auto const &idx = yas_fast_each_index(left_each);
+    while (yas_each_next(left_each)) {
+        auto const &idx = yas_each_index(left_each);
         left_channel.insert_event(make_frame_time(idx), number_event(left_data[idx]));
     }
 
     auto &right_channel = stream.add_channel(1);
     auto right_each = make_fast_each(process_length);
-    while (yas_fast_each_next(right_each)) {
-        auto const &idx = yas_fast_each_index(right_each);
+    while (yas_each_next(right_each)) {
+        auto const &idx = yas_each_index(right_each);
         right_channel.insert_event(make_frame_time(idx), number_event(right_data[idx]));
     }
 
@@ -273,15 +273,15 @@ using namespace yas::processing;
 
     auto &left_channel = stream.add_channel(0);
     auto left_each = make_fast_each(process_length);
-    while (yas_fast_each_next(left_each)) {
-        auto const &idx = yas_fast_each_index(left_each);
+    while (yas_each_next(left_each)) {
+        auto const &idx = yas_each_index(left_each);
         left_channel.insert_event(make_frame_time(idx), number_event(left_data[idx]));
     }
 
     auto &right_channel = stream.add_channel(1);
     auto right_each = make_fast_each(process_length);
-    while (yas_fast_each_next(right_each)) {
-        auto const &idx = yas_fast_each_index(right_each);
+    while (yas_each_next(right_each)) {
+        auto const &idx = yas_each_index(right_each);
         right_channel.insert_event(make_frame_time(idx), number_event(right_data[idx]));
     }
 
@@ -315,15 +315,15 @@ using namespace yas::processing;
 
     auto &left_channel = stream.add_channel(0);
     auto left_each = make_fast_each(process_length);
-    while (yas_fast_each_next(left_each)) {
-        auto const &idx = yas_fast_each_index(left_each);
+    while (yas_each_next(left_each)) {
+        auto const &idx = yas_each_index(left_each);
         left_channel.insert_event(make_frame_time(idx), number_event(left_data[idx]));
     }
 
     auto &right_channel = stream.add_channel(1);
     auto right_each = make_fast_each(process_length);
-    while (yas_fast_each_next(right_each)) {
-        auto const &idx = yas_fast_each_index(right_each);
+    while (yas_each_next(right_each)) {
+        auto const &idx = yas_each_index(right_each);
         right_channel.insert_event(make_frame_time(idx), number_event(right_data[idx]));
     }
 

@@ -18,8 +18,8 @@ processing::module processing::make_signal_module(T value) {
         T *const signal_ptr) {
         auto each = make_fast_each(signal_ptr, time_range.length);
 
-        while (yas_fast_each_next(each)) {
-            yas_fast_each_value(each) = value;
+        while (yas_each_next(each)) {
+            yas_each_value(each) = value;
         }
     });
 

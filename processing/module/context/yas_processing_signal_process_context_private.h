@@ -15,7 +15,7 @@ namespace processing {
         this->_inputs.reserve(N);
 
         auto each = make_fast_each(N);
-        while (yas_fast_each_next(each)) {
+        while (yas_each_next(each)) {
             this->_inputs.emplace_back(std::make_pair(processing::time{nullptr}, signal_event{std::vector<T>(0)}));
         }
     }

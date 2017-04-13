@@ -54,8 +54,8 @@ processing::module processing::make_signal_module(math2::kind const kind) {
                 auto const &right_length = right_time ? right_time.get<time::range>().length : constant::zero_length;
 
                 auto out_each = make_fast_each(signal_ptr, time_range.length);
-                while (yas_fast_each_next(out_each)) {
-                    auto const &idx = yas_fast_each_index(out_each);
+                while (yas_each_next(out_each)) {
+                    auto const &idx = yas_each_index(out_each);
                     auto const left_idx = idx + left_offset;
                     auto const right_idx = idx + right_offset;
                     auto const &left_value = (left_idx >= 0 && left_idx < left_length) ? left_ptr[left_idx] : 0;
@@ -63,28 +63,28 @@ processing::module processing::make_signal_module(math2::kind const kind) {
 
                     switch (kind) {
                         case kind::plus:
-                            yas_fast_each_value(out_each) = left_value + right_value;
+                            yas_each_value(out_each) = left_value + right_value;
                             break;
                         case kind::minus:
-                            yas_fast_each_value(out_each) = left_value - right_value;
+                            yas_each_value(out_each) = left_value - right_value;
                             break;
                         case kind::multiply:
-                            yas_fast_each_value(out_each) = left_value * right_value;
+                            yas_each_value(out_each) = left_value * right_value;
                             break;
                         case kind::divide:
-                            yas_fast_each_value(out_each) =
+                            yas_each_value(out_each) =
                                 (left_value == 0 || right_value == 0) ? 0 : left_value / right_value;
                             break;
 
                         case kind::atan2:
-                            yas_fast_each_value(out_each) = std::atan2(left_value, right_value);
+                            yas_each_value(out_each) = std::atan2(left_value, right_value);
                             break;
 
                         case kind::pow:
-                            yas_fast_each_value(out_each) = std::pow(left_value, right_value);
+                            yas_each_value(out_each) = std::pow(left_value, right_value);
                             break;
                         case kind::hypot:
-                            yas_fast_each_value(out_each) = std::hypot(left_value, right_value);
+                            yas_each_value(out_each) = std::hypot(left_value, right_value);
                             break;
                     }
                 }

@@ -48,8 +48,8 @@ processing::module processing::make_signal_module(math1::kind const kind) {
                 auto const &input_length = input_time ? input_time.get<time::range>().length : constant::zero_length;
 
                 auto out_each = make_fast_each(signal_ptr, time_range.length);
-                while (yas_fast_each_next(out_each)) {
-                    auto const &idx = yas_fast_each_index(out_each);
+                while (yas_each_next(out_each)) {
+                    auto const &idx = yas_each_index(out_each);
                     auto const input_idx = idx + input_offset;
 
                     static T constexpr zero_value = 0;
@@ -58,86 +58,86 @@ processing::module processing::make_signal_module(math1::kind const kind) {
 
                     switch (kind) {
                         case kind::sin:
-                            yas_fast_each_value(out_each) = std::sin(input_value);
+                            yas_each_value(out_each) = std::sin(input_value);
                             break;
                         case kind::cos:
-                            yas_fast_each_value(out_each) = std::cos(input_value);
+                            yas_each_value(out_each) = std::cos(input_value);
                             break;
                         case kind::tan:
-                            yas_fast_each_value(out_each) = std::tan(input_value);
+                            yas_each_value(out_each) = std::tan(input_value);
                             break;
                         case kind::asin:
-                            yas_fast_each_value(out_each) = std::asin(input_value);
+                            yas_each_value(out_each) = std::asin(input_value);
                             break;
                         case kind::acos:
-                            yas_fast_each_value(out_each) = std::acos(input_value);
+                            yas_each_value(out_each) = std::acos(input_value);
                             break;
                         case kind::atan:
-                            yas_fast_each_value(out_each) = std::atan(input_value);
+                            yas_each_value(out_each) = std::atan(input_value);
                             break;
 
                         case kind::sinh:
-                            yas_fast_each_value(out_each) = std::sinh(input_value);
+                            yas_each_value(out_each) = std::sinh(input_value);
                             break;
                         case kind::cosh:
-                            yas_fast_each_value(out_each) = std::cosh(input_value);
+                            yas_each_value(out_each) = std::cosh(input_value);
                             break;
                         case kind::tanh:
-                            yas_fast_each_value(out_each) = std::tanh(input_value);
+                            yas_each_value(out_each) = std::tanh(input_value);
                             break;
                         case kind::asinh:
-                            yas_fast_each_value(out_each) = std::asinh(input_value);
+                            yas_each_value(out_each) = std::asinh(input_value);
                             break;
                         case kind::acosh:
-                            yas_fast_each_value(out_each) = std::acosh(input_value);
+                            yas_each_value(out_each) = std::acosh(input_value);
                             break;
                         case kind::atanh:
-                            yas_fast_each_value(out_each) = std::atanh(input_value);
+                            yas_each_value(out_each) = std::atanh(input_value);
                             break;
 
                         case kind::exp:
-                            yas_fast_each_value(out_each) = std::exp(input_value);
+                            yas_each_value(out_each) = std::exp(input_value);
                             break;
                         case kind::exp2:
-                            yas_fast_each_value(out_each) = std::exp2(input_value);
+                            yas_each_value(out_each) = std::exp2(input_value);
                             break;
                         case kind::expm1:
-                            yas_fast_each_value(out_each) = std::expm1(input_value);
+                            yas_each_value(out_each) = std::expm1(input_value);
                             break;
                         case kind::log:
-                            yas_fast_each_value(out_each) = std::log(input_value);
+                            yas_each_value(out_each) = std::log(input_value);
                             break;
                         case kind::log10:
-                            yas_fast_each_value(out_each) = std::log10(input_value);
+                            yas_each_value(out_each) = std::log10(input_value);
                             break;
                         case kind::log1p:
-                            yas_fast_each_value(out_each) = std::log1p(input_value);
+                            yas_each_value(out_each) = std::log1p(input_value);
                             break;
                         case kind::log2:
-                            yas_fast_each_value(out_each) = std::log2(input_value);
+                            yas_each_value(out_each) = std::log2(input_value);
                             break;
 
                         case kind::sqrt:
-                            yas_fast_each_value(out_each) = std::sqrt(input_value);
+                            yas_each_value(out_each) = std::sqrt(input_value);
                             break;
                         case kind::cbrt:
-                            yas_fast_each_value(out_each) = std::cbrt(input_value);
+                            yas_each_value(out_each) = std::cbrt(input_value);
                             break;
                         case kind::abs:
-                            yas_fast_each_value(out_each) = std::abs(input_value);
+                            yas_each_value(out_each) = std::abs(input_value);
                             break;
 
                         case kind::ceil:
-                            yas_fast_each_value(out_each) = std::ceil(input_value);
+                            yas_each_value(out_each) = std::ceil(input_value);
                             break;
                         case kind::floor:
-                            yas_fast_each_value(out_each) = std::floor(input_value);
+                            yas_each_value(out_each) = std::floor(input_value);
                             break;
                         case kind::trunc:
-                            yas_fast_each_value(out_each) = std::trunc(input_value);
+                            yas_each_value(out_each) = std::trunc(input_value);
                             break;
                         case kind::round:
-                            yas_fast_each_value(out_each) = std::round(input_value);
+                            yas_each_value(out_each) = std::round(input_value);
                             break;
                     }
                 }

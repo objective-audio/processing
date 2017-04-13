@@ -26,11 +26,11 @@ processing::module processing::make_signal_module(generator::kind const kind, fr
                 auto const top_idx = offset + time_range.frame;
                 T const sr = sync_src.sample_rate;
 
-                while (yas_fast_each_next(out_each)) {
-                    auto const &idx = yas_fast_each_index(out_each);
+                while (yas_each_next(out_each)) {
+                    auto const &idx = yas_each_index(out_each);
                     switch (kind) {
                         case kind::second:
-                            yas_fast_each_value(out_each) = (T)(top_idx + idx) / sr;
+                            yas_each_value(out_each) = (T)(top_idx + idx) / sr;
                             break;
                     }
                 }

@@ -34,11 +34,11 @@ using namespace yas::processing;
 
     XCTAssertEqual(signal_event.vector<float>().size(), 16);
 
-    for (auto const &idx : make_each(16)) {
+    for (auto const &idx : make_each_index(16)) {
         signal_event.vector<float>()[idx] = static_cast<float>(idx);
     }
 
-    for (auto const &idx : make_each(16)) {
+    for (auto const &idx : make_each_index(16)) {
         XCTAssertEqual(signal_event.vector<float>()[idx], static_cast<float>(idx));
     }
 }
