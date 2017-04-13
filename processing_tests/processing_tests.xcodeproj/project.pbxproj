@@ -163,6 +163,8 @@
 		B671F7971E42D04A00C8866B /* yas_processing_compare_signal_modules_tests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = yas_processing_compare_signal_modules_tests.mm; sourceTree = "<group>"; };
 		B671F79C1E45BEF600C8866B /* yas_processing_routing_signal_module_tests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = yas_processing_routing_signal_module_tests.mm; sourceTree = "<group>"; };
 		B671F7A11E4965F500C8866B /* yas_processing_timeline_module_tests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = yas_processing_timeline_module_tests.mm; sourceTree = "<group>"; };
+		B69222E81E9F10B1004DC802 /* yas_each_index_private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = yas_each_index_private.h; sourceTree = "<group>"; };
+		B69222E91E9F10B1004DC802 /* yas_each_index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = yas_each_index.h; sourceTree = "<group>"; };
 		B6A0781A1E231FEF00F0CA21 /* yas_processing_remove_number_processor_tests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = yas_processing_remove_number_processor_tests.mm; sourceTree = "<group>"; };
 		B6A6EF9A1DD94E9200436428 /* processing_mac_tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = processing_mac_tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6A6EF9F1DD94E9200436428 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -351,6 +353,8 @@
 				B63674911DD9DFF500C724DB /* yas_delaying_caller.h */,
 				B63674921DD9DFF500C724DB /* yas_each_dictionary.cpp */,
 				B63674931DD9DFF500C724DB /* yas_each_dictionary.h */,
+				B69222E81E9F10B1004DC802 /* yas_each_index_private.h */,
+				B69222E91E9F10B1004DC802 /* yas_each_index.h */,
 				B63674961DD9DFF500C724DB /* yas_exception.cpp */,
 				B63674971DD9DFF500C724DB /* yas_exception.h */,
 				B60477BA1E1BDE9D00195A0F /* yas_fast_each_private.h */,

@@ -129,6 +129,8 @@
 		B650E3E41DD810B300E423C7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B650E3E71DD810B300E423C7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B650E3E91DD810B300E423C7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B69222E61E9F10A2004DC802 /* yas_each_index_private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = yas_each_index_private.h; sourceTree = "<group>"; };
+		B69222E71E9F10A2004DC802 /* yas_each_index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = yas_each_index.h; sourceTree = "<group>"; };
 		B6AA83BC1E67ED8800120472 /* yas_processing_number_event.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = yas_processing_number_event.cpp; sourceTree = "<group>"; };
 		B6AA83BD1E67ED8800120472 /* yas_processing_number_event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yas_processing_number_event.h; sourceTree = "<group>"; };
 		B6AA83BE1E67ED8800120472 /* yas_processing_number_event_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yas_processing_number_event_private.h; sourceTree = "<group>"; };
@@ -261,6 +263,8 @@
 				B63674521DD9DFE900C724DB /* yas_delaying_caller.h */,
 				B63674531DD9DFE900C724DB /* yas_each_dictionary.cpp */,
 				B63674541DD9DFE900C724DB /* yas_each_dictionary.h */,
+				B69222E61E9F10A2004DC802 /* yas_each_index_private.h */,
+				B69222E71E9F10A2004DC802 /* yas_each_index.h */,
 				B63674571DD9DFE900C724DB /* yas_exception.cpp */,
 				B63674581DD9DFE900C724DB /* yas_exception.h */,
 				B6AA84161E67EDB800120472 /* yas_fast_each_private.h */,
