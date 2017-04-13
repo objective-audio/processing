@@ -4,7 +4,7 @@
 
 #import <XCTest/XCTest.h>
 #import "yas_processing_signal_event.h"
-#import "yas_fast_each.h"
+#import "yas_each_index.h"
 #import "yas_boolean.h"
 #import <string>
 
@@ -34,15 +34,11 @@ using namespace yas::processing;
 
     XCTAssertEqual(signal_event.vector<float>().size(), 16);
 
-    auto each = make_each(16);
-    while (yas_each_next(each)) {
-        auto const &idx = yas_each_index(each);
+    for (auto const &idx : make_each(16)) {
         signal_event.vector<float>()[idx] = static_cast<float>(idx);
     }
 
-    each = make_each(16);
-    while (yas_each_next(each)) {
-        auto const &idx = yas_each_index(each);
+    for (auto const &idx : make_each(16)) {
         XCTAssertEqual(signal_event.vector<float>()[idx], static_cast<float>(idx));
     }
 }

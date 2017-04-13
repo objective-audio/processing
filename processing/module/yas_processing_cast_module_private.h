@@ -54,12 +54,12 @@ namespace processing {
                         auto const src_offset = src_time ? time_range.frame - src_time.get<time::range>().frame : 0;
                         auto const &src_length = src_time ? src_time.get<time::range>().length : 0;
 
-                        auto out_each = make_each(signal_ptr, time_range.length);
-                        while (yas_each_next(out_each)) {
-                            auto const &idx = yas_each_index(out_each);
+                        auto out_each = make_fast_each(signal_ptr, time_range.length);
+                        while (yas_fast_each_next(out_each)) {
+                            auto const &idx = yas_fast_each_index(out_each);
                             auto const src_idx = idx + src_offset;
                             auto const &src_value = (src_idx >= 0 && src_idx < src_length) ? src_ptr[src_idx] : 0;
-                            yas_each_value(out_each) = static_cast<Out>(src_value);
+                            yas_fast_each_value(out_each) = static_cast<Out>(src_value);
                         }
                     }
                 });
