@@ -220,7 +220,7 @@ using namespace yas::processing;
     auto const &copied_vec = copied_signal_event.vector<int8_t>();
 
     src_vec[0] = 64;
-    src_vec[1] = 128;
+    src_vec[1] = 96;
 
     XCTAssertEqual(copied_vec[0], 16);
     XCTAssertEqual(copied_vec[1], 32);
