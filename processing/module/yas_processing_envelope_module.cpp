@@ -80,7 +80,7 @@ processing::module processing::envelope::make_signal_module(anchors_t<T> anchors
         connector_index_t const co_idx, T *const signal_ptr) {
         static auto const output_co_idx = to_connector_index(output::value);
         if (co_idx == output_co_idx) {
-            auto out_each = make_each(signal_ptr, time_range.length);
+            auto out_each = make_fast_each(signal_ptr, time_range.length);
 
             while (yas_each_next(out_each)) {
                 auto const &idx = yas_each_index(out_each);

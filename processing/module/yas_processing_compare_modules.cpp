@@ -53,7 +53,7 @@ processing::module processing::make_signal_module(compare::kind const kind) {
                 auto const &left_length = left_time ? left_time.get<time::range>().length : constant::zero_length;
                 auto const &right_length = right_time ? right_time.get<time::range>().length : constant::zero_length;
 
-                auto out_each = make_each(signal_ptr, time_range.length);
+                auto out_each = make_fast_each(signal_ptr, time_range.length);
                 while (yas_each_next(out_each)) {
                     auto const &idx = yas_each_index(out_each);
                     auto const left_idx = idx + left_offset;

@@ -4,7 +4,7 @@
 
 #import <XCTest/XCTest.h>
 #import "yas_processing.h"
-#import "yas_fast_each.h"
+#import "yas_each_index.h"
 
 using namespace yas;
 using namespace yas::processing;
@@ -50,10 +50,7 @@ using namespace yas::processing;
         called_ch_idx = ch_idx;
         called_sample_rate = sync_src.sample_rate;
         called_slice_length = sync_src.slice_length;
-        
-        auto each = make_each(time_range.length);
-        while (yas_each_next(each)) {
-            auto const &idx = yas_each_index(each);
+        for (auto const &idx : make_each_index(time_range.length)) {
             signal_ptr[idx] = idx + time_range.frame;
         }
     };
@@ -174,10 +171,7 @@ using namespace yas::processing;
         called_ch_idx = ch_idx;
         called_sample_rate = sync_src.sample_rate;
         called_slice_length = sync_src.slice_length;
-        
-        auto each = make_each(time_range.length);
-        while (yas_each_next(each)) {
-            auto const &idx = yas_each_index(each);
+        for (auto const &idx : make_each_index(time_range.length)) {
             called_signal[idx] = signal_ptr[idx];
         }
     };
@@ -267,10 +261,7 @@ using namespace yas::processing;
                                              channel_index_t const ch_idx, connector_index_t const,
                                              int16_t const *const signal_ptr) {
         auto &process_vec = process_signal.vector<int16_t>();
-        
-        auto each = make_each(time_range.length);
-        while (yas_each_next(each)) {
-            auto const &idx = yas_each_index(each);
+        for (auto const &idx : make_each_index(time_range.length)) {
             process_vec[idx] = signal_ptr[idx] * 2;
         }
     };
@@ -279,10 +270,7 @@ using namespace yas::processing;
                                           channel_index_t const ch_idx, connector_index_t const,
                                           int16_t *const signal_ptr) {
         auto &process_vec = process_signal.vector<int16_t>();
-        
-        auto each = make_each(time_range.length);
-        while (yas_each_next(each)) {
-            auto const &idx = yas_each_index(each);
+        for (auto const &idx : make_each_index(time_range.length)) {
             signal_ptr[idx] = process_vec[idx];
         }
     };

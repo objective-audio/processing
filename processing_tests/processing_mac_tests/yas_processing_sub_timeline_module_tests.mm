@@ -4,6 +4,7 @@
 
 #import <XCTest/XCTest.h>
 #import "yas_processing.h"
+#import "yas_each_index.h"
 
 using namespace yas;
 using namespace yas::processing;
@@ -265,7 +266,7 @@ using namespace yas::processing;
     }
 
     {
-        auto each = make_each(3);
+        auto each = make_fast_each(3);
         while (yas_each_next(each)) {
             auto const &idx = yas_each_index(each);
 
@@ -313,7 +314,7 @@ using namespace yas::processing;
         auto left_iterator = left_events.cbegin();
         auto right_iterator = right_events.cbegin();
 
-        auto each = make_each(3);
+        auto each = make_fast_each(3);
         while (yas_each_next(each)) {
             XCTAssertEqual(left_iterator->first, yas_each_index(each));
             XCTAssertEqual(right_iterator->first, yas_each_index(each));
@@ -338,7 +339,7 @@ using namespace yas::processing;
     timeline sub_timeline;
 
     {
-        auto each = make_each(4);
+        auto each = make_fast_each(4);
         while (yas_each_next(each)) {
             auto main_module = make_number_module(int8_t(1));
             main_module.connect_output(to_connector_index(constant::output::value), 0);
@@ -349,7 +350,7 @@ using namespace yas::processing;
     }
 
     {
-        auto each = make_each(2);
+        auto each = make_fast_each(2);
         while (yas_each_next(each)) {
             auto sub_module = make_number_module(int8_t(2));
             sub_module.connect_output(to_connector_index(constant::output::value), 0);
@@ -410,7 +411,7 @@ using namespace yas::processing;
     }
 
     {
-        auto each = make_each(4);
+        auto each = make_fast_each(4);
         while (yas_each_next(each)) {
             auto const &idx = yas_each_index(each);
 

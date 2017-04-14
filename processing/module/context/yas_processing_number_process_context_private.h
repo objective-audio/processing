@@ -24,7 +24,7 @@ namespace processing {
 
     template <typename T, std::size_t N>
     void number_process_context<T, N>::update_last_values(input const &input) {
-        auto each = make_each(this->_last_values.data(), N);
+        auto each = make_fast_each(this->_last_values.data(), N);
         while (yas_each_next(each)) {
             if (auto const &value = input.values[yas_each_index(each)]) {
                 yas_each_value(each) = *value;

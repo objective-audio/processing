@@ -47,7 +47,7 @@ processing::module processing::make_signal_module(math1::kind const kind) {
                 auto const input_offset = input_time ? time_range.frame - input_time.get<time::range>().frame : 0;
                 auto const &input_length = input_time ? input_time.get<time::range>().length : constant::zero_length;
 
-                auto out_each = make_each(signal_ptr, time_range.length);
+                auto out_each = make_fast_each(signal_ptr, time_range.length);
                 while (yas_each_next(out_each)) {
                     auto const &idx = yas_each_index(out_each);
                     auto const input_idx = idx + input_offset;

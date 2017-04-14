@@ -49,7 +49,7 @@ processing::module processing::make_signal_module(processing::routing::kind cons
                 auto const src_offset = input_time ? time_range.frame - input_time.get<time::range>().frame : 0;
                 auto const &src_length = input_time ? input_time.get<time::range>().length : 0;
 
-                auto out_each = make_each(signal_ptr, time_range.length);
+                auto out_each = make_fast_each(signal_ptr, time_range.length);
                 while (yas_each_next(out_each)) {
                     auto const &idx = yas_each_index(out_each);
                     auto const src_idx = idx + src_offset;
