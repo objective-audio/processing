@@ -22,38 +22,38 @@ namespace processing {
             }
 
             void reset(time::range const &current_range) {
-                if (_last_range && _last_range->next_frame() != current_range.frame) {
-                    _prev = _next = _anchors.cbegin();
+                if (this->_last_range && this->_last_range->next_frame() != current_range.frame) {
+                    this->_prev = this->_next = _anchors.cbegin();
                 }
 
-                _last_range = current_range;
+                this->_last_range = current_range;
             }
 
             T value(frame_index_t const env_frame) {
-                if (_prev == _end) {
+                if (this->_prev == this->_end) {
                     return 0;
                 }
 
-                if (_prev == _next) {
-                    ++_next;
+                if (this->_prev == this->_next) {
+                    ++this->_next;
                 }
 
-                if (env_frame < _prev->first) {
-                    return _prev->second;
+                if (env_frame < this->_prev->first) {
+                    return this->_prev->second;
                 }
 
-                while (_next != _end && env_frame >= _next->first) {
-                    _prev = _next;
-                    ++_next;
+                while (this->_next != this->_end && env_frame >= this->_next->first) {
+                    this->_prev = this->_next;
+                    ++this->_next;
                 }
 
-                if (_next == _end) {
-                    return _prev->second;
+                if (this->_next == this->_end) {
+                    return this->_prev->second;
                 } else {
-                    auto const &prev_value = _prev->second;
-                    auto const &prev_frame = _prev->first;
-                    double const rate = double(env_frame - prev_frame) / (_next->first - prev_frame);
-                    return static_cast<T>((_next->second - prev_value) * rate + prev_value);
+                    auto const &prev_value = this->_prev->second;
+                    auto const &prev_frame = this->_prev->first;
+                    double const rate = double(env_frame - prev_frame) / (this->_next->first - prev_frame);
+                    return static_cast<T>((this->_next->second - prev_value) * rate + prev_value);
                 }
             }
 
@@ -75,20 +75,20 @@ processing::module processing::envelope::make_signal_module(anchors_t<T> anchors
     auto prepare_processor = [context](time::range const &current_range, connector_map_t const &,
                                        connector_map_t const &, stream &) mutable { context->reset(current_range); };
 
-    auto send_processor = processing::make_send_signal_processor<T>([context, offset](
-        processing::time::range const &time_range, sync_source const &sync_src, channel_index_t const,
-        connector_index_t const co_idx, T *const signal_ptr) {
-        static auto const output_co_idx = to_connector_index(output::value);
-        if (co_idx == output_co_idx) {
-            auto out_each = make_fast_each(signal_ptr, time_range.length);
+    auto send_processor = processing::make_send_signal_processor<T>(
+        [context, offset](processing::time::range const &time_range, sync_source const &sync_src, channel_index_t const,
+                          connector_index_t const co_idx, T *const signal_ptr) {
+            static auto const output_co_idx = to_connector_index(output::value);
+            if (co_idx == output_co_idx) {
+                auto out_each = make_fast_each(signal_ptr, time_range.length);
 
-            while (yas_each_next(out_each)) {
-                auto const &idx = yas_each_index(out_each);
-                auto const env_idx = time_range.frame + idx - offset;
-                yas_each_value(out_each) = context->value(env_idx);
+                while (yas_each_next(out_each)) {
+                    auto const &idx = yas_each_index(out_each);
+                    auto const env_idx = time_range.frame + idx - offset;
+                    yas_each_value(out_each) = context->value(env_idx);
+                }
             }
-        }
-    });
+        });
 
     return processing::module{{std::move(prepare_processor), std::move(send_processor)}};
 }
