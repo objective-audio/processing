@@ -9,19 +9,17 @@ using namespace yas;
 
 #pragma mark - utility
 
-namespace yas {
-namespace processing {
-    static void connect(connector_map_t &connectors, connector_index_t const idx, channel_index_t const ch_idx) {
-        if (connectors.count(idx) == 0) {
-            connectors.erase(idx);
-        }
-        connectors.emplace(idx, connector{.channel_index = ch_idx});
+namespace yas::processing {
+static void connect(connector_map_t &connectors, connector_index_t const idx, channel_index_t const ch_idx) {
+    if (connectors.count(idx) == 0) {
+        connectors.erase(idx);
     }
+    connectors.emplace(idx, connector{.channel_index = ch_idx});
+}
 
-    static void disconnect(connector_map_t &connectors, connector_index_t const idx) {
-        if (connectors.count(idx) > 0) {
-            connectors.erase(idx);
-        }
+static void disconnect(connector_map_t &connectors, connector_index_t const idx) {
+    if (connectors.count(idx) > 0) {
+        connectors.erase(idx);
     }
 }
 }

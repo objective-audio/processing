@@ -7,36 +7,34 @@
 
 using namespace yas;
 
-namespace yas {
-namespace processing {
-    template <typename T>
-    struct processing::number_event::type_impl : impl {
-        type_impl(T &&value) : _value(std::move(value)) {
+namespace yas::processing {
+template <typename T>
+struct processing::number_event::type_impl : impl {
+    type_impl(T &&value) : _value(std::move(value)) {
+    }
+
+    std::type_info const &type() const override {
+        return typeid(T);
+    }
+
+    std::size_t sample_byte_count() const override {
+        return sizeof(T);
+    }
+
+    virtual bool is_equal(std::shared_ptr<base::impl> const &rhs) const override {
+        if (auto casted_rhs = std::dynamic_pointer_cast<type_impl<T>>(rhs)) {
+            return this->_value == casted_rhs->_value;
         }
 
-        std::type_info const &type() const override {
-            return typeid(T);
-        }
+        return false;
+    }
 
-        std::size_t sample_byte_count() const override {
-            return sizeof(T);
-        }
+    event copy() override {
+        return number_event{_value};
+    }
 
-        virtual bool is_equal(std::shared_ptr<base::impl> const &rhs) const override {
-            if (auto casted_rhs = std::dynamic_pointer_cast<type_impl<T>>(rhs)) {
-                return this->_value == casted_rhs->_value;
-            }
-
-            return false;
-        }
-
-        event copy() override {
-            return number_event{_value};
-        }
-
-        T _value;
-    };
-}
+    T _value;
+};
 }
 
 template <typename T>

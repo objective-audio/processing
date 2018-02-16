@@ -11,19 +11,17 @@
 
 using namespace yas;
 
-namespace yas {
-namespace processing {
-    namespace sub_timeline {
-        struct context {
-            timeline timeline;
+namespace yas::processing {
+namespace sub_timeline {
+    struct context {
+        timeline timeline;
 
-            context(processing::timeline &&timeline) : timeline(std::move(timeline)) {
-            }
-        };
-
-        std::shared_ptr<context> make_context(timeline &&timeline) {
-            return std::make_shared<context>(std::move(timeline));
+        context(processing::timeline &&timeline) : timeline(std::move(timeline)) {
         }
+    };
+
+    std::shared_ptr<context> make_context(timeline &&timeline) {
+        return std::make_shared<context>(std::move(timeline));
     }
 }
 }

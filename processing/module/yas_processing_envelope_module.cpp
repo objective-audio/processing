@@ -9,63 +9,56 @@
 
 using namespace yas;
 
-namespace yas {
-namespace processing {
-    namespace envelope {
-        template <typename T>
-        struct context {
-            context(anchors_t<T> &&anchors)
-                : _anchors(std::move(anchors)),
-                  _prev(_anchors.cbegin()),
-                  _next(_anchors.cbegin()),
-                  _end(_anchors.cend()) {
-            }
-
-            void reset(time::range const &current_range) {
-                if (this->_last_range && this->_last_range->next_frame() != current_range.frame) {
-                    this->_prev = this->_next = _anchors.cbegin();
-                }
-
-                this->_last_range = current_range;
-            }
-
-            T value(frame_index_t const env_frame) {
-                if (this->_prev == this->_end) {
-                    return 0;
-                }
-
-                if (this->_prev == this->_next) {
-                    ++this->_next;
-                }
-
-                if (env_frame < this->_prev->first) {
-                    return this->_prev->second;
-                }
-
-                while (this->_next != this->_end && env_frame >= this->_next->first) {
-                    this->_prev = this->_next;
-                    ++this->_next;
-                }
-
-                if (this->_next == this->_end) {
-                    return this->_prev->second;
-                } else {
-                    auto const &prev_value = this->_prev->second;
-                    auto const &prev_frame = this->_prev->first;
-                    double const rate = double(env_frame - prev_frame) / (this->_next->first - prev_frame);
-                    return static_cast<T>((this->_next->second - prev_value) * rate + prev_value);
-                }
-            }
-
-           private:
-            anchors_t<T> _anchors;
-            typename anchors_t<T>::const_iterator _prev;
-            typename anchors_t<T>::const_iterator _next;
-            typename anchors_t<T>::const_iterator _end;
-            std::experimental::optional<time::range> _last_range;
-        };
+namespace yas::processing::envelope {
+template <typename T>
+struct context {
+    context(anchors_t<T> &&anchors)
+        : _anchors(std::move(anchors)), _prev(_anchors.cbegin()), _next(_anchors.cbegin()), _end(_anchors.cend()) {
     }
-}
+
+    void reset(time::range const &current_range) {
+        if (this->_last_range && this->_last_range->next_frame() != current_range.frame) {
+            this->_prev = this->_next = _anchors.cbegin();
+        }
+
+        this->_last_range = current_range;
+    }
+
+    T value(frame_index_t const env_frame) {
+        if (this->_prev == this->_end) {
+            return 0;
+        }
+
+        if (this->_prev == this->_next) {
+            ++this->_next;
+        }
+
+        if (env_frame < this->_prev->first) {
+            return this->_prev->second;
+        }
+
+        while (this->_next != this->_end && env_frame >= this->_next->first) {
+            this->_prev = this->_next;
+            ++this->_next;
+        }
+
+        if (this->_next == this->_end) {
+            return this->_prev->second;
+        } else {
+            auto const &prev_value = this->_prev->second;
+            auto const &prev_frame = this->_prev->first;
+            double const rate = double(env_frame - prev_frame) / (this->_next->first - prev_frame);
+            return static_cast<T>((this->_next->second - prev_value) * rate + prev_value);
+        }
+    }
+
+   private:
+    anchors_t<T> _anchors;
+    typename anchors_t<T>::const_iterator _prev;
+    typename anchors_t<T>::const_iterator _next;
+    typename anchors_t<T>::const_iterator _end;
+    std::experimental::optional<time::range> _last_range;
+};
 }
 
 template <typename T>

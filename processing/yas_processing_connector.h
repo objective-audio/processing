@@ -9,17 +9,15 @@
 #include <experimental/optional>
 #include <map>
 
-namespace yas {
-namespace processing {
-    struct connector {
-        channel_index_t channel_index;
-    };
+namespace yas::processing {
+struct connector {
+    channel_index_t channel_index;
+};
 
-    using connector_map_t = std::map<connector_index_t, connector>;
+using connector_map_t = std::map<connector_index_t, connector>;
 
-    template <typename T>
-    connector_index_t to_connector_index(T const &);
-}
+template <typename T>
+connector_index_t to_connector_index(T const &);
 }
 
 #include "yas_processing_connector_private.h"

@@ -10,15 +10,13 @@
 #include <functional>
 #include <string>
 
-namespace yas {
-namespace processing {
-    class sync_source;
+namespace yas::processing {
+class sync_source;
 
-    template <typename T>
-    using send_signal_process_f = std::function<void(processing::time::range const &, sync_source const &,
-                                                     channel_index_t const, connector_index_t const, T *const)>;
+template <typename T>
+using send_signal_process_f = std::function<void(processing::time::range const &, sync_source const &,
+                                                 channel_index_t const, connector_index_t const, T *const)>;
 
-    template <typename T>
-    processor_f make_send_signal_processor(send_signal_process_f<T>);
-}
+template <typename T>
+processor_f make_send_signal_processor(send_signal_process_f<T>);
 }

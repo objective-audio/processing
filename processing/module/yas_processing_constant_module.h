@@ -6,20 +6,18 @@
 
 #include "yas_processing_types.h"
 
-namespace yas {
-namespace processing {
-    class module;
+namespace yas::processing {
+class module;
 
-    namespace constant {
-        enum class output : connector_index_t {
-            value,
-        };
-    }
-
-    template <typename T>
-    module make_signal_module(T);
-
-    template <typename T>
-    module make_number_module(T);
+namespace constant {
+    enum class output : connector_index_t {
+        value,
+    };
 }
+
+template <typename T>
+module make_signal_module(T);
+
+template <typename T>
+module make_number_module(T);
 }

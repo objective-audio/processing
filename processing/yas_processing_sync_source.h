@@ -6,16 +6,14 @@
 
 #include "yas_processing_types.h"
 
-namespace yas {
-namespace processing {
-    struct sync_source {
-        sample_rate_t const sample_rate;
-        length_t const slice_length;
+namespace yas::processing {
+struct sync_source {
+    sample_rate_t const sample_rate;
+    length_t const slice_length;
 
-        sync_source(sample_rate_t const, length_t const);
+    sync_source(sample_rate_t const, length_t const);
 
-        bool operator==(sync_source const &) const;
-        bool operator!=(sync_source const &) const;
-    };
-}
+    bool operator==(sync_source const &) const;
+    bool operator!=(sync_source const &) const;
+};
 }
