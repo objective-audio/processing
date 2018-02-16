@@ -7,9 +7,7 @@
 #include "yas_processing_processor.h"
 #include <unordered_set>
 
-namespace yas {
-namespace processing {
-    template <typename T>
-    processor_f make_remove_signal_processor(connector_index_set_t);
-}
+namespace yas::processing {
+template <typename T>
+processor_f make_remove_signal_processor(connector_index_set_t);
 }
