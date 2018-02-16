@@ -7,11 +7,9 @@
 #include "yas_processing_time.h"
 #include "yas_processing_connector.h"
 
-namespace yas {
-namespace processing {
-    class stream;
+namespace yas::processing {
+class stream;
 
-    using processor_f = std::function<void(time::range const &, connector_map_t const &inputs,
-                                           connector_map_t const &outputs, stream &)>;
-}
+using processor_f =
+    std::function<void(time::range const &, connector_map_t const &inputs, connector_map_t const &outputs, stream &)>;
 }
