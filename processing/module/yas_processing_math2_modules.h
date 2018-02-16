@@ -6,40 +6,40 @@
 
 #include "yas_processing_types.h"
 
-namespace yas {
-namespace processing {
-    class module;
+namespace yas::processing {
+class module;
 
-    namespace math2 {
-        enum class kind {
-            plus,
-            minus,
-            multiply,
-            divide,
+namespace math2 {
+    enum class kind {
+        plus,
+        minus,
+        multiply,
+        divide,
 
-            atan2,
+        atan2,
 
-            pow,
-            hypot,
-        };
+        pow,
+        hypot,
+    };
 
-        enum class output : connector_index_t {
-            result,
-        };
+    enum class output : connector_index_t {
+        result,
+    };
 
-        enum class input : connector_index_t {
-            left,
-            right,
-        };
-    }
-
-    template <typename T>
-    module make_signal_module(math2::kind const);
-
-    template <typename T>
-    module make_number_module(math2::kind const);
+    enum class input : connector_index_t {
+        left,
+        right,
+    };
 }
 
+template <typename T>
+module make_signal_module(math2::kind const);
+
+template <typename T>
+module make_number_module(math2::kind const);
+}
+
+namespace yas {
 void connect(processing::module &, processing::math2::input const &, processing::channel_index_t const &);
 void connect(processing::module &, processing::math2::output const &, processing::channel_index_t const &);
 
