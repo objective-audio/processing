@@ -9,6 +9,7 @@
 namespace yas::processing {
 class module;
 
+/// 固定値を生成するモジュール
 namespace constant {
     enum class output : connector_index_t {
         value,

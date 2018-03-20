@@ -10,6 +10,7 @@
 namespace yas::processing {
 class module;
 
+/// 型を変換するモジュール
 namespace cast {
     enum class output : connector_index_t {
         value,

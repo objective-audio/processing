@@ -9,9 +9,10 @@
 namespace yas::processing {
 class module;
 
+/// 単純な生成モジュール
 namespace generator {
     enum class kind {
-        second,
+        second,  /// 1秒につき1.0増えるシグナルを生成する
     };
 
     enum class output : connector_index_t {

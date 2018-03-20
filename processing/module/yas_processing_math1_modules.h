@@ -10,6 +10,7 @@
 namespace yas::processing {
 class module;
 
+/// パラメータをひとつだけ受け取る算術関数の結果を生成するモジュール
 namespace math1 {
     enum class kind {
         sin,

@@ -9,6 +9,7 @@
 namespace yas::processing {
 class module;
 
+/// ルーティングするモジュール
 namespace routing {
     enum class kind {
         move,
