@@ -14,7 +14,7 @@
 #import <iostream>
 
 using namespace yas;
-using namespace yas::processing;
+using namespace yas::proc;
 
 typedef NS_ENUM(NSUInteger, SampleBits) {
     SampleBits16,
