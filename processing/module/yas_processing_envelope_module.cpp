@@ -68,20 +68,20 @@ processing::module processing::envelope::make_signal_module(anchors_t<T> anchors
     auto prepare_processor = [context](time::range const &current_range, connector_map_t const &,
                                        connector_map_t const &, stream &) mutable { context->reset(current_range); };
 
-    auto send_processor = processing::make_send_signal_processor<T>(
-        [context, offset](processing::time::range const &time_range, sync_source const &sync_src, channel_index_t const,
-                          connector_index_t const co_idx, T *const signal_ptr) {
-            static auto const output_co_idx = to_connector_index(output::value);
-            if (co_idx == output_co_idx) {
-                auto out_each = make_fast_each(signal_ptr, time_range.length);
+    auto send_processor = processing::make_send_signal_processor<T>([context, offset, out_each = fast_each<T *>{}](
+        processing::time::range const &time_range, sync_source const &sync_src, channel_index_t const,
+        connector_index_t const co_idx, T *const signal_ptr) mutable {
+        static auto const output_co_idx = to_connector_index(output::value);
+        if (co_idx == output_co_idx) {
+            out_each.reset(signal_ptr, time_range.length);
 
-                while (yas_each_next(out_each)) {
-                    auto const &idx = yas_each_index(out_each);
-                    auto const env_idx = time_range.frame + idx - offset;
-                    yas_each_value(out_each) = context->value(env_idx);
-                }
+            while (yas_each_next(out_each)) {
+                auto const &idx = yas_each_index(out_each);
+                auto const env_idx = time_range.frame + idx - offset;
+                yas_each_value(out_each) = context->value(env_idx);
             }
-        });
+        }
+    });
 
     return processing::module{{std::move(prepare_processor), std::move(send_processor)}};
 }

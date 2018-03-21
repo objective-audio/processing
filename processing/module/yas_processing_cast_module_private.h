@@ -39,27 +39,27 @@ processing::module make_signal_module() {
 
     auto remove_processor = processing::make_remove_signal_processor<In>({to_connector_index(input::value)});
 
-    auto send_processor = processing::make_send_signal_processor<Out>(
-        [context](processing::time::range const &time_range, sync_source const &, channel_index_t const,
-                  connector_index_t const co_idx, Out *const signal_ptr) {
-            static auto const output_co_idx = to_connector_index(output::value);
-            static auto const input_co_idx = to_connector_index(input::value);
+    auto send_processor = processing::make_send_signal_processor<Out>([context, out_each = fast_each<Out *>{}](
+        processing::time::range const &time_range, sync_source const &, channel_index_t const,
+        connector_index_t const co_idx, Out *const signal_ptr) mutable {
+        static auto const output_co_idx = to_connector_index(output::value);
+        static auto const input_co_idx = to_connector_index(input::value);
 
-            if (co_idx == output_co_idx) {
-                auto const *src_ptr = context->data(input_co_idx);
-                processing::time const &src_time = context->time(input_co_idx);
-                auto const src_offset = src_time ? time_range.frame - src_time.get<time::range>().frame : 0;
-                auto const &src_length = src_time ? src_time.get<time::range>().length : 0;
+        if (co_idx == output_co_idx) {
+            auto const *src_ptr = context->data(input_co_idx);
+            processing::time const &src_time = context->time(input_co_idx);
+            auto const src_offset = src_time ? time_range.frame - src_time.get<time::range>().frame : 0;
+            auto const &src_length = src_time ? src_time.get<time::range>().length : 0;
 
-                auto out_each = make_fast_each(signal_ptr, time_range.length);
-                while (yas_each_next(out_each)) {
-                    auto const &idx = yas_each_index(out_each);
-                    auto const src_idx = idx + src_offset;
-                    auto const &src_value = (src_idx >= 0 && src_idx < src_length) ? src_ptr[src_idx] : 0;
-                    yas_each_value(out_each) = static_cast<Out>(src_value);
-                }
+            out_each.reset(signal_ptr, time_range.length);
+            while (yas_each_next(out_each)) {
+                auto const &idx = yas_each_index(out_each);
+                auto const src_idx = idx + src_offset;
+                auto const &src_value = (src_idx >= 0 && src_idx < src_length) ? src_ptr[src_idx] : 0;
+                yas_each_value(out_each) = static_cast<Out>(src_value);
             }
-        });
+        }
+    });
 
     return processing::module{{std::move(prepare_processor), std::move(receive_processor), std::move(remove_processor),
                                std::move(send_processor)}};

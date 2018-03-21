@@ -38,26 +38,26 @@ processing::module processing::make_signal_module(processing::routing::kind cons
             }
         });
 
-    auto send_processor = processing::make_send_signal_processor<T>(
-        [context, kind](processing::time::range const &time_range, sync_source const &, channel_index_t const,
-                        connector_index_t const co_idx, T *const signal_ptr) {
-            if (co_idx == to_connector_index(output::value)) {
-                static auto const input_co_idx = to_connector_index(input::value);
+    auto send_processor = processing::make_send_signal_processor<T>([context, kind, out_each = fast_each<T *>{}](
+        processing::time::range const &time_range, sync_source const &, channel_index_t const,
+        connector_index_t const co_idx, T *const signal_ptr) mutable {
+        if (co_idx == to_connector_index(output::value)) {
+            static auto const input_co_idx = to_connector_index(input::value);
 
-                auto const *src_ptr = context->data(input_co_idx);
-                processing::time const &input_time = context->time(input_co_idx);
-                auto const src_offset = input_time ? time_range.frame - input_time.get<time::range>().frame : 0;
-                auto const &src_length = input_time ? input_time.get<time::range>().length : 0;
+            auto const *src_ptr = context->data(input_co_idx);
+            processing::time const &input_time = context->time(input_co_idx);
+            auto const src_offset = input_time ? time_range.frame - input_time.get<time::range>().frame : 0;
+            auto const &src_length = input_time ? input_time.get<time::range>().length : 0;
 
-                auto out_each = make_fast_each(signal_ptr, time_range.length);
-                while (yas_each_next(out_each)) {
-                    auto const &idx = yas_each_index(out_each);
-                    auto const src_idx = idx + src_offset;
-                    auto const &src_value = (src_idx >= 0 && src_idx < src_length) ? src_ptr[src_idx] : 0;
-                    yas_each_value(out_each) = src_value;
-                }
+            out_each.reset(signal_ptr, time_range.length);
+            while (yas_each_next(out_each)) {
+                auto const &idx = yas_each_index(out_each);
+                auto const src_idx = idx + src_offset;
+                auto const &src_value = (src_idx >= 0 && src_idx < src_length) ? src_ptr[src_idx] : 0;
+                yas_each_value(out_each) = src_value;
             }
-        });
+        }
+    });
 
     module::processors_t processors{prepare_processor, receive_processor};
     if (kind == kind::move) {
