@@ -6,7 +6,7 @@
 #import "yas_processing.h"
 
 using namespace yas;
-using namespace yas::processing;
+using namespace yas::proc;
 
 @interface yas_processing_number_processor_tests : XCTestCase
 
@@ -33,7 +33,7 @@ using namespace yas::processing;
     std::vector<called> called_params;
 
     auto processor = make_receive_number_processor<int64_t>(
-        [&called_params](processing::time::frame::type const &frame, channel_index_t const ch_idx,
+        [&called_params](proc::time::frame::type const &frame, channel_index_t const ch_idx,
                          connector_index_t const co_idx, int64_t const &value) {
             called called{.frame = frame, .ch_idx = ch_idx, .co_idx = co_idx, .value = value};
             called_params.emplace_back(std::move(called));

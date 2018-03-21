@@ -6,7 +6,7 @@
 #import "yas_processing.h"
 
 using namespace yas;
-using namespace yas::processing;
+using namespace yas::proc;
 
 @interface yas_processing_envelope_module_tests : XCTestCase
 
@@ -23,7 +23,7 @@ using namespace yas::processing;
 }
 
 - (void)test_make_signal_module {
-    XCTAssertTrue(processing::envelope::make_signal_module<int8_t>({}, 0));
+    XCTAssertTrue(proc::envelope::make_signal_module<int8_t>({}, 0));
 }
 
 - (void)test_process {

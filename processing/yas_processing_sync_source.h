@@ -6,7 +6,7 @@
 
 #include "yas_processing_types.h"
 
-namespace yas::processing {
+namespace yas::proc {
 struct sync_source {
     sample_rate_t const sample_rate;
     length_t const slice_length;

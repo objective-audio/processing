@@ -9,7 +9,7 @@
 #include "yas_processing_time.h"
 #include "yas_processing_channel.h"
 
-namespace yas::processing {
+namespace yas::proc {
 class sync_source;
 
 class stream : public base {
@@ -19,12 +19,12 @@ class stream : public base {
 
     sync_source const &sync_source() const;
 
-    processing::channel &add_channel(channel_index_t const);
-    processing::channel &add_channel(channel_index_t const, channel::events_map_t);
+    proc::channel &add_channel(channel_index_t const);
+    proc::channel &add_channel(channel_index_t const, channel::events_map_t);
     void remove_channel(channel_index_t const);
     bool has_channel(channel_index_t const);
-    processing::channel const &channel(channel_index_t const) const;
-    processing::channel &channel(channel_index_t const);
+    proc::channel const &channel(channel_index_t const) const;
+    proc::channel &channel(channel_index_t const);
     std::size_t channel_count() const;
 
    private:

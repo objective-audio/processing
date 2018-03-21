@@ -9,7 +9,7 @@ using namespace yas;
 
 #pragma mark - utility
 
-namespace yas::processing {
+namespace yas::proc {
 static void connect(connector_map_t &connectors, connector_index_t const idx, channel_index_t const ch_idx) {
     if (connectors.count(idx) == 0) {
         connectors.erase(idx);
@@ -26,7 +26,7 @@ static void disconnect(connector_map_t &connectors, connector_index_t const idx)
 
 #pragma mark - module::impl
 
-struct processing::module::impl : base::impl {
+struct proc::module::impl : base::impl {
     impl(processors_t &&processors) : _processors(std::move(processors)) {
     }
 
@@ -42,7 +42,7 @@ struct processing::module::impl : base::impl {
         return this->_processors;
     }
 
-    void process(processing::time::range const &time_range, stream &stream) {
+    void process(proc::time::range const &time_range, stream &stream) {
         for (auto &processor : this->_processors) {
             if (processor) {
                 processor(time_range, this->_input_connectors, this->_output_connectors, stream);
@@ -58,40 +58,40 @@ struct processing::module::impl : base::impl {
 
 #pragma mark - module
 
-processing::module::module(processors_t processors) : base(std::make_shared<impl>(std::move(processors))) {
+proc::module::module(processors_t processors) : base(std::make_shared<impl>(std::move(processors))) {
 }
 
-processing::module::module(std::nullptr_t) : base(nullptr) {
+proc::module::module(std::nullptr_t) : base(nullptr) {
 }
 
-void processing::module::process(time::range const &time_range, stream &stream) {
+void proc::module::process(time::range const &time_range, stream &stream) {
     this->impl_ptr<impl>()->process(time_range, stream);
 }
 
-processing::connector_map_t const &processing::module::input_connectors() const {
+proc::connector_map_t const &proc::module::input_connectors() const {
     return this->impl_ptr<impl>()->input_connectors();
 }
 
-processing::connector_map_t const &processing::module::output_connectors() const {
+proc::connector_map_t const &proc::module::output_connectors() const {
     return this->impl_ptr<impl>()->output_connectors();
 }
 
-void processing::module::connect_input(connector_index_t const co_idx, channel_index_t const ch_idx) {
+void proc::module::connect_input(connector_index_t const co_idx, channel_index_t const ch_idx) {
     connect(this->impl_ptr<impl>()->input_connectors(), co_idx, ch_idx);
 }
 
-void processing::module::connect_output(connector_index_t const co_idx, channel_index_t const ch_idx) {
+void proc::module::connect_output(connector_index_t const co_idx, channel_index_t const ch_idx) {
     connect(this->impl_ptr<impl>()->output_connectors(), co_idx, ch_idx);
 }
 
-void processing::module::disconnect_input(connector_index_t const idx) {
+void proc::module::disconnect_input(connector_index_t const idx) {
     disconnect(this->impl_ptr<impl>()->input_connectors(), idx);
 }
 
-void processing::module::disconnect_output(connector_index_t const idx) {
+void proc::module::disconnect_output(connector_index_t const idx) {
     disconnect(this->impl_ptr<impl>()->output_connectors(), idx);
 }
 
-processing::module::processors_t const &processing::module::processors() const {
+proc::module::processors_t const &proc::module::processors() const {
     return this->impl_ptr<impl>()->processors();
 }

@@ -7,7 +7,7 @@
 #include "yas_processing_types.h"
 #include <string>
 
-namespace yas::processing {
+namespace yas::proc {
 class module;
 
 /// 型を変換するモジュール
@@ -29,11 +29,11 @@ namespace cast {
 }
 
 namespace yas {
-void connect(processing::module &, processing::cast::input const &, processing::channel_index_t const &);
-void connect(processing::module &, processing::cast::output const &, processing::channel_index_t const &);
+void connect(proc::module &, proc::cast::input const &, proc::channel_index_t const &);
+void connect(proc::module &, proc::cast::output const &, proc::channel_index_t const &);
 
-std::string to_string(processing::cast::input const &);
-std::string to_string(processing::cast::output const &);
+std::string to_string(proc::cast::input const &);
+std::string to_string(proc::cast::output const &);
 }
 
 #include "yas_processing_cast_module_private.h"

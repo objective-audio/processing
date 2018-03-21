@@ -7,7 +7,7 @@
 #import "yas_boolean.h"
 
 using namespace yas;
-using namespace yas::processing;
+using namespace yas::proc;
 
 @interface yas_processing_compare_number_modules_tests : XCTestCase
 

@@ -12,7 +12,7 @@
 using namespace yas;
 
 template <typename T>
-processing::processor_f processing::make_remove_number_processor(connector_index_set_t keys) {
+proc::processor_f proc::make_remove_number_processor(connector_index_set_t keys) {
     return [keys = std::move(keys)](time::range const &time_range, connector_map_t const &input_connectors,
                                     connector_map_t const &, stream &stream) {
         for (auto const &connector_pair : input_connectors) {
@@ -31,7 +31,7 @@ processing::processor_f processing::make_remove_number_processor(connector_index
                     if (time.type() == typeid(time::frame)) {
                         auto const &frame = time.get<time::frame>();
                         if (time_range.is_contain(frame)) {
-                            if (auto const number = cast<processing::number_event>(pair.second)) {
+                            if (auto const number = cast<proc::number_event>(pair.second)) {
                                 return number.sample_type() == typeid(T);
                             }
                         }
@@ -45,14 +45,14 @@ processing::processor_f processing::make_remove_number_processor(connector_index
     };
 }
 
-template processing::processor_f processing::make_remove_number_processor<double>(connector_index_set_t);
-template processing::processor_f processing::make_remove_number_processor<float>(connector_index_set_t);
-template processing::processor_f processing::make_remove_number_processor<int64_t>(connector_index_set_t);
-template processing::processor_f processing::make_remove_number_processor<int32_t>(connector_index_set_t);
-template processing::processor_f processing::make_remove_number_processor<int16_t>(connector_index_set_t);
-template processing::processor_f processing::make_remove_number_processor<int8_t>(connector_index_set_t);
-template processing::processor_f processing::make_remove_number_processor<uint64_t>(connector_index_set_t);
-template processing::processor_f processing::make_remove_number_processor<uint32_t>(connector_index_set_t);
-template processing::processor_f processing::make_remove_number_processor<uint16_t>(connector_index_set_t);
-template processing::processor_f processing::make_remove_number_processor<uint8_t>(connector_index_set_t);
-template processing::processor_f processing::make_remove_number_processor<boolean>(connector_index_set_t);
+template proc::processor_f proc::make_remove_number_processor<double>(connector_index_set_t);
+template proc::processor_f proc::make_remove_number_processor<float>(connector_index_set_t);
+template proc::processor_f proc::make_remove_number_processor<int64_t>(connector_index_set_t);
+template proc::processor_f proc::make_remove_number_processor<int32_t>(connector_index_set_t);
+template proc::processor_f proc::make_remove_number_processor<int16_t>(connector_index_set_t);
+template proc::processor_f proc::make_remove_number_processor<int8_t>(connector_index_set_t);
+template proc::processor_f proc::make_remove_number_processor<uint64_t>(connector_index_set_t);
+template proc::processor_f proc::make_remove_number_processor<uint32_t>(connector_index_set_t);
+template proc::processor_f proc::make_remove_number_processor<uint16_t>(connector_index_set_t);
+template proc::processor_f proc::make_remove_number_processor<uint8_t>(connector_index_set_t);
+template proc::processor_f proc::make_remove_number_processor<boolean>(connector_index_set_t);

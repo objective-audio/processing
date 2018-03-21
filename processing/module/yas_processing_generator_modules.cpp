@@ -12,14 +12,14 @@
 using namespace yas;
 
 template <typename T>
-processing::module processing::make_signal_module(generator::kind const kind, frame_index_t const offset) {
-    using namespace yas::processing::generator;
+proc::module proc::make_signal_module(generator::kind const kind, frame_index_t const offset) {
+    using namespace yas::proc::generator;
 
     auto prepare_processor = [](time::range const &, connector_map_t const &, connector_map_t const &,
                                 stream &) mutable {};
 
-    auto send_processor = processing::make_send_signal_processor<T>([kind, offset, out_each = fast_each<T *>{}](
-        processing::time::range const &time_range, sync_source const &sync_src, channel_index_t const,
+    auto send_processor = proc::make_send_signal_processor<T>([kind, offset, out_each = fast_each<T *>{}](
+        proc::time::range const &time_range, sync_source const &sync_src, channel_index_t const,
         connector_index_t const co_idx, T *const signal_ptr) mutable {
         if (co_idx == to_connector_index(output::value)) {
             out_each.reset(signal_ptr, time_range.length);
@@ -37,21 +37,21 @@ processing::module processing::make_signal_module(generator::kind const kind, fr
         }
     });
 
-    return processing::module{{std::move(prepare_processor), std::move(send_processor)}};
+    return proc::module{{std::move(prepare_processor), std::move(send_processor)}};
 }
 
-template processing::module processing::make_signal_module<double>(generator::kind const, frame_index_t const);
-template processing::module processing::make_signal_module<float>(generator::kind const, frame_index_t const);
+template proc::module proc::make_signal_module<double>(generator::kind const, frame_index_t const);
+template proc::module proc::make_signal_module<float>(generator::kind const, frame_index_t const);
 
 #pragma mark -
 
-void yas::connect(processing::module &module, processing::generator::output const &output,
-                  processing::channel_index_t const &ch_idx) {
-    module.connect_output(processing::to_connector_index(output), ch_idx);
+void yas::connect(proc::module &module, proc::generator::output const &output,
+                  proc::channel_index_t const &ch_idx) {
+    module.connect_output(proc::to_connector_index(output), ch_idx);
 }
 
-std::string yas::to_string(processing::generator::output const &output) {
-    using namespace yas::processing::generator;
+std::string yas::to_string(proc::generator::output const &output) {
+    using namespace yas::proc::generator;
 
     switch (output) {
         case output::value:

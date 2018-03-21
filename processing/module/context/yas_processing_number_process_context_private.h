@@ -6,7 +6,7 @@
 
 #include "yas_fast_each.h"
 
-namespace yas::processing {
+namespace yas::proc {
 template <typename T, std::size_t N>
 number_process_context<T, N>::number_process_context() : _last_values(N) {
     static_assert(N > 0, "N must greater than 0");

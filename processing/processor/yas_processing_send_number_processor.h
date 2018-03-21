@@ -11,10 +11,10 @@
 #include "yas_processing_number_event.h"
 #include <functional>
 
-namespace yas::processing {
+namespace yas::proc {
 template <typename T>
 using send_number_process_f = std::function<number_event::value_map_t<T>(
-    processing::time::range const &, sync_source const &, channel_index_t const, connector_index_t const)>;
+    proc::time::range const &, sync_source const &, channel_index_t const, connector_index_t const)>;
 
 template <typename T>
 processor_f make_send_number_processor(send_number_process_f<T>);

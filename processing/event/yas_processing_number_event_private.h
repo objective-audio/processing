@@ -7,7 +7,7 @@
 #include "yas_processing_time.h"
 
 namespace yas {
-struct processing::number_event::impl : event::impl {
+struct proc::number_event::impl : event::impl {
     virtual std::type_info const &type() const = 0;
     virtual std::size_t sample_byte_count() const = 0;
 

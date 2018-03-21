@@ -6,7 +6,7 @@
 
 #include "yas_processing_types.h"
 
-namespace yas::processing {
+namespace yas::proc {
 class module;
 
 /// パラメータを2つ受け取る算術関数の結果を生成するモジュール
@@ -41,10 +41,10 @@ module make_number_module(math2::kind const);
 }
 
 namespace yas {
-void connect(processing::module &, processing::math2::input const &, processing::channel_index_t const &);
-void connect(processing::module &, processing::math2::output const &, processing::channel_index_t const &);
+void connect(proc::module &, proc::math2::input const &, proc::channel_index_t const &);
+void connect(proc::module &, proc::math2::output const &, proc::channel_index_t const &);
 
-std::string to_string(processing::math2::kind const &);
-std::string to_string(processing::math2::input const &);
-std::string to_string(processing::math2::output const &);
+std::string to_string(proc::math2::kind const &);
+std::string to_string(proc::math2::input const &);
+std::string to_string(proc::math2::output const &);
 }

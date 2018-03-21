@@ -11,12 +11,12 @@
 
 using namespace yas;
 
-namespace yas::processing {
+namespace yas::proc {
 namespace sub_timeline {
     struct context {
         timeline timeline;
 
-        context(processing::timeline &&timeline) : timeline(std::move(timeline)) {
+        context(proc::timeline &&timeline) : timeline(std::move(timeline)) {
         }
     };
 
@@ -26,12 +26,12 @@ namespace sub_timeline {
 }
 }
 
-processing::module processing::make_module(timeline timeline, frame_index_t const offset) {
+proc::module proc::make_module(timeline timeline, frame_index_t const offset) {
     auto context = sub_timeline::make_context(std::move(timeline));
 
     auto processor = [context, offset](time::range const &time_range, connector_map_t const &input_connectors,
                                        connector_map_t const &output_connectors, stream &stream) mutable {
-        processing::stream sub_stream{stream.sync_source()};
+        proc::stream sub_stream{stream.sync_source()};
 
         for (auto const &connector : input_connectors) {
             auto const &ch_idx = connector.second.channel_index;
@@ -74,5 +74,5 @@ processing::module processing::make_module(timeline timeline, frame_index_t cons
         }
     };
 
-    return processing::module{{std::move(processor)}};
+    return proc::module{{std::move(processor)}};
 }

@@ -6,13 +6,13 @@
 
 #include "yas_processing_types.h"
 
-namespace yas::processing {
+namespace yas::proc {
 class module;
 }
 
 /// 比較をするモジュール
 /// 出力はboolean
-namespace yas::processing::compare {
+namespace yas::proc::compare {
 enum class kind {
     is_equal,
     is_not_equal,
@@ -33,7 +33,7 @@ enum class output : connector_index_t {
 };
 }
 
-namespace yas::processing {
+namespace yas::proc {
 template <typename T>
 module make_signal_module(compare::kind const);
 
@@ -42,9 +42,9 @@ module make_number_module(compare::kind const);
 }
 
 namespace yas {
-void connect(processing::module &, processing::compare::input const &, processing::channel_index_t const &);
-void connect(processing::module &, processing::compare::output const &, processing::channel_index_t const &);
+void connect(proc::module &, proc::compare::input const &, proc::channel_index_t const &);
+void connect(proc::module &, proc::compare::output const &, proc::channel_index_t const &);
 
-std::string to_string(processing::compare::input const &);
-std::string to_string(processing::compare::output const &);
+std::string to_string(proc::compare::input const &);
+std::string to_string(proc::compare::output const &);
 }

@@ -6,7 +6,7 @@
 #import "yas_processing.h"
 
 using namespace yas;
-using namespace yas::processing;
+using namespace yas::proc;
 
 @interface yas_processing_time_tests : XCTestCase
 
@@ -23,21 +23,21 @@ using namespace yas::processing;
 }
 
 - (void)test_create_range_time {
-    processing::time time{1, 2};
+    proc::time time{1, 2};
 
     XCTAssertTrue(time);
     XCTAssertTrue(time.type() == typeid(time::range));
 }
 
 - (void)test_create_range_time_from_range {
-    processing::time time{time::range{0, 1}};
+    proc::time time{time::range{0, 1}};
 
     XCTAssertTrue(time);
     XCTAssertTrue(time.type() == typeid(time::range));
 }
 
 - (void)test_create_frame_time {
-    processing::time time{3};
+    proc::time time{3};
 
     XCTAssertTrue(time);
     XCTAssertTrue(time.type() == typeid(time::frame));
@@ -48,14 +48,14 @@ using namespace yas::processing;
 }
 
 - (void)test_create_any_time {
-    processing::time time;
+    proc::time time;
 
     XCTAssertTrue(time);
     XCTAssertTrue(time.type() == typeid(time::any));
 }
 
 - (void)test_create_null {
-    processing::time time = nullptr;
+    proc::time time = nullptr;
 
     XCTAssertFalse(time);
 }
@@ -90,7 +90,7 @@ using namespace yas::processing;
 }
 
 - (void)test_get_range_time {
-    processing::time time{1, 2};
+    proc::time time{1, 2};
 
     auto const &range = time.get<time::range>();
 
@@ -99,7 +99,7 @@ using namespace yas::processing;
 }
 
 - (void)test_get_frame_time {
-    processing::time time{3};
+    proc::time time{3};
 
     auto const &frame = time.get<time::frame>();
 

@@ -18,36 +18,36 @@
 #include "yas_processing_number_process_context.h"
 #include "yas_fast_each.h"
 
-namespace yas::processing::cast {
+namespace yas::proc::cast {
 template <typename In, typename Out>
-processing::module make_signal_module() {
+proc::module make_signal_module() {
     auto context = std::make_shared<signal_process_context<In, 1>>();
 
     auto prepare_processor = [context](time::range const &, connector_map_t const &, connector_map_t const &,
                                        stream &stream) mutable { context->reset(stream.sync_source().slice_length); };
 
-    auto receive_processor = processing::make_receive_signal_processor<In>(
-        [context](processing::time::range const &time_range, sync_source const &, channel_index_t const,
+    auto receive_processor = proc::make_receive_signal_processor<In>(
+        [context](proc::time::range const &time_range, sync_source const &, channel_index_t const,
                   connector_index_t const co_idx, In const *const signal_ptr) mutable {
             static auto const input_co_idx = to_connector_index(input::value);
 
             if (co_idx == input_co_idx) {
-                context->set_time(processing::time{time_range}, co_idx);
+                context->set_time(proc::time{time_range}, co_idx);
                 context->copy_data_from(signal_ptr, time_range.length, co_idx);
             }
         });
 
-    auto remove_processor = processing::make_remove_signal_processor<In>({to_connector_index(input::value)});
+    auto remove_processor = proc::make_remove_signal_processor<In>({to_connector_index(input::value)});
 
-    auto send_processor = processing::make_send_signal_processor<Out>([context, out_each = fast_each<Out *>{}](
-        processing::time::range const &time_range, sync_source const &, channel_index_t const,
+    auto send_processor = proc::make_send_signal_processor<Out>([context, out_each = fast_each<Out *>{}](
+        proc::time::range const &time_range, sync_source const &, channel_index_t const,
         connector_index_t const co_idx, Out *const signal_ptr) mutable {
         static auto const output_co_idx = to_connector_index(output::value);
         static auto const input_co_idx = to_connector_index(input::value);
 
         if (co_idx == output_co_idx) {
             auto const *src_ptr = context->data(input_co_idx);
-            processing::time const &src_time = context->time(input_co_idx);
+            proc::time const &src_time = context->time(input_co_idx);
             auto const src_offset = src_time ? time_range.frame - src_time.get<time::range>().frame : 0;
             auto const &src_length = src_time ? src_time.get<time::range>().length : 0;
 
@@ -61,26 +61,26 @@ processing::module make_signal_module() {
         }
     });
 
-    return processing::module{{std::move(prepare_processor), std::move(receive_processor), std::move(remove_processor),
+    return proc::module{{std::move(prepare_processor), std::move(receive_processor), std::move(remove_processor),
                                std::move(send_processor)}};
 }
 
 template <typename In, typename Out>
-processing::module make_number_module() {
+proc::module make_number_module() {
     auto context = std::make_shared<number_process_context<In, 2>>();
 
     auto prepare_processor = [context](time::range const &current_range, connector_map_t const &,
                                        connector_map_t const &, stream &) mutable { context->reset(current_range); };
 
-    auto receive_processor = processing::make_receive_number_processor<In>(
-        [context](processing::time::frame::type const &frame, channel_index_t const ch_idx,
+    auto receive_processor = proc::make_receive_number_processor<In>(
+        [context](proc::time::frame::type const &frame, channel_index_t const ch_idx,
                   connector_index_t const co_idx, In const &value) {
             if (co_idx == to_connector_index(input::value)) {
                 context->insert_input(frame, value, co_idx);
             }
         });
 
-    auto remove_processor = processing::make_remove_number_processor<In>({to_connector_index(input::value)});
+    auto remove_processor = proc::make_remove_number_processor<In>({to_connector_index(input::value)});
 
     auto send_processor = [context](time::range const &current_time_range, connector_map_t const &,
                                     connector_map_t const &output_connectors, stream &stream) {
@@ -98,7 +98,7 @@ processing::module make_number_module() {
         }
     };
 
-    return processing::module{{std::move(prepare_processor), std::move(receive_processor), std::move(remove_processor),
+    return proc::module{{std::move(prepare_processor), std::move(receive_processor), std::move(remove_processor),
                                std::move(send_processor)}};
 }
 }

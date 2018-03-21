@@ -7,7 +7,7 @@
 #include "yas_processing_types.h"
 #include <map>
 
-namespace yas::processing {
+namespace yas::proc {
 class module;
 
 /// エンベロープを生成するモジュール
@@ -25,7 +25,7 @@ namespace envelope {
 }
 
 namespace yas {
-void connect(processing::module &, processing::envelope::output const &, processing::channel_index_t const &);
+void connect(proc::module &, proc::envelope::output const &, proc::channel_index_t const &);
 
-std::string to_string(processing::envelope::output const &);
+std::string to_string(proc::envelope::output const &);
 }

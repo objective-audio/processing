@@ -10,7 +10,7 @@
 #include <vector>
 #include <experimental/optional>
 
-namespace yas::processing {
+namespace yas::proc {
 template <typename T, std::size_t N>
 struct number_process_context {
     struct input {

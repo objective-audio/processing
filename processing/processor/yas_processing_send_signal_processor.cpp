@@ -12,7 +12,7 @@
 using namespace yas;
 
 template <typename T>
-processing::processor_f processing::make_send_signal_processor(processing::send_signal_process_f<T> handler) {
+proc::processor_f proc::make_send_signal_processor(proc::send_signal_process_f<T> handler) {
     return [handler = std::move(handler)](time::range const &current_time_range, connector_map_t const &,
                                           connector_map_t const &output_connectors, stream &stream) {
         if (handler) {
@@ -24,7 +24,7 @@ processing::processor_f processing::make_send_signal_processor(processing::send_
                 auto &channel = stream.add_channel(ch_idx);
 
                 if (channel.events().size() > 0) {
-                    processing::time::range combined_time_range = current_time_range;
+                    proc::time::range combined_time_range = current_time_range;
 
                     auto predicate = [&current_time_range](auto const &pair) {
                         if (pair.first.can_combine(current_time_range)) {
@@ -71,14 +71,14 @@ processing::processor_f processing::make_send_signal_processor(processing::send_
     };
 }
 
-template processing::processor_f processing::make_send_signal_processor(processing::send_signal_process_f<double>);
-template processing::processor_f processing::make_send_signal_processor(processing::send_signal_process_f<float>);
-template processing::processor_f processing::make_send_signal_processor(processing::send_signal_process_f<int64_t>);
-template processing::processor_f processing::make_send_signal_processor(processing::send_signal_process_f<int32_t>);
-template processing::processor_f processing::make_send_signal_processor(processing::send_signal_process_f<int16_t>);
-template processing::processor_f processing::make_send_signal_processor(processing::send_signal_process_f<int8_t>);
-template processing::processor_f processing::make_send_signal_processor(processing::send_signal_process_f<uint64_t>);
-template processing::processor_f processing::make_send_signal_processor(processing::send_signal_process_f<uint32_t>);
-template processing::processor_f processing::make_send_signal_processor(processing::send_signal_process_f<uint16_t>);
-template processing::processor_f processing::make_send_signal_processor(processing::send_signal_process_f<uint8_t>);
-template processing::processor_f processing::make_send_signal_processor(processing::send_signal_process_f<boolean>);
+template proc::processor_f proc::make_send_signal_processor(proc::send_signal_process_f<double>);
+template proc::processor_f proc::make_send_signal_processor(proc::send_signal_process_f<float>);
+template proc::processor_f proc::make_send_signal_processor(proc::send_signal_process_f<int64_t>);
+template proc::processor_f proc::make_send_signal_processor(proc::send_signal_process_f<int32_t>);
+template proc::processor_f proc::make_send_signal_processor(proc::send_signal_process_f<int16_t>);
+template proc::processor_f proc::make_send_signal_processor(proc::send_signal_process_f<int8_t>);
+template proc::processor_f proc::make_send_signal_processor(proc::send_signal_process_f<uint64_t>);
+template proc::processor_f proc::make_send_signal_processor(proc::send_signal_process_f<uint32_t>);
+template proc::processor_f proc::make_send_signal_processor(proc::send_signal_process_f<uint16_t>);
+template proc::processor_f proc::make_send_signal_processor(proc::send_signal_process_f<uint8_t>);
+template proc::processor_f proc::make_send_signal_processor(proc::send_signal_process_f<boolean>);

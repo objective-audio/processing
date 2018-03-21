@@ -7,7 +7,7 @@
 #import "yas_each_index.h"
 
 using namespace yas;
-using namespace yas::processing;
+using namespace yas::proc;
 
 @interface yas_processing_timeline_tests : XCTestCase
 
@@ -72,8 +72,8 @@ using namespace yas::processing;
 - (void)test_process {
     timeline timeline;
 
-    processing::time called_send_time = nullptr;
-    processing::time called_receive_time = nullptr;
+    proc::time called_send_time = nullptr;
+    proc::time called_receive_time = nullptr;
 
     auto process_signal = make_signal_event<int16_t>(2);
 
@@ -90,7 +90,7 @@ using namespace yas::processing;
 
     track &track1 = timeline.add_track(1);
 
-    auto send_handler1 = [](processing::time::range const &time_range, sync_source const &,
+    auto send_handler1 = [](proc::time::range const &time_range, sync_source const &,
                             channel_index_t const ch_idx, connector_index_t const co_idx, int16_t *const signal_ptr) {
         if (co_idx == 0) {
             for (auto const &idx : make_each_index(time_range.length)) {
@@ -110,9 +110,9 @@ using namespace yas::processing;
     track &track2 = timeline.add_track(2);
 
     auto send_handler2 = [&process_signal, &called_send_time](
-        processing::time::range const &time_range, sync_source const &, channel_index_t const ch_idx,
+        proc::time::range const &time_range, sync_source const &, channel_index_t const ch_idx,
         connector_index_t const co_idx, int16_t *const signal_ptr) {
-        called_send_time = processing::time{time_range};
+        called_send_time = proc::time{time_range};
 
         if (co_idx == 0) {
             auto &vec = process_signal.vector<int16_t>();
@@ -123,9 +123,9 @@ using namespace yas::processing;
     };
 
     auto receive_handler2 = [&process_signal, &called_receive_time](
-        processing::time::range const &time_range, sync_source const &, channel_index_t const ch_idx,
+        proc::time::range const &time_range, sync_source const &, channel_index_t const ch_idx,
         connector_index_t const co_idx, int16_t const *const signal_ptr) {
-        called_receive_time = processing::time{time_range};
+        called_receive_time = proc::time{time_range};
 
         if (co_idx == 0) {
             auto &vec = process_signal.vector<int16_t>();
@@ -149,13 +149,13 @@ using namespace yas::processing;
 
         timeline.process({0, 2}, stream);
 
-        XCTAssertTrue((called_send_time == processing::time{0, 2}));
-        XCTAssertTrue((called_receive_time == processing::time{0, 2}));
+        XCTAssertTrue((called_send_time == proc::time{0, 2}));
+        XCTAssertTrue((called_receive_time == proc::time{0, 2}));
 
         XCTAssertTrue(stream.has_channel(0));
         auto &events = stream.channel(0).events();
         XCTAssertEqual(events.size(), 1);
-        auto const &vec = cast<processing::signal_event>(events.cbegin()->second).vector<int16_t>();
+        auto const &vec = cast<proc::signal_event>(events.cbegin()->second).vector<int16_t>();
         XCTAssertEqual(vec.size(), 2);
         XCTAssertEqual(vec[0], 1);
         XCTAssertEqual(vec[1], 2);
@@ -168,13 +168,13 @@ using namespace yas::processing;
 
         timeline.process({-1, 2}, stream);
 
-        XCTAssertTrue((called_send_time == processing::time{0, 1}));
-        XCTAssertTrue((called_receive_time == processing::time{0, 1}));
+        XCTAssertTrue((called_send_time == proc::time{0, 1}));
+        XCTAssertTrue((called_receive_time == proc::time{0, 1}));
 
         XCTAssertTrue(stream.has_channel(0));
         auto &events = stream.channel(0).events();
         XCTAssertEqual(events.size(), 1);
-        auto const &vec = cast<processing::signal_event>(events.cbegin()->second).vector<int16_t>();
+        auto const &vec = cast<proc::signal_event>(events.cbegin()->second).vector<int16_t>();
         XCTAssertEqual(vec.size(), 1);
         XCTAssertEqual(vec[0], 1);
     }
@@ -186,13 +186,13 @@ using namespace yas::processing;
 
         timeline.process({1, 2}, stream);
 
-        XCTAssertTrue((called_send_time == processing::time{1, 1}));
-        XCTAssertTrue((called_receive_time == processing::time{1, 1}));
+        XCTAssertTrue((called_send_time == proc::time{1, 1}));
+        XCTAssertTrue((called_receive_time == proc::time{1, 1}));
 
         XCTAssertTrue(stream.has_channel(0));
         auto &events = stream.channel(0).events();
         XCTAssertEqual(events.size(), 1);
-        auto const &vec = cast<processing::signal_event>(events.cbegin()->second).vector<int16_t>();
+        auto const &vec = cast<proc::signal_event>(events.cbegin()->second).vector<int16_t>();
         XCTAssertEqual(vec.size(), 1);
         XCTAssertEqual(vec[0], 1);
     }
@@ -215,7 +215,7 @@ using namespace yas::processing;
     length_t const process_length = 5;
 
     auto &track = timeline.add_track(0);
-    auto fast_each = make_fast_each<length_t>(process_length);
+    auto fast_each = make_fast_each<frame_index_t>(process_length);
     while (yas_each_next(fast_each)) {
         auto const &idx = yas_each_index(fast_each);
         auto module = make_signal_module<int8_t>(idx);

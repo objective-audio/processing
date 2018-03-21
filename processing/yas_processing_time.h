@@ -10,7 +10,7 @@
 #include <vector>
 #include <experimental/optional>
 
-namespace yas::processing {
+namespace yas::proc {
 class time : public base {
     template <typename T>
     class impl;
@@ -78,7 +78,7 @@ class time : public base {
     time offset(frame_index_t const &) const;
 
    private:
-    static std::shared_ptr<processing::time::impl<time::any>> const &any_impl_ptr();
+    static std::shared_ptr<proc::time::impl<time::any>> const &any_impl_ptr();
 };
 
 time make_range_time(frame_index_t const, length_t const);
@@ -87,6 +87,6 @@ time make_any_time();
 }
 
 namespace yas {
-std::string to_string(processing::time const &);
-std::string to_string(processing::time::range const &);
+std::string to_string(proc::time const &);
+std::string to_string(proc::time::range const &);
 }

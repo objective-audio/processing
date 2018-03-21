@@ -17,20 +17,20 @@
 using namespace yas;
 
 template <typename T>
-processing::module processing::make_number_to_signal_module() {
+proc::module proc::make_number_to_signal_module() {
     auto context = std::make_shared<number_process_context<T, 1>>();
 
     auto prepare_processor = [context](time::range const &current_range, connector_map_t const &,
                                        connector_map_t const &, stream &) mutable { context->reset(current_range); };
 
     auto receive_processor = make_receive_number_processor<T>(
-        [context](processing::time::frame::type const &frame, channel_index_t const, connector_index_t const,
+        [context](proc::time::frame::type const &frame, channel_index_t const, connector_index_t const,
                   T const &value) mutable { context->insert_input(frame, value, 0); });
 
     auto remove_processor = make_remove_number_processor<T>({to_connector_index(number_to_signal::input::number)});
 
     auto send_processor = make_send_signal_processor<T>([context, out_each = fast_each<T *>{}](
-        processing::time::range const &time_range, sync_source const &, channel_index_t const, connector_index_t const,
+        proc::time::range const &time_range, sync_source const &, channel_index_t const, connector_index_t const,
         T *const signal_ptr) mutable {
         auto const top_frame = time_range.frame;
         auto iterator = context->inputs().cbegin();
@@ -54,32 +54,32 @@ processing::module processing::make_number_to_signal_module() {
                    std::move(send_processor)}};
 }
 
-template processing::module processing::make_number_to_signal_module<double>();
-template processing::module processing::make_number_to_signal_module<float>();
-template processing::module processing::make_number_to_signal_module<int64_t>();
-template processing::module processing::make_number_to_signal_module<int32_t>();
-template processing::module processing::make_number_to_signal_module<int16_t>();
-template processing::module processing::make_number_to_signal_module<int8_t>();
-template processing::module processing::make_number_to_signal_module<uint64_t>();
-template processing::module processing::make_number_to_signal_module<uint32_t>();
-template processing::module processing::make_number_to_signal_module<uint16_t>();
-template processing::module processing::make_number_to_signal_module<uint8_t>();
-template processing::module processing::make_number_to_signal_module<boolean>();
+template proc::module proc::make_number_to_signal_module<double>();
+template proc::module proc::make_number_to_signal_module<float>();
+template proc::module proc::make_number_to_signal_module<int64_t>();
+template proc::module proc::make_number_to_signal_module<int32_t>();
+template proc::module proc::make_number_to_signal_module<int16_t>();
+template proc::module proc::make_number_to_signal_module<int8_t>();
+template proc::module proc::make_number_to_signal_module<uint64_t>();
+template proc::module proc::make_number_to_signal_module<uint32_t>();
+template proc::module proc::make_number_to_signal_module<uint16_t>();
+template proc::module proc::make_number_to_signal_module<uint8_t>();
+template proc::module proc::make_number_to_signal_module<boolean>();
 
 #pragma mark -
 
-void yas::connect(processing::module &module, processing::number_to_signal::input const &input,
-                  processing::channel_index_t const &ch_idx) {
-    module.connect_input(processing::to_connector_index(input), ch_idx);
+void yas::connect(proc::module &module, proc::number_to_signal::input const &input,
+                  proc::channel_index_t const &ch_idx) {
+    module.connect_input(proc::to_connector_index(input), ch_idx);
 }
 
-void yas::connect(processing::module &module, processing::number_to_signal::output const &output,
-                  processing::channel_index_t const &ch_idx) {
-    module.connect_output(processing::to_connector_index(output), ch_idx);
+void yas::connect(proc::module &module, proc::number_to_signal::output const &output,
+                  proc::channel_index_t const &ch_idx) {
+    module.connect_output(proc::to_connector_index(output), ch_idx);
 }
 
-std::string yas::to_string(processing::number_to_signal::input const &input) {
-    using namespace yas::processing::number_to_signal;
+std::string yas::to_string(proc::number_to_signal::input const &input) {
+    using namespace yas::proc::number_to_signal;
 
     switch (input) {
         case input::number:
@@ -89,8 +89,8 @@ std::string yas::to_string(processing::number_to_signal::input const &input) {
     throw "input not found.";
 }
 
-std::string yas::to_string(processing::number_to_signal::output const &output) {
-    using namespace yas::processing::number_to_signal;
+std::string yas::to_string(proc::number_to_signal::output const &output) {
+    using namespace yas::proc::number_to_signal;
 
     switch (output) {
         case output::signal:

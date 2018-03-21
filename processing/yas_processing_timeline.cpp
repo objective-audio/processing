@@ -11,7 +11,7 @@ using namespace yas;
 
 #pragma mark - timeline::impl
 
-struct processing::timeline::impl : base::impl {
+struct proc::timeline::impl : base::impl {
     track_map_t _tracks;
 
     void process(time::range const &time_range, stream &stream) {
@@ -23,57 +23,56 @@ struct processing::timeline::impl : base::impl {
 
 #pragma mark - timeline
 
-processing::timeline::timeline() : base(std::make_shared<impl>()) {
+proc::timeline::timeline() : base(std::make_shared<impl>()) {
 }
 
-processing::timeline::timeline(std::nullptr_t) : base(nullptr) {
+proc::timeline::timeline(std::nullptr_t) : base(nullptr) {
 }
 
-processing::timeline::track_map_t const &processing::timeline::tracks() const {
+proc::timeline::track_map_t const &proc::timeline::tracks() const {
     return this->impl_ptr<impl>()->_tracks;
 }
 
-processing::timeline::track_map_t &processing::timeline::tracks() {
+proc::timeline::track_map_t &proc::timeline::tracks() {
     return this->impl_ptr<impl>()->_tracks;
 }
 
-processing::track &processing::timeline::add_track(track_index_t const trk_idx) {
+proc::track &proc::timeline::add_track(track_index_t const trk_idx) {
     auto &tracks = this->impl_ptr<impl>()->_tracks;
     if (tracks.count(trk_idx) == 0) {
-        tracks.emplace(trk_idx, processing::track{});
+        tracks.emplace(trk_idx, proc::track{});
     }
     return tracks.at(trk_idx);
 }
 
-void processing::timeline::remove_track(track_index_t const trk_idx) {
+void proc::timeline::remove_track(track_index_t const trk_idx) {
     auto &tracks = this->impl_ptr<impl>()->_tracks;
     if (tracks.count(trk_idx) > 0) {
         tracks.erase(trk_idx);
     }
 }
 
-std::size_t processing::timeline::track_count() const {
+std::size_t proc::timeline::track_count() const {
     return this->impl_ptr<impl>()->_tracks.size();
 }
 
-bool processing::timeline::has_track(track_index_t const idx) const {
+bool proc::timeline::has_track(track_index_t const idx) const {
     return this->impl_ptr<impl>()->_tracks.count(idx) > 0;
 }
 
-processing::track const &processing::timeline::track(track_index_t const trk_idx) const {
+proc::track const &proc::timeline::track(track_index_t const trk_idx) const {
     return this->impl_ptr<impl>()->_tracks.at(trk_idx);
 }
 
-processing::track &processing::timeline::track(track_index_t const trk_idx) {
+proc::track &proc::timeline::track(track_index_t const trk_idx) {
     return this->impl_ptr<impl>()->_tracks.at(trk_idx);
 }
 
-void processing::timeline::process(time::range const &time_range, stream &stream) {
+void proc::timeline::process(time::range const &time_range, stream &stream) {
     this->impl_ptr<impl>()->process(time_range, stream);
 }
 
-void processing::timeline::process(time::range const &time_range, sync_source const &sync_src,
-                                   offline_process_f handler) {
+void proc::timeline::process(time::range const &time_range, sync_source const &sync_src, offline_process_f handler) {
     frame_index_t frame = time_range.frame;
 
     while (frame < time_range.next_frame()) {
@@ -89,13 +88,13 @@ void processing::timeline::process(time::range const &time_range, sync_source co
         this->process(current_time_range, stream);
 
         bool stop = false;
-        
+
         handler(current_time_range, stream, stop);
 
         if (stop) {
             break;
         }
-        
+
         frame += sync_src.slice_length;
     }
 }

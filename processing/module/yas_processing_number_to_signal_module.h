@@ -6,7 +6,7 @@
 
 #include "yas_processing_types.h"
 
-namespace yas::processing {
+namespace yas::proc {
 class module;
 
 /// 数値からシグナルへ変換するモジュール
@@ -25,9 +25,9 @@ module make_number_to_signal_module();
 }
 
 namespace yas {
-void connect(processing::module &, processing::number_to_signal::input const &, processing::channel_index_t const &);
-void connect(processing::module &, processing::number_to_signal::output const &, processing::channel_index_t const &);
+void connect(proc::module &, proc::number_to_signal::input const &, proc::channel_index_t const &);
+void connect(proc::module &, proc::number_to_signal::output const &, proc::channel_index_t const &);
 
-std::string to_string(processing::number_to_signal::input const &);
-std::string to_string(processing::number_to_signal::output const &);
+std::string to_string(proc::number_to_signal::input const &);
+std::string to_string(proc::number_to_signal::output const &);
 }

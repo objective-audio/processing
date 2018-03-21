@@ -6,7 +6,7 @@
 #import "yas_processing.h"
 
 using namespace yas;
-using namespace yas::processing;
+using namespace yas::proc;
 
 @interface yas_processing_constants_tests : XCTestCase
 

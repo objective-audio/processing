@@ -7,7 +7,7 @@
 #include "yas_base.h"
 #include "yas_processing_time.h"
 
-namespace yas::processing {
+namespace yas::proc {
 class event;
 class signal_event;
 

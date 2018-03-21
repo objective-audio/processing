@@ -10,11 +10,11 @@
 #include <functional>
 #include <string>
 
-namespace yas::processing {
+namespace yas::proc {
 class sync_source;
 
 template <typename T>
-using send_signal_process_f = std::function<void(processing::time::range const &, sync_source const &,
+using send_signal_process_f = std::function<void(proc::time::range const &, sync_source const &,
                                                  channel_index_t const, connector_index_t const, T *const)>;
 
 template <typename T>

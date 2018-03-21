@@ -9,7 +9,7 @@
 #include <experimental/optional>
 #include <map>
 
-namespace yas::processing {
+namespace yas::proc {
 struct connector {
     channel_index_t channel_index;
 };

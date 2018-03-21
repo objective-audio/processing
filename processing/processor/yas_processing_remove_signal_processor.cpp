@@ -11,7 +11,7 @@
 using namespace yas;
 
 template <typename T>
-processing::processor_f processing::make_remove_signal_processor(connector_index_set_t keys) {
+proc::processor_f proc::make_remove_signal_processor(connector_index_set_t keys) {
     return [keys = std::move(keys)](time::range const &current_time_range, connector_map_t const &input_connectors,
                                     connector_map_t const &, stream &stream) {
         for (auto const &connector_pair : input_connectors) {
@@ -56,14 +56,14 @@ processing::processor_f processing::make_remove_signal_processor(connector_index
     };
 }
 
-template processing::processor_f processing::make_remove_signal_processor<double>(connector_index_set_t);
-template processing::processor_f processing::make_remove_signal_processor<float>(connector_index_set_t);
-template processing::processor_f processing::make_remove_signal_processor<int64_t>(connector_index_set_t);
-template processing::processor_f processing::make_remove_signal_processor<int32_t>(connector_index_set_t);
-template processing::processor_f processing::make_remove_signal_processor<int16_t>(connector_index_set_t);
-template processing::processor_f processing::make_remove_signal_processor<int8_t>(connector_index_set_t);
-template processing::processor_f processing::make_remove_signal_processor<uint64_t>(connector_index_set_t);
-template processing::processor_f processing::make_remove_signal_processor<uint32_t>(connector_index_set_t);
-template processing::processor_f processing::make_remove_signal_processor<uint16_t>(connector_index_set_t);
-template processing::processor_f processing::make_remove_signal_processor<uint8_t>(connector_index_set_t);
-template processing::processor_f processing::make_remove_signal_processor<boolean>(connector_index_set_t);
+template proc::processor_f proc::make_remove_signal_processor<double>(connector_index_set_t);
+template proc::processor_f proc::make_remove_signal_processor<float>(connector_index_set_t);
+template proc::processor_f proc::make_remove_signal_processor<int64_t>(connector_index_set_t);
+template proc::processor_f proc::make_remove_signal_processor<int32_t>(connector_index_set_t);
+template proc::processor_f proc::make_remove_signal_processor<int16_t>(connector_index_set_t);
+template proc::processor_f proc::make_remove_signal_processor<int8_t>(connector_index_set_t);
+template proc::processor_f proc::make_remove_signal_processor<uint64_t>(connector_index_set_t);
+template proc::processor_f proc::make_remove_signal_processor<uint32_t>(connector_index_set_t);
+template proc::processor_f proc::make_remove_signal_processor<uint16_t>(connector_index_set_t);
+template proc::processor_f proc::make_remove_signal_processor<uint8_t>(connector_index_set_t);
+template proc::processor_f proc::make_remove_signal_processor<boolean>(connector_index_set_t);

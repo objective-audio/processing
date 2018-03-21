@@ -6,7 +6,7 @@
 #import "yas_processing.h"
 
 using namespace yas;
-using namespace yas::processing;
+using namespace yas::proc;
 
 @interface yas_processing_remove_number_processor_tests : XCTestCase
 
@@ -26,12 +26,12 @@ using namespace yas::processing;
     stream stream{sync_source{1, 1}};
 
     auto &channel0 = stream.add_channel(0);
-    channel0.insert_event(make_frame_time(0), processing::number_event{int8_t(0)});
-    channel0.insert_event(make_frame_time(0), processing::number_event{float(1.0f)});
-    channel0.insert_event(make_frame_time(10), processing::number_event{int8_t(10)});
+    channel0.insert_event(make_frame_time(0), proc::number_event{int8_t(0)});
+    channel0.insert_event(make_frame_time(0), proc::number_event{float(1.0f)});
+    channel0.insert_event(make_frame_time(10), proc::number_event{int8_t(10)});
 
     auto &channel1 = stream.add_channel(1);
-    channel1.insert_event(make_frame_time(0), processing::number_event{int8_t(0)});
+    channel1.insert_event(make_frame_time(0), proc::number_event{int8_t(0)});
 
     module module{{make_remove_number_processor<int8_t>({0})}};
 

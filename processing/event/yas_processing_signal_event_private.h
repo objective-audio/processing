@@ -7,7 +7,7 @@
 #include "yas_processing_time.h"
 
 namespace yas {
-struct processing::signal_event::impl : event::impl {
+struct proc::signal_event::impl : event::impl {
     virtual std::type_info const &type() const = 0;
     virtual std::size_t sample_byte_count() const = 0;
     virtual std::size_t size() const = 0;
@@ -28,7 +28,7 @@ struct processing::signal_event::impl : event::impl {
 };
 
 template <typename T>
-struct processing::signal_event::type_impl : impl {
+struct proc::signal_event::type_impl : impl {
     type_impl(std::vector<T> &&bytes) : _vector(std::move(bytes)), _vector_ref(_vector) {
     }
 
@@ -50,7 +50,7 @@ struct processing::signal_event::type_impl : impl {
     std::size_t size() const override {
         return this->_vector_ref.size();
     }
-    
+
     std::size_t byte_size() const override {
         return sizeof(T) * this->_vector_ref.size();
     }
@@ -134,7 +134,7 @@ struct processing::signal_event::type_impl : impl {
 
             event_signal.copy_to<T>(&vec[event_range.frame - combined_range.frame], event_range.length);
         }
-        
+
         this->copy_to(&vec[current_range.frame - combined_range.frame], current_range.length);
 
         return std::make_pair(combined_range, signal_event{std::move(vec)});
@@ -150,53 +150,52 @@ struct processing::signal_event::type_impl : impl {
 };
 
 template <typename T>
-processing::signal_event::signal_event(std::vector<T> &&bytes)
-    : event(std::make_shared<type_impl<T>>(std::move(bytes))) {
+proc::signal_event::signal_event(std::vector<T> &&bytes) : event(std::make_shared<type_impl<T>>(std::move(bytes))) {
 }
 
 template <typename T>
-processing::signal_event::signal_event(std::vector<T> &bytes) : event(std::make_shared<type_impl<T>>(bytes)) {
+proc::signal_event::signal_event(std::vector<T> &bytes) : event(std::make_shared<type_impl<T>>(bytes)) {
 }
 
 template <typename T>
-std::vector<T> const &processing::signal_event::vector() const {
+std::vector<T> const &proc::signal_event::vector() const {
     return this->impl_ptr<signal_event::type_impl<T>>()->vector();
 }
 
 template <typename T>
-std::vector<T> &processing::signal_event::vector() {
+std::vector<T> &proc::signal_event::vector() {
     return this->impl_ptr<signal_event::type_impl<T>>()->vector();
 }
 
 template <typename T>
-T const *processing::signal_event::data() const {
+T const *proc::signal_event::data() const {
     return this->impl_ptr<signal_event::type_impl<T>>()->vector().data();
 }
 
 template <typename T>
-T *processing::signal_event::data() {
+T *proc::signal_event::data() {
     return this->impl_ptr<signal_event::type_impl<T>>()->vector().data();
 }
 
 template <typename T>
-void processing::signal_event::copy_from(T const *ptr, std::size_t const size) {
+void proc::signal_event::copy_from(T const *ptr, std::size_t const size) {
     this->impl_ptr<signal_event::type_impl<T>>()->copy_from(ptr, size);
 }
 
 template <typename T>
-void processing::signal_event::copy_to(T *ptr, std::size_t const size) const {
+void proc::signal_event::copy_to(T *ptr, std::size_t const size) const {
     this->impl_ptr<signal_event::type_impl<T>>()->copy_to(ptr, size);
 }
 
 template <typename T>
-processing::signal_event processing::make_signal_event(std::size_t const size) {
-    return processing::signal_event{std::vector<T>(size)};
+proc::signal_event proc::make_signal_event(std::size_t const size) {
+    return proc::signal_event{std::vector<T>(size)};
 }
 
 template <typename T>
-processing::signal_event processing::make_signal_event(std::size_t const size, std::size_t const reserve) {
+proc::signal_event proc::make_signal_event(std::size_t const size, std::size_t const reserve) {
     auto vec = std::vector<T>(size);
     vec.reserve(reserve);
-    return processing::signal_event{std::move(vec)};
+    return proc::signal_event{std::move(vec)};
 }
 }

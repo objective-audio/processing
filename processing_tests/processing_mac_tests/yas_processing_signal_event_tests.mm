@@ -9,7 +9,7 @@
 #import <string>
 
 using namespace yas;
-using namespace yas::processing;
+using namespace yas::proc;
 
 @interface yas_processing_signal_event_tests : XCTestCase
 
@@ -26,7 +26,7 @@ using namespace yas::processing;
 }
 
 - (void)test_make_signal_event {
-    auto signal_event = processing::make_signal_event<float>(16);
+    auto signal_event = proc::make_signal_event<float>(16);
 
     XCTAssertEqual(signal_event.sample_byte_count(), 4);
     XCTAssertEqual(signal_event.size(), 16);
@@ -44,7 +44,7 @@ using namespace yas::processing;
 }
 
 - (void)test_make_signal_event_with_reserve {
-    auto signal_event = processing::make_signal_event<float>(8, 16);
+    auto signal_event = proc::make_signal_event<float>(8, 16);
 
     XCTAssertEqual(signal_event.vector<float>().size(), 8);
     XCTAssertEqual(signal_event.vector<float>().capacity(), 16);
@@ -149,15 +149,15 @@ using namespace yas::processing;
 }
 
 - (void)test_sample_byte_count {
-    XCTAssertEqual(processing::make_signal_event<int8_t>(1).sample_byte_count(), 1);
-    XCTAssertEqual(processing::make_signal_event<double>(1).sample_byte_count(), 8);
-    XCTAssertEqual(processing::make_signal_event<boolean>(1).sample_byte_count(), 1);
+    XCTAssertEqual(proc::make_signal_event<int8_t>(1).sample_byte_count(), 1);
+    XCTAssertEqual(proc::make_signal_event<double>(1).sample_byte_count(), 8);
+    XCTAssertEqual(proc::make_signal_event<boolean>(1).sample_byte_count(), 1);
 }
 
 - (void)test_sample_type {
-    XCTAssertTrue(processing::make_signal_event<int8_t>(1).sample_type() == typeid(int8_t));
-    XCTAssertTrue(processing::make_signal_event<double>(0.0).sample_type() == typeid(double));
-    XCTAssertTrue(processing::make_signal_event<boolean>(1).sample_type() == typeid(boolean));
+    XCTAssertTrue(proc::make_signal_event<int8_t>(1).sample_type() == typeid(int8_t));
+    XCTAssertTrue(proc::make_signal_event<double>(0.0).sample_type() == typeid(double));
+    XCTAssertTrue(proc::make_signal_event<boolean>(1).sample_type() == typeid(boolean));
 }
 
 - (void)test_copy_from {

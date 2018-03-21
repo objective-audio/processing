@@ -4,7 +4,7 @@
 
 #pragma once
 
-namespace yas::processing {
+namespace yas::proc {
 template <typename T, typename Enable = void>
 struct enum_to_connector_index;
 
@@ -17,6 +17,6 @@ struct enum_to_connector_index<T, typename std::enable_if_t<std::is_enum<T>::val
 }
 
 template <typename T>
-yas::processing::connector_index_t yas::processing::to_connector_index(T const &value) {
+yas::proc::connector_index_t yas::proc::to_connector_index(T const &value) {
     return enum_to_connector_index<T>::to_index(value);
 }

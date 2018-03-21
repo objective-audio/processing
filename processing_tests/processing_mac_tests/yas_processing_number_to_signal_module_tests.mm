@@ -7,7 +7,7 @@
 #import "yas_boolean.h"
 
 using namespace yas;
-using namespace yas::processing;
+using namespace yas::proc;
 
 @interface yas_processing_number_to_signal_module_tests : XCTestCase
 

@@ -6,7 +6,7 @@
 #import "yas_processing_test_utils.h"
 
 using namespace yas;
-using namespace yas::processing;
+using namespace yas::proc;
 
 @interface yas_processing_module_tests : XCTestCase
 
@@ -23,7 +23,7 @@ using namespace yas::processing;
 }
 
 - (void)test_create_module {
-    processing::module module{processing::module::processors_t{}};
+    proc::module module{proc::module::processors_t{}};
 
     XCTAssertTrue(module);
     XCTAssertEqual(module.input_connectors().size(), 0);
@@ -31,19 +31,19 @@ using namespace yas::processing;
 }
 
 - (void)test_create_null {
-    processing::module module = nullptr;
+    proc::module module = nullptr;
 
     XCTAssertFalse(module);
 }
 
 - (void)test_process_called {
-    processing::stream stream{sync_source{1, 456}};
+    proc::stream stream{sync_source{1, 456}};
 
-    processing::time called_time = nullptr;
+    proc::time called_time = nullptr;
 
-    auto processor = [&called_time](processing::time::range const &time_range, auto const &, auto const &,
-                                    processing::stream &stream) { called_time = processing::time{time_range}; };
-    processing::module module{{std::move(processor)}};
+    auto processor = [&called_time](proc::time::range const &time_range, auto const &, auto const &,
+                                    proc::stream &stream) { called_time = proc::time{time_range}; };
+    proc::module module{{std::move(processor)}};
 
     module.process({23, 456}, stream);
 
@@ -54,7 +54,7 @@ using namespace yas::processing;
 - (void)test_connect_input {
     connector_index_t const co_idx = 10;
 
-    processing::module module{processing::module::processors_t{}};
+    proc::module module{proc::module::processors_t{}};
 
     module.connect_input(co_idx, 1);
 
@@ -66,7 +66,7 @@ using namespace yas::processing;
 - (void)test_connect_output {
     connector_index_t const co_idx = 20;
 
-    processing::module module{processing::module::processors_t{}};
+    proc::module module{proc::module::processors_t{}};
 
     module.connect_output(co_idx, 2);
 
@@ -79,7 +79,7 @@ using namespace yas::processing;
     connector_index_t const co_idx_a = 30;
     connector_index_t const co_idx_b = 31;
 
-    processing::module module{processing::module::processors_t{}};
+    proc::module module{proc::module::processors_t{}};
 
     module.connect_input(co_idx_a, 3);
 
@@ -96,7 +96,7 @@ using namespace yas::processing;
     connector_index_t const co_idx_a = 40;
     connector_index_t const co_idx_b = 41;
 
-    processing::module module{processing::module::processors_t{}};
+    proc::module module{proc::module::processors_t{}};
 
     module.connect_output(co_idx_a, 3);
 

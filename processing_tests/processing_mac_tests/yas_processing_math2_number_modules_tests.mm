@@ -7,7 +7,7 @@
 #import "yas_fast_each.h"
 
 using namespace yas;
-using namespace yas::processing;
+using namespace yas::proc;
 
 @interface yas_processing_math2_number_modules_tests : XCTestCase
 

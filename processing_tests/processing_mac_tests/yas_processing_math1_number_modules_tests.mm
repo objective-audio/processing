@@ -8,7 +8,7 @@
 #import <iostream>
 
 using namespace yas;
-using namespace yas::processing;
+using namespace yas::proc;
 
 namespace yas {
 namespace test {
