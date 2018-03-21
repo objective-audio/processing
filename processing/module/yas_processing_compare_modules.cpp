@@ -37,9 +37,10 @@ processing::module processing::make_signal_module(compare::kind const kind) {
             }
         });
 
-    auto send_processor = processing::make_send_signal_processor<boolean>(
-        [context, kind](processing::time::range const &time_range, sync_source const &, channel_index_t const,
-                        connector_index_t const co_idx, boolean *const signal_ptr) {
+    auto send_processor =
+        processing::make_send_signal_processor<boolean>([context, kind, out_each = fast_each<boolean *>{}](
+            processing::time::range const &time_range, sync_source const &, channel_index_t const,
+            connector_index_t const co_idx, boolean *const signal_ptr) mutable {
             if (co_idx == to_connector_index(output::result)) {
                 static auto const left_co_idx = to_connector_index(input::left);
                 static auto const right_co_idx = to_connector_index(input::right);
@@ -53,7 +54,7 @@ processing::module processing::make_signal_module(compare::kind const kind) {
                 auto const &left_length = left_time ? left_time.get<time::range>().length : constant::zero_length;
                 auto const &right_length = right_time ? right_time.get<time::range>().length : constant::zero_length;
 
-                auto out_each = make_fast_each(signal_ptr, time_range.length);
+                out_each.reset(signal_ptr, time_range.length);
                 while (yas_each_next(out_each)) {
                     auto const &idx = yas_each_index(out_each);
                     auto const left_idx = idx + left_offset;

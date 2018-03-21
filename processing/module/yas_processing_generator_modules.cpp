@@ -18,24 +18,24 @@ processing::module processing::make_signal_module(generator::kind const kind, fr
     auto prepare_processor = [](time::range const &, connector_map_t const &, connector_map_t const &,
                                 stream &) mutable {};
 
-    auto send_processor = processing::make_send_signal_processor<T>(
-        [kind, offset](processing::time::range const &time_range, sync_source const &sync_src, channel_index_t const,
-                       connector_index_t const co_idx, T *const signal_ptr) {
-            if (co_idx == to_connector_index(output::value)) {
-                auto out_each = make_fast_each(signal_ptr, time_range.length);
-                auto const top_idx = offset + time_range.frame;
-                T const sr = sync_src.sample_rate;
+    auto send_processor = processing::make_send_signal_processor<T>([kind, offset, out_each = fast_each<T *>{}](
+        processing::time::range const &time_range, sync_source const &sync_src, channel_index_t const,
+        connector_index_t const co_idx, T *const signal_ptr) mutable {
+        if (co_idx == to_connector_index(output::value)) {
+            out_each.reset(signal_ptr, time_range.length);
+            auto const top_idx = offset + time_range.frame;
+            T const sr = sync_src.sample_rate;
 
-                while (yas_each_next(out_each)) {
-                    auto const &idx = yas_each_index(out_each);
-                    switch (kind) {
-                        case kind::second:
-                            yas_each_value(out_each) = (T)(top_idx + idx) / sr;
-                            break;
-                    }
+            while (yas_each_next(out_each)) {
+                auto const &idx = yas_each_index(out_each);
+                switch (kind) {
+                    case kind::second:
+                        yas_each_value(out_each) = (T)(top_idx + idx) / sr;
+                        break;
                 }
             }
-        });
+        }
+    });
 
     return processing::module{{std::move(prepare_processor), std::move(send_processor)}};
 }
