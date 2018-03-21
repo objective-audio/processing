@@ -9,6 +9,7 @@
 namespace yas::processing {
 class module;
 
+/// 数値からシグナルへ変換するモジュール
 namespace number_to_signal {
     enum class output : connector_index_t {
         signal,

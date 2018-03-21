@@ -10,6 +10,8 @@ namespace yas::processing {
 class module;
 }
 
+/// 比較をするモジュール
+/// 出力はboolean
 namespace yas::processing::compare {
 enum class kind {
     is_equal,

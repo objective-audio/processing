@@ -10,6 +10,7 @@
 namespace yas::processing {
 class module;
 
+/// エンベロープを生成するモジュール
 namespace envelope {
     template <typename T>
     using anchors_t = std::map<frame_index_t, T>;

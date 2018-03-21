@@ -35,7 +35,9 @@ class timeline : public base {
     processing::track const &track(track_index_t const) const;
     processing::track &track(track_index_t const);
 
+    /// 1回だけ処理する
     void process(time::range const &, stream &);
+    /// スライス分の処理を繰り返す
     void process(time::range const &, sync_source const &, offline_process_f);
 };
 }

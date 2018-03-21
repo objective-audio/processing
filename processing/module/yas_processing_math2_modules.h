@@ -9,6 +9,7 @@
 namespace yas::processing {
 class module;
 
+/// パラメータを2つ受け取る算術関数の結果を生成するモジュール
 namespace math2 {
     enum class kind {
         plus,
