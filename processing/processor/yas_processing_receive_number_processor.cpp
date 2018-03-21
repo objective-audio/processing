@@ -11,7 +11,7 @@
 using namespace yas;
 
 template <typename T>
-processing::processor_f processing::make_receive_number_processor(processing::receive_number_process_f<T> handler) {
+proc::processor_f proc::make_receive_number_processor(proc::receive_number_process_f<T> handler) {
     return [handler = std::move(handler)](time::range const &current_time_range,
                                           connector_map_t const &input_connectors, connector_map_t const &,
                                           stream &stream) {
@@ -24,7 +24,7 @@ processing::processor_f processing::make_receive_number_processor(processing::re
 
                 if (stream.has_channel(ch_idx)) {
                     auto const &channel = stream.channel(ch_idx);
-                    auto const filtered_events = channel.filtered_events<T, processing::number_event>();
+                    auto const filtered_events = channel.filtered_events<T, proc::number_event>();
 
                     for (auto const &pair : filtered_events) {
                         auto const &event_frame = pair.first;
@@ -40,24 +40,24 @@ processing::processor_f processing::make_receive_number_processor(processing::re
     };
 }
 
-template processing::processor_f processing::make_receive_number_processor(
-    processing::receive_number_process_f<double>);
-template processing::processor_f processing::make_receive_number_processor(processing::receive_number_process_f<float>);
-template processing::processor_f processing::make_receive_number_processor(
-    processing::receive_number_process_f<int64_t>);
-template processing::processor_f processing::make_receive_number_processor(
-    processing::receive_number_process_f<int32_t>);
-template processing::processor_f processing::make_receive_number_processor(
-    processing::receive_number_process_f<int16_t>);
-template processing::processor_f processing::make_receive_number_processor(
-    processing::receive_number_process_f<int8_t>);
-template processing::processor_f processing::make_receive_number_processor(
-    processing::receive_number_process_f<uint64_t>);
-template processing::processor_f processing::make_receive_number_processor(
-    processing::receive_number_process_f<uint32_t>);
-template processing::processor_f processing::make_receive_number_processor(
-    processing::receive_number_process_f<uint16_t>);
-template processing::processor_f processing::make_receive_number_processor(
-    processing::receive_number_process_f<uint8_t>);
-template processing::processor_f processing::make_receive_number_processor(
-    processing::receive_number_process_f<boolean>);
+template proc::processor_f proc::make_receive_number_processor(
+    proc::receive_number_process_f<double>);
+template proc::processor_f proc::make_receive_number_processor(proc::receive_number_process_f<float>);
+template proc::processor_f proc::make_receive_number_processor(
+    proc::receive_number_process_f<int64_t>);
+template proc::processor_f proc::make_receive_number_processor(
+    proc::receive_number_process_f<int32_t>);
+template proc::processor_f proc::make_receive_number_processor(
+    proc::receive_number_process_f<int16_t>);
+template proc::processor_f proc::make_receive_number_processor(
+    proc::receive_number_process_f<int8_t>);
+template proc::processor_f proc::make_receive_number_processor(
+    proc::receive_number_process_f<uint64_t>);
+template proc::processor_f proc::make_receive_number_processor(
+    proc::receive_number_process_f<uint32_t>);
+template proc::processor_f proc::make_receive_number_processor(
+    proc::receive_number_process_f<uint16_t>);
+template proc::processor_f proc::make_receive_number_processor(
+    proc::receive_number_process_f<uint8_t>);
+template proc::processor_f proc::make_receive_number_processor(
+    proc::receive_number_process_f<boolean>);

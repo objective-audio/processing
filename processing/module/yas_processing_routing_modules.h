@@ -6,7 +6,7 @@
 
 #include "yas_processing_types.h"
 
-namespace yas::processing {
+namespace yas::proc {
 class module;
 
 /// ルーティングするモジュール
@@ -33,9 +33,9 @@ module make_number_module(routing::kind const);
 }
 
 namespace yas {
-void connect(processing::module &, processing::routing::input const &, processing::channel_index_t const &);
-void connect(processing::module &, processing::routing::output const &, processing::channel_index_t const &);
+void connect(proc::module &, proc::routing::input const &, proc::channel_index_t const &);
+void connect(proc::module &, proc::routing::output const &, proc::channel_index_t const &);
 
-std::string to_string(processing::routing::input const &);
-std::string to_string(processing::routing::output const &);
+std::string to_string(proc::routing::input const &);
+std::string to_string(proc::routing::output const &);
 }

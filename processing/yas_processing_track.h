@@ -8,7 +8,7 @@
 #include "yas_processing_time.h"
 #include <map>
 
-namespace yas::processing {
+namespace yas::proc {
 class module;
 class stream;
 

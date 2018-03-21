@@ -6,7 +6,7 @@
 #import "yas_processing.h"
 
 using namespace yas;
-using namespace yas::processing;
+using namespace yas::proc;
 
 @interface yas_processing_channel_tests : XCTestCase
 
@@ -23,17 +23,17 @@ using namespace yas::processing;
 }
 
 - (void)test_create_channel {
-    processing::channel channel;
+    proc::channel channel;
 
     XCTAssertTrue(channel);
     XCTAssertEqual(channel.events().size(), 0);
 }
 
 - (void)test_create_channel_from_events {
-    processing::channel::events_map_t events;
+    proc::channel::events_map_t events;
     events.emplace(std::make_pair(make_frame_time(10), make_number_event(int8_t(100))));
 
-    processing::channel channel{std::move(events)};
+    proc::channel channel{std::move(events)};
 
     XCTAssertEqual(channel.events().size(), 1);
 
@@ -44,13 +44,13 @@ using namespace yas::processing;
 }
 
 - (void)test_create_null {
-    processing::channel channel = nullptr;
+    proc::channel channel = nullptr;
 
     XCTAssertFalse(channel);
 }
 
 - (void)test_insert_event {
-    processing::channel channel;
+    proc::channel channel;
 
     auto uint_signal = make_signal_event<uint32_t>(4);
     auto &uint_vec = uint_signal.vector<uint32_t>();
@@ -64,8 +64,8 @@ using namespace yas::processing;
     float_vec[0] = 2.0f;
     float_vec[1] = 4.0f;
 
-    processing::time uint_range_time{16, 4};
-    processing::time float_range_time{8, 2};
+    proc::time uint_range_time{16, 4};
+    proc::time float_range_time{8, 2};
 
     channel.insert_event(std::move(uint_range_time), signal_event{std::move(uint_vec)});
     channel.insert_event(std::move(float_range_time), signal_event{std::move(float_signal)});
@@ -75,16 +75,16 @@ using namespace yas::processing;
         auto const &time = pair.first;
         auto const &event = pair.second;
         if (idx == 0) {
-            XCTAssertTrue((time == processing::time{8, 2}));
-            auto const signal = cast<processing::signal_event>(event);
+            XCTAssertTrue((time == proc::time{8, 2}));
+            auto const signal = cast<proc::signal_event>(event);
             XCTAssertTrue(signal.sample_type() == typeid(float));
             auto const &vec = signal.vector<float>();
             XCTAssertEqual(vec.size(), 2);
             XCTAssertEqual(vec[0], 2.0f);
             XCTAssertEqual(vec[1], 4.0f);
         } else if (idx == 1) {
-            XCTAssertTrue((time == processing::time{16, 4}));
-            auto const signal = cast<processing::signal_event>(event);
+            XCTAssertTrue((time == proc::time{16, 4}));
+            auto const signal = cast<proc::signal_event>(event);
             XCTAssertTrue(signal.sample_type() == typeid(uint32_t));
             auto const &vec = signal.vector<uint32_t>();
             XCTAssertEqual(vec.size(), 4);
@@ -99,8 +99,8 @@ using namespace yas::processing;
 }
 
 - (void)test_insert_events {
-    processing::channel src_channel;
-    processing::channel dst_channel;
+    proc::channel src_channel;
+    proc::channel dst_channel;
 
     src_channel.insert_event(make_frame_time(0), make_number_event(int8_t(10)));
     src_channel.insert_event(make_frame_time(1), make_number_event(int8_t(11)));
@@ -119,13 +119,13 @@ using namespace yas::processing;
 }
 
 - (void)test_insert_same_time_range_signal_event {
-    processing::channel channel;
+    proc::channel channel;
 
     auto uint_signal = make_signal_event<uint32_t>(2);
-    processing::time uint_range_time{1, 2};
+    proc::time uint_range_time{1, 2};
 
     auto float_signal = make_signal_event<float>(2);
-    processing::time float_range_time{1, 2};
+    proc::time float_range_time{1, 2};
 
     channel.insert_event(uint_range_time, uint_signal);
     channel.insert_event(float_range_time, float_signal);
@@ -134,36 +134,36 @@ using namespace yas::processing;
 }
 
 - (void)test_const_signal_event {
-    processing::channel channel;
+    proc::channel channel;
 
     auto signal_event = make_signal_event<float>(1);
     signal_event.vector<float>()[0] = 1.0f;
 
-    channel.insert_event(processing::time{10, 1}, std::move(signal_event));
+    channel.insert_event(proc::time{10, 1}, std::move(signal_event));
 
-    processing::channel const &const_channel = channel;
+    proc::channel const &const_channel = channel;
 
     XCTAssertEqual(const_channel.events().size(), 1);
 
     for (auto const &pair : const_channel.events()) {
         auto const &const_time = pair.first;
-        auto const &const_signal = cast<processing::signal_event>(pair.second);
+        auto const &const_signal = cast<proc::signal_event>(pair.second);
 
-        XCTAssertTrue((const_time == processing::time{10, 1}));
+        XCTAssertTrue((const_time == proc::time{10, 1}));
         XCTAssertEqual(const_signal.vector<float>()[0], 1.0f);
     }
 }
 
 - (void)test_invalid_insert_event {
-    processing::channel channel;
+    proc::channel channel;
 
     auto signal_event = make_signal_event<float>(2);
 
-    XCTAssertThrows(channel.insert_event(processing::time{0, 1}, std::move(signal_event)));
+    XCTAssertThrows(channel.insert_event(proc::time{0, 1}, std::move(signal_event)));
 }
 
 - (void)test_typed_erase_event {
-    processing::channel channel;
+    proc::channel channel;
 
     auto float_signal_0 = make_signal_event<float>(1);
     float_signal_0.data<float>()[0] = 0.0;
@@ -204,7 +204,7 @@ using namespace yas::processing;
 }
 
 - (void)test_copied_events_number {
-    processing::channel channel;
+    proc::channel channel;
 
     channel.insert_event(make_frame_time(0), make_number_event(int8_t(0)));
     channel.insert_event(make_frame_time(1), make_number_event(int8_t(1)));
@@ -221,7 +221,7 @@ using namespace yas::processing;
 }
 
 - (void)test_copied_events_number_offset {
-    processing::channel channel;
+    proc::channel channel;
 
     channel.insert_event(make_frame_time(0), make_number_event(int8_t(0)));
     channel.insert_event(make_frame_time(1), make_number_event(int8_t(1)));
@@ -238,7 +238,7 @@ using namespace yas::processing;
 }
 
 - (void)test_copied_events_signal {
-    processing::channel channel;
+    proc::channel channel;
 
     auto src_signal_event1 = make_signal_event<int8_t>(3);
     auto &src_vec1 = src_signal_event1.vector<int8_t>();
@@ -283,7 +283,7 @@ using namespace yas::processing;
 }
 
 - (void)test_copied_events_signal_offset {
-    processing::channel channel;
+    proc::channel channel;
 
     auto src_signal_event1 = make_signal_event<int8_t>(3);
     auto &src_vec1 = src_signal_event1.vector<int8_t>();
@@ -328,7 +328,7 @@ using namespace yas::processing;
 }
 
 - (void)test_erase_events_with_time_range {
-    processing::channel channel;
+    proc::channel channel;
 
     channel.insert_event(make_frame_time(0), make_number_event(int16_t(1000)));
     channel.insert_event(make_frame_time(2), make_number_event(int16_t(1002)));
@@ -384,7 +384,7 @@ using namespace yas::processing;
 }
 
 - (void)test_combine_signal_event {
-    processing::channel channel;
+    proc::channel channel;
 
     auto signal_1 = make_signal_event<int8_t>(2);
     auto &vec1 = signal_1.vector<int8_t>();

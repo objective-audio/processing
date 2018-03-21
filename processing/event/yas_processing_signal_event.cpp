@@ -6,42 +6,42 @@
 
 using namespace yas;
 
-processing::signal_event::signal_event(std::nullptr_t) : event(nullptr) {
+proc::signal_event::signal_event(std::nullptr_t) : event(nullptr) {
 }
 
-std::type_info const &processing::signal_event::sample_type() const {
+std::type_info const &proc::signal_event::sample_type() const {
     return this->impl_ptr<impl>()->type();
 }
 
-std::size_t processing::signal_event::sample_byte_count() const {
+std::size_t proc::signal_event::sample_byte_count() const {
     return this->impl_ptr<impl>()->sample_byte_count();
 }
 
-std::size_t processing::signal_event::size() const {
+std::size_t proc::signal_event::size() const {
     return this->impl_ptr<impl>()->size();
 }
 
-std::size_t processing::signal_event::byte_size() const {
+std::size_t proc::signal_event::byte_size() const {
     return this->impl_ptr<impl>()->byte_size();
 }
 
-void processing::signal_event::resize(std::size_t const size) {
+void proc::signal_event::resize(std::size_t const size) {
     return this->impl_ptr<impl>()->resize(size);
 }
 
-void processing::signal_event::reserve(std::size_t const size) {
+void proc::signal_event::reserve(std::size_t const size) {
     return this->impl_ptr<impl>()->reserve(size);
 }
 
-processing::signal_event processing::signal_event::copy_in_range(time::range const &range) const {
+proc::signal_event proc::signal_event::copy_in_range(time::range const &range) const {
     return this->impl_ptr<impl>()->copy_in_range(range);
 }
 
-std::vector<std::pair<processing::time::range, processing::signal_event>> processing::signal_event::cropped(
+std::vector<std::pair<proc::time::range, proc::signal_event>> proc::signal_event::cropped(
     time::range const &range) const {
     return this->impl_ptr<impl>()->cropped(range);
 }
 
-processing::signal_event::pair_t processing::signal_event::combined(time::range const &insert_range, pair_vector_t event_pairs) {
+proc::signal_event::pair_t proc::signal_event::combined(time::range const &insert_range, pair_vector_t event_pairs) {
     return this->impl_ptr<impl>()->combined(insert_range, event_pairs);
 }

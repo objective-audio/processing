@@ -22,23 +22,23 @@ using namespace yas;
 }
 
 - (void)test_create_track {
-    processing::track track;
+    proc::track track;
 
     XCTAssertTrue(track);
     XCTAssertEqual(track.modules().size(), 0);
 }
 
 - (void)test_create_null {
-    processing::track track = nullptr;
+    proc::track track = nullptr;
 
     XCTAssertFalse(track);
 }
 
 - (void)test_insert_module {
-    processing::track track;
+    proc::track track;
 
-    processing::module module1{processing::module::processors_t{}};
-    processing::module module2{processing::module::processors_t{}};
+    proc::module module1{proc::module::processors_t{}};
+    proc::module module2{proc::module::processors_t{}};
 
     track.insert_module({0, 1}, std::move(module1));
     track.insert_module({1, 1}, std::move(module2));
@@ -54,9 +54,9 @@ using namespace yas;
             XCTAssertTrue(module);
 
             if (idx == 0) {
-                XCTAssertTrue((time_range == processing::time::range{0, 1}));
+                XCTAssertTrue((time_range == proc::time::range{0, 1}));
             } else if (idx == 1) {
-                XCTAssertTrue((time_range == processing::time::range{1, 1}));
+                XCTAssertTrue((time_range == proc::time::range{1, 1}));
             } else {
                 XCTFail();
             }

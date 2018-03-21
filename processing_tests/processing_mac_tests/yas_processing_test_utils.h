@@ -8,16 +8,16 @@
 #include <functional>
 
 using namespace yas;
-using namespace yas::processing;
+using namespace yas::proc;
 
 namespace yas {
 namespace test {
-    using process_f = std::function<void(processing::time::range const &, processing::connector_map_t const &,
-                                         processing::connector_map_t const &, processing::stream &)>;
+    using process_f = std::function<void(proc::time::range const &, proc::connector_map_t const &,
+                                         proc::connector_map_t const &, proc::stream &)>;
 
     template <typename T, typename Kind>
     static module make_signal_module(Kind const kind, channel_index_t const ch_idx) {
-        auto module = processing::make_signal_module<T>(kind);
+        auto module = proc::make_signal_module<T>(kind);
         connect(module, math1::input::parameter, ch_idx);
         connect(module, math1::output::result, ch_idx);
 
@@ -26,7 +26,7 @@ namespace test {
 
     template <typename T, typename Kind>
     static module make_number_module(Kind const kind, channel_index_t const ch_idx) {
-        auto module = processing::make_number_module<T>(kind);
+        auto module = proc::make_number_module<T>(kind);
         connect(module, math1::input::parameter, ch_idx);
         connect(module, math1::output::result, ch_idx);
 
@@ -47,7 +47,7 @@ namespace test {
             yas_each_value(each) = data[yas_each_index(each)];
         }
 
-        channel.insert_event(processing::time{data_time_range}, std::move(phase_signal));
+        channel.insert_event(proc::time{data_time_range}, std::move(phase_signal));
 
         return stream;
     }
@@ -69,7 +69,7 @@ namespace test {
                 yas_each_value(each) = left_data[yas_each_index(each)];
             }
 
-            channel.insert_event(processing::time{left_time_range}, std::move(signal));
+            channel.insert_event(proc::time{left_time_range}, std::move(signal));
         }
 
         {
@@ -82,7 +82,7 @@ namespace test {
                 yas_each_value(each) = right_data[yas_each_index(each)];
             }
 
-            channel.insert_event(processing::time{right_time_range}, std::move(signal));
+            channel.insert_event(proc::time{right_time_range}, std::move(signal));
         }
 
         return stream;

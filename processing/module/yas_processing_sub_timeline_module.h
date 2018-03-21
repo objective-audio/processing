@@ -6,7 +6,7 @@
 
 #include "yas_processing_types.h"
 
-namespace yas::processing {
+namespace yas::proc {
 class module;
 class timeline;
 

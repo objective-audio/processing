@@ -7,7 +7,7 @@
 #include "yas_processing_time.h"
 #include "yas_processing_connector.h"
 
-namespace yas::processing {
+namespace yas::proc {
 class stream;
 
 using processor_f =

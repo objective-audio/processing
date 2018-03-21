@@ -6,7 +6,7 @@
 
 #include "yas_base.h"
 
-namespace yas::processing {
+namespace yas::proc {
 class time;
 
 struct event : base {

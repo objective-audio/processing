@@ -9,17 +9,17 @@
 
 namespace yas {
 template <typename P>
-void processing::channel::erase_event_if(P predicate) {
+void proc::channel::erase_event_if(P predicate) {
     erase_if(this->events(), predicate);
 }
 
 template <typename T, typename Event>
-void processing::channel::erase_event() {
+void proc::channel::erase_event() {
     erase_event_if<T, Event>([](auto const &) { return true; });
 }
 
 template <typename T, typename Event, typename P>
-void processing::channel::erase_event(P predicate) {
+void proc::channel::erase_event(P predicate) {
     erase_if(this->events(), [predicate = std::move(predicate)](auto const &pair) {
         time const &time = pair.first;
         if (time.type() == typeid(typename Event::time_type)) {
@@ -35,12 +35,12 @@ void processing::channel::erase_event(P predicate) {
 }
 
 template <typename T, typename Event>
-std::multimap<typename Event::time_type::type, Event> processing::channel::filtered_events() const {
+std::multimap<typename Event::time_type::type, Event> proc::channel::filtered_events() const {
     return filtered_events<T, Event>([](auto const &) { return true; });
 }
 
 template <typename T, typename Event, typename P>
-std::multimap<typename Event::time_type::type, Event> processing::channel::filtered_events(P predicate) const {
+std::multimap<typename Event::time_type::type, Event> proc::channel::filtered_events(P predicate) const {
     std::multimap<typename Event::time_type::type, Event> filtered;
 
     for (auto const &event_pair : events()) {

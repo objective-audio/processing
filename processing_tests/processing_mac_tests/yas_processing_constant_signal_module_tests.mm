@@ -7,7 +7,7 @@
 #import "yas_boolean.h"
 
 using namespace yas;
-using namespace yas::processing;
+using namespace yas::proc;
 
 @interface yas_processing_constant_signal_module_tests : XCTestCase
 
@@ -43,7 +43,7 @@ using namespace yas::processing;
     auto module = make_signal_module(value);
     module.connect_output(to_connector_index(constant::output::value), 0);
 
-    processing::stream stream{sync_source{1, 2}};
+    proc::stream stream{sync_source{1, 2}};
 
     module.process({0, 2}, stream);
 
@@ -55,11 +55,11 @@ using namespace yas::processing;
 
     auto const &event_pair = *channel.events().cbegin();
     auto const &time = event_pair.first;
-    auto const signal = cast<processing::signal_event>(event_pair.second);
+    auto const signal = cast<proc::signal_event>(event_pair.second);
 
-    XCTAssertTrue(time.type() == typeid(processing::time::range));
+    XCTAssertTrue(time.type() == typeid(proc::time::range));
 
-    auto const &time_range = time.get<processing::time::range>();
+    auto const &time_range = time.get<proc::time::range>();
 
     XCTAssertEqual(time_range.frame, 0);
     XCTAssertEqual(time_range.length, 2);

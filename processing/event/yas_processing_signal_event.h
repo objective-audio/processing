@@ -8,7 +8,7 @@
 #include "yas_processing_time.h"
 #include <vector>
 
-namespace yas::processing {
+namespace yas::proc {
 class signal_event : public event {
    public:
     class impl;
@@ -55,9 +55,9 @@ class signal_event : public event {
 };
 
 template <typename T>
-processing::signal_event make_signal_event(std::size_t const size);
+proc::signal_event make_signal_event(std::size_t const size);
 template <typename T>
-processing::signal_event make_signal_event(std::size_t const size, std::size_t const reserve);
+proc::signal_event make_signal_event(std::size_t const size, std::size_t const reserve);
 }
 
 #include "yas_processing_signal_event_private.h"

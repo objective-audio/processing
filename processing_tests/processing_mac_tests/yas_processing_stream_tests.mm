@@ -6,7 +6,7 @@
 #import "yas_processing.h"
 
 using namespace yas;
-using namespace yas::processing;
+using namespace yas::proc;
 
 @interface yas_processing_stream_tests : XCTestCase
 
@@ -23,7 +23,7 @@ using namespace yas::processing;
 }
 
 - (void)test_create_stream {
-    processing::stream stream{sync_source{1, 2}};
+    proc::stream stream{sync_source{1, 2}};
 
     XCTAssertTrue(stream);
     XCTAssertEqual(stream.sync_source(), (sync_source{1, 2}));
@@ -31,13 +31,13 @@ using namespace yas::processing;
 }
 
 - (void)test_create_null {
-    processing::stream stream{nullptr};
+    proc::stream stream{nullptr};
 
     XCTAssertFalse(stream);
 }
 
 - (void)test_add_channel {
-    processing::stream stream{sync_source{1, 1}};
+    proc::stream stream{sync_source{1, 1}};
 
     stream.add_channel(1);
 
@@ -61,7 +61,7 @@ using namespace yas::processing;
 }
 
 - (void)test_remove_channel {
-    processing::stream stream{sync_source{1, 1}};
+    proc::stream stream{sync_source{1, 1}};
 
     stream.add_channel(10);
     stream.add_channel(11);
@@ -74,7 +74,7 @@ using namespace yas::processing;
 }
 
 - (void)test_add_channel_return {
-    processing::stream stream{sync_source{1, 1}};
+    proc::stream stream{sync_source{1, 1}};
 
     auto &returned_channel = stream.add_channel(1);
 
@@ -83,7 +83,7 @@ using namespace yas::processing;
 }
 
 - (void)test_channel {
-    processing::stream stream{sync_source{1, 2}};
+    proc::stream stream{sync_source{1, 2}};
 
     stream.add_channel(2);
 
@@ -95,7 +95,7 @@ using namespace yas::processing;
 
     XCTAssertEqual(const_channel.events().size(), 1);
 
-    auto const const_signal = cast<processing::signal_event>(const_channel.events().cbegin()->second);
+    auto const const_signal = cast<proc::signal_event>(const_channel.events().cbegin()->second);
     XCTAssertEqual(const_signal.vector<int8_t>()[0], 5);
     XCTAssertEqual(const_signal.vector<int8_t>()[1], 6);
 }

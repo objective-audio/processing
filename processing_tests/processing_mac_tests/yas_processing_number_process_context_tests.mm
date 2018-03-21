@@ -6,7 +6,7 @@
 #import "yas_processing_number_process_context.h"
 
 using namespace yas;
-using namespace yas::processing;
+using namespace yas::proc;
 
 @interface yas_processing_number_process_context_tests : XCTestCase
 

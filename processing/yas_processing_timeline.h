@@ -10,7 +10,7 @@
 #include <experimental/optional>
 #include <functional>
 
-namespace yas::processing {
+namespace yas::proc {
 class track;
 class stream;
 class sync_source;
@@ -32,8 +32,8 @@ class timeline : public base {
     void remove_track(track_index_t const);
     std::size_t track_count() const;
     bool has_track(track_index_t const) const;
-    processing::track const &track(track_index_t const) const;
-    processing::track &track(track_index_t const);
+    proc::track const &track(track_index_t const) const;
+    proc::track &track(track_index_t const);
 
     /// 1回だけ処理する
     void process(time::range const &, stream &);

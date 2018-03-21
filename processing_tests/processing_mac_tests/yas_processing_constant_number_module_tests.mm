@@ -7,7 +7,7 @@
 #import "yas_boolean.h"
 
 using namespace yas;
-using namespace yas::processing;
+using namespace yas::proc;
 
 @interface yas_processing_constant_number_module_tests : XCTestCase
 
@@ -55,11 +55,11 @@ using namespace yas::processing;
     
     auto const &event_pair = *channel.events().cbegin();
     auto const &time = event_pair.first;
-    auto const number = cast<processing::number_event>(event_pair.second);
+    auto const number = cast<proc::number_event>(event_pair.second);
     
-    XCTAssertTrue(time.type() == typeid(processing::time::frame));
+    XCTAssertTrue(time.type() == typeid(proc::time::frame));
     
-    auto const &frame = time.get<processing::time::frame>();
+    auto const &frame = time.get<proc::time::frame>();
     
     XCTAssertEqual(frame, 3);
     XCTAssertEqual(number.get<int16_t>(), 55);

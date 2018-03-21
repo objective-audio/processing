@@ -7,7 +7,7 @@
 #include "yas_processing_event.h"
 #include "yas_processing_time.h"
 
-namespace yas::processing {
+namespace yas::proc {
 class number_event : public event {
    public:
     class impl;

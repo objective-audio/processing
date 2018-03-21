@@ -9,7 +9,7 @@
 
 using namespace yas;
 
-namespace yas::processing::envelope {
+namespace yas::proc::envelope {
 template <typename T>
 struct context {
     context(anchors_t<T> &&anchors)
@@ -62,14 +62,14 @@ struct context {
 }
 
 template <typename T>
-processing::module processing::envelope::make_signal_module(anchors_t<T> anchors, frame_index_t const offset) {
+proc::module proc::envelope::make_signal_module(anchors_t<T> anchors, frame_index_t const offset) {
     auto context = std::make_shared<envelope::context<T>>(std::move(anchors));
 
     auto prepare_processor = [context](time::range const &current_range, connector_map_t const &,
                                        connector_map_t const &, stream &) mutable { context->reset(current_range); };
 
-    auto send_processor = processing::make_send_signal_processor<T>([context, offset, out_each = fast_each<T *>{}](
-        processing::time::range const &time_range, sync_source const &sync_src, channel_index_t const,
+    auto send_processor = proc::make_send_signal_processor<T>([context, offset, out_each = fast_each<T *>{}](
+        proc::time::range const &time_range, sync_source const &sync_src, channel_index_t const,
         connector_index_t const co_idx, T *const signal_ptr) mutable {
         static auto const output_co_idx = to_connector_index(output::value);
         if (co_idx == output_co_idx) {
@@ -83,27 +83,27 @@ processing::module processing::envelope::make_signal_module(anchors_t<T> anchors
         }
     });
 
-    return processing::module{{std::move(prepare_processor), std::move(send_processor)}};
+    return proc::module{{std::move(prepare_processor), std::move(send_processor)}};
 }
 
-template processing::module processing::envelope::make_signal_module(anchors_t<double>, frame_index_t const);
-template processing::module processing::envelope::make_signal_module(anchors_t<float>, frame_index_t const);
-template processing::module processing::envelope::make_signal_module(anchors_t<int64_t>, frame_index_t const);
-template processing::module processing::envelope::make_signal_module(anchors_t<int32_t>, frame_index_t const);
-template processing::module processing::envelope::make_signal_module(anchors_t<int16_t>, frame_index_t const);
-template processing::module processing::envelope::make_signal_module(anchors_t<int8_t>, frame_index_t const);
-template processing::module processing::envelope::make_signal_module(anchors_t<uint64_t>, frame_index_t const);
-template processing::module processing::envelope::make_signal_module(anchors_t<uint32_t>, frame_index_t const);
-template processing::module processing::envelope::make_signal_module(anchors_t<uint16_t>, frame_index_t const);
-template processing::module processing::envelope::make_signal_module(anchors_t<uint8_t>, frame_index_t const);
+template proc::module proc::envelope::make_signal_module(anchors_t<double>, frame_index_t const);
+template proc::module proc::envelope::make_signal_module(anchors_t<float>, frame_index_t const);
+template proc::module proc::envelope::make_signal_module(anchors_t<int64_t>, frame_index_t const);
+template proc::module proc::envelope::make_signal_module(anchors_t<int32_t>, frame_index_t const);
+template proc::module proc::envelope::make_signal_module(anchors_t<int16_t>, frame_index_t const);
+template proc::module proc::envelope::make_signal_module(anchors_t<int8_t>, frame_index_t const);
+template proc::module proc::envelope::make_signal_module(anchors_t<uint64_t>, frame_index_t const);
+template proc::module proc::envelope::make_signal_module(anchors_t<uint32_t>, frame_index_t const);
+template proc::module proc::envelope::make_signal_module(anchors_t<uint16_t>, frame_index_t const);
+template proc::module proc::envelope::make_signal_module(anchors_t<uint8_t>, frame_index_t const);
 
-void yas::connect(processing::module &module, processing::envelope::output const &output,
-                  processing::channel_index_t const &ch_idx) {
-    module.connect_output(processing::to_connector_index(output), ch_idx);
+void yas::connect(proc::module &module, proc::envelope::output const &output,
+                  proc::channel_index_t const &ch_idx) {
+    module.connect_output(proc::to_connector_index(output), ch_idx);
 }
 
-std::string yas::to_string(processing::envelope::output const &output) {
-    using namespace yas::processing::envelope;
+std::string yas::to_string(proc::envelope::output const &output) {
+    using namespace yas::proc::envelope;
 
     switch (output) {
         case output::value:

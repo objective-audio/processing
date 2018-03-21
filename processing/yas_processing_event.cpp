@@ -7,19 +7,19 @@
 
 using namespace yas;
 
-processing::event::event(std::shared_ptr<impl> const &impl) : base(impl) {
+proc::event::event(std::shared_ptr<impl> const &impl) : base(impl) {
 }
 
-processing::event::event(std::shared_ptr<impl> &&impl) : base(std::move(impl)) {
+proc::event::event(std::shared_ptr<impl> &&impl) : base(std::move(impl)) {
 }
 
-processing::event::event(std::nullptr_t) : base(nullptr) {
+proc::event::event(std::nullptr_t) : base(nullptr) {
 }
 
-bool processing::event::validate_time(time const &time) const {
+bool proc::event::validate_time(time const &time) const {
     return this->impl_ptr<impl>()->validate_time(time);
 }
 
-processing::event processing::event::copy() const {
+proc::event proc::event::copy() const {
     return this->impl_ptr<impl>()->copy();
 }

@@ -7,7 +7,7 @@
 #include <cstdint>
 #include <unordered_set>
 
-namespace yas::processing {
+namespace yas::proc {
 using channel_index_t = int64_t;
 using track_index_t = int64_t;
 using frame_index_t = int64_t;

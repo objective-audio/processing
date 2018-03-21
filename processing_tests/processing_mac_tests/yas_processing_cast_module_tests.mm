@@ -6,7 +6,7 @@
 #import "yas_processing.h"
 
 using namespace yas;
-using namespace yas::processing;
+using namespace yas::proc;
 
 @interface yas_processing_cast_module_tests : XCTestCase
 
@@ -82,7 +82,7 @@ using namespace yas::processing;
     auto const &channel = stream.channel(2);
     XCTAssertEqual(channel.events().size(), 1);
 
-    auto const filtered_events = channel.filtered_events<double, processing::signal_event>();
+    auto const filtered_events = channel.filtered_events<double, proc::signal_event>();
     XCTAssertEqual(filtered_events.size(), 1);
 
     auto const &pair = *filtered_events.cbegin();

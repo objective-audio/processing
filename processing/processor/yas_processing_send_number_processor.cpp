@@ -10,7 +10,7 @@
 using namespace yas;
 
 template <typename T>
-processing::processor_f processing::make_send_number_processor(send_number_process_f<T> handler) {
+proc::processor_f proc::make_send_number_processor(send_number_process_f<T> handler) {
     return [handler = std::move(handler)](time::range const &current_time_range, connector_map_t const &,
                                           connector_map_t const &output_connectors, stream &stream) {
         if (handler) {
@@ -37,14 +37,14 @@ processing::processor_f processing::make_send_number_processor(send_number_proce
     };
 }
 
-template processing::processor_f processing::make_send_number_processor(processing::send_number_process_f<double>);
-template processing::processor_f processing::make_send_number_processor(processing::send_number_process_f<float>);
-template processing::processor_f processing::make_send_number_processor(processing::send_number_process_f<int64_t>);
-template processing::processor_f processing::make_send_number_processor(processing::send_number_process_f<int32_t>);
-template processing::processor_f processing::make_send_number_processor(processing::send_number_process_f<int16_t>);
-template processing::processor_f processing::make_send_number_processor(processing::send_number_process_f<int8_t>);
-template processing::processor_f processing::make_send_number_processor(processing::send_number_process_f<uint64_t>);
-template processing::processor_f processing::make_send_number_processor(processing::send_number_process_f<uint32_t>);
-template processing::processor_f processing::make_send_number_processor(processing::send_number_process_f<uint16_t>);
-template processing::processor_f processing::make_send_number_processor(processing::send_number_process_f<uint8_t>);
-template processing::processor_f processing::make_send_number_processor(processing::send_number_process_f<boolean>);
+template proc::processor_f proc::make_send_number_processor(proc::send_number_process_f<double>);
+template proc::processor_f proc::make_send_number_processor(proc::send_number_process_f<float>);
+template proc::processor_f proc::make_send_number_processor(proc::send_number_process_f<int64_t>);
+template proc::processor_f proc::make_send_number_processor(proc::send_number_process_f<int32_t>);
+template proc::processor_f proc::make_send_number_processor(proc::send_number_process_f<int16_t>);
+template proc::processor_f proc::make_send_number_processor(proc::send_number_process_f<int8_t>);
+template proc::processor_f proc::make_send_number_processor(proc::send_number_process_f<uint64_t>);
+template proc::processor_f proc::make_send_number_processor(proc::send_number_process_f<uint32_t>);
+template proc::processor_f proc::make_send_number_processor(proc::send_number_process_f<uint16_t>);
+template proc::processor_f proc::make_send_number_processor(proc::send_number_process_f<uint8_t>);
+template proc::processor_f proc::make_send_number_processor(proc::send_number_process_f<boolean>);

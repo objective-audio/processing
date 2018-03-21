@@ -19,15 +19,15 @@ using namespace yas;
 #pragma mark - signal
 
 template <typename T>
-processing::module processing::make_signal_module(math1::kind const kind) {
-    using namespace yas::processing::math1;
+proc::module proc::make_signal_module(math1::kind const kind) {
+    using namespace yas::proc::math1;
 
     auto context = std::make_shared<signal_process_context<T, 1>>();
 
     auto prepare_processor = [context](time::range const &, connector_map_t const &, connector_map_t const &,
                                        stream &stream) mutable { context->reset(stream.sync_source().slice_length); };
 
-    auto receive_processor = processing::make_receive_signal_processor<T>(
+    auto receive_processor = proc::make_receive_signal_processor<T>(
         [context](time::range const &time_range, sync_source const &, channel_index_t const,
                   connector_index_t const co_idx, T const *const signal_ptr) mutable {
             if (co_idx == to_connector_index(input::parameter)) {
@@ -36,14 +36,14 @@ processing::module processing::make_signal_module(math1::kind const kind) {
             }
         });
 
-    auto send_processor = processing::make_send_signal_processor<T>([context, kind, out_each = fast_each<T *>{}](
-        processing::time::range const &time_range, sync_source const &, channel_index_t const,
+    auto send_processor = proc::make_send_signal_processor<T>([context, kind, out_each = fast_each<T *>{}](
+        proc::time::range const &time_range, sync_source const &, channel_index_t const,
         connector_index_t const co_idx, T *const signal_ptr) mutable {
         if (co_idx == to_connector_index(output::result)) {
             auto const input_co_idx = to_connector_index(input::parameter);
 
             T const *const input_ptr = context->data(input_co_idx);
-            processing::time const &input_time = context->time(input_co_idx);
+            proc::time const &input_time = context->time(input_co_idx);
             auto const input_offset = input_time ? time_range.frame - input_time.get<time::range>().frame : 0;
             auto const &input_length = input_time ? input_time.get<time::range>().length : constant::zero_length;
 
@@ -144,17 +144,17 @@ processing::module processing::make_signal_module(math1::kind const kind) {
         }
     });
 
-    return processing::module{{std::move(prepare_processor), std::move(receive_processor), std::move(send_processor)}};
+    return proc::module{{std::move(prepare_processor), std::move(receive_processor), std::move(send_processor)}};
 }
 
-template processing::module processing::make_signal_module<double>(math1::kind const);
-template processing::module processing::make_signal_module<float>(math1::kind const);
+template proc::module proc::make_signal_module<double>(math1::kind const);
+template proc::module proc::make_signal_module<float>(math1::kind const);
 
 #pragma mark - number
 
 template <typename T>
-processing::module processing::make_number_module(math1::kind const kind) {
-    using namespace yas::processing::math1;
+proc::module proc::make_number_module(math1::kind const kind) {
+    using namespace yas::proc::math1;
 
     auto context = std::make_shared<number_process_context<T, 1>>();
 
@@ -163,7 +163,7 @@ processing::module processing::make_number_module(math1::kind const kind) {
                                        stream &stream) mutable { context->reset(current_range); };
 
     auto receive_processor =
-        make_receive_number_processor<T>([context](processing::time::frame::type const &frame, channel_index_t const,
+        make_receive_number_processor<T>([context](proc::time::frame::type const &frame, channel_index_t const,
                                                    connector_index_t const co_idx, T const &value) mutable {
             if (co_idx == to_connector_index(input::parameter)) {
                 context->insert_input(frame, value, 0);
@@ -171,7 +171,7 @@ processing::module processing::make_number_module(math1::kind const kind) {
         });
 
     auto send_processor =
-        make_send_number_processor<T>([context, kind](processing::time::range const &, sync_source const &,
+        make_send_number_processor<T>([context, kind](proc::time::range const &, sync_source const &,
                                                       channel_index_t const, connector_index_t const co_idx) mutable {
             number_event::value_map_t<T> result;
 
@@ -274,26 +274,26 @@ processing::module processing::make_number_module(math1::kind const kind) {
             return result;
         });
 
-    return processing::module{{std::move(prepare_processor), std::move(receive_processor), std::move(send_processor)}};
+    return proc::module{{std::move(prepare_processor), std::move(receive_processor), std::move(send_processor)}};
 }
 
-template processing::module processing::make_number_module<double>(math1::kind const);
-template processing::module processing::make_number_module<float>(math1::kind const);
+template proc::module proc::make_number_module<double>(math1::kind const);
+template proc::module proc::make_number_module<float>(math1::kind const);
 
 #pragma mark -
 
-void yas::connect(processing::module &module, processing::math1::input const &input,
-                  processing::channel_index_t const &ch_idx) {
-    module.connect_input(processing::to_connector_index(input), ch_idx);
+void yas::connect(proc::module &module, proc::math1::input const &input,
+                  proc::channel_index_t const &ch_idx) {
+    module.connect_input(proc::to_connector_index(input), ch_idx);
 }
 
-void yas::connect(processing::module &module, processing::math1::output const &output,
-                  processing::channel_index_t const &ch_idx) {
-    module.connect_output(processing::to_connector_index(output), ch_idx);
+void yas::connect(proc::module &module, proc::math1::output const &output,
+                  proc::channel_index_t const &ch_idx) {
+    module.connect_output(proc::to_connector_index(output), ch_idx);
 }
 
-std::string yas::to_string(processing::math1::kind const &kind) {
-    using namespace processing::math1;
+std::string yas::to_string(proc::math1::kind const &kind) {
+    using namespace proc::math1;
 
     switch (kind) {
         case kind::sin:
@@ -358,8 +358,8 @@ std::string yas::to_string(processing::math1::kind const &kind) {
     throw "kind not found.";
 }
 
-std::string yas::to_string(processing::math1::input const &input) {
-    using namespace processing::math1;
+std::string yas::to_string(proc::math1::input const &input) {
+    using namespace proc::math1;
 
     switch (input) {
         case input::parameter:
@@ -369,8 +369,8 @@ std::string yas::to_string(processing::math1::input const &input) {
     throw "input not found.";
 }
 
-std::string yas::to_string(processing::math1::output const &output) {
-    using namespace processing::math1;
+std::string yas::to_string(proc::math1::output const &output) {
+    using namespace proc::math1;
 
     switch (output) {
         case output::result:

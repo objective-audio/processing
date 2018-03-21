@@ -7,7 +7,7 @@
 #import "yas_each_index.h"
 
 using namespace yas;
-using namespace yas::processing;
+using namespace yas::proc;
 
 @interface yas_processing_signal_processor_tests : XCTestCase
 
@@ -27,7 +27,7 @@ using namespace yas::processing;
     auto const ch_idx = 5;
     connector_index_t const out_co_idx = 2;
 
-    processing::time called_time = nullptr;
+    proc::time called_time = nullptr;
     connector_index_t called_co_idx;
     channel_index_t called_ch_idx;
     sample_rate_t called_sample_rate = 0;
@@ -43,9 +43,9 @@ using namespace yas::processing;
     };
 
     auto handler = [&called_time, &called_co_idx, &called_ch_idx, &called_sample_rate, &called_slice_length](
-        processing::time::range const &time_range, sync_source const &sync_src, channel_index_t const ch_idx,
+        proc::time::range const &time_range, sync_source const &sync_src, channel_index_t const ch_idx,
         connector_index_t const co_idx, int64_t *const signal_ptr) {
-        called_time = processing::time{time_range};
+        called_time = proc::time{time_range};
         called_co_idx = co_idx;
         called_ch_idx = ch_idx;
         called_sample_rate = sync_src.sample_rate;
@@ -55,15 +55,15 @@ using namespace yas::processing;
         }
     };
 
-    auto processor = processing::make_send_signal_processor<int64_t>(std::move(handler));
+    auto processor = proc::make_send_signal_processor<int64_t>(std::move(handler));
 
-    auto module = processing::module{{std::move(processor)}};
+    auto module = proc::module{{std::move(processor)}};
     module.connect_output(out_co_idx, ch_idx);
 
     {
         clear();
 
-        processing::stream stream{sync_source{1, 2}};
+        proc::stream stream{sync_source{1, 2}};
 
         module.process({0, 2}, stream);
 
@@ -76,7 +76,7 @@ using namespace yas::processing;
 
         XCTAssertTrue(stream.has_channel(ch_idx));
         auto const &vec =
-            cast<processing::signal_event>(stream.channel(ch_idx).events().cbegin()->second).vector<int64_t>();
+            cast<proc::signal_event>(stream.channel(ch_idx).events().cbegin()->second).vector<int64_t>();
         XCTAssertEqual(vec.size(), 2);
         XCTAssertEqual(vec.at(0), 0);
         XCTAssertEqual(vec.at(1), 1);
@@ -85,7 +85,7 @@ using namespace yas::processing;
     {
         clear();
 
-        processing::stream stream{sync_source{2, 1}};
+        proc::stream stream{sync_source{2, 1}};
 
         module.process({1, 1}, stream);
 
@@ -98,7 +98,7 @@ using namespace yas::processing;
 
         XCTAssertTrue(stream.has_channel(ch_idx));
         auto const &vec =
-            cast<processing::signal_event>(stream.channel(ch_idx).events().cbegin()->second).vector<int64_t>();
+            cast<proc::signal_event>(stream.channel(ch_idx).events().cbegin()->second).vector<int64_t>();
         XCTAssertEqual(vec.size(), 1);
         XCTAssertEqual(vec.at(0), 1);
     }
@@ -106,7 +106,7 @@ using namespace yas::processing;
     {
         clear();
 
-        processing::stream stream{sync_source{8, 1}};
+        proc::stream stream{sync_source{8, 1}};
 
         module.process({0, 1}, stream);
 
@@ -119,7 +119,7 @@ using namespace yas::processing;
 
         XCTAssertTrue(stream.has_channel(ch_idx));
         auto const &vec =
-            cast<processing::signal_event>(stream.channel(ch_idx).events().cbegin()->second).vector<int64_t>();
+            cast<proc::signal_event>(stream.channel(ch_idx).events().cbegin()->second).vector<int64_t>();
         XCTAssertEqual(vec.size(), 1);
         XCTAssertEqual(vec.at(0), 0);
     }
@@ -129,14 +129,14 @@ using namespace yas::processing;
     auto const ch_idx = 7;
     connector_index_t const in_co_idx = 10;
 
-    processing::time called_time = nullptr;
+    proc::time called_time = nullptr;
     connector_index_t called_co_idx;
     channel_index_t called_ch_idx;
     sample_rate_t called_sample_rate;
     length_t called_slice_length;
     int64_t called_signal[2];
 
-    auto stream_signal = processing::make_signal_event<int64_t>(2);
+    auto stream_signal = proc::make_signal_event<int64_t>(2);
     auto &stream_vec = stream_signal.vector<int64_t>();
     stream_vec[0] = 10;
     stream_vec[1] = 11;
@@ -153,20 +153,20 @@ using namespace yas::processing;
     };
 
     auto make_stream = [&stream_signal, &ch_idx](time::range const &time_range, sync_source sync_src) {
-        processing::stream stream{std::move(sync_src)};
+        proc::stream stream{std::move(sync_src)};
         stream.add_channel(ch_idx);
 
         auto &channel = stream.channel(ch_idx);
-        channel.insert_event(processing::time{time_range}, stream_signal);
+        channel.insert_event(proc::time{time_range}, stream_signal);
 
         return stream;
     };
 
     auto handler = [&called_time, &called_co_idx, &called_ch_idx, &called_sample_rate, &called_slice_length,
-                    &called_signal](processing::time::range const &time_range, sync_source const &sync_src,
+                    &called_signal](proc::time::range const &time_range, sync_source const &sync_src,
                                     channel_index_t const ch_idx, connector_index_t const co_idx,
                                     int64_t const *const signal_ptr) {
-        called_time = processing::time{time_range};
+        called_time = proc::time{time_range};
         called_co_idx = co_idx;
         called_ch_idx = ch_idx;
         called_sample_rate = sync_src.sample_rate;
@@ -178,7 +178,7 @@ using namespace yas::processing;
 
     auto processor = make_receive_signal_processor<int64_t>(std::move(handler));
 
-    auto module = processing::module{{std::move(processor)}};
+    auto module = proc::module{{std::move(processor)}};
     module.connect_input(in_co_idx, ch_idx);
 
     {
@@ -242,12 +242,12 @@ using namespace yas::processing;
     connector_index_t const out_co_idx = 5;
     connector_index_t const in_co_idx = 6;
 
-    processing::time process_time{0, 2};
+    proc::time process_time{0, 2};
 
-    processing::stream stream{sync_source{1, 2}};
+    proc::stream stream{sync_source{1, 2}};
     stream.add_channel(receive_ch_idx);
 
-    auto input_stream_signal = processing::make_signal_event<int16_t>(2);
+    auto input_stream_signal = proc::make_signal_event<int16_t>(2);
     auto &input_stream_vec = input_stream_signal.vector<int16_t>();
     input_stream_vec[0] = 1;
     input_stream_vec[1] = 2;
@@ -255,9 +255,9 @@ using namespace yas::processing;
     auto &channel = stream.channel(receive_ch_idx);
     channel.insert_event(process_time, input_stream_signal);
 
-    auto process_signal = processing::make_signal_event<int16_t>(2);
+    auto process_signal = proc::make_signal_event<int16_t>(2);
 
-    auto receive_handler = [&process_signal](processing::time::range const &time_range, sync_source const &,
+    auto receive_handler = [&process_signal](proc::time::range const &time_range, sync_source const &,
                                              channel_index_t const ch_idx, connector_index_t const,
                                              int16_t const *const signal_ptr) {
         auto &process_vec = process_signal.vector<int16_t>();
@@ -266,7 +266,7 @@ using namespace yas::processing;
         }
     };
 
-    auto send_handler = [&process_signal](processing::time::range const &time_range, sync_source const &,
+    auto send_handler = [&process_signal](proc::time::range const &time_range, sync_source const &,
                                           channel_index_t const ch_idx, connector_index_t const,
                                           int16_t *const signal_ptr) {
         auto &process_vec = process_signal.vector<int16_t>();
@@ -276,8 +276,8 @@ using namespace yas::processing;
     };
 
     auto receive_processor = make_receive_signal_processor<int16_t>(std::move(receive_handler));
-    auto send_processor = processing::make_send_signal_processor<int16_t>(std::move(send_handler));
-    auto module = processing::module{{std::move(receive_processor), std::move(send_processor)}};
+    auto send_processor = proc::make_send_signal_processor<int16_t>(std::move(send_handler));
+    auto module = proc::module{{std::move(receive_processor), std::move(send_processor)}};
     module.connect_input(in_co_idx, receive_ch_idx);
     module.connect_output(out_co_idx, send_ch_idx);
 
@@ -286,7 +286,7 @@ using namespace yas::processing;
     XCTAssertTrue(stream.has_channel(send_ch_idx));
 
     auto const &send_channel = stream.channel(send_ch_idx);
-    auto const &send_vec = cast<processing::signal_event>(send_channel.events().cbegin()->second).vector<int16_t>();
+    auto const &send_vec = cast<proc::signal_event>(send_channel.events().cbegin()->second).vector<int16_t>();
 
     XCTAssertEqual(send_vec.size(), 2);
     XCTAssertEqual(send_vec[0], 2);
@@ -296,7 +296,7 @@ using namespace yas::processing;
 
     auto const &receive_channel = stream.channel(receive_ch_idx);
     auto const &receive_vec =
-        cast<processing::signal_event>(receive_channel.events().cbegin()->second).vector<int16_t>();
+        cast<proc::signal_event>(receive_channel.events().cbegin()->second).vector<int16_t>();
 
     XCTAssertEqual(receive_vec.size(), 2);
     XCTAssertEqual(receive_vec[0], 1);

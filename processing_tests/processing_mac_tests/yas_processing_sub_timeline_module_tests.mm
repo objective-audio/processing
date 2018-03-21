@@ -7,7 +7,7 @@
 #import "yas_each_index.h"
 
 using namespace yas;
-using namespace yas::processing;
+using namespace yas::proc;
 
 @interface yas_processing_sub_timeline_module_tests : XCTestCase
 

@@ -7,7 +7,7 @@
 #import "yas_boolean.h"
 
 using namespace yas;
-using namespace yas::processing;
+using namespace yas::proc;
 
 @interface yas_processing_number_event_tests : XCTestCase
 
@@ -24,20 +24,20 @@ using namespace yas::processing;
 }
 
 - (void)test_create_with_value {
-    processing::number_event event{1};
+    proc::number_event event{1};
 
     XCTAssertTrue(event);
 }
 
 - (void)test_create_null {
-    processing::number_event event = nullptr;
+    proc::number_event event = nullptr;
 
     XCTAssertFalse(event);
 }
 
 - (void)test_get {
     int16_t const value = 3;
-    processing::number_event event{value};
+    proc::number_event event{value};
 
     XCTAssertEqual(event.get<int16_t>(), 3);
 }

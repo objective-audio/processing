@@ -10,9 +10,9 @@
 #include "yas_processing_sync_source.h"
 #include <functional>
 
-namespace yas::processing {
+namespace yas::proc {
 template <typename T>
-using receive_signal_process_f = std::function<void(processing::time::range const &, sync_source const &,
+using receive_signal_process_f = std::function<void(proc::time::range const &, sync_source const &,
                                                     channel_index_t const, connector_index_t const, T const *const)>;
 
 template <typename T>

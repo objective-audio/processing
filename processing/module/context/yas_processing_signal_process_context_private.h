@@ -6,7 +6,7 @@
 
 #include "yas_fast_each.h"
 
-namespace yas::processing {
+namespace yas::proc {
 template <typename T, std::size_t N>
 signal_process_context<T, N>::signal_process_context() {
     static_assert(N > 0, "N must greater than 0");
@@ -15,7 +15,7 @@ signal_process_context<T, N>::signal_process_context() {
 
     auto each = make_fast_each(N);
     while (yas_each_next(each)) {
-        this->_inputs.emplace_back(std::make_pair(processing::time{nullptr}, signal_event{std::vector<T>(0)}));
+        this->_inputs.emplace_back(std::make_pair(proc::time{nullptr}, signal_event{std::vector<T>(0)}));
     }
 }
 
@@ -46,7 +46,7 @@ T const *signal_process_context<T, N>::data(std::size_t const idx) const {
 }
 
 template <typename T, std::size_t N>
-void signal_process_context<T, N>::set_time(processing::time time, std::size_t const idx) {
+void signal_process_context<T, N>::set_time(proc::time time, std::size_t const idx) {
     if (!time.is_range_type()) {
         throw "time is not range type.";
     }

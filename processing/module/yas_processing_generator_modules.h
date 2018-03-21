@@ -6,7 +6,7 @@
 
 #include "yas_processing_types.h"
 
-namespace yas::processing {
+namespace yas::proc {
 class module;
 
 /// 単純な生成モジュール
@@ -25,7 +25,7 @@ module make_signal_module(generator::kind const, frame_index_t const offset);
 }
 
 namespace yas {
-void connect(processing::module &, processing::generator::output const &, processing::channel_index_t const &);
+void connect(proc::module &, proc::generator::output const &, proc::channel_index_t const &);
 
-std::string to_string(processing::generator::output const &);
+std::string to_string(proc::generator::output const &);
 }
