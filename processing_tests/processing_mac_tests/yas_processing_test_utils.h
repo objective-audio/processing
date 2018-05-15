@@ -47,7 +47,7 @@ static stream make_signal_stream(time::range const time_range,
 
   signal_event phase_signal = make_signal_event<T>(data_time_range.length);
   auto *phase_data = phase_signal.data<T>();
-  auto each = make_fast_each(phase_data, data_time_range.length);
+  auto each = make_fast_each_ptr(phase_data, data_time_range.length);
   while (yas_each_next(each)) {
     yas_each_value(each) = data[yas_each_index(each)];
   }
@@ -71,7 +71,7 @@ make_signal_stream(time::range const time_range, T const *const left_data,
 
     signal_event signal = make_signal_event<T>(left_time_range.length);
     auto *out_data = signal.data<T>();
-    auto each = make_fast_each(out_data, left_time_range.length);
+    auto each = make_fast_each_ptr(out_data, left_time_range.length);
     while (yas_each_next(each)) {
       yas_each_value(each) = left_data[yas_each_index(each)];
     }
@@ -84,7 +84,7 @@ make_signal_stream(time::range const time_range, T const *const left_data,
 
     signal_event signal = make_signal_event<T>(right_time_range.length);
     auto *out_data = signal.data<T>();
-    auto each = make_fast_each(out_data, right_time_range.length);
+    auto each = make_fast_each_ptr(out_data, right_time_range.length);
     while (yas_each_next(each)) {
       yas_each_value(each) = right_data[yas_each_index(each)];
     }
