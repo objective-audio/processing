@@ -13,17 +13,17 @@ class module;
 class stream;
 
 class track : public base {
-    class impl;
+  class impl;
 
-   public:
-    track();
-    track(std::nullptr_t);
+public:
+  track();
+  track(std::nullptr_t);
 
-    std::multimap<time::range, module> const &modules() const;
-    std::multimap<time::range, module> &modules();
+  std::multimap<time::range, module> const &modules() const;
+  std::multimap<time::range, module> &modules();
 
-    void insert_module(time::range, module);
+  void insert_module(time::range, module);
 
-    void process(time::range const &, stream &);
+  void process(time::range const &, stream &);
 };
-}
+} // namespace yas::proc
