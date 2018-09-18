@@ -263,7 +263,8 @@ typedef NS_ENUM(NSUInteger, SampleBits) {
           auto const &events = channel.filtered_events<float, signal_event>();
           if (events.size() > 0) {
             buffer.reset();
-            buffer.set_frame_length(current_range.length);
+            buffer.set_frame_length(
+                static_cast<uint32_t>(current_range.length));
 
             float *buffer_data = buffer.data_ptr_at_channel<float>(0);
 
