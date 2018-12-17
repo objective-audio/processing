@@ -184,6 +184,7 @@ typedef NS_ENUM(NSUInteger, SampleBits) {
       auto floor_module = make_signal_module<float>(math1::kind::floor);
       floor_module.connect_input(to_connector_index(math1::input::parameter),
                                  0);
+      floor_module.connect_output(to_connector_index(math1::output::result), 1);
       floor_track.insert_module(process_range, std::move(floor_module));
     }
 
