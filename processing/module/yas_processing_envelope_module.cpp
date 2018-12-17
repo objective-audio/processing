@@ -57,7 +57,7 @@ struct context {
     typename anchors_t<T>::const_iterator _prev;
     typename anchors_t<T>::const_iterator _next;
     typename anchors_t<T>::const_iterator _end;
-    std::experimental::optional<time::range> _last_range;
+    std::optional<time::range> _last_range;
 };
 }  // namespace yas::proc::envelope
 

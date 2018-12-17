@@ -78,20 +78,20 @@ bool proc::time::range::can_combine(time::range const &rhs) const {
     return lower_range.next_frame() >= higher_range.frame;
 }
 
-std::experimental::optional<proc::time::range> proc::time::range::intersect(time::range const &rhs) const {
+std::optional<proc::time::range> proc::time::range::intersect(time::range const &rhs) const {
     auto const start = std::max(this->frame, rhs.frame);
     auto const next = std::min(next_frame(), rhs.next_frame());
 
     if (start < next) {
         return time::range{start, static_cast<length_t>(next - start)};
     } else {
-        return std::experimental::nullopt;
+        return std::nullopt;
     }
 }
 
-std::experimental::optional<proc::time::range> proc::time::range::combine(time::range const &other) const {
+std::optional<proc::time::range> proc::time::range::combine(time::range const &other) const {
     if (!can_combine(other)) {
-        return std::experimental::nullopt;
+        return std::nullopt;
     }
 
     auto const start = std::min(this->frame, other.frame);

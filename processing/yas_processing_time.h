@@ -4,8 +4,8 @@
 
 #pragma once
 
-#include <experimental/optional>
 #include <memory>
+#include <optional>
 #include <vector>
 #include "yas_base.h"
 #include "yas_processing_types.h"
@@ -48,8 +48,8 @@ class time : public base {
         bool is_contain(any::type const &) const;
         bool is_overlap(range const &) const;
         bool can_combine(range const &) const;
-        std::experimental::optional<range> intersect(range const &) const;
-        std::experimental::optional<range> combine(range const &) const;
+        std::optional<range> intersect(range const &) const;
+        std::optional<range> combine(range const &) const;
         std::vector<range> crop(range const &) const;
         range offset(frame_index_t const &) const;
     };

@@ -69,13 +69,13 @@ using namespace yas::proc;
     number_process_context<int8_t, 2>::input input;
 
     input.values[0] = 2;
-    input.values[1] = std::experimental::nullopt;
+    input.values[1] = std::nullopt;
     context.update_last_values(input);
 
     XCTAssertEqual(context.last_values()[0], 2);
     XCTAssertEqual(context.last_values()[1], 0);
 
-    input.values[0] = std::experimental::nullopt;
+    input.values[0] = std::nullopt;
     input.values[1] = 3;
     context.update_last_values(input);
 
