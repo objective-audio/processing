@@ -19,7 +19,7 @@ class timeline : public base {
   class impl;
 
 public:
-  using track_map_t = std::map<track_index_t, track>;
+  using track_map_t = std::map<track_index_t, proc::track>;
   using offline_process_f =
       std::function<void(time::range const &, stream const &, bool &stop)>;
 
@@ -29,7 +29,7 @@ public:
   track_map_t const &tracks() const;
   track_map_t &tracks();
 
-  track &add_track(track_index_t const);
+  proc::track &add_track(track_index_t const);
   void remove_track(track_index_t const);
   std::size_t track_count() const;
   bool has_track(track_index_t const) const;
