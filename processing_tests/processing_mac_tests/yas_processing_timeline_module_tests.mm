@@ -2,8 +2,8 @@
 //  yas_processing_timeline_module_tests.mm
 //
 
-#import "yas_processing.h"
 #import <XCTest/XCTest.h>
+#import "yas_processing.h"
 
 using namespace yas;
 using namespace yas::proc;
@@ -15,24 +15,24 @@ using namespace yas::proc;
 @implementation yas_processing_timeline_module_tests
 
 - (void)setUp {
-  [super setUp];
+    [super setUp];
 }
 
 - (void)tearDown {
-  [super tearDown];
+    [super tearDown];
 }
 
 - (void)test_make_module {
-  timeline timeline;
+    timeline timeline;
 
-  auto module = make_module(timeline);
+    auto module = make_module(timeline);
 
-  XCTAssertTrue(module);
+    XCTAssertTrue(module);
 }
 
 - (void)test_process {
-  timeline parent_timeline;
-  timeline child_timeline;
+    timeline parent_timeline;
+    timeline child_timeline;
 
 #warning todo
 }

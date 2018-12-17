@@ -12,57 +12,51 @@
 using namespace yas;
 
 template <typename T>
-proc::module proc::make_signal_module(generator::kind const kind,
-                                      frame_index_t const offset) {
-  using namespace yas::proc::generator;
+proc::module proc::make_signal_module(generator::kind const kind, frame_index_t const offset) {
+    using namespace yas::proc::generator;
 
-  auto prepare_processor = [](time::range const &, connector_map_t const &,
-                              connector_map_t const &, stream &) mutable {};
+    auto prepare_processor = [](time::range const &, connector_map_t const &, connector_map_t const &,
+                                stream &) mutable {};
 
-  auto send_processor = proc::make_send_signal_processor<T>(
-      [kind, offset, out_each = fast_each<T *>{}](
-          proc::time::range const &time_range, sync_source const &sync_src,
-          channel_index_t const, connector_index_t const co_idx,
-          T *const signal_ptr) mutable {
-        if (co_idx == to_connector_index(output::value)) {
-          out_each.reset(signal_ptr, time_range.length);
-          auto const top_idx = offset + time_range.frame;
-          T const sr = sync_src.sample_rate;
+    auto send_processor = proc::make_send_signal_processor<T>(
+        [kind, offset, out_each = fast_each<T *>{}](proc::time::range const &time_range, sync_source const &sync_src,
+                                                    channel_index_t const, connector_index_t const co_idx,
+                                                    T *const signal_ptr) mutable {
+            if (co_idx == to_connector_index(output::value)) {
+                out_each.reset(signal_ptr, time_range.length);
+                auto const top_idx = offset + time_range.frame;
+                T const sr = sync_src.sample_rate;
 
-          while (yas_each_next(out_each)) {
-            auto const &idx = yas_each_index(out_each);
-            switch (kind) {
-            case kind::second:
-              yas_each_value(out_each) = (T)(top_idx + idx) / sr;
-              break;
+                while (yas_each_next(out_each)) {
+                    auto const &idx = yas_each_index(out_each);
+                    switch (kind) {
+                        case kind::second:
+                            yas_each_value(out_each) = (T)(top_idx + idx) / sr;
+                            break;
+                    }
+                }
             }
-          }
-        }
-      });
+        });
 
-  return proc::module{
-      {std::move(prepare_processor), std::move(send_processor)}};
+    return proc::module{{std::move(prepare_processor), std::move(send_processor)}};
 }
 
-template proc::module proc::make_signal_module<double>(generator::kind const,
-                                                       frame_index_t const);
-template proc::module proc::make_signal_module<float>(generator::kind const,
-                                                      frame_index_t const);
+template proc::module proc::make_signal_module<double>(generator::kind const, frame_index_t const);
+template proc::module proc::make_signal_module<float>(generator::kind const, frame_index_t const);
 
 #pragma mark -
 
-void yas::connect(proc::module &module, proc::generator::output const &output,
-                  proc::channel_index_t const &ch_idx) {
-  module.connect_output(proc::to_connector_index(output), ch_idx);
+void yas::connect(proc::module &module, proc::generator::output const &output, proc::channel_index_t const &ch_idx) {
+    module.connect_output(proc::to_connector_index(output), ch_idx);
 }
 
 std::string yas::to_string(proc::generator::output const &output) {
-  using namespace yas::proc::generator;
+    using namespace yas::proc::generator;
 
-  switch (output) {
-  case output::value:
-    return "value";
-  }
+    switch (output) {
+        case output::value:
+            return "value";
+    }
 
-  throw "output not found.";
+    throw "output not found.";
 }
