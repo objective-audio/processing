@@ -5,6 +5,7 @@
 #pragma once
 
 #include <map>
+#include <optional>
 #include "yas_base.h"
 #include "yas_processing_time.h"
 
@@ -21,6 +22,8 @@ class track : public base {
 
     std::multimap<time::range, module> const &modules() const;
     std::multimap<time::range, module> &modules();
+
+    std::optional<time::range> total_range() const;
 
     void insert_module(time::range, module);
 

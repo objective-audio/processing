@@ -21,6 +21,22 @@ struct proc::track::impl : base::impl {
             }
         }
     }
+
+    std::optional<time::range> total_range() {
+        std::optional<time::range> result{std::nullopt};
+
+        for (auto const &pair : this->_modules) {
+            if (result) {
+                if (result->can_combine(pair.first)) {
+                    result = result->combine(pair.first);
+                }
+            } else {
+                result = pair.first;
+            }
+        }
+
+        return result;
+    }
 };
 
 #pragma mark - proc::track
@@ -37,6 +53,10 @@ std::multimap<proc::time::range, proc::module> const &proc::track::modules() con
 
 std::multimap<proc::time::range, proc::module> &proc::track::modules() {
     return this->impl_ptr<impl>()->_modules;
+}
+
+std::optional<proc::time::range> proc::track::total_range() const {
+    return impl_ptr<impl>()->total_range();
 }
 
 void proc::track::insert_module(proc::time::range time_range, module module) {
