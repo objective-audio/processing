@@ -19,6 +19,24 @@ struct proc::timeline::impl : base::impl {
             track_pair.second.process(time_range, stream);
         }
     }
+
+    std::optional<proc::time::range> total_range() {
+        std::optional<proc::time::range> result{std::nullopt};
+
+        for (auto &track_pair : this->_tracks) {
+            if (auto const &track_range = track_pair.second.total_range()) {
+                if (result) {
+                    if (result->can_combine(*track_range)) {
+                        result = result->combine(*track_range);
+                    }
+                } else {
+                    result = track_range;
+                }
+            }
+        }
+
+        return result;
+    }
 };
 
 #pragma mark - timeline
@@ -66,6 +84,10 @@ proc::track const &proc::timeline::track(track_index_t const trk_idx) const {
 
 proc::track &proc::timeline::track(track_index_t const trk_idx) {
     return this->impl_ptr<impl>()->_tracks.at(trk_idx);
+}
+
+std::optional<proc::time::range> proc::timeline::total_range() const {
+    return impl_ptr<impl>()->total_range();
 }
 
 void proc::timeline::process(time::range const &time_range, stream &stream) {
