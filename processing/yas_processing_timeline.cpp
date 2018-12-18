@@ -26,9 +26,7 @@ struct proc::timeline::impl : base::impl {
         for (auto &track_pair : this->_tracks) {
             if (auto const &track_range = track_pair.second.total_range()) {
                 if (result) {
-                    if (result->can_combine(*track_range)) {
-                        result = result->combine(*track_range);
-                    }
+                    result = result->merged(*track_range);
                 } else {
                     result = track_range;
                 }
