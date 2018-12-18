@@ -69,25 +69,21 @@ using namespace yas;
 - (void)test_total_range {
     proc::track track;
 
-    proc::module module1{proc::module::processors_t{}};
-    proc::module module2{proc::module::processors_t{}};
-    proc::module module3{proc::module::processors_t{}};
-
     XCTAssertFalse(track.total_range());
 
-    track.insert_module({0, 1}, std::move(module1));
+    track.insert_module({0, 1}, proc::module{proc::module::processors_t{}});
 
     XCTAssertEqual(track.total_range(), (proc::time::range{0, 1}));
 
-    track.insert_module({1, 1}, std::move(module2));
+    track.insert_module({1, 1}, proc::module{proc::module::processors_t{}});
 
     XCTAssertEqual(track.total_range(), (proc::time::range{0, 2}));
 
-    track.insert_module({99, 1}, std::move(module3));
+    track.insert_module({99, 1}, proc::module{proc::module::processors_t{}});
 
     XCTAssertEqual(track.total_range(), (proc::time::range{0, 100}));
 
-    track.insert_module({-10, 1}, std::move(module3));
+    track.insert_module({-10, 1}, proc::module{proc::module::processors_t{}});
 
     XCTAssertEqual(track.total_range(), (proc::time::range{-10, 110}));
 }
