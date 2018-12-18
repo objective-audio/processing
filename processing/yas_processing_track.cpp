@@ -27,9 +27,7 @@ struct proc::track::impl : base::impl {
 
         for (auto const &pair : this->_modules) {
             if (result) {
-                if (result->can_combine(pair.first)) {
-                    result = result->combine(pair.first);
-                }
+                result = result->merged(pair.first);
             } else {
                 result = pair.first;
             }
