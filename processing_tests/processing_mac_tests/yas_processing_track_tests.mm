@@ -86,6 +86,10 @@ using namespace yas;
     track.insert_module({99, 1}, std::move(module3));
 
     XCTAssertEqual(track.total_range(), (proc::time::range{0, 100}));
+
+    track.insert_module({-10, 1}, std::move(module3));
+
+    XCTAssertEqual(track.total_range(), (proc::time::range{-10, 110}));
 }
 
 @end
