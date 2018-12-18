@@ -265,4 +265,22 @@ using namespace yas::proc;
     XCTAssertEqual(last_frame, 5);
 }
 
+- (void)test_total_range {
+    timeline timeline;
+
+    XCTAssertFalse(timeline.total_range());
+
+    proc::track &track_0 = timeline.add_track(0);
+
+    track_0.insert_module({0, 1}, proc::module{proc::module::processors_t{}});
+
+    XCTAssertEqual(timeline.total_range(), (proc::time::range{0, 1}));
+
+    proc::track &track_1 = timeline.add_track(1);
+
+    track_1.insert_module({1, 1}, proc::module{proc::module::processors_t{}});
+
+    XCTAssertEqual(timeline.total_range(), (proc::time::range{0, 2}));
+}
+
 @end
