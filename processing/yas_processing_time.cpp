@@ -125,6 +125,13 @@ std::vector<proc::time::range> proc::time::range::crop(range const &other) const
     return vec;
 }
 
+proc::time::range proc::time::range::merged(range const &other) const {
+    auto const start = std::min(this->frame, other.frame);
+    auto const next = std::max(next_frame(), other.next_frame());
+
+    return time::range{start, static_cast<length_t>(next - start)};
+}
+
 proc::time::range proc::time::range::offset(frame_index_t const &offset) const {
     return time::range{this->frame + offset, this->length};
 }
