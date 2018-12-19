@@ -281,6 +281,18 @@ using namespace yas::proc;
     track_1.insert_module({1, 1}, proc::module{proc::module::processors_t{}});
 
     XCTAssertEqual(timeline.total_range(), (proc::time::range{0, 2}));
+
+    proc::track &track_2 = timeline.add_track(2);
+
+    track_2.insert_module({99, 1}, proc::module{proc::module::processors_t{}});
+
+    XCTAssertEqual(timeline.total_range(), (proc::time::range{0, 100}));
+
+    proc::track &track_3 = timeline.add_track(3);
+
+    track_3.insert_module({-10, 1}, proc::module{proc::module::processors_t{}});
+
+    XCTAssertEqual(timeline.total_range(), (proc::time::range{-10, 110}));
 }
 
 @end
