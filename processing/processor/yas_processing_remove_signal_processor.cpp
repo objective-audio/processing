@@ -36,7 +36,7 @@ proc::processor_f proc::make_remove_signal_processor(connector_index_set_t keys)
 
                 for (auto const &event_pair : filtered_events) {
                     auto const &src_frame = event_pair.first.frame;
-                    auto const cropped_ranges = event_pair.first.crop(current_time_range);
+                    auto const cropped_ranges = event_pair.first.cropped(current_time_range);
                     signal_event const &src_signal = event_pair.second;
                     for (auto const &cropped_range : cropped_ranges) {
                         signal_event dst_signal = make_signal_event<T>(cropped_range.length);
