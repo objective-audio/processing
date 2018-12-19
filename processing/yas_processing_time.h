@@ -50,7 +50,7 @@ class time : public base {
         bool can_combine(range const &) const;
         std::optional<range> intersected(range const &) const;
         std::optional<range> combined(range const &) const;
-        std::vector<range> crop(range const &) const;
+        std::vector<range> cropped(range const &) const;
         range merged(range const &) const;
         range offset(frame_index_t const &) const;
     };

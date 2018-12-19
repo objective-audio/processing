@@ -96,7 +96,7 @@ struct proc::signal_event::type_impl : impl {
 
         pair_vector_t result;
 
-        auto const cropped_ranges = this_range.crop(range);
+        auto const cropped_ranges = this_range.cropped(range);
 
         for (auto const &cropped_range : cropped_ranges) {
             auto const &length = cropped_range.length;

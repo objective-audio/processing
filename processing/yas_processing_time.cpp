@@ -100,7 +100,7 @@ std::optional<proc::time::range> proc::time::range::combined(time::range const &
     return time::range{start, static_cast<length_t>(next - start)};
 }
 
-std::vector<proc::time::range> proc::time::range::crop(range const &other) const {
+std::vector<proc::time::range> proc::time::range::cropped(range const &other) const {
     std::vector<proc::time::range> vec;
 
     if (!is_overlap(other)) {
