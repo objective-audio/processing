@@ -155,17 +155,17 @@ using namespace yas::proc;
 }
 
 - (void)test_intersect_overlapped {
-    XCTAssertEqual((time::range{0, 1}.intersect(time::range{0, 1})), (time::range{0, 1}));
-    XCTAssertEqual((time::range{0, 2}.intersect(time::range{1, 2})), (time::range{1, 1}));
-    XCTAssertEqual((time::range{0, 2}.intersect(time::range{1, 1})), (time::range{1, 1}));
-    XCTAssertEqual((time::range{0, 1}.intersect(time::range{0, 2})), (time::range{0, 1}));
+    XCTAssertEqual((time::range{0, 1}.intersected(time::range{0, 1})), (time::range{0, 1}));
+    XCTAssertEqual((time::range{0, 2}.intersected(time::range{1, 2})), (time::range{1, 1}));
+    XCTAssertEqual((time::range{0, 2}.intersected(time::range{1, 1})), (time::range{1, 1}));
+    XCTAssertEqual((time::range{0, 1}.intersected(time::range{0, 2})), (time::range{0, 1}));
 }
 
 - (void)test_intersect_not_overlapped {
-    XCTAssertFalse((time::range{0, 1}.intersect(time::range{1, 1})));
-    XCTAssertFalse((time::range{0, 1}.intersect(time::range{2, 1})));
-    XCTAssertFalse((time::range{0, 1}.intersect(time::range{-1, 1})));
-    XCTAssertFalse((time::range{0, 1}.intersect(time::range{-2, 1})));
+    XCTAssertFalse((time::range{0, 1}.intersected(time::range{1, 1})));
+    XCTAssertFalse((time::range{0, 1}.intersected(time::range{2, 1})));
+    XCTAssertFalse((time::range{0, 1}.intersected(time::range{-1, 1})));
+    XCTAssertFalse((time::range{0, 1}.intersected(time::range{-2, 1})));
 }
 
 @end

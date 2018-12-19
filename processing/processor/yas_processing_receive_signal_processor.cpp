@@ -29,7 +29,7 @@ proc::processor_f proc::make_receive_signal_processor(proc::receive_signal_proce
 
                         for (auto const &pair : filtered_events) {
                             auto const &event_time_range = pair.first;
-                            if (auto const time_range_opt = current_time_range.intersect(event_time_range)) {
+                            if (auto const time_range_opt = current_time_range.intersected(event_time_range)) {
                                 auto const &time_range = *time_range_opt;
                                 signal_event const &signal = pair.second;
                                 auto const *ptr = signal.data<T>();

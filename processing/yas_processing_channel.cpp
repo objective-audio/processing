@@ -101,7 +101,7 @@ proc::channel::events_map_t proc::channel::copied_events(time::range const &copy
             }
         } else if (event_time.is_range_type()) {
             auto const &event_range = event_time.get<time::range>();
-            if (auto const overlap_range_opt = copy_range.intersect(event_range)) {
+            if (auto const overlap_range_opt = copy_range.intersected(event_range)) {
                 auto const &overlap_range = *overlap_range_opt;
                 auto const signal = cast<signal_event>(event);
                 auto copied_signal =
@@ -129,7 +129,7 @@ void proc::channel::erase_events(time::range const &erase_range) {
             }
         } else if (event_time.is_range_type()) {
             auto const &event_range = event_time.get<time::range>();
-            if (auto overlapped_range = erase_range.intersect(event_range)) {
+            if (auto overlapped_range = erase_range.intersected(event_range)) {
                 auto const signal = cast<signal_event>(event_pair.second);
                 auto const range = time::range{overlapped_range->frame - event_range.frame, overlapped_range->length};
                 signal_event::pair_vector_t cropped_signals = signal.cropped(range);

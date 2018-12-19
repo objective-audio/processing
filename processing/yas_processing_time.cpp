@@ -78,7 +78,7 @@ bool proc::time::range::can_combine(time::range const &rhs) const {
     return lower_range.next_frame() >= higher_range.frame;
 }
 
-std::optional<proc::time::range> proc::time::range::intersect(time::range const &rhs) const {
+std::optional<proc::time::range> proc::time::range::intersected(time::range const &rhs) const {
     auto const start = std::max(this->frame, rhs.frame);
     auto const next = std::min(next_frame(), rhs.next_frame());
 
@@ -108,7 +108,7 @@ std::vector<proc::time::range> proc::time::range::crop(range const &other) const
         return vec;
     }
 
-    if (auto const cropped_ragne_opt = intersect(other)) {
+    if (auto const cropped_ragne_opt = intersected(other)) {
         auto const &cropped_range = *cropped_ragne_opt;
         if (this->frame < cropped_range.frame) {
             vec.emplace_back(time::range{this->frame, static_cast<length_t>(cropped_range.frame - this->frame)});

@@ -16,7 +16,7 @@ struct proc::track::impl : base::impl {
 
     void process(time::range const &time_range, stream &stream) {
         for (auto &pair : this->_modules) {
-            if (auto const current_time_range = pair.first.intersect(time_range)) {
+            if (auto const current_time_range = pair.first.intersected(time_range)) {
                 pair.second.process(*current_time_range, stream);
             }
         }

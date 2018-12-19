@@ -48,7 +48,7 @@ class time : public base {
         bool is_contain(any::type const &) const;
         bool is_overlap(range const &) const;
         bool can_combine(range const &) const;
-        std::optional<range> intersect(range const &) const;
+        std::optional<range> intersected(range const &) const;
         std::optional<range> combine(range const &) const;
         std::vector<range> crop(range const &) const;
         range merged(range const &) const;
