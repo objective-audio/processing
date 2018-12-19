@@ -3,7 +3,7 @@
 //
 
 #include "yas_processing_stream.h"
-#include <unordered_map>
+#include <map>
 #include "yas_processing_channel.h"
 #include "yas_processing_sync_source.h"
 
@@ -13,7 +13,7 @@ using namespace yas;
 
 struct proc::stream::impl : base::impl {
     proc::sync_source _sync_source;
-    std::unordered_map<channel_index_t, proc::channel> _channels;
+    std::map<channel_index_t, proc::channel> _channels;
 
     impl(proc::sync_source sync_src) : _sync_source(std::move(sync_src)) {
     }
@@ -69,4 +69,8 @@ proc::channel &proc::stream::channel(channel_index_t const channel) {
 
 std::size_t proc::stream::channel_count() const {
     return this->impl_ptr<impl>()->_channels.size();
+}
+
+std::map<proc::channel_index_t, proc::channel> const &proc::stream::channels() const {
+    return this->impl_ptr<impl>()->_channels;
 }
