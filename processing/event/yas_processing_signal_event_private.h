@@ -119,7 +119,7 @@ struct proc::signal_event::type_impl : impl {
 
         time::range combined_range = current_range;
         for (auto const &event_pair : event_pairs) {
-            combined_range = *combined_range.combine(event_pair.first);
+            combined_range = *combined_range.combined(event_pair.first);
         }
 
         std::vector<T> vec(combined_range.length);

@@ -102,15 +102,15 @@ using namespace yas::proc;
     auto range4 = time::range{1, 2};
     auto range5 = time::range{-1, 4};
 
-    XCTAssertTrue((range1.combine(range2) == time::range{0, 4}));
-    XCTAssertFalse(range1.combine(range3));
-    XCTAssertTrue((range1.combine(range4) == time::range{0, 3}));
-    XCTAssertTrue((range1.combine(range5) == time::range{-1, 4}));
+    XCTAssertTrue((range1.combined(range2) == time::range{0, 4}));
+    XCTAssertFalse(range1.combined(range3));
+    XCTAssertTrue((range1.combined(range4) == time::range{0, 3}));
+    XCTAssertTrue((range1.combined(range5) == time::range{-1, 4}));
 
-    XCTAssertTrue((range2.combine(range1) == time::range{0, 4}));
-    XCTAssertFalse(range3.combine(range1));
-    XCTAssertTrue((range4.combine(range1) == time::range{0, 3}));
-    XCTAssertTrue((range5.combine(range1) == time::range{-1, 4}));
+    XCTAssertTrue((range2.combined(range1) == time::range{0, 4}));
+    XCTAssertFalse(range3.combined(range1));
+    XCTAssertTrue((range4.combined(range1) == time::range{0, 3}));
+    XCTAssertTrue((range5.combined(range1) == time::range{-1, 4}));
 }
 
 - (void)test_is_contain_time_range {

@@ -37,7 +37,7 @@ proc::processor_f proc::make_send_signal_processor(proc::send_signal_process_f<T
 
                     if (filtered_events.size() > 0) {
                         for (auto const &pair : filtered_events) {
-                            combined_time_range = *combined_time_range.combine(pair.first);
+                            combined_time_range = *combined_time_range.combined(pair.first);
                         }
 
                         std::vector<T> vec(combined_time_range.length);

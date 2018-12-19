@@ -89,7 +89,7 @@ std::optional<proc::time::range> proc::time::range::intersected(time::range cons
     }
 }
 
-std::optional<proc::time::range> proc::time::range::combine(time::range const &other) const {
+std::optional<proc::time::range> proc::time::range::combined(time::range const &other) const {
     if (!can_combine(other)) {
         return std::nullopt;
     }
