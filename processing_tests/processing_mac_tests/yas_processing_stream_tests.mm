@@ -100,4 +100,19 @@ using namespace yas::proc;
     XCTAssertEqual(const_signal.vector<int8_t>()[1], 6);
 }
 
+- (void)test_channels {
+    proc::stream stream{sync_source{1, 2}};
+
+    stream.add_channel(0);
+
+    XCTAssertEqual(stream.channels().size(), 1);
+    XCTAssertEqual(stream.channels().count(0), 1);
+
+    stream.add_channel(1);
+
+    XCTAssertEqual(stream.channels().size(), 2);
+    XCTAssertEqual(stream.channels().count(0), 1);
+    XCTAssertEqual(stream.channels().count(1), 1);
+}
+
 @end

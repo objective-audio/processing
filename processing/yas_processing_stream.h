@@ -26,6 +26,7 @@ class stream : public base {
     proc::channel const &channel(channel_index_t const) const;
     proc::channel &channel(channel_index_t const);
     std::size_t channel_count() const;
+    std::map<channel_index_t, proc::channel> const &channels() const;
 
    private:
     class impl;
