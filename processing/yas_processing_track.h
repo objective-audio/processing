@@ -17,11 +17,13 @@ class track : public base {
     class impl;
 
    public:
+    using modules_map_t = std::multimap<time::range, module>;
+
     track();
     track(std::nullptr_t);
 
-    std::multimap<time::range, module> const &modules() const;
-    std::multimap<time::range, module> &modules();
+    modules_map_t const &modules() const;
+    modules_map_t &modules();
 
     std::optional<time::range> total_range() const;
 

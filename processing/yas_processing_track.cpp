@@ -12,7 +12,7 @@ using namespace yas;
 #pragma mark - proc::track::impl
 
 struct proc::track::impl : base::impl {
-    std::multimap<time::range, module> _modules;
+    modules_map_t _modules;
 
     void insert_module(time::range &&range, module &&module) {
         this->_modules.emplace(std::move(range), std::move(module));
@@ -58,7 +58,7 @@ std::multimap<proc::time::range, proc::module> const &proc::track::modules() con
     return this->impl_ptr<impl>()->_modules;
 }
 
-std::multimap<proc::time::range, proc::module> &proc::track::modules() {
+proc::track::modules_map_t &proc::track::modules() {
     return this->impl_ptr<impl>()->_modules;
 }
 
