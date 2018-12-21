@@ -26,6 +26,7 @@ class track : public base {
     std::optional<time::range> total_range() const;
 
     void insert_module(time::range, module);
+    void remove_module(module const &);
 
     void process(time::range const &, stream &);
 };

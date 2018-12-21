@@ -66,6 +66,23 @@ using namespace yas;
     }
 }
 
+- (void)test_remove_module {
+    proc::track track;
+
+    proc::module module1{proc::module::processors_t{}};
+    proc::module module2{proc::module::processors_t{}};
+
+    track.insert_module({0, 1}, module1);
+    track.insert_module({1, 1}, module2);
+
+    XCTAssertEqual(track.modules().size(), 2);
+
+    track.remove_module(module1);
+
+    XCTAssertEqual(track.modules().size(), 1);
+    XCTAssertEqual(track.modules().begin()->second, module2);
+}
+
 - (void)test_total_range {
     proc::track track;
 

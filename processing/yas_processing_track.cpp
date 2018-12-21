@@ -14,6 +14,15 @@ using namespace yas;
 struct proc::track::impl : base::impl {
     std::multimap<time::range, module> _modules;
 
+    void insert_module(time::range &&range, module &&module) {
+        this->_modules.emplace(std::move(range), std::move(module));
+    }
+
+    void remove_module(module const &module) {
+        erase_if(this->_modules,
+                 [&module](std::pair<time::range, proc::module> const &pair) { return pair.second == module; });
+    }
+
     void process(time::range const &time_range, stream &stream) {
         for (auto &pair : this->_modules) {
             if (auto const current_time_range = pair.first.intersected(time_range)) {
@@ -58,7 +67,11 @@ std::optional<proc::time::range> proc::track::total_range() const {
 }
 
 void proc::track::insert_module(proc::time::range time_range, module module) {
-    this->impl_ptr<impl>()->_modules.emplace(std::move(time_range), std::move(module));
+    this->impl_ptr<impl>()->insert_module(std::move(time_range), std::move(module));
+}
+
+void proc::track::remove_module(module const &module) {
+    this->impl_ptr<impl>()->remove_module(module);
 }
 
 void proc::track::process(time::range const &time_range, stream &stream) {
