@@ -3,6 +3,7 @@
 //
 
 #include "yas_processing_track.h"
+#include "yas_chaining_multimap_holder.h"
 #include "yas_processing_module.h"
 #include "yas_processing_stream.h"
 #include "yas_stl_utils.h"
@@ -12,19 +13,18 @@ using namespace yas;
 #pragma mark - proc::track::impl
 
 struct proc::track::impl : base::impl {
-    modules_map_t _modules;
+    chaining::multimap::holder<time::range, module> _modules_holder;
 
     void insert_module(time::range &&range, module &&module) {
-        this->_modules.emplace(std::move(range), std::move(module));
+        this->_modules_holder.insert(std::move(range), std::move(module));
     }
 
     void remove_module(module const &module) {
-        erase_if(this->_modules,
-                 [&module](std::pair<time::range, proc::module> const &pair) { return pair.second == module; });
+        this->_modules_holder.erase_for_value(module);
     }
 
     void process(time::range const &time_range, stream &stream) {
-        for (auto &pair : this->_modules) {
+        for (auto &pair : this->_modules_holder.raw()) {
             if (auto const current_time_range = pair.first.intersected(time_range)) {
                 pair.second.process(*current_time_range, stream);
             }
@@ -34,7 +34,7 @@ struct proc::track::impl : base::impl {
     std::optional<time::range> total_range() {
         std::optional<time::range> result{std::nullopt};
 
-        for (auto const &pair : this->_modules) {
+        for (auto const &pair : this->_modules_holder.raw()) {
             if (result) {
                 result = result->merged(pair.first);
             } else {
@@ -55,11 +55,11 @@ proc::track::track(std::nullptr_t) : base(nullptr) {
 }
 
 std::multimap<proc::time::range, proc::module> const &proc::track::modules() const {
-    return this->impl_ptr<impl>()->_modules;
+    return this->impl_ptr<impl>()->_modules_holder.raw();
 }
 
 proc::track::modules_map_t &proc::track::modules() {
-    return this->impl_ptr<impl>()->_modules;
+    return this->impl_ptr<impl>()->_modules_holder.raw();
 }
 
 std::optional<proc::time::range> proc::track::total_range() const {
