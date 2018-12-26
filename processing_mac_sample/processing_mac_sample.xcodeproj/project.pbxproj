@@ -70,6 +70,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B6359CDA21D3C02D00481348 /* yas_chaining_multimap_holder_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yas_chaining_multimap_holder_private.h; sourceTree = "<group>"; };
+		B6359CDB21D3C02D00481348 /* yas_chaining_multimap_holder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yas_chaining_multimap_holder.h; sourceTree = "<group>"; };
 		B63674451DD9DFE900C724DB /* yas_base.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = yas_base.cpp; sourceTree = "<group>"; };
 		B63674461DD9DFE900C724DB /* yas_base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yas_base.h; sourceTree = "<group>"; };
 		B63674471DD9DFE900C724DB /* yas_base_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yas_base_private.h; sourceTree = "<group>"; };
@@ -412,36 +414,38 @@
 		B66662EE21CCAF9800334340 /* chaining */ = {
 			isa = PBXGroup;
 			children = (
-				B66662EF21CCAF9800334340 /* yas_chaining_joint.h */,
-				B66662F021CCAF9800334340 /* yas_chaining_holder.h */,
-				B66662F121CCAF9800334340 /* yas_chaining_observer.h */,
-				B66662F221CCAF9800334340 /* yas_chaining_notifier.h */,
-				B66662F321CCAF9800334340 /* yas_chaining_sender_protocol.h */,
-				B66662F421CCAF9800334340 /* yas_chaining_fetcher_protocol_private.h */,
-				B66662F521CCAF9800334340 /* yas_chaining_receiver_private.h */,
-				B66662F621CCAF9800334340 /* yas_chaining_fetcher.h */,
-				B66662F721CCAF9800334340 /* yas_chaining_sender_protocol_private.h */,
-				B66662F821CCAF9800334340 /* yas_chaining_chain.h */,
-				B66662F921CCAF9800334340 /* yas_chaining_receiver_protocol.h */,
-				B66662FA21CCAF9800334340 /* yas_chaining_utils.h */,
-				B66662FB21CCAF9800334340 /* yas_chaining_chain_private.h */,
-				B66662FC21CCAF9800334340 /* yas_chaining_observer_pool.h */,
-				B66662FD21CCAF9800334340 /* yas_chaining_joint_private.h */,
-				B66662FE21CCAF9800334340 /* yas_chaining_holder_private.h */,
-				B66662FF21CCAF9800334340 /* yas_chaining_observer_pool.cpp */,
-				B666630021CCAF9800334340 /* yas_chaining_observer_private.h */,
-				B666630121CCAF9800334340 /* yas_chaining.h */,
-				B666630221CCAF9800334340 /* yas_chaining_vector_holder.h */,
-				B666630321CCAF9800334340 /* yas_chaining_any_observer.h */,
-				B666630421CCAF9800334340 /* yas_chaining_receiver.h */,
-				B666630521CCAF9800334340 /* yas_chaining_sender.h */,
-				B666630621CCAF9800334340 /* yas_chaining_vector_holder_private.h */,
-				B666630721CCAF9800334340 /* yas_chaining_fetcher_private.h */,
-				B666630821CCAF9800334340 /* yas_chaining_notifier_private.h */,
-				B666630921CCAF9800334340 /* yas_chaining_receiver_protocol_private.h */,
-				B666630A21CCAF9800334340 /* yas_chaining_fetcher_protocol.h */,
-				B666630B21CCAF9800334340 /* yas_chaining_sender_private.h */,
 				B666630C21CCAF9800334340 /* yas_chaining_any_observer.cpp */,
+				B666630321CCAF9800334340 /* yas_chaining_any_observer.h */,
+				B66662FB21CCAF9800334340 /* yas_chaining_chain_private.h */,
+				B66662F821CCAF9800334340 /* yas_chaining_chain.h */,
+				B666630721CCAF9800334340 /* yas_chaining_fetcher_private.h */,
+				B66662F421CCAF9800334340 /* yas_chaining_fetcher_protocol_private.h */,
+				B666630A21CCAF9800334340 /* yas_chaining_fetcher_protocol.h */,
+				B66662F621CCAF9800334340 /* yas_chaining_fetcher.h */,
+				B66662FE21CCAF9800334340 /* yas_chaining_holder_private.h */,
+				B66662F021CCAF9800334340 /* yas_chaining_holder.h */,
+				B66662FD21CCAF9800334340 /* yas_chaining_joint_private.h */,
+				B66662EF21CCAF9800334340 /* yas_chaining_joint.h */,
+				B6359CDA21D3C02D00481348 /* yas_chaining_multimap_holder_private.h */,
+				B6359CDB21D3C02D00481348 /* yas_chaining_multimap_holder.h */,
+				B666630821CCAF9800334340 /* yas_chaining_notifier_private.h */,
+				B66662F221CCAF9800334340 /* yas_chaining_notifier.h */,
+				B66662FF21CCAF9800334340 /* yas_chaining_observer_pool.cpp */,
+				B66662FC21CCAF9800334340 /* yas_chaining_observer_pool.h */,
+				B666630021CCAF9800334340 /* yas_chaining_observer_private.h */,
+				B66662F121CCAF9800334340 /* yas_chaining_observer.h */,
+				B66662F521CCAF9800334340 /* yas_chaining_receiver_private.h */,
+				B666630921CCAF9800334340 /* yas_chaining_receiver_protocol_private.h */,
+				B66662F921CCAF9800334340 /* yas_chaining_receiver_protocol.h */,
+				B666630421CCAF9800334340 /* yas_chaining_receiver.h */,
+				B666630B21CCAF9800334340 /* yas_chaining_sender_private.h */,
+				B66662F721CCAF9800334340 /* yas_chaining_sender_protocol_private.h */,
+				B66662F321CCAF9800334340 /* yas_chaining_sender_protocol.h */,
+				B666630521CCAF9800334340 /* yas_chaining_sender.h */,
+				B66662FA21CCAF9800334340 /* yas_chaining_utils.h */,
+				B666630621CCAF9800334340 /* yas_chaining_vector_holder_private.h */,
+				B666630221CCAF9800334340 /* yas_chaining_vector_holder.h */,
+				B666630121CCAF9800334340 /* yas_chaining.h */,
 			);
 			name = chaining;
 			path = ../../submodules/chaining/chaining;

@@ -103,6 +103,8 @@
 		B6347C301E6128FE0042B1CF /* yas_processing_signal_process_context_tests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = yas_processing_signal_process_context_tests.mm; sourceTree = "<group>"; };
 		B6347C321E61290D0042B1CF /* yas_processing_number_process_context_tests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = yas_processing_number_process_context_tests.mm; sourceTree = "<group>"; };
 		B6348AC41E0BD4F90096DA81 /* yas_processing_timeline_tests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = yas_processing_timeline_tests.mm; sourceTree = "<group>"; };
+		B6359CD821D3C01800481348 /* yas_chaining_multimap_holder_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yas_chaining_multimap_holder_private.h; sourceTree = "<group>"; };
+		B6359CD921D3C01800481348 /* yas_chaining_multimap_holder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yas_chaining_multimap_holder.h; sourceTree = "<group>"; };
 		B63674841DD9DFF500C724DB /* yas_base.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = yas_base.cpp; sourceTree = "<group>"; };
 		B63674851DD9DFF500C724DB /* yas_base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yas_base.h; sourceTree = "<group>"; };
 		B63674861DD9DFF500C724DB /* yas_base_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yas_base_private.h; sourceTree = "<group>"; };
@@ -444,6 +446,8 @@
 				B66662CF21CCAF3D00334340 /* yas_chaining_holder.h */,
 				B66662DC21CCAF3D00334340 /* yas_chaining_joint_private.h */,
 				B66662CE21CCAF3D00334340 /* yas_chaining_joint.h */,
+				B6359CD821D3C01800481348 /* yas_chaining_multimap_holder_private.h */,
+				B6359CD921D3C01800481348 /* yas_chaining_multimap_holder.h */,
 				B66662E721CCAF3D00334340 /* yas_chaining_notifier_private.h */,
 				B66662D121CCAF3D00334340 /* yas_chaining_notifier.h */,
 				B66662DE21CCAF3D00334340 /* yas_chaining_observer_pool.cpp */,
