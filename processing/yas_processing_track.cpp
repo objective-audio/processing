@@ -12,7 +12,7 @@ using namespace yas;
 
 #pragma mark - proc::track::impl
 
-struct proc::track::impl : base::impl {
+struct proc::track::impl : chaining::sender<track_event_t>::impl {
     chaining::multimap::holder<time::range, module> _modules_holder;
 
     void insert_module(time::range &&range, module &&module) {
@@ -44,14 +44,38 @@ struct proc::track::impl : base::impl {
 
         return result;
     }
+
+    void broadcast(track_event_t const &value) override {
+        this->_modules_holder.sendable().broadcast(value);
+    }
+
+    void send_value_to_target(track_event_t const &value, std::uintptr_t const key) override {
+        this->_modules_holder.sendable().send_value_to_target(value, key);
+    }
+
+    void erase_joint(std::uintptr_t const key) override {
+        this->_modules_holder.sendable().erase_joint(key);
+    }
+
+    void fetch_for(chaining::any_joint const &joint) override {
+        this->_modules_holder.sendable().fetch_for(joint);
+    }
+
+    chaining::chain_unsync_t<track_event_t> chain_unsync() override {
+        return this->_modules_holder.sendable().chain_unsync();
+    }
+
+    chaining::chain_sync_t<track_event_t> chain_sync() override {
+        return this->_modules_holder.sendable().chain_sync();
+    }
 };
 
 #pragma mark - proc::track
 
-proc::track::track() : base(std::make_shared<impl>()) {
+proc::track::track() : chaining::sender<track_event_t>(std::make_shared<impl>()) {
 }
 
-proc::track::track(std::nullptr_t) : base(nullptr) {
+proc::track::track(std::nullptr_t) : chaining::sender<track_event_t>(nullptr) {
 }
 
 std::multimap<proc::time::range, proc::module> const &proc::track::modules() const {

@@ -7,13 +7,21 @@
 #include <map>
 #include <optional>
 #include "yas_base.h"
+#include "yas_chaining.h"
 #include "yas_processing_time.h"
+
+namespace yas::chaining::multimap {
+template <typename Key, typename Value>
+class event;
+}
 
 namespace yas::proc {
 class module;
 class stream;
 
-class track : public base {
+using track_event_t = chaining::multimap::event<time::range, module>;
+
+class track : public chaining::sender<track_event_t> {
     class impl;
 
    public:
