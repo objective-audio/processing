@@ -101,3 +101,7 @@ void proc::track::remove_module(module const &module) {
 void proc::track::process(time::range const &time_range, stream &stream) {
     this->impl_ptr<impl>()->process(time_range, stream);
 }
+
+chaining::chain_sync_t<proc::track_event_t> proc::track::chain() {
+    return this->impl_ptr<impl>()->chain_sync();
+}

@@ -39,5 +39,7 @@ class track : public chaining::sender<track_event_t> {
     void remove_module(module const &);
 
     void process(time::range const &, stream &);
+
+    chaining::chain_sync_t<track_event_t> chain();
 };
 }  // namespace yas::proc
