@@ -3,7 +3,6 @@
 //
 
 #include "yas_processing_track.h"
-#include "yas_chaining_multimap_holder.h"
 #include "yas_processing_module.h"
 #include "yas_processing_stream.h"
 #include "yas_stl_utils.h"
