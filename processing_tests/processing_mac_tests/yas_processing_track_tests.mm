@@ -77,7 +77,7 @@ using namespace yas;
 
     XCTAssertEqual(track.modules().size(), 2);
 
-    track.remove_module(module1);
+    track.erase_module(module1);
 
     XCTAssertEqual(track.modules().size(), 1);
     XCTAssertEqual(track.modules().begin()->second, module2);

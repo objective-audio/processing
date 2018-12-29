@@ -36,7 +36,7 @@ class track : public chaining::sender<track_event_t> {
     std::optional<time::range> total_range() const;
 
     void insert_module(time::range, module);
-    void remove_module(module const &);
+    void erase_module(module const &);
 
     void process(time::range const &, stream &);
 

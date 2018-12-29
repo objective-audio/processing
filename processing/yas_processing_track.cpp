@@ -94,7 +94,7 @@ void proc::track::insert_module(proc::time::range time_range, module module) {
     this->impl_ptr<impl>()->insert_module(std::move(time_range), std::move(module));
 }
 
-void proc::track::remove_module(module const &module) {
+void proc::track::erase_module(module const &module) {
     this->impl_ptr<impl>()->remove_module(module);
 }
 
