@@ -19,6 +19,22 @@ using namespace yas;
 - (void)tearDown {
 }
 
+- (void)test_fetched {
+    proc::track track;
+
+    proc::module module1{proc::module::processors_t{}};
+    proc::module module2{proc::module::processors_t{}};
+    track.insert_module({0, 1}, std::move(module1));
+    track.insert_module({1, 1}, std::move(module2));
+
+    std::vector<proc::track_event_t> events;
+
+    auto chain = track.chain().perform([&events](auto const &event) { events.push_back(event); }).sync();
+
+    XCTAssertEqual(events.size(), 1);
+    XCTAssertEqual(events.at(0).type(), proc::track_event_type::fetched);
+}
+
 - (void)test_inserted {
     proc::track track;
 
