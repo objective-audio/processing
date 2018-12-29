@@ -62,4 +62,35 @@ using namespace yas;
     XCTAssertEqual(events.at(0).get<proc::track_inserted_event_t>().elements.begin()->second, module2);
 }
 
+- (void)test_erased {
+    proc::track track;
+
+    proc::module module1{proc::module::processors_t{}};
+    proc::module module2{proc::module::processors_t{}};
+    track.insert_module({0, 1}, module1);
+    track.insert_module({1, 1}, module2);
+
+    std::vector<proc::track_event_t> events;
+    std::vector<std::multimap<proc::time::range, proc::module>> erased;
+
+    auto chain = track.chain()
+                     .perform([&events, &erased](auto const &event) {
+                         events.push_back(event);
+                         if (event.type() == proc::track_event_type::erased) {
+                             erased.push_back(event.template get<proc::track_erased_event_t>().elements);
+                         }
+                     })
+                     .end();
+
+    track.erase_module(module1);
+
+    XCTAssertEqual(events.size(), 1);
+    XCTAssertEqual(events.at(0).type(), proc::track_event_type::erased);
+
+    XCTAssertEqual(erased.size(), 1);
+    XCTAssertEqual(erased.at(0).size(), 1);
+    XCTAssertEqual(erased.at(0).begin()->first, (proc::time::range{0, 1}));
+    XCTAssertEqual(erased.at(0).begin()->second, module1);
+}
+
 @end
