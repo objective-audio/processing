@@ -36,12 +36,12 @@ using namespace yas::proc;
     XCTAssertFalse(timeline);
 }
 
-- (void)test_add_track {
+- (void)test_insert_track {
     timeline timeline;
 
-    track &track1 = timeline.add_track(1);
-    track &track2 = timeline.add_track(2);
-    track &trackMinus1 = timeline.add_track(-1);
+    track &track1 = timeline.insert_track(1);
+    track &track2 = timeline.insert_track(2);
+    track &trackMinus1 = timeline.insert_track(-1);
 
     XCTAssertEqual(timeline.track_count(), 3);
 
@@ -59,8 +59,8 @@ using namespace yas::proc;
 - (void)test_remove_track {
     timeline timeline;
 
-    timeline.add_track(10);
-    timeline.add_track(11);
+    timeline.insert_track(10);
+    timeline.insert_track(11);
 
     timeline.remove_track(10);
 
@@ -88,7 +88,7 @@ using namespace yas::proc;
 
     // setup track1 > インデックスをそのままセット
 
-    track &track1 = timeline.add_track(1);
+    track &track1 = timeline.insert_track(1);
 
     auto send_handler1 = [](proc::time::range const &time_range, sync_source const &, channel_index_t const ch_idx,
                             connector_index_t const co_idx, int16_t *const signal_ptr) {
@@ -107,7 +107,7 @@ using namespace yas::proc;
 
     // setup track2 > +1する
 
-    track &track2 = timeline.add_track(2);
+    track &track2 = timeline.insert_track(2);
 
     auto send_handler2 = [&process_signal, &called_send_time](
                              proc::time::range const &time_range, sync_source const &, channel_index_t const ch_idx,
@@ -214,7 +214,7 @@ using namespace yas::proc;
     channel_index_t const ch_idx = 0;
     length_t const process_length = 5;
 
-    auto &track = timeline.add_track(0);
+    auto &track = timeline.insert_track(0);
     auto fast_each = make_fast_each<frame_index_t>(process_length);
     while (yas_each_next(fast_each)) {
         auto const &idx = yas_each_index(fast_each);
@@ -270,25 +270,25 @@ using namespace yas::proc;
 
     XCTAssertFalse(timeline.total_range());
 
-    proc::track &track_0 = timeline.add_track(0);
+    proc::track &track_0 = timeline.insert_track(0);
 
     track_0.insert_module({0, 1}, proc::module{proc::module::processors_t{}});
 
     XCTAssertEqual(timeline.total_range(), (proc::time::range{0, 1}));
 
-    proc::track &track_1 = timeline.add_track(1);
+    proc::track &track_1 = timeline.insert_track(1);
 
     track_1.insert_module({1, 1}, proc::module{proc::module::processors_t{}});
 
     XCTAssertEqual(timeline.total_range(), (proc::time::range{0, 2}));
 
-    proc::track &track_2 = timeline.add_track(2);
+    proc::track &track_2 = timeline.insert_track(2);
 
     track_2.insert_module({99, 1}, proc::module{proc::module::processors_t{}});
 
     XCTAssertEqual(timeline.total_range(), (proc::time::range{0, 100}));
 
-    proc::track &track_3 = timeline.add_track(3);
+    proc::track &track_3 = timeline.insert_track(3);
 
     track_3.insert_module({-10, 1}, proc::module{proc::module::processors_t{}});
 

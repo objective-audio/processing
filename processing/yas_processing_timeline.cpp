@@ -53,7 +53,7 @@ proc::timeline::track_map_t &proc::timeline::tracks() {
     return this->impl_ptr<impl>()->_tracks;
 }
 
-proc::track &proc::timeline::add_track(track_index_t const trk_idx) {
+proc::track &proc::timeline::insert_track(track_index_t const trk_idx) {
     auto &tracks = this->impl_ptr<impl>()->_tracks;
     if (tracks.count(trk_idx) == 0) {
         tracks.emplace(trk_idx, proc::track{});
