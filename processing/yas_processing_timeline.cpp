@@ -12,10 +12,10 @@ using namespace yas;
 #pragma mark - timeline::impl
 
 struct proc::timeline::impl : base::impl {
-    track_map_t _tracks;
+    chaining::map::holder<track_index_t, proc::track> _tracks_holder;
 
     void process(time::range const &time_range, stream &stream) {
-        for (auto &track_pair : this->_tracks) {
+        for (auto &track_pair : this->_tracks_holder.raw()) {
             track_pair.second.process(time_range, stream);
         }
     }
@@ -23,7 +23,7 @@ struct proc::timeline::impl : base::impl {
     std::optional<proc::time::range> total_range() {
         std::optional<proc::time::range> result{std::nullopt};
 
-        for (auto &track_pair : this->_tracks) {
+        for (auto &track_pair : this->_tracks_holder.raw()) {
             if (auto const &track_range = track_pair.second.total_range()) {
                 if (result) {
                     result = result->merged(*track_range);
@@ -46,42 +46,40 @@ proc::timeline::timeline(std::nullptr_t) : base(nullptr) {
 }
 
 proc::timeline::track_map_t const &proc::timeline::tracks() const {
-    return this->impl_ptr<impl>()->_tracks;
+    return this->impl_ptr<impl>()->_tracks_holder.raw();
 }
 
 proc::timeline::track_map_t &proc::timeline::tracks() {
-    return this->impl_ptr<impl>()->_tracks;
+    return this->impl_ptr<impl>()->_tracks_holder.raw();
 }
 
 proc::track &proc::timeline::insert_track(track_index_t const trk_idx) {
-    auto &tracks = this->impl_ptr<impl>()->_tracks;
+    auto &tracks_holder = this->impl_ptr<impl>()->_tracks_holder;
+    auto &tracks = tracks_holder.raw();
     if (tracks.count(trk_idx) == 0) {
-        tracks.emplace(trk_idx, proc::track{});
+        tracks_holder.insert_or_replace(trk_idx, proc::track{});
     }
     return tracks.at(trk_idx);
 }
 
 void proc::timeline::erase_track(track_index_t const trk_idx) {
-    auto &tracks = this->impl_ptr<impl>()->_tracks;
-    if (tracks.count(trk_idx) > 0) {
-        tracks.erase(trk_idx);
-    }
+    this->impl_ptr<impl>()->_tracks_holder.erase_for_key(trk_idx);
 }
 
 std::size_t proc::timeline::track_count() const {
-    return this->impl_ptr<impl>()->_tracks.size();
+    return this->impl_ptr<impl>()->_tracks_holder.size();
 }
 
 bool proc::timeline::has_track(track_index_t const idx) const {
-    return this->impl_ptr<impl>()->_tracks.count(idx) > 0;
+    return this->impl_ptr<impl>()->_tracks_holder.has_value(idx);
 }
 
 proc::track const &proc::timeline::track(track_index_t const trk_idx) const {
-    return this->impl_ptr<impl>()->_tracks.at(trk_idx);
+    return this->impl_ptr<impl>()->_tracks_holder.at(trk_idx);
 }
 
 proc::track &proc::timeline::track(track_index_t const trk_idx) {
-    return this->impl_ptr<impl>()->_tracks.at(trk_idx);
+    return this->impl_ptr<impl>()->_tracks_holder.at(trk_idx);
 }
 
 std::optional<proc::time::range> proc::timeline::total_range() const {
