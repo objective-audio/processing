@@ -8,6 +8,7 @@
 #import "yas_audio_file_utils.h"
 #import "yas_audio_format.h"
 #import "yas_audio_pcm_buffer.h"
+#import "yas_cf_utils.h"
 #import "yas_fast_each.h"
 #import "yas_objc_macros.h"
 #import "yas_processing.h"
@@ -153,9 +154,10 @@ typedef NS_ENUM(NSUInteger, SampleBits) {
 
         time::range process_range{0, sample_rate * lengthValue};
 
+        yas::url url{to_string((__bridge CFStringRef)panel.URL.absoluteString)};
         auto wave_settings = audio::wave_file_settings(double(sample_rate), 1, bits);
-        auto create_result = audio::make_created_file(
-            {.file_url = (__bridge CFURLRef)panel.URL, .file_type = audio::file_type::wave, .settings = wave_settings});
+        auto create_result =
+            audio::make_created_file({.file_url = url, .file_type = audio::file_type::wave, .settings = wave_settings});
 
         if (!create_result) {
             std::cout << __PRETTY_FUNCTION__ << " - error:" << to_string(create_result.error()) << std::endl;

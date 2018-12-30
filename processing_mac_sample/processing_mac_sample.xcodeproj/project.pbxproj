@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B6359CDE21D8B9F400481348 /* yas_url.mm in Sources */ = {isa = PBXBuildFile; fileRef = B6359CDD21D8B9F400481348 /* yas_url.mm */; };
 		B63674761DD9DFE900C724DB /* yas_base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B63674451DD9DFE900C724DB /* yas_base.cpp */; };
 		B63674771DD9DFE900C724DB /* yas_cf_ref.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B63674481DD9DFE900C724DB /* yas_cf_ref.cpp */; };
 		B63674781DD9DFE900C724DB /* yas_cf_utils.mm in Sources */ = {isa = PBXBuildFile; fileRef = B636744C1DD9DFE900C724DB /* yas_cf_utils.mm */; };
@@ -72,6 +73,8 @@
 /* Begin PBXFileReference section */
 		B6359CDA21D3C02D00481348 /* yas_chaining_multimap_holder_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yas_chaining_multimap_holder_private.h; sourceTree = "<group>"; };
 		B6359CDB21D3C02D00481348 /* yas_chaining_multimap_holder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yas_chaining_multimap_holder.h; sourceTree = "<group>"; };
+		B6359CDC21D8B9F400481348 /* yas_url.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yas_url.h; sourceTree = "<group>"; };
+		B6359CDD21D8B9F400481348 /* yas_url.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = yas_url.mm; sourceTree = "<group>"; };
 		B63674451DD9DFE900C724DB /* yas_base.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = yas_base.cpp; sourceTree = "<group>"; };
 		B63674461DD9DFE900C724DB /* yas_base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yas_base.h; sourceTree = "<group>"; };
 		B63674471DD9DFE900C724DB /* yas_base_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yas_base_private.h; sourceTree = "<group>"; };
@@ -314,6 +317,8 @@
 				B63674711DD9DFE900C724DB /* yas_type_traits.h */,
 				B63674721DD9DFE900C724DB /* yas_types.h */,
 				B63674731DD9DFE900C724DB /* yas_unless.h */,
+				B6359CDC21D8B9F400481348 /* yas_url.h */,
+				B6359CDD21D8B9F400481348 /* yas_url.mm */,
 				B63674741DD9DFE900C724DB /* yas_version.cpp */,
 				B63674751DD9DFE900C724DB /* yas_version.h */,
 			);
@@ -672,6 +677,7 @@
 				B63674821DD9DFE900C724DB /* yas_version.cpp in Sources */,
 				B6AA84351E67F18D00120472 /* yas_audio_math.cpp in Sources */,
 				B636747E1DD9DFE900C724DB /* yas_objc_ptr.mm in Sources */,
+				B6359CDE21D8B9F400481348 /* yas_url.mm in Sources */,
 				B63674801DD9DFE900C724DB /* yas_protocol.cpp in Sources */,
 				B650E3E31DD810B300E423C7 /* ViewController.mm in Sources */,
 				B6AA83FE1E67ED8900120472 /* yas_processing_number_event.cpp in Sources */,
