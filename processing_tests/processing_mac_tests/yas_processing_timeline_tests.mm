@@ -56,13 +56,13 @@ using namespace yas::proc;
     XCTAssertFalse(timeline.has_track(0));
 }
 
-- (void)test_remove_track {
+- (void)test_erase_track {
     timeline timeline;
 
     timeline.insert_track(10);
     timeline.insert_track(11);
 
-    timeline.remove_track(10);
+    timeline.erase_track(10);
 
     XCTAssertEqual(timeline.track_count(), 1);
     XCTAssertFalse(timeline.has_track(10));

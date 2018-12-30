@@ -61,7 +61,7 @@ proc::track &proc::timeline::insert_track(track_index_t const trk_idx) {
     return tracks.at(trk_idx);
 }
 
-void proc::timeline::remove_track(track_index_t const trk_idx) {
+void proc::timeline::erase_track(track_index_t const trk_idx) {
     auto &tracks = this->impl_ptr<impl>()->_tracks;
     if (tracks.count(trk_idx) > 0) {
         tracks.erase(trk_idx);

@@ -29,7 +29,7 @@ class timeline : public base {
     track_map_t &tracks();
 
     proc::track &insert_track(track_index_t const);
-    void remove_track(track_index_t const);
+    void erase_track(track_index_t const);
     std::size_t track_count() const;
     bool has_track(track_index_t const) const;
     proc::track const &track(track_index_t const) const;
