@@ -32,7 +32,7 @@ using namespace yas;
     auto chain = track.chain().perform([&events](auto const &event) { events.push_back(event); }).sync();
 
     XCTAssertEqual(events.size(), 1);
-    XCTAssertEqual(events.at(0).type(), proc::track_event_type::fetched);
+    XCTAssertEqual(events.at(0).type, proc::track_event_type::fetched);
 }
 
 - (void)test_inserted {
@@ -48,18 +48,18 @@ using namespace yas;
     track.insert_module({0, 1}, module1);
 
     XCTAssertEqual(events.size(), 1);
-    XCTAssertEqual(events.at(0).type(), proc::track_event_type::inserted);
-    XCTAssertEqual(events.at(0).get<proc::track_inserted_event_t>().elements.size(), 1);
-    XCTAssertEqual(events.at(0).get<proc::track_inserted_event_t>().elements.begin()->first, (proc::time::range{0, 1}));
-    XCTAssertEqual(events.at(0).get<proc::track_inserted_event_t>().elements.begin()->second, module1);
+    XCTAssertEqual(events.at(0).type, proc::track_event_type::inserted);
+    XCTAssertEqual(events.at(0).elements.size(), 1);
+    XCTAssertEqual(events.at(0).elements.begin()->first, (proc::time::range{0, 1}));
+    XCTAssertEqual(events.at(0).elements.begin()->second, module1);
 
     track.insert_module({1, 1}, module2);
 
     XCTAssertEqual(events.size(), 2);
-    XCTAssertEqual(events.at(1).type(), proc::track_event_type::inserted);
-    XCTAssertEqual(events.at(1).get<proc::track_inserted_event_t>().elements.size(), 1);
-    XCTAssertEqual(events.at(0).get<proc::track_inserted_event_t>().elements.begin()->first, (proc::time::range{1, 1}));
-    XCTAssertEqual(events.at(0).get<proc::track_inserted_event_t>().elements.begin()->second, module2);
+    XCTAssertEqual(events.at(1).type, proc::track_event_type::inserted);
+    XCTAssertEqual(events.at(1).elements.size(), 1);
+    XCTAssertEqual(events.at(0).elements.begin()->first, (proc::time::range{1, 1}));
+    XCTAssertEqual(events.at(0).elements.begin()->second, module2);
 }
 
 - (void)test_erased {
@@ -76,8 +76,8 @@ using namespace yas;
     auto chain = track.chain()
                      .perform([&events, &erased](auto const &event) {
                          events.push_back(event);
-                         if (event.type() == proc::track_event_type::erased) {
-                             erased.push_back(event.template get<proc::track_erased_event_t>().elements);
+                         if (event.type == proc::track_event_type::erased) {
+                             erased.push_back(event.elements);
                          }
                      })
                      .end();
@@ -85,7 +85,7 @@ using namespace yas;
     track.erase_module(module1);
 
     XCTAssertEqual(events.size(), 1);
-    XCTAssertEqual(events.at(0).type(), proc::track_event_type::erased);
+    XCTAssertEqual(events.at(0).type, proc::track_event_type::erased);
 
     XCTAssertEqual(erased.size(), 1);
     XCTAssertEqual(erased.at(0).size(), 1);
