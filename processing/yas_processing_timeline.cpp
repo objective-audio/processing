@@ -77,10 +77,13 @@ proc::timeline::track_map_t &proc::timeline::tracks() {
     return this->impl_ptr<impl>()->_tracks_holder.raw();
 }
 
-void proc::timeline::insert_track(track_index_t const trk_idx, proc::track track) {
+bool proc::timeline::insert_track(track_index_t const trk_idx, proc::track track) {
     auto &tracks_holder = this->impl_ptr<impl>()->_tracks_holder;
     if (!tracks_holder.has_value(trk_idx)) {
         tracks_holder.insert_or_replace(trk_idx, std::move(track));
+        return true;
+    } else {
+        return false;
     }
 }
 
