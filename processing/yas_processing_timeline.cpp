@@ -11,7 +11,7 @@ using namespace yas;
 
 #pragma mark - timeline::impl
 
-struct proc::timeline::impl : base::impl {
+struct proc::timeline::impl : chaining::sender<timeline_event_t>::impl {
     chaining::map::holder<track_index_t, proc::track> _tracks_holder;
 
     void process(time::range const &time_range, stream &stream) {
@@ -35,14 +35,38 @@ struct proc::timeline::impl : base::impl {
 
         return result;
     }
+
+    void broadcast(timeline_event_t const &value) override {
+        this->_tracks_holder.sendable().broadcast(value);
+    }
+
+    void send_value_to_target(timeline_event_t const &value, std::uintptr_t const key) override {
+        this->_tracks_holder.sendable().send_value_to_target(value, key);
+    }
+
+    void erase_joint(std::uintptr_t const key) override {
+        this->_tracks_holder.sendable().erase_joint(key);
+    }
+
+    void fetch_for(chaining::any_joint const &joint) override {
+        this->_tracks_holder.sendable().fetch_for(joint);
+    }
+
+    chaining::chain_unsync_t<timeline_event_t> chain_unsync() override {
+        return this->_tracks_holder.sendable().chain_unsync();
+    }
+
+    chaining::chain_sync_t<timeline_event_t> chain_sync() override {
+        return this->_tracks_holder.sendable().chain_sync();
+    }
 };
 
 #pragma mark - timeline
 
-proc::timeline::timeline() : base(std::make_shared<impl>()) {
+proc::timeline::timeline() : chaining::sender<timeline_event_t>(std::make_shared<impl>()) {
 }
 
-proc::timeline::timeline(std::nullptr_t) : base(nullptr) {
+proc::timeline::timeline(std::nullptr_t) : chaining::sender<timeline_event_t>(nullptr) {
 }
 
 proc::timeline::track_map_t const &proc::timeline::tracks() const {
@@ -115,4 +139,8 @@ void proc::timeline::process(time::range const &time_range, sync_source const &s
 
         frame += sync_src.slice_length;
     }
+}
+
+chaining::chain_sync_t<proc::timeline_event_t> proc::timeline::chain() {
+    return this->impl_ptr<impl>()->_tracks_holder.chain();
 }

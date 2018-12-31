@@ -16,7 +16,10 @@ class track;
 class stream;
 class sync_source;
 
-class timeline : public base {
+using timeline_event_type = chaining::map::event_type;
+using timeline_event_t = chaining::map::event<track_index_t, track>;
+
+class timeline : public chaining::sender<timeline_event_t> {
     class impl;
 
    public:
@@ -42,5 +45,7 @@ class timeline : public base {
     void process(time::range const &, stream &);
     /// スライス分の処理を繰り返す
     void process(time::range const &, sync_source const &, offline_process_f);
+
+    chaining::chain_sync_t<timeline_event_t> chain();
 };
 }  // namespace yas::proc
