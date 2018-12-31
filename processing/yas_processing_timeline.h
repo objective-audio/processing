@@ -32,6 +32,7 @@ class timeline : public chaining::sender<timeline_event_t> {
     track_map_t const &tracks() const;
     track_map_t &tracks();
 
+    void insert_track(track_index_t const, track);
     proc::track &insert_track(track_index_t const);
     void erase_track(track_index_t const);
     std::size_t track_count() const;
