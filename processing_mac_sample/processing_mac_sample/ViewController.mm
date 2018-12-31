@@ -8,6 +8,7 @@
 #import "yas_audio_file_utils.h"
 #import "yas_audio_format.h"
 #import "yas_audio_pcm_buffer.h"
+#import "yas_cf_utils.h"
 #import "yas_fast_each.h"
 #import "yas_objc_macros.h"
 #import "yas_processing.h"
@@ -153,9 +154,10 @@ typedef NS_ENUM(NSUInteger, SampleBits) {
 
         time::range process_range{0, sample_rate * lengthValue};
 
+        yas::url url{to_string((__bridge CFStringRef)panel.URL.absoluteString)};
         auto wave_settings = audio::wave_file_settings(double(sample_rate), 1, bits);
-        auto create_result = audio::make_created_file(
-            {.file_url = (__bridge CFURLRef)panel.URL, .file_type = audio::file_type::wave, .settings = wave_settings});
+        auto create_result =
+            audio::make_created_file({.file_url = url, .file_type = audio::file_type::wave, .settings = wave_settings});
 
         if (!create_result) {
             std::cout << __PRETTY_FUNCTION__ << " - error:" << to_string(create_result.error()) << std::endl;
@@ -168,20 +170,20 @@ typedef NS_ENUM(NSUInteger, SampleBits) {
 
         timeline timeline;
 
-        if (auto &second_track = timeline.add_track(trk_idx++)) {
+        if (auto &second_track = timeline.insert_track(trk_idx++)) {
             auto second_module = make_signal_module<float>(generator::kind::second, 0);
             second_module.connect_output(to_connector_index(generator::output::value), 0);
             second_track.insert_module(process_range, std::move(second_module));
         }
 
-        if (auto &floor_track = timeline.add_track(trk_idx++)) {
+        if (auto &floor_track = timeline.insert_track(trk_idx++)) {
             auto floor_module = make_signal_module<float>(math1::kind::floor);
             floor_module.connect_input(to_connector_index(math1::input::parameter), 0);
             floor_module.connect_output(to_connector_index(math1::output::result), 1);
             floor_track.insert_module(process_range, std::move(floor_module));
         }
 
-        if (auto &minus_track = timeline.add_track(trk_idx++)) {
+        if (auto &minus_track = timeline.insert_track(trk_idx++)) {
             auto minus_module = make_signal_module<float>(math2::kind::minus);
             minus_module.connect_input(to_connector_index(math2::input::left), 0);
             minus_module.connect_input(to_connector_index(math2::input::right), 1);
@@ -189,13 +191,13 @@ typedef NS_ENUM(NSUInteger, SampleBits) {
             minus_track.insert_module(process_range, std::move(minus_module));
         }
 
-        if (auto &pi_track = timeline.add_track(trk_idx++)) {
+        if (auto &pi_track = timeline.insert_track(trk_idx++)) {
             auto pi_module = make_signal_module<float>(2.0f * M_PI * freqValue);
             pi_module.connect_output(to_connector_index(constant::output::value), 1);
             pi_track.insert_module(process_range, std::move(pi_module));
         }
 
-        if (auto &multiply_track = timeline.add_track(trk_idx++)) {
+        if (auto &multiply_track = timeline.insert_track(trk_idx++)) {
             auto multiply_module = make_signal_module<float>(math2::kind::multiply);
             multiply_module.connect_input(to_connector_index(math2::input::left), 0);
             multiply_module.connect_input(to_connector_index(math2::input::right), 1);
@@ -203,21 +205,21 @@ typedef NS_ENUM(NSUInteger, SampleBits) {
             multiply_track.insert_module(process_range, std::move(multiply_module));
         }
 
-        if (auto &sine_track = timeline.add_track(trk_idx++)) {
+        if (auto &sine_track = timeline.insert_track(trk_idx++)) {
             auto sine_module = make_signal_module<float>(math1::kind::sin);
             sine_module.connect_input(to_connector_index(math1::input::parameter), 0);
             sine_module.connect_output(to_connector_index(math1::output::result), 0);
             sine_track.insert_module(process_range, std::move(sine_module));
         }
 
-        if (auto &env_track = timeline.add_track(trk_idx++)) {
+        if (auto &env_track = timeline.insert_track(trk_idx++)) {
             envelope::anchors_t<float> anchors{{0, startGainValue}, {process_range.length, endGainValue}};
             auto env_module = envelope::make_signal_module(std::move(anchors), 0);
             connect(env_module, envelope::output::value, 1);
             env_track.insert_module(process_range, std::move(env_module));
         }
 
-        if (auto &gain_track = timeline.add_track(trk_idx++)) {
+        if (auto &gain_track = timeline.insert_track(trk_idx++)) {
             auto gain_module = make_signal_module<float>(math2::kind::multiply);
             gain_module.connect_input(to_connector_index(math2::input::left), 0);
             gain_module.connect_input(to_connector_index(math2::input::right), 1);
@@ -225,13 +227,13 @@ typedef NS_ENUM(NSUInteger, SampleBits) {
             gain_track.insert_module(process_range, std::move(gain_module));
         }
 
-        if (auto &level_track = timeline.add_track(trk_idx++)) {
+        if (auto &level_track = timeline.insert_track(trk_idx++)) {
             auto level_module = make_signal_module<float>(totalGainValue);
             level_module.connect_output(to_connector_index(constant::output::value), 1);
             level_track.insert_module(process_range, std::move(level_module));
         }
 
-        if (auto &gain_track = timeline.add_track(trk_idx++)) {
+        if (auto &gain_track = timeline.insert_track(trk_idx++)) {
             auto gain_module = make_signal_module<float>(math2::kind::multiply);
             gain_module.connect_input(to_connector_index(math2::input::left), 0);
             gain_module.connect_input(to_connector_index(math2::input::right), 1);

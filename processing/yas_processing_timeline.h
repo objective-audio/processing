@@ -7,6 +7,7 @@
 #include <functional>
 #include <optional>
 #include "yas_base.h"
+#include "yas_chaining.h"
 #include "yas_processing_time.h"
 #include "yas_processing_types.h"
 
@@ -15,7 +16,10 @@ class track;
 class stream;
 class sync_source;
 
-class timeline : public base {
+using timeline_event_type = chaining::map::event_type;
+using timeline_event_t = chaining::map::event<track_index_t, track>;
+
+class timeline : public chaining::sender<timeline_event_t> {
     class impl;
 
    public:
@@ -28,8 +32,8 @@ class timeline : public base {
     track_map_t const &tracks() const;
     track_map_t &tracks();
 
-    proc::track &add_track(track_index_t const);
-    void remove_track(track_index_t const);
+    proc::track &insert_track(track_index_t const);
+    void erase_track(track_index_t const);
     std::size_t track_count() const;
     bool has_track(track_index_t const) const;
     proc::track const &track(track_index_t const) const;
@@ -41,5 +45,7 @@ class timeline : public base {
     void process(time::range const &, stream &);
     /// スライス分の処理を繰り返す
     void process(time::range const &, sync_source const &, offline_process_f);
+
+    chaining::chain_sync_t<timeline_event_t> chain();
 };
 }  // namespace yas::proc
