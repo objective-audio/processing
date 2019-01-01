@@ -87,11 +87,6 @@ bool proc::timeline::insert_track(track_index_t const trk_idx, proc::track track
     }
 }
 
-proc::track &proc::timeline::insert_track(track_index_t const trk_idx) {
-    this->insert_track(trk_idx, proc::track{});
-    return this->impl_ptr<impl>()->_tracks_holder.at(trk_idx);
-}
-
 void proc::timeline::erase_track(track_index_t const trk_idx) {
     this->impl_ptr<impl>()->_tracks_holder.erase_for_key(trk_idx);
 }
