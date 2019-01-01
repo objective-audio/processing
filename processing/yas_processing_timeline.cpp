@@ -77,13 +77,14 @@ proc::timeline::track_map_t &proc::timeline::tracks() {
     return this->impl_ptr<impl>()->_tracks_holder.raw();
 }
 
-proc::track &proc::timeline::insert_track(track_index_t const trk_idx) {
+bool proc::timeline::insert_track(track_index_t const trk_idx, proc::track track) {
     auto &tracks_holder = this->impl_ptr<impl>()->_tracks_holder;
-    auto &tracks = tracks_holder.raw();
-    if (tracks.count(trk_idx) == 0) {
-        tracks_holder.insert_or_replace(trk_idx, proc::track{});
+    if (!tracks_holder.has_value(trk_idx)) {
+        tracks_holder.insert_or_replace(trk_idx, std::move(track));
+        return true;
+    } else {
+        return false;
     }
-    return tracks.at(trk_idx);
 }
 
 void proc::timeline::erase_track(track_index_t const trk_idx) {
