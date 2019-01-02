@@ -4,10 +4,10 @@
 
 #pragma once
 
+#include <cpp_utils/yas_base.h>
 #include <memory>
 #include <optional>
 #include <vector>
-#include "yas_base.h"
 #include "yas_processing_types.h"
 
 namespace yas::proc {

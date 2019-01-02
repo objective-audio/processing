@@ -3,9 +3,9 @@
 //
 
 #import <XCTest/XCTest.h>
+#import <cpp_utils/yas_boolean.h>
+#import <cpp_utils/yas_each_index.h>
 #import <string>
-#import "yas_boolean.h"
-#import "yas_each_index.h"
 #import "yas_processing_signal_event.h"
 
 using namespace yas;

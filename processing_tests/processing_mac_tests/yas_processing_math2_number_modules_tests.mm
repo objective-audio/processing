@@ -3,7 +3,7 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "yas_fast_each.h"
+#import <cpp_utils/yas_fast_each.h>
 #import "yas_processing.h"
 
 using namespace yas;

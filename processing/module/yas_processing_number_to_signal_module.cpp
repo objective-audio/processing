@@ -3,9 +3,9 @@
 //
 
 #include "yas_processing_number_to_signal_module.h"
+#include <cpp_utils/yas_boolean.h>
+#include <cpp_utils/yas_fast_each.h>
 #include <map>
-#include "yas_boolean.h"
-#include "yas_fast_each.h"
 #include "yas_processing_module.h"
 #include "yas_processing_number_event.h"
 #include "yas_processing_number_process_context.h"

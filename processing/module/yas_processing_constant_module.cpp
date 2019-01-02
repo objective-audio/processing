@@ -3,8 +3,8 @@
 //
 
 #include "yas_processing_constant_module.h"
-#include "yas_boolean.h"
-#include "yas_fast_each.h"
+#include <cpp_utils/yas_boolean.h>
+#include <cpp_utils/yas_fast_each.h>
 #include "yas_processing_module.h"
 #include "yas_processing_send_number_processor.h"
 #include "yas_processing_send_signal_processor.h"

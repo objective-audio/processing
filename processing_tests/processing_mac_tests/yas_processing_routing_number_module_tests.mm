@@ -3,7 +3,7 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "yas_boolean.h"
+#import <cpp_utils/yas_boolean.h>
 #import "yas_processing_test_utils.h"
 
 using namespace yas;

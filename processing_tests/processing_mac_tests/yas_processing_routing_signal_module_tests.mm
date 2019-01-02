@@ -3,7 +3,7 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "yas_boolean.h"
+#import <cpp_utils/yas_boolean.h>
 #import "yas_processing_test_utils.h"
 
 @interface yas_processing_routing_signal_module_tests : XCTestCase

@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "yas_base.h"
+#include <cpp_utils/yas_base.h>
 #include "yas_processing_time.h"
 
 namespace yas::proc {

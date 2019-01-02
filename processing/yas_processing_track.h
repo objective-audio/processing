@@ -4,8 +4,8 @@
 
 #pragma once
 
+#include <chaining/yas_chaining.h>
 #include <optional>
-#include "yas_chaining.h"
 #include "yas_processing_time.h"
 
 namespace yas::proc {

@@ -4,8 +4,8 @@
 
 #pragma once
 
+#include <cpp_utils/yas_base.h>
 #include <vector>
-#include "yas_base.h"
 #include "yas_processing_connector.h"
 #include "yas_processing_processor.h"
 #include "yas_processing_stream.h"
