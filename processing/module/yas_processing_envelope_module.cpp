@@ -3,7 +3,7 @@
 //
 
 #include "yas_processing_envelope_module.h"
-#include "yas_fast_each.h"
+#include <cpp_utils/yas_fast_each.h>
 #include "yas_processing_module.h"
 #include "yas_processing_send_signal_processor.h"
 

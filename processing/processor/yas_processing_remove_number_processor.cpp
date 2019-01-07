@@ -3,11 +3,11 @@
 //
 
 #include "yas_processing_remove_number_processor.h"
-#include "yas_boolean.h"
+#include <cpp_utils/yas_boolean.h>
+#include <cpp_utils/yas_stl_utils.h>
 #include "yas_processing_channel.h"
 #include "yas_processing_number_event.h"
 #include "yas_processing_stream.h"
-#include "yas_stl_utils.h"
 
 using namespace yas;
 
