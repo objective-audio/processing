@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <chaining/yas_chaining.h>
+#include <chaining/yas_chaining_umbrella.h>
 #include <cpp_utils/yas_base.h>
 #include <functional>
 #include <optional>
