@@ -17,7 +17,7 @@
                BlueprintIdentifier = "B6A6EF991DD94E9200436428"
                BuildableName = "processing_mac_tests.xctest"
                BlueprintName = "processing_mac_tests"
-               ReferencedContainer = "container:processing_tests.xcodeproj">
+               ReferencedContainer = "container:processing_mac_tests.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -36,7 +36,7 @@
                BlueprintIdentifier = "B6A6EF991DD94E9200436428"
                BuildableName = "processing_mac_tests.xctest"
                BlueprintName = "processing_mac_tests"
-               ReferencedContainer = "container:processing_tests.xcodeproj">
+               ReferencedContainer = "container:processing_mac_tests.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -59,7 +59,7 @@
             BlueprintIdentifier = "B6A6EF991DD94E9200436428"
             BuildableName = "processing_mac_tests.xctest"
             BlueprintName = "processing_mac_tests"
-            ReferencedContainer = "container:processing_tests.xcodeproj">
+            ReferencedContainer = "container:processing_mac_tests.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -77,7 +77,7 @@
             BlueprintIdentifier = "B6A6EF991DD94E9200436428"
             BuildableName = "processing_mac_tests.xctest"
             BlueprintName = "processing_mac_tests"
-            ReferencedContainer = "container:processing_tests.xcodeproj">
+            ReferencedContainer = "container:processing_mac_tests.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

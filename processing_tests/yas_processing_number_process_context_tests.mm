@@ -3,7 +3,7 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "yas_processing_number_process_context.h"
+#import <processing/yas_processing_number_process_context.h>
 
 using namespace yas;
 using namespace yas::proc;
