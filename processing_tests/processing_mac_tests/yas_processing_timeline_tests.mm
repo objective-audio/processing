@@ -4,7 +4,7 @@
 
 #import <XCTest/XCTest.h>
 #import <cpp_utils/yas_each_index.h>
-#import "yas_processing.h"
+#import <processing/yas_processing_umbrella.h>
 
 using namespace yas;
 using namespace yas::proc;

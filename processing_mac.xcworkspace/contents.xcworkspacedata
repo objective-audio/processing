@@ -8,6 +8,12 @@
       location = "group:processing_tests/processing_tests.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:submodules/chaining/chaining_mac/processing_mac/processing_mac.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:submodules/audio_engine/audio_mac/audio_mac.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:submodules/chaining/chaining_mac/chaining_mac.xcodeproj">
    </FileRef>
    <FileRef
