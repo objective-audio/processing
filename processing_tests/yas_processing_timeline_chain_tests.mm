@@ -34,7 +34,7 @@ using namespace yas::proc;
     auto chain = timeline.chain().perform([&events](auto const &event) { events.push_back(event); }).sync();
 
     XCTAssertEqual(events.size(), 1);
-    XCTAssertEqual(events.at(0).type(), chaining::event_type::fetched);
+    XCTAssertEqual(events.at(0).type(), timeline::event_type_t::fetched);
     auto iterator = events.at(0).get<timeline::fetched_event_t>().elements.begin();
     XCTAssertEqual(iterator->first, 0);
     XCTAssertEqual(iterator->second, track0);
