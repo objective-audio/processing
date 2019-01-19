@@ -93,6 +93,38 @@ using namespace yas::proc;
 }
 
 - (void)test_relayed {
+    timeline timeline;
+
+    track track;
+    timeline.insert_track(0, track);
+
+    std::vector<timeline::event_t> events;
+    std::vector<std::tuple<track_index_t, proc::track, std::multimap<time::range, module>>> relayed;
+
+    auto chain =
+        timeline.chain()
+            .perform([&events, &relayed](auto const &event) {
+                events.push_back(event);
+                proc::timeline::relayed_event_t const &relayed_event =
+                    event.template get<proc::timeline::relayed_event_t>();
+                if (relayed_event.relayed.type() == track::event_type_t::inserted) {
+                    proc::track::inserted_event_t const &inserted_event =
+                        relayed_event.relayed.template get<proc::track::inserted_event_t>();
+                    relayed.push_back(std::make_tuple(relayed_event.key, relayed_event.value, inserted_event.elements));
+                }
+            })
+            .end();
+
+    proc::module module{proc::module::processors_t{}};
+    track.insert_module({0, 1}, module);
+
+    XCTAssertEqual(events.size(), 1);
+    XCTAssertEqual(events.at(0).type(), timeline::event_type_t::relayed);
+    XCTAssertEqual(relayed.size(), 1);
+    XCTAssertEqual(std::get<0>(relayed.at(0)), 0);
+    XCTAssertEqual(std::get<1>(relayed.at(0)), track);
+    XCTAssertEqual(std::get<2>(relayed.at(0)).begin()->first, (proc::time::range{0, 1}));
+    XCTAssertEqual(std::get<2>(relayed.at(0)).begin()->second, module);
 }
 
 @end
