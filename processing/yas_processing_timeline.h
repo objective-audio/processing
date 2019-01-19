@@ -16,15 +16,19 @@ class track;
 class stream;
 class sync_source;
 
-using timeline_event_type = chaining::map::event_type;
-using timeline_event_t = chaining::map::event<track_index_t, track>;
-
-class timeline : public chaining::sender<timeline_event_t> {
+class timeline : public chaining::sender<chaining::event> {
     class impl;
 
    public:
     using track_map_t = std::map<track_index_t, proc::track>;
     using offline_process_f = std::function<void(time::range const &, stream const &, bool &stop)>;
+    using event_t = chaining::event;
+    using fetched_event_t = chaining::map::fetched_event<track_index_t, proc::track>;
+    using any_event_t = chaining::map::any_event<track_index_t, proc::track>;
+    using inserted_event_t = chaining::map::inserted_event<track_index_t, proc::track>;
+    using erased_event_t = chaining::map::erased_event<track_index_t, proc::track>;
+    using replaced_event_t = chaining::map::replaced_event<track_index_t, proc::track>;
+    using relayed_event_t = chaining::map::relayed_event<track_index_t, proc::track>;
 
     timeline();
     timeline(std::nullptr_t);
@@ -46,6 +50,6 @@ class timeline : public chaining::sender<timeline_event_t> {
     /// スライス分の処理を繰り返す
     void process(time::range const &, sync_source const &, offline_process_f);
 
-    chaining::chain_sync_t<timeline_event_t> chain();
+    chaining::chain_sync_t<event_t> chain();
 };
 }  // namespace yas::proc

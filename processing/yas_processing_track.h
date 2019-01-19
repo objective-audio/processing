@@ -12,14 +12,18 @@ namespace yas::proc {
 class module;
 class stream;
 
-using track_event_type = chaining::multimap::event_type;
-using track_event_t = chaining::multimap::event<time::range, module>;
-
-class track : public chaining::sender<track_event_t> {
+class track : public chaining::sender<chaining::event> {
     class impl;
 
    public:
     using modules_map_t = std::multimap<time::range, module>;
+    using event_t = chaining::event;
+    using fetched_event_t = chaining::multimap::fetched_event<time::range, module>;
+    using any_event_t = chaining::multimap::any_event<time::range, module>;
+    using inserted_event_t = chaining::multimap::inserted_event<time::range, module>;
+    using erased_event_t = chaining::multimap::erased_event<time::range, module>;
+    using replaced_event_t = chaining::multimap::replaced_event<time::range, module>;
+    using relayed_event_t = chaining::multimap::relayed_event<time::range, module>;
 
     track();
     track(std::nullptr_t);
@@ -34,6 +38,6 @@ class track : public chaining::sender<track_event_t> {
 
     void process(time::range const &, stream &);
 
-    chaining::chain_sync_t<track_event_t> chain();
+    chaining::chain_sync_t<event_t> chain();
 };
 }  // namespace yas::proc

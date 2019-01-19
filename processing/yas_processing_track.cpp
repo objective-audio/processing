@@ -11,7 +11,7 @@ using namespace yas;
 
 #pragma mark - proc::track::impl
 
-struct proc::track::impl : chaining::sender<track_event_t>::impl {
+struct proc::track::impl : chaining::sender<event_t>::impl {
     chaining::multimap::holder<time::range, module> _modules_holder;
 
     void insert_module(time::range &&range, module &&module) {
@@ -44,11 +44,11 @@ struct proc::track::impl : chaining::sender<track_event_t>::impl {
         return result;
     }
 
-    void broadcast(track_event_t const &value) override {
+    void broadcast(event_t const &value) override {
         this->_modules_holder.sendable().broadcast(value);
     }
 
-    void send_value_to_target(track_event_t const &value, std::uintptr_t const key) override {
+    void send_value_to_target(event_t const &value, std::uintptr_t const key) override {
         this->_modules_holder.sendable().send_value_to_target(value, key);
     }
 
@@ -60,21 +60,21 @@ struct proc::track::impl : chaining::sender<track_event_t>::impl {
         this->_modules_holder.sendable().fetch_for(joint);
     }
 
-    chaining::chain_unsync_t<track_event_t> chain_unsync() override {
+    chaining::chain_unsync_t<event_t> chain_unsync() override {
         return this->_modules_holder.sendable().chain_unsync();
     }
 
-    chaining::chain_sync_t<track_event_t> chain_sync() override {
+    chaining::chain_sync_t<event_t> chain_sync() override {
         return this->_modules_holder.sendable().chain_sync();
     }
 };
 
 #pragma mark - proc::track
 
-proc::track::track() : chaining::sender<track_event_t>(std::make_shared<impl>()) {
+proc::track::track() : chaining::sender<event_t>(std::make_shared<impl>()) {
 }
 
-proc::track::track(std::nullptr_t) : chaining::sender<track_event_t>(nullptr) {
+proc::track::track(std::nullptr_t) : chaining::sender<event_t>(nullptr) {
 }
 
 std::multimap<proc::time::range, proc::module> const &proc::track::modules() const {
@@ -101,6 +101,6 @@ void proc::track::process(time::range const &time_range, stream &stream) {
     this->impl_ptr<impl>()->process(time_range, stream);
 }
 
-chaining::chain_sync_t<proc::track_event_t> proc::track::chain() {
+chaining::chain_sync_t<proc::track::event_t> proc::track::chain() {
     return this->impl_ptr<impl>()->chain_sync();
 }

@@ -27,20 +27,26 @@ using namespace yas;
     track.insert_module({0, 1}, std::move(module1));
     track.insert_module({1, 1}, std::move(module2));
 
-    std::vector<proc::track_event_t> events;
+    std::vector<proc::track::event_t> events;
 
     auto chain = track.chain().perform([&events](auto const &event) { events.push_back(event); }).sync();
 
     XCTAssertEqual(events.size(), 1);
-    XCTAssertEqual(events.at(0).type, proc::track_event_type::fetched);
+    XCTAssertEqual(events.at(0).type(), chaining::event_type::fetched);
 }
 
 - (void)test_inserted {
     proc::track track;
 
-    std::vector<proc::track_event_t> events;
+    std::vector<proc::track::event_t> events;
+    std::vector<std::multimap<proc::time::range, proc::module>> inserted;
 
-    auto chain = track.chain().perform([&events](auto const &event) { events.push_back(event); }).end();
+    auto chain = track.chain()
+                     .perform([&events, &inserted](auto const &event) {
+                         events.push_back(event);
+                         inserted.push_back(event.template get<proc::track::inserted_event_t>().elements);
+                     })
+                     .end();
 
     proc::module module1{proc::module::processors_t{}};
     proc::module module2{proc::module::processors_t{}};
@@ -48,18 +54,20 @@ using namespace yas;
     track.insert_module({0, 1}, module1);
 
     XCTAssertEqual(events.size(), 1);
-    XCTAssertEqual(events.at(0).type, proc::track_event_type::inserted);
-    XCTAssertEqual(events.at(0).elements.size(), 1);
-    XCTAssertEqual(events.at(0).elements.begin()->first, (proc::time::range{0, 1}));
-    XCTAssertEqual(events.at(0).elements.begin()->second, module1);
+    XCTAssertEqual(events.at(0).type(), chaining::event_type::inserted);
+    XCTAssertEqual(inserted.size(), 1);
+    XCTAssertEqual(inserted.at(0).size(), 1);
+    XCTAssertEqual(inserted.at(0).begin()->first, (proc::time::range{0, 1}));
+    XCTAssertEqual(inserted.at(0).begin()->second, module1);
 
     track.insert_module({1, 1}, module2);
 
     XCTAssertEqual(events.size(), 2);
-    XCTAssertEqual(events.at(1).type, proc::track_event_type::inserted);
-    XCTAssertEqual(events.at(1).elements.size(), 1);
-    XCTAssertEqual(events.at(0).elements.begin()->first, (proc::time::range{1, 1}));
-    XCTAssertEqual(events.at(0).elements.begin()->second, module2);
+    XCTAssertEqual(events.at(1).type(), chaining::event_type::inserted);
+    XCTAssertEqual(inserted.size(), 2);
+    XCTAssertEqual(inserted.at(1).size(), 1);
+    XCTAssertEqual(inserted.at(1).begin()->first, (proc::time::range{1, 1}));
+    XCTAssertEqual(inserted.at(1).begin()->second, module2);
 }
 
 - (void)test_erased {
@@ -70,14 +78,14 @@ using namespace yas;
     track.insert_module({0, 1}, module1);
     track.insert_module({1, 1}, module2);
 
-    std::vector<proc::track_event_t> events;
+    std::vector<proc::track::event_t> events;
     std::vector<std::multimap<proc::time::range, proc::module>> erased;
 
     auto chain = track.chain()
                      .perform([&events, &erased](auto const &event) {
                          events.push_back(event);
-                         if (event.type == proc::track_event_type::erased) {
-                             erased.push_back(event.elements);
+                         if (event.type() == chaining::event_type::erased) {
+                             erased.push_back(event.template get<proc::track::erased_event_t>().elements);
                          }
                      })
                      .end();
@@ -85,7 +93,7 @@ using namespace yas;
     track.erase_module(module1);
 
     XCTAssertEqual(events.size(), 1);
-    XCTAssertEqual(events.at(0).type, proc::track_event_type::erased);
+    XCTAssertEqual(events.at(0).type(), chaining::event_type::erased);
 
     XCTAssertEqual(erased.size(), 1);
     XCTAssertEqual(erased.at(0).size(), 1);
