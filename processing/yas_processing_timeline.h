@@ -24,7 +24,6 @@ class timeline : public chaining::sender<chaining::event> {
     using offline_process_f = std::function<void(time::range const &, stream const &, bool &stop)>;
     using event_t = chaining::event;
     using fetched_event_t = chaining::map::fetched_event<track_index_t, proc::track>;
-    using any_event_t = chaining::map::any_event<track_index_t, proc::track>;
     using inserted_event_t = chaining::map::inserted_event<track_index_t, proc::track>;
     using erased_event_t = chaining::map::erased_event<track_index_t, proc::track>;
     using replaced_event_t = chaining::map::replaced_event<track_index_t, proc::track>;
