@@ -27,7 +27,6 @@ class timeline : public chaining::sender<chaining::event> {
     using fetched_event_t = chaining::map::fetched_event<track_index_t, proc::track>;
     using inserted_event_t = chaining::map::inserted_event<track_index_t, proc::track>;
     using erased_event_t = chaining::map::erased_event<track_index_t, proc::track>;
-    using replaced_event_t = chaining::map::replaced_event<track_index_t, proc::track>;
     using relayed_event_t = chaining::map::relayed_event<track_index_t, proc::track>;
 
     timeline();
