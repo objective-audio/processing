@@ -68,10 +68,28 @@ using namespace yas::proc;
 }
 
 - (void)test_erased {
-}
+    timeline timeline;
 
-- (void)test_replaced {
-    // ???
+    track track;
+    timeline.insert_track(0, track);
+
+    std::vector<timeline::event_t> events;
+    std::vector<std::map<track_index_t, proc::track>> erased;
+
+    auto chain = timeline.chain()
+                     .perform([&events, &erased](auto const &event) {
+                         events.push_back(event);
+                         erased.push_back(event.template get<proc::timeline::erased_event_t>().elements);
+                     })
+                     .end();
+
+    timeline.erase_track(0);
+
+    XCTAssertEqual(events.size(), 1);
+    XCTAssertEqual(events.at(0).type(), timeline::event_type_t::erased);
+    XCTAssertEqual(erased.size(), 1);
+    XCTAssertEqual(erased.at(0).begin()->first, 0);
+    XCTAssertEqual(erased.at(0).begin()->second, track);
 }
 
 - (void)test_relayed {
