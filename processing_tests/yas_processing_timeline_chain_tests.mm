@@ -44,6 +44,27 @@ using namespace yas::proc;
 }
 
 - (void)test_inserted {
+    timeline timeline;
+
+    track track;
+
+    std::vector<timeline::event_t> events;
+    std::vector<std::map<track_index_t, proc::track>> inserted;
+
+    auto chain = timeline.chain()
+                     .perform([&events, &inserted](auto const &event) {
+                         events.push_back(event);
+                         inserted.push_back(event.template get<proc::timeline::inserted_event_t>().elements);
+                     })
+                     .end();
+
+    timeline.insert_track(0, track);
+
+    XCTAssertEqual(events.size(), 1);
+    XCTAssertEqual(events.at(0).type(), timeline::event_type_t::inserted);
+    XCTAssertEqual(inserted.size(), 1);
+    XCTAssertEqual(inserted.at(0).begin()->first, 0);
+    XCTAssertEqual(inserted.at(0).begin()->second, track);
 }
 
 - (void)test_erased {
