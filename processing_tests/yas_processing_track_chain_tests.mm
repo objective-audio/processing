@@ -24,8 +24,8 @@ using namespace yas;
 
     proc::module module1{proc::module::processors_t{}};
     proc::module module2{proc::module::processors_t{}};
-    track.insert_module({0, 1}, std::move(module1));
-    track.insert_module({1, 1}, std::move(module2));
+    track.insert_module({0, 1}, module1);
+    track.insert_module({1, 1}, module2);
 
     std::vector<proc::track::event_t> events;
 
@@ -33,6 +33,12 @@ using namespace yas;
 
     XCTAssertEqual(events.size(), 1);
     XCTAssertEqual(events.at(0).type(), chaining::event_type::fetched);
+    auto iterator = events.at(0).get<proc::track::fetched_event_t>().elements.begin();
+    XCTAssertEqual(iterator->first, (proc::time::range{0, 1}));
+    XCTAssertEqual(iterator->second, module1);
+    ++iterator;
+    XCTAssertEqual(iterator->first, (proc::time::range{1, 1}));
+    XCTAssertEqual(iterator->second, module2);
 }
 
 - (void)test_inserted {
