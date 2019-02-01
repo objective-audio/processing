@@ -14,6 +14,12 @@ using namespace yas;
 struct proc::timeline::impl : chaining::sender<event_t>::impl {
     chaining::map::holder<track_index_t, proc::track> _tracks_holder;
 
+    impl() {
+    }
+
+    impl(std::map<track_index_t, proc::track> &&tracks) : _tracks_holder(std::move(tracks)) {
+    }
+
     void process(time::range const &time_range, stream &stream) {
         for (auto &track_pair : this->_tracks_holder.raw()) {
             track_pair.second.process(time_range, stream);
@@ -34,6 +40,14 @@ struct proc::timeline::impl : chaining::sender<event_t>::impl {
         }
 
         return result;
+    }
+
+    timeline copy() {
+        std::map<track_index_t, proc::track> tracks;
+        for (auto const &pair : this->_tracks_holder.raw()) {
+            tracks.emplace(pair.first, pair.second.copy());
+        }
+        return timeline{std::make_shared<impl>(std::move(tracks))};
     }
 
     void broadcast(event_t const &value) override {
@@ -64,6 +78,9 @@ struct proc::timeline::impl : chaining::sender<event_t>::impl {
 #pragma mark - timeline
 
 proc::timeline::timeline() : chaining::sender<event_t>(std::make_shared<impl>()) {
+}
+
+proc::timeline::timeline(std::shared_ptr<impl> &&impl) : chaining::sender<event_t>(std::move(impl)) {
 }
 
 proc::timeline::timeline(std::nullptr_t) : chaining::sender<event_t>(nullptr) {
@@ -109,6 +126,10 @@ proc::track &proc::timeline::track(track_index_t const trk_idx) {
 
 std::optional<proc::time::range> proc::timeline::total_range() const {
     return impl_ptr<impl>()->total_range();
+}
+
+proc::timeline proc::timeline::copy() const {
+    return impl_ptr<impl>()->copy();
 }
 
 void proc::timeline::process(time::range const &time_range, stream &stream) {

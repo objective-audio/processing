@@ -17,8 +17,10 @@ class module : public base {
     class impl;
 
     using processors_t = std::vector<processor_f>;
+    using make_processors_t = std::function<std::vector<processor_f>()>;
 
     explicit module(processors_t);
+    explicit module(make_processors_t);
     module(std::nullptr_t);
 
     void process(time::range const &, stream &);
@@ -31,5 +33,7 @@ class module : public base {
     void disconnect_output(connector_index_t const);
 
     processors_t const &processors() const;
+
+    module copy() const;
 };
 }  // namespace yas::proc

@@ -30,6 +30,9 @@ struct proc::module::impl : base::impl {
     impl(processors_t &&processors) : _processors(std::move(processors)) {
     }
 
+    impl(make_processors_t &&handler) : _make_handler(std::move(handler)), _processors(_make_handler()) {
+    }
+
     connector_map_t &input_connectors() {
         return this->_input_connectors;
     }
@@ -50,7 +53,15 @@ struct proc::module::impl : base::impl {
         }
     }
 
+    module copy() {
+        if (!this->_make_handler) {
+            throw std::runtime_error("make_handler is null.");
+        }
+        return module{this->_make_handler};
+    }
+
    private:
+    make_processors_t _make_handler = nullptr;
     processors_t _processors;
     connector_map_t _input_connectors;
     connector_map_t _output_connectors;
@@ -59,6 +70,9 @@ struct proc::module::impl : base::impl {
 #pragma mark - module
 
 proc::module::module(processors_t processors) : base(std::make_shared<impl>(std::move(processors))) {
+}
+
+proc::module::module(make_processors_t handler) : base(std::make_shared<impl>(std::move(handler))) {
 }
 
 proc::module::module(std::nullptr_t) : base(nullptr) {
@@ -94,4 +108,8 @@ void proc::module::disconnect_output(connector_index_t const idx) {
 
 proc::module::processors_t const &proc::module::processors() const {
     return this->impl_ptr<impl>()->processors();
+}
+
+proc::module proc::module::copy() const {
+    return this->impl_ptr<impl>()->copy();
 }

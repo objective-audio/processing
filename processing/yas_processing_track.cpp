@@ -14,6 +14,12 @@ using namespace yas;
 struct proc::track::impl : chaining::sender<event_t>::impl {
     chaining::multimap::holder<time::range, module> _modules_holder;
 
+    impl() {
+    }
+
+    impl(std::multimap<time::range, module> &&modules) : _modules_holder(std::move(modules)) {
+    }
+
     void insert_module(time::range &&range, module &&module) {
         this->_modules_holder.insert(std::move(range), std::move(module));
     }
@@ -42,6 +48,14 @@ struct proc::track::impl : chaining::sender<event_t>::impl {
         }
 
         return result;
+    }
+
+    track copy() {
+        std::multimap<time::range, module> modules;
+        for (auto const &pair : this->_modules_holder.raw()) {
+            modules.emplace(pair.first, pair.second.copy());
+        }
+        return proc::track{std::make_shared<impl>(std::move(modules))};
     }
 
     void broadcast(event_t const &value) override {
@@ -74,6 +88,9 @@ struct proc::track::impl : chaining::sender<event_t>::impl {
 proc::track::track() : chaining::sender<event_t>(std::make_shared<impl>()) {
 }
 
+proc::track::track(std::shared_ptr<impl> &&impl) : chaining::sender<event_t>(std::move(impl)) {
+}
+
 proc::track::track(std::nullptr_t) : chaining::sender<event_t>(nullptr) {
 }
 
@@ -95,6 +112,10 @@ void proc::track::insert_module(proc::time::range time_range, module module) {
 
 void proc::track::erase_module(module const &module) {
     this->impl_ptr<impl>()->remove_module(module);
+}
+
+proc::track proc::track::copy() const {
+    return this->impl_ptr<impl>()->copy();
 }
 
 void proc::track::process(time::range const &time_range, stream &stream) {
