@@ -93,23 +93,24 @@ template <typename T>
 proc::module proc::make_number_module(routing::kind const kind) {
     using namespace yas::proc::routing;
 
-    auto context = std::make_shared<number_process_context<T, 1>>();
+    auto make_processors = [kind] {
+        auto context = std::make_shared<number_process_context<T, 1>>();
 
-    auto prepare_processor = [context](time::range const &current_range, connector_map_t const &,
-                                       connector_map_t const &,
-                                       stream &stream) mutable { context->reset(current_range); };
+        auto prepare_processor = [context](time::range const &current_range, connector_map_t const &,
+                                           connector_map_t const &,
+                                           stream &stream) mutable { context->reset(current_range); };
 
-    auto receive_processor =
-        make_receive_number_processor<T>([context](proc::time::frame::type const &frame, channel_index_t const,
-                                                   connector_index_t const co_idx, T const &value) mutable {
-            if (co_idx == to_connector_index(input::value)) {
-                context->insert_input(frame, value, 0);
-            }
-        });
+        auto receive_processor =
+            make_receive_number_processor<T>([context](proc::time::frame::type const &frame, channel_index_t const,
+                                                       connector_index_t const co_idx, T const &value) mutable {
+                if (co_idx == to_connector_index(input::value)) {
+                    context->insert_input(frame, value, 0);
+                }
+            });
 
-    auto send_processor =
-        make_send_number_processor<T>([context, kind](proc::time::range const &, sync_source const &,
-                                                      channel_index_t const, connector_index_t const co_idx) mutable {
+        auto send_processor = make_send_number_processor<T>([context, kind](proc::time::range const &,
+                                                                            sync_source const &, channel_index_t const,
+                                                                            connector_index_t const co_idx) mutable {
             number_event::value_map_t<T> result;
 
             if (co_idx == to_connector_index(output::value)) {
@@ -124,14 +125,17 @@ proc::module proc::make_number_module(routing::kind const kind) {
             return result;
         });
 
-    module::processors_t processors{prepare_processor, receive_processor};
-    if (kind == kind::move) {
-        auto remove_processor = proc::make_remove_number_processor<T>({to_connector_index(input::value)});
-        processors.emplace_back(std::move(remove_processor));
-    }
-    processors.emplace_back(std::move(send_processor));
+        module::processors_t processors{prepare_processor, receive_processor};
+        if (kind == kind::move) {
+            auto remove_processor = proc::make_remove_number_processor<T>({to_connector_index(input::value)});
+            processors.emplace_back(std::move(remove_processor));
+        }
+        processors.emplace_back(std::move(send_processor));
 
-    return proc::module{std::move(processors)};
+        return processors;
+    };
+
+    return proc::module{std::move(make_processors)};
 }
 
 template proc::module proc::make_number_module<double>(proc::routing::kind const);
