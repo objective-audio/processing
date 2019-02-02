@@ -318,4 +318,41 @@ using namespace yas::proc;
     XCTAssertEqual(timeline.total_range(), (proc::time::range{-10, 110}));
 }
 
+- (void)test_copy {
+    std::vector<int> called;
+
+    auto index = std::make_shared<int>(0);
+    proc::module module{[index = std::move(index), &called] {
+        auto processor = [index = *index, &called](time::range const &, connector_map_t const &,
+                                                   connector_map_t const &, stream &) { called.push_back(index); };
+        ++(*index);
+        return module::processors_t{std::move(processor)};
+    }};
+
+    proc::track track;
+    track.insert_module({0, 1}, std::move(module));
+
+    proc::timeline timeline;
+    timeline.insert_track(0, std::move(track));
+
+    auto copied_timeline = timeline.copy();
+
+    XCTAssertEqual(copied_timeline.tracks().size(), 1);
+    XCTAssertTrue(copied_timeline.has_track(0));
+    XCTAssertEqual(copied_timeline.track(0).modules().size(), 1);
+    XCTAssertEqual(copied_timeline.track(0).modules().count({0, 1}), 1);
+
+    proc::stream stream{sync_source{1, 1}};
+
+    timeline.process({0, 1}, stream);
+
+    XCTAssertEqual(called.size(), 1);
+    XCTAssertEqual(called.at(0), 0);
+
+    copied_timeline.process({0, 1}, stream);
+
+    XCTAssertEqual(called.size(), 2);
+    XCTAssertEqual(called.at(1), 1);
+}
+
 @end
