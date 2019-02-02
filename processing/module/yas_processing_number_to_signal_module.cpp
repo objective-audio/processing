@@ -18,41 +18,46 @@ using namespace yas;
 
 template <typename T>
 proc::module proc::make_number_to_signal_module() {
-    auto context = std::make_shared<number_process_context<T, 1>>();
+    auto make_processors = [] {
+        auto context = std::make_shared<number_process_context<T, 1>>();
 
-    auto prepare_processor = [context](time::range const &current_range, connector_map_t const &,
-                                       connector_map_t const &, stream &) mutable { context->reset(current_range); };
+        auto prepare_processor = [context](time::range const &current_range, connector_map_t const &,
+                                           connector_map_t const &,
+                                           stream &) mutable { context->reset(current_range); };
 
-    auto receive_processor = make_receive_number_processor<T>(
-        [context](proc::time::frame::type const &frame, channel_index_t const, connector_index_t const,
-                  T const &value) mutable { context->insert_input(frame, value, 0); });
+        auto receive_processor = make_receive_number_processor<T>(
+            [context](proc::time::frame::type const &frame, channel_index_t const, connector_index_t const,
+                      T const &value) mutable { context->insert_input(frame, value, 0); });
 
-    auto remove_processor = make_remove_number_processor<T>({to_connector_index(number_to_signal::input::number)});
+        auto remove_processor = make_remove_number_processor<T>({to_connector_index(number_to_signal::input::number)});
 
-    auto send_processor =
-        make_send_signal_processor<T>([context, out_each = fast_each<T *>{}](
-                                          proc::time::range const &time_range, sync_source const &,
-                                          channel_index_t const, connector_index_t const, T *const signal_ptr) mutable {
-            auto const top_frame = time_range.frame;
-            auto iterator = context->inputs().cbegin();
-            auto const end_iterator = context->inputs().cend();
-            T const &last_value = context->last_values()[0];
+        auto send_processor = make_send_signal_processor<T>(
+            [context, out_each = fast_each<T *>{}](proc::time::range const &time_range, sync_source const &,
+                                                   channel_index_t const, connector_index_t const,
+                                                   T *const signal_ptr) mutable {
+                auto const top_frame = time_range.frame;
+                auto iterator = context->inputs().cbegin();
+                auto const end_iterator = context->inputs().cend();
+                T const &last_value = context->last_values()[0];
 
-            out_each.reset(signal_ptr, time_range.length);
-            while (yas_each_next(out_each)) {
-                auto const frame = top_frame + yas_each_index(out_each);
-                if (iterator != end_iterator) {
-                    if (iterator->first == frame) {
-                        context->update_last_values(iterator->second);
-                        ++iterator;
+                out_each.reset(signal_ptr, time_range.length);
+                while (yas_each_next(out_each)) {
+                    auto const frame = top_frame + yas_each_index(out_each);
+                    if (iterator != end_iterator) {
+                        if (iterator->first == frame) {
+                            context->update_last_values(iterator->second);
+                            ++iterator;
+                        }
                     }
+                    yas_each_value(out_each) = last_value;
                 }
-                yas_each_value(out_each) = last_value;
-            }
-        });
+            });
 
-    return module{{std::move(prepare_processor), std::move(receive_processor), std::move(remove_processor),
-                   std::move(send_processor)}};
+        return std::vector<proc::processor_f>{{std::move(prepare_processor), std::move(receive_processor),
+                                               std::move(remove_processor), std::move(send_processor)}};
+    };
+
+    return module{std::move(make_processors)};
 }
 
 template proc::module proc::make_number_to_signal_module<double>();
