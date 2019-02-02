@@ -91,7 +91,7 @@ proc::module proc::make_signal_module(compare::kind const kind) {
                     }
                 }
             });
-        return std::vector<proc::processor_f>{
+        return module::processors_t{
             {std::move(prepare_processor), std::move(receive_processor), std::move(send_processor)}};
     };
 

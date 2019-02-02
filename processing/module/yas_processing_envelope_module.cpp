@@ -86,7 +86,7 @@ proc::module proc::envelope::make_signal_module(anchors_t<T> anchors, frame_inde
                 }
             });
 
-        return std::vector<proc::processor_f>{{std::move(prepare_processor), std::move(send_processor)}};
+        return module::processors_t{{std::move(prepare_processor), std::move(send_processor)}};
     };
 
     return proc::module{std::move(make_processors)};

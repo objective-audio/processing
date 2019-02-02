@@ -39,7 +39,7 @@ proc::module proc::make_signal_module(generator::kind const kind, frame_index_t 
                 }
             });
 
-        return std::vector<proc::processor_f>{{std::move(prepare_processor), std::move(send_processor)}};
+        return module::processors_t{{std::move(prepare_processor), std::move(send_processor)}};
     };
 
     return proc::module{std::move(make_processors)};

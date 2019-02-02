@@ -65,7 +65,7 @@ proc::module make_signal_module() {
                 }
             });
 
-        return std::vector<proc::processor_f>{{std::move(prepare_processor), std::move(receive_processor),
+        return module::processors_t{{std::move(prepare_processor), std::move(receive_processor),
                                                std::move(remove_processor), std::move(send_processor)}};
     };
 
@@ -107,7 +107,7 @@ proc::module make_number_module() {
             }
         };
 
-        return std::vector<proc::processor_f>{{std::move(prepare_processor), std::move(receive_processor),
+        return module::processors_t{{std::move(prepare_processor), std::move(receive_processor),
                                                std::move(remove_processor), std::move(send_processor)}};
     };
 

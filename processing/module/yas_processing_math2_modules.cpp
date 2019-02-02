@@ -96,7 +96,7 @@ proc::module proc::make_signal_module(math2::kind const kind) {
             }
         });
 
-        return std::vector<proc::processor_f>{
+        return module::processors_t{
             {std::move(prepare_processor), std::move(receive_processor), std::move(send_processor)}};
     };
 
@@ -186,7 +186,7 @@ proc::module proc::make_number_module(math2::kind const kind) {
             return result;
         });
 
-        return std::vector<proc::processor_f>{
+        return module::processors_t{
             {std::move(prepare_processor), std::move(receive_processor), std::move(send_processor)}};
     };
 
