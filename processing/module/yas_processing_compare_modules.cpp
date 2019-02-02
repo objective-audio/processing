@@ -116,71 +116,76 @@ template <typename T>
 proc::module proc::make_number_module(compare::kind const kind) {
     using namespace yas::proc::compare;
 
-    auto context = std::make_shared<number_process_context<T, 2>>();
+    auto make_processors = [kind] {
+        auto context = std::make_shared<number_process_context<T, 2>>();
 
-    auto prepare_processor = [context](time::range const &current_range, connector_map_t const &,
-                                       connector_map_t const &,
-                                       stream &stream) mutable { context->reset(current_range); };
+        auto prepare_processor = [context](time::range const &current_range, connector_map_t const &,
+                                           connector_map_t const &,
+                                           stream &stream) mutable { context->reset(current_range); };
 
-    auto receive_processor =
-        make_receive_number_processor<T>([context](proc::time::frame::type const &frame, channel_index_t const,
-                                                   connector_index_t const co_idx, T const &value) mutable {
-            if (co_idx == to_connector_index(input::left)) {
-                context->insert_input(frame, value, co_idx);
-            } else if (co_idx == to_connector_index(input::right)) {
-                context->insert_input(frame, value, co_idx);
-            }
-        });
-
-    auto send_processor = make_send_number_processor<boolean>(
-        [context, kind](proc::time::range const &, sync_source const &, channel_index_t const,
-                        connector_index_t const co_idx) mutable {
-            number_event::value_map_t<boolean> result;
-
-            if (co_idx == to_connector_index(output::result)) {
-                auto const left_co_idx = to_connector_index(input::left);
-                auto const right_co_idx = to_connector_index(input::right);
-                T const *last_values = context->last_values().data();
-
-                for (auto const &input_pair : context->inputs()) {
-                    auto const &input = input_pair.second;
-                    context->update_last_values(input);
-
-                    T const &left_value = last_values[left_co_idx];
-                    T const &right_value = last_values[right_co_idx];
-
-                    boolean result_value;
-
-                    switch (kind) {
-                        case kind::is_equal:
-                            result_value = left_value == right_value;
-                            break;
-                        case kind::is_not_equal:
-                            result_value = left_value != right_value;
-                            break;
-
-                        case kind::is_greater:
-                            result_value = left_value > right_value;
-                            break;
-                        case kind::is_greater_equal:
-                            result_value = left_value >= right_value;
-                            break;
-                        case kind::is_less:
-                            result_value = left_value < right_value;
-                            break;
-                        case kind::is_less_equal:
-                            result_value = left_value <= right_value;
-                            break;
-                    }
-
-                    result.emplace(input_pair.first, result_value);
+        auto receive_processor =
+            make_receive_number_processor<T>([context](proc::time::frame::type const &frame, channel_index_t const,
+                                                       connector_index_t const co_idx, T const &value) mutable {
+                if (co_idx == to_connector_index(input::left)) {
+                    context->insert_input(frame, value, co_idx);
+                } else if (co_idx == to_connector_index(input::right)) {
+                    context->insert_input(frame, value, co_idx);
                 }
-            }
+            });
 
-            return result;
-        });
+        auto send_processor = make_send_number_processor<boolean>(
+            [context, kind](proc::time::range const &, sync_source const &, channel_index_t const,
+                            connector_index_t const co_idx) mutable {
+                number_event::value_map_t<boolean> result;
 
-    return proc::module{{std::move(prepare_processor), std::move(receive_processor), std::move(send_processor)}};
+                if (co_idx == to_connector_index(output::result)) {
+                    auto const left_co_idx = to_connector_index(input::left);
+                    auto const right_co_idx = to_connector_index(input::right);
+                    T const *last_values = context->last_values().data();
+
+                    for (auto const &input_pair : context->inputs()) {
+                        auto const &input = input_pair.second;
+                        context->update_last_values(input);
+
+                        T const &left_value = last_values[left_co_idx];
+                        T const &right_value = last_values[right_co_idx];
+
+                        boolean result_value;
+
+                        switch (kind) {
+                            case kind::is_equal:
+                                result_value = left_value == right_value;
+                                break;
+                            case kind::is_not_equal:
+                                result_value = left_value != right_value;
+                                break;
+
+                            case kind::is_greater:
+                                result_value = left_value > right_value;
+                                break;
+                            case kind::is_greater_equal:
+                                result_value = left_value >= right_value;
+                                break;
+                            case kind::is_less:
+                                result_value = left_value < right_value;
+                                break;
+                            case kind::is_less_equal:
+                                result_value = left_value <= right_value;
+                                break;
+                        }
+
+                        result.emplace(input_pair.first, result_value);
+                    }
+                }
+
+                return result;
+            });
+
+        return module::processors_t{
+            {std::move(prepare_processor), std::move(receive_processor), std::move(send_processor)}};
+    };
+
+    return proc::module{std::move(make_processors)};
 }
 
 template proc::module proc::make_number_module<double>(compare::kind const);
