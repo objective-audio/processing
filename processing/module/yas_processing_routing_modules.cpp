@@ -24,50 +24,55 @@ template <typename T>
 proc::module proc::make_signal_module(proc::routing::kind const kind) {
     using namespace yas::proc::routing;
 
-    auto context = std::make_shared<signal_process_context<T, 1>>();
+    auto make_processors = [kind] {
+        auto context = std::make_shared<signal_process_context<T, 1>>();
 
-    auto prepare_processor = [context](time::range const &, connector_map_t const &, connector_map_t const &,
-                                       stream &stream) mutable { context->reset(stream.sync_source().slice_length); };
+        auto prepare_processor = [context](time::range const &, connector_map_t const &, connector_map_t const &,
+                                           stream &stream) mutable {
+            context->reset(stream.sync_source().slice_length);
+        };
 
-    auto receive_processor = proc::make_receive_signal_processor<T>(
-        [context](time::range const &time_range, sync_source const &, channel_index_t const,
-                  connector_index_t const co_idx, T const *const signal_ptr) mutable {
-            if (co_idx == to_connector_index(input::value)) {
-                context->set_time(time{time_range}, co_idx);
-                context->copy_data_from(signal_ptr, time_range.length, co_idx);
-            }
-        });
-
-    auto send_processor = proc::make_send_signal_processor<T>(
-        [context, kind, out_each = fast_each<T *>{}](proc::time::range const &time_range, sync_source const &,
-                                                     channel_index_t const, connector_index_t const co_idx,
-                                                     T *const signal_ptr) mutable {
-            if (co_idx == to_connector_index(output::value)) {
-                static auto const input_co_idx = to_connector_index(input::value);
-
-                auto const *src_ptr = context->data(input_co_idx);
-                proc::time const &input_time = context->time(input_co_idx);
-                auto const src_offset = input_time ? time_range.frame - input_time.get<time::range>().frame : 0;
-                auto const &src_length = input_time ? input_time.get<time::range>().length : 0;
-
-                out_each.reset(signal_ptr, time_range.length);
-                while (yas_each_next(out_each)) {
-                    auto const &idx = yas_each_index(out_each);
-                    auto const src_idx = idx + src_offset;
-                    auto const &src_value = (src_idx >= 0 && src_idx < src_length) ? src_ptr[src_idx] : 0;
-                    yas_each_value(out_each) = src_value;
+        auto receive_processor = proc::make_receive_signal_processor<T>(
+            [context](time::range const &time_range, sync_source const &, channel_index_t const,
+                      connector_index_t const co_idx, T const *const signal_ptr) mutable {
+                if (co_idx == to_connector_index(input::value)) {
+                    context->set_time(time{time_range}, co_idx);
+                    context->copy_data_from(signal_ptr, time_range.length, co_idx);
                 }
-            }
-        });
+            });
 
-    module::processors_t processors{prepare_processor, receive_processor};
-    if (kind == kind::move) {
-        auto remove_processor = proc::make_remove_signal_processor<T>({to_connector_index(input::value)});
-        processors.emplace_back(std::move(remove_processor));
-    }
-    processors.emplace_back(std::move(send_processor));
+        auto send_processor = proc::make_send_signal_processor<T>(
+            [context, kind, out_each = fast_each<T *>{}](proc::time::range const &time_range, sync_source const &,
+                                                         channel_index_t const, connector_index_t const co_idx,
+                                                         T *const signal_ptr) mutable {
+                if (co_idx == to_connector_index(output::value)) {
+                    static auto const input_co_idx = to_connector_index(input::value);
 
-    return proc::module{std::move(processors)};
+                    auto const *src_ptr = context->data(input_co_idx);
+                    proc::time const &input_time = context->time(input_co_idx);
+                    auto const src_offset = input_time ? time_range.frame - input_time.get<time::range>().frame : 0;
+                    auto const &src_length = input_time ? input_time.get<time::range>().length : 0;
+
+                    out_each.reset(signal_ptr, time_range.length);
+                    while (yas_each_next(out_each)) {
+                        auto const &idx = yas_each_index(out_each);
+                        auto const src_idx = idx + src_offset;
+                        auto const &src_value = (src_idx >= 0 && src_idx < src_length) ? src_ptr[src_idx] : 0;
+                        yas_each_value(out_each) = src_value;
+                    }
+                }
+            });
+
+        module::processors_t processors{prepare_processor, receive_processor};
+        if (kind == kind::move) {
+            auto remove_processor = proc::make_remove_signal_processor<T>({to_connector_index(input::value)});
+            processors.emplace_back(std::move(remove_processor));
+        }
+        processors.emplace_back(std::move(send_processor));
+        return processors;
+    };
+
+    return proc::module{std::move(make_processors)};
 }
 
 template proc::module proc::make_signal_module<double>(proc::routing::kind const);
