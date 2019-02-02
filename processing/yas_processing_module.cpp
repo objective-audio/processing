@@ -27,9 +27,6 @@ static void disconnect(connector_map_t &connectors, connector_index_t const idx)
 #pragma mark - module::impl
 
 struct proc::module::impl : base::impl {
-    impl(processors_t &&processors) : _processors(std::move(processors)) {
-    }
-
     impl(make_processors_t &&handler) : _make_handler(std::move(handler)), _processors(_make_handler()) {
     }
 
@@ -68,9 +65,6 @@ struct proc::module::impl : base::impl {
 };
 
 #pragma mark - module
-
-proc::module::module(processors_t processors) : base(std::make_shared<impl>(std::move(processors))) {
-}
 
 proc::module::module(make_processors_t handler) : base(std::make_shared<impl>(std::move(handler))) {
 }

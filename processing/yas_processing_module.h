@@ -19,7 +19,6 @@ class module : public base {
     using processors_t = std::vector<processor_f>;
     using make_processors_t = std::function<std::vector<processor_f>()>;
 
-    explicit module(processors_t);
     explicit module(make_processors_t);
     module(std::nullptr_t);
 
