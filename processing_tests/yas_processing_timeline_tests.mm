@@ -108,17 +108,17 @@ using namespace yas::proc;
 
     track track1;
 
-    auto send_handler1 = [](proc::time::range const &time_range, sync_source const &, channel_index_t const ch_idx,
-                            connector_index_t const co_idx, int16_t *const signal_ptr) {
-        if (co_idx == 0) {
-            for (auto const &idx : make_each_index(time_range.length)) {
-                signal_ptr[idx] = idx;
+    auto module1 = module{[] {
+        auto send_handler1 = [](proc::time::range const &time_range, sync_source const &, channel_index_t const ch_idx,
+                                connector_index_t const co_idx, int16_t *const signal_ptr) {
+            if (co_idx == 0) {
+                for (auto const &idx : make_each_index(time_range.length)) {
+                    signal_ptr[idx] = idx;
+                }
             }
-        }
-    };
-
-    auto processor1 = make_send_signal_processor<int16_t>({std::move(send_handler1)});
-    auto module1 = module{{std::move(processor1)}};
+        };
+        return module::processors_t{make_send_signal_processor<int16_t>({std::move(send_handler1)})};
+    }};
     module1.connect_output(0, 0);
 
     track1.insert_module({0, 2}, module1);
@@ -154,9 +154,11 @@ using namespace yas::proc;
         }
     };
 
-    auto receive_processor2 = make_receive_signal_processor<int16_t>({std::move(receive_handler2)});
-    auto send_processor2 = make_send_signal_processor<int16_t>({std::move(send_handler2)});
-    auto module2 = module{{std::move(receive_processor2), std::move(send_processor2)}};
+    auto module2 = module{[receive_handler2 = std::move(receive_handler2), send_handler2 = std::move(send_handler2)] {
+        auto receive_processor2 = make_receive_signal_processor<int16_t>({std::move(receive_handler2)});
+        auto send_processor2 = make_send_signal_processor<int16_t>({std::move(send_handler2)});
+        return module::processors_t{{std::move(receive_processor2), std::move(send_processor2)}};
+    }};
 
     module2.connect_input(0, 0);
     module2.connect_output(0, 0);
@@ -292,25 +294,25 @@ using namespace yas::proc;
     XCTAssertFalse(timeline.total_range());
 
     proc::track track_0;
-    track_0.insert_module({0, 1}, proc::module{proc::module::processors_t{}});
+    track_0.insert_module({0, 1}, proc::module{[] { return module::processors_t{}; }});
     timeline.insert_track(0, track_0);
 
     XCTAssertEqual(timeline.total_range(), (proc::time::range{0, 1}));
 
     proc::track track_1;
-    track_1.insert_module({1, 1}, proc::module{proc::module::processors_t{}});
+    track_1.insert_module({1, 1}, proc::module{[] { return module::processors_t{}; }});
     timeline.insert_track(1, track_1);
 
     XCTAssertEqual(timeline.total_range(), (proc::time::range{0, 2}));
 
     proc::track track_2;
-    track_2.insert_module({99, 1}, proc::module{proc::module::processors_t{}});
+    track_2.insert_module({99, 1}, proc::module{[] { return module::processors_t{}; }});
     timeline.insert_track(2, track_2);
 
     XCTAssertEqual(timeline.total_range(), (proc::time::range{0, 100}));
 
     proc::track track_3;
-    track_3.insert_module({-10, 1}, proc::module{proc::module::processors_t{}});
+    track_3.insert_module({-10, 1}, proc::module{[] { return module::processors_t{}; }});
     timeline.insert_track(3, track_3);
 
     XCTAssertEqual(timeline.total_range(), (proc::time::range{-10, 110}));
