@@ -111,4 +111,30 @@ using namespace yas::proc;
     XCTAssertEqual(module.output_connectors().size(), 0);
 }
 
+- (void)test_copy {
+    std::vector<int> called;
+
+    auto index = std::make_shared<int>(0);
+    proc::module module{[index = std::move(index), &called] {
+        auto processor = [index = *index, &called](time::range const &, connector_map_t const &,
+                                                   connector_map_t const &, stream &) { called.push_back(index); };
+        ++(*index);
+        return module::processors_t{std::move(processor)};
+    }};
+
+    auto copied_module = module.copy();
+
+    proc::stream stream{sync_source{1, 1}};
+
+    module.process({0, 1}, stream);
+
+    XCTAssertEqual(called.size(), 1);
+    XCTAssertEqual(called.at(0), 0);
+
+    copied_module.process({0, 1}, stream);
+
+    XCTAssertEqual(called.size(), 2);
+    XCTAssertEqual(called.at(1), 1);
+}
+
 @end
