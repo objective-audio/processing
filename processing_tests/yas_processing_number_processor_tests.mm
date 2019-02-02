@@ -50,7 +50,7 @@ using namespace yas::proc;
 
     channel1.insert_event(make_frame_time(1), number_event{int64_t(1000)});
 
-    module module{{std::move(processor)}};
+    module module{[processor = std::move(processor)] { return module::processors_t{{std::move(processor)}}; }};
     module.connect_input(10, 0);
     module.connect_input(11, 1);
 

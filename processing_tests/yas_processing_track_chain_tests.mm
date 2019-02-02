@@ -6,6 +6,7 @@
 #import <processing/yas_processing_umbrella.h>
 
 using namespace yas;
+using namespace yas::proc;
 
 @interface yas_processing_track_chain_tests : XCTestCase
 
@@ -22,8 +23,8 @@ using namespace yas;
 - (void)test_fetched {
     proc::track track;
 
-    proc::module module1{proc::module::processors_t{}};
-    proc::module module2{proc::module::processors_t{}};
+    proc::module module1{[] { return module::processors_t{}; }};
+    proc::module module2{[] { return module::processors_t{}; }};
     track.insert_module({0, 1}, module1);
     track.insert_module({1, 1}, module2);
 
@@ -54,8 +55,8 @@ using namespace yas;
                      })
                      .end();
 
-    proc::module module1{proc::module::processors_t{}};
-    proc::module module2{proc::module::processors_t{}};
+    proc::module module1{[] { return module::processors_t{}; }};
+    proc::module module2{[] { return module::processors_t{}; }};
 
     track.insert_module({0, 1}, module1);
 
@@ -79,8 +80,8 @@ using namespace yas;
 - (void)test_erased {
     proc::track track;
 
-    proc::module module1{proc::module::processors_t{}};
-    proc::module module2{proc::module::processors_t{}};
+    proc::module module1{[] { return module::processors_t{}; }};
+    proc::module module2{[] { return module::processors_t{}; }};
     track.insert_module({0, 1}, module1);
     track.insert_module({1, 1}, module2);
 

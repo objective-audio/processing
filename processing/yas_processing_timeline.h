@@ -44,11 +44,16 @@ class timeline : public chaining::sender<chaining::event> {
 
     std::optional<time::range> total_range() const;
 
+    timeline copy() const;
+
     /// 1回だけ処理する
     void process(time::range const &, stream &);
     /// スライス分の処理を繰り返す
     void process(time::range const &, sync_source const &, offline_process_f);
 
     chaining::chain_sync_t<event_t> chain();
+
+   protected:
+    explicit timeline(std::shared_ptr<impl> &&);
 };
 }  // namespace yas::proc

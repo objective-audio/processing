@@ -115,7 +115,7 @@ using namespace yas::proc;
             })
             .end();
 
-    proc::module module{proc::module::processors_t{}};
+    proc::module module{[] { return module::processors_t{}; }};
     track.insert_module({0, 1}, module);
 
     XCTAssertEqual(events.size(), 1);

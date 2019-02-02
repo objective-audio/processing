@@ -33,7 +33,7 @@ using namespace yas::proc;
     auto &channel1 = stream.add_channel(1);
     channel1.insert_event(make_frame_time(0), proc::number_event{int8_t(0)});
 
-    module module{{make_remove_number_processor<int8_t>({0})}};
+    module module{[] { return module::processors_t{make_remove_number_processor<int8_t>({0})}; }};
 
     module.connect_input(0, 0);
 
@@ -57,7 +57,7 @@ using namespace yas::proc;
         channel2.insert_event(make_frame_time(0), make_number_event<int8_t>(2));
     }
 
-    module module{{make_remove_number_processor<int8_t>({0, 2})}};
+    module module{[] { return module::processors_t{make_remove_number_processor<int8_t>({0, 2})}; }};
     module.connect_input(0, 0);
     module.connect_input(1, 1);
     module.connect_input(2, 2);

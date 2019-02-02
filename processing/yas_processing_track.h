@@ -34,8 +34,13 @@ class track : public chaining::sender<chaining::event> {
     void insert_module(time::range, module);
     void erase_module(module const &);
 
+    track copy() const;
+
     void process(time::range const &, stream &);
 
     chaining::chain_sync_t<event_t> chain();
+
+   protected:
+    explicit track(std::shared_ptr<impl> &&);
 };
 }  // namespace yas::proc
