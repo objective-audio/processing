@@ -30,6 +30,7 @@ class timeline : public chaining::sender<chaining::event> {
     using relayed_event_t = chaining::map::relayed_event<track_index_t, proc::track>;
 
     timeline();
+    timeline(track_map_t &&);
     timeline(std::nullptr_t);
 
     track_map_t const &tracks() const;
@@ -52,9 +53,6 @@ class timeline : public chaining::sender<chaining::event> {
     void process(time::range const &, sync_source const &, offline_process_f);
 
     chaining::chain_sync_t<event_t> chain();
-
-   protected:
-    explicit timeline(std::shared_ptr<impl> &&);
 };
 
 timeline::track_map_t copy_tracks(timeline::track_map_t const &);
