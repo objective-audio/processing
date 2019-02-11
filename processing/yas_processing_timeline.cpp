@@ -17,7 +17,7 @@ struct proc::timeline::impl : chaining::sender<event_t>::impl {
     impl() {
     }
 
-    impl(std::map<track_index_t, proc::track> &&tracks) : _tracks_holder(std::move(tracks)) {
+    impl(track_map_t &&tracks) : _tracks_holder(std::move(tracks)) {
     }
 
     void process(time::range const &time_range, stream &stream) {
@@ -43,7 +43,7 @@ struct proc::timeline::impl : chaining::sender<event_t>::impl {
     }
 
     timeline copy() {
-        return timeline{std::make_shared<impl>(proc::copy_tracks(this->_tracks_holder.raw()))};
+        return timeline{proc::copy_tracks(this->_tracks_holder.raw())};
     }
 
     void broadcast(event_t const &value) override {
@@ -76,7 +76,7 @@ struct proc::timeline::impl : chaining::sender<event_t>::impl {
 proc::timeline::timeline() : chaining::sender<event_t>(std::make_shared<impl>()) {
 }
 
-proc::timeline::timeline(std::shared_ptr<impl> &&impl) : chaining::sender<event_t>(std::move(impl)) {
+proc::timeline::timeline(track_map_t &&tracks) : chaining::sender<event_t>(std::make_shared<impl>(std::move(tracks))) {
 }
 
 proc::timeline::timeline(std::nullptr_t) : chaining::sender<event_t>(nullptr) {
