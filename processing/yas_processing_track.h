@@ -43,4 +43,6 @@ class track : public chaining::sender<chaining::event> {
    protected:
     explicit track(std::shared_ptr<impl> &&);
 };
+
+track::modules_map_t copy_modules(track::modules_map_t const &);
 }  // namespace yas::proc
