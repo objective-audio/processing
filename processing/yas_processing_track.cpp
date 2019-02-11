@@ -51,11 +51,7 @@ struct proc::track::impl : chaining::sender<event_t>::impl {
     }
 
     track copy() {
-        std::multimap<time::range, module> modules;
-        for (auto const &pair : this->_modules_holder.raw()) {
-            modules.emplace(pair.first, pair.second.copy());
-        }
-        return proc::track{std::make_shared<impl>(std::move(modules))};
+        return proc::track{std::make_shared<impl>(proc::copy_modules(this->_modules_holder.raw()))};
     }
 
     void broadcast(event_t const &value) override {
@@ -124,4 +120,12 @@ void proc::track::process(time::range const &time_range, stream &stream) {
 
 chaining::chain_sync_t<proc::track::event_t> proc::track::chain() {
     return this->impl_ptr<impl>()->chain_sync();
+}
+
+proc::track::modules_map_t proc::copy_modules(track::modules_map_t const &src_modules) {
+    std::multimap<time::range, module> modules;
+    for (auto const &pair : src_modules) {
+        modules.emplace(pair.first, pair.second.copy());
+    }
+    return modules;
 }

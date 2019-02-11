@@ -56,4 +56,6 @@ class timeline : public chaining::sender<chaining::event> {
    protected:
     explicit timeline(std::shared_ptr<impl> &&);
 };
+
+timeline::track_map_t copy_tracks(timeline::track_map_t const &);
 }  // namespace yas::proc
