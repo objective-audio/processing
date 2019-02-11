@@ -24,6 +24,7 @@ class track : public chaining::sender<chaining::event> {
     using erased_event_t = chaining::multimap::erased_event<time::range, module>;
 
     track();
+    track(modules_map_t &&);
     track(std::nullptr_t);
 
     modules_map_t const &modules() const;
@@ -39,9 +40,6 @@ class track : public chaining::sender<chaining::event> {
     void process(time::range const &, stream &);
 
     chaining::chain_sync_t<event_t> chain();
-
-   protected:
-    explicit track(std::shared_ptr<impl> &&);
 };
 
 track::modules_map_t copy_modules(track::modules_map_t const &);
