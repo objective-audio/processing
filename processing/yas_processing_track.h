@@ -16,7 +16,7 @@ class track : public chaining::sender<chaining::event> {
     class impl;
 
    public:
-    using modules_map_t = std::multimap<time::range, module>;
+    using modules_map_t = std::map<time::range, module>;
     using event_type_t = chaining::event_type;
     using event_t = chaining::event;
     using fetched_event_t = chaining::multimap::fetched_event<time::range, module>;

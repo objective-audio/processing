@@ -12,7 +12,7 @@ using namespace yas;
 #pragma mark - proc::track::impl
 
 struct proc::track::impl : chaining::sender<event_t>::impl {
-    chaining::multimap::holder<time::range, module> _modules_holder;
+    chaining::map::holder<time::range, module> _modules_holder;
 
     impl() {
     }
@@ -21,7 +21,7 @@ struct proc::track::impl : chaining::sender<event_t>::impl {
     }
 
     void insert_module(time::range &&range, module &&module) {
-        this->_modules_holder.insert(std::move(range), std::move(module));
+        this->_modules_holder.insert_or_replace(std::move(range), std::move(module));
     }
 
     void remove_module(module const &module) {
@@ -90,7 +90,7 @@ proc::track::track(modules_map_t &&modules) : chaining::sender<event_t>(std::mak
 proc::track::track(std::nullptr_t) : chaining::sender<event_t>(nullptr) {
 }
 
-std::multimap<proc::time::range, proc::module> const &proc::track::modules() const {
+proc::track::modules_map_t const &proc::track::modules() const {
     return this->impl_ptr<impl>()->_modules_holder.raw();
 }
 
@@ -123,7 +123,7 @@ chaining::chain_sync_t<proc::track::event_t> proc::track::chain() {
 }
 
 proc::track::modules_map_t proc::copy_modules(track::modules_map_t const &src_modules) {
-    std::multimap<time::range, module> modules;
+    std::map<time::range, module> modules;
     for (auto const &pair : src_modules) {
         modules.emplace(pair.first, pair.second.copy());
     }
