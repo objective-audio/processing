@@ -50,9 +50,9 @@ using namespace yas::proc;
         std::size_t idx = 0;
         for (auto const &pair : const_track.modules()) {
             auto const &time_range = pair.first;
-            auto const &module = pair.second;
+            auto const &module_vec = pair.second;
 
-            XCTAssertTrue(module);
+            XCTAssertEqual(module_vec.size(), 1);
 
             if (idx == 0) {
                 XCTAssertTrue((time_range == proc::time::range{0, 1}));
@@ -81,7 +81,39 @@ using namespace yas::proc;
     track.erase_module(module1);
 
     XCTAssertEqual(track.modules().size(), 1);
-    XCTAssertEqual(track.modules().begin()->second, module2);
+    XCTAssertEqual(track.modules().begin()->second.size(), 1);
+    XCTAssertEqual(*track.modules().begin()->second.begin(), module2);
+}
+
+- (void)test_insert_and_erase_modules_same_range {
+    proc::track track;
+
+    proc::module module1{[] { return proc::module::processors_t{}; }};
+    proc::module module2{[] { return proc::module::processors_t{}; }};
+
+    track.insert_module({0, 1}, module1);
+
+    XCTAssertEqual(track.modules().size(), 1);
+    XCTAssertEqual(track.modules().begin()->first, (proc::time::range{0, 1}));
+    XCTAssertEqual(track.modules().begin()->second.size(), 1);
+    XCTAssertEqual(track.modules().begin()->second.at(0), module1);
+
+    track.insert_module({0, 1}, module2);
+
+    XCTAssertEqual(track.modules().size(), 1);
+    XCTAssertEqual(track.modules().begin()->second.size(), 2);
+    XCTAssertEqual(track.modules().begin()->second.at(0), module1);
+    XCTAssertEqual(track.modules().begin()->second.at(1), module2);
+
+    track.erase_module(module1);
+
+    XCTAssertEqual(track.modules().size(), 1);
+    XCTAssertEqual(track.modules().begin()->second.size(), 1);
+    XCTAssertEqual(track.modules().begin()->second.at(0), module2);
+
+    track.erase_module(module2);
+
+    XCTAssertEqual(track.modules().size(), 0);
 }
 
 - (void)test_total_range {
