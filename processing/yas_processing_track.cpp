@@ -12,7 +12,7 @@ using namespace yas;
 #pragma mark - proc::track::impl
 
 struct proc::track::impl : chaining::sender<event_t>::impl {
-    chaining::map::holder<time::range, module> _modules_holder;
+    chaining::map::holder<time::range, std::vector<module>> _modules_holder;
 
     impl() {
     }
@@ -21,17 +21,45 @@ struct proc::track::impl : chaining::sender<event_t>::impl {
     }
 
     void insert_module(time::range &&range, module &&module) {
-        this->_modules_holder.insert_or_replace(std::move(range), std::move(module));
+        if (this->_modules_holder.has_value(range)) {
+            auto modules = this->_modules_holder.at(range);
+            modules.emplace_back(std::move(module));
+            this->_modules_holder.insert_or_replace(std::move(range), std::move(modules));
+        } else {
+            this->_modules_holder.insert_or_replace(std::move(range), {std::move(module)});
+        }
     }
 
-    void remove_module(module const &module) {
-        this->_modules_holder.erase_for_value(module);
+    void erase_module(module const &erasing) {
+        for (auto &pair : this->_modules_holder.raw()) {
+            auto &modules = pair.second;
+            bool erased = false;
+
+            erase_if(modules, [&erasing, &erased](proc::module const &module) {
+                if (module == erasing) {
+                    erased = true;
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+
+            if (erased) {
+                this->_modules_holder.insert_or_replace(pair.first, modules);
+                if (modules.size() == 0) {
+                    this->_modules_holder.erase_for_key(pair.first);
+                }
+                break;
+            }
+        }
     }
 
     void process(time::range const &time_range, stream &stream) {
         for (auto &pair : this->_modules_holder.raw()) {
             if (auto const current_time_range = pair.first.intersected(time_range)) {
-                pair.second.process(*current_time_range, stream);
+                for (auto &module : pair.second) {
+                    module.process(*current_time_range, stream);
+                }
             }
         }
     }
@@ -107,7 +135,7 @@ void proc::track::insert_module(proc::time::range time_range, module module) {
 }
 
 void proc::track::erase_module(module const &module) {
-    this->impl_ptr<impl>()->remove_module(module);
+    this->impl_ptr<impl>()->erase_module(module);
 }
 
 proc::track proc::track::copy() const {
@@ -123,9 +151,9 @@ chaining::chain_sync_t<proc::track::event_t> proc::track::chain() {
 }
 
 proc::track::modules_map_t proc::copy_modules(track::modules_map_t const &src_modules) {
-    std::map<time::range, module> modules;
+    std::map<time::range, std::vector<module>> result;
     for (auto const &pair : src_modules) {
-        modules.emplace(pair.first, pair.second.copy());
+        result.emplace(pair.first, copy(pair.second));
     }
-    return modules;
+    return result;
 }

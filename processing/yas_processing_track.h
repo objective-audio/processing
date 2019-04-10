@@ -16,12 +16,13 @@ class track : public chaining::sender<chaining::event> {
     class impl;
 
    public:
-    using modules_map_t = std::map<time::range, module>;
+    using modules_map_t = std::map<time::range, std::vector<module>>;
     using event_type_t = chaining::event_type;
     using event_t = chaining::event;
-    using fetched_event_t = chaining::multimap::fetched_event<time::range, module>;
-    using inserted_event_t = chaining::multimap::inserted_event<time::range, module>;
-    using erased_event_t = chaining::multimap::erased_event<time::range, module>;
+    using fetched_event_t = chaining::map::fetched_event<time::range, std::vector<module>>;
+    using inserted_event_t = chaining::map::inserted_event<time::range, std::vector<module>>;
+    using erased_event_t = chaining::map::erased_event<time::range, std::vector<module>>;
+    using replaced_event_t = chaining::map::replaced_event<time::range, std::vector<module>>;
 
     track();
     track(modules_map_t &&);
