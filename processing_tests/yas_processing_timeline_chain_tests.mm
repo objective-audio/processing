@@ -99,7 +99,8 @@ using namespace yas::proc;
     timeline.insert_track(0, track);
 
     std::vector<timeline::event_t> events;
-    std::vector<std::tuple<track_index_t, proc::track, std::map<time::range, std::vector<module>>>> relayed;
+    std::vector<std::tuple<track_index_t, proc::track, std::map<time::range, chaining::vector::holder<module>>>>
+        relayed;
 
     auto chain =
         timeline.chain()

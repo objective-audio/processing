@@ -48,7 +48,7 @@ using namespace yas::proc;
     proc::track track;
 
     std::vector<proc::track::event_t> events;
-    std::vector<std::map<proc::time::range, std::vector<proc::module>>> inserted;
+    std::vector<std::map<proc::time::range, chaining::vector::holder<proc::module>>> inserted;
 
     auto chain = track.chain()
                      .perform([&events, &inserted](auto const &event) {
@@ -90,17 +90,17 @@ using namespace yas::proc;
     track.insert_module({1, 1}, module2);
 
     std::vector<proc::track::event_t> events;
-    std::vector<std::pair<proc::time::range, std::vector<proc::module>>> replaced;
-    std::vector<std::map<proc::time::range, std::vector<proc::module>>> erased;
+    std::vector<std::pair<proc::time::range, chaining::vector::holder<proc::module>>> relayed;
+    std::vector<std::map<proc::time::range, chaining::vector::holder<proc::module>>> erased;
 
     auto chain = track.chain()
-                     .perform([&events, &erased, &replaced](auto const &event) {
+                     .perform([&events, &erased, &relayed](auto const &event) {
                          events.push_back(event);
-                         if (event.type() == proc::track::event_type_t::replaced) {
-                             auto const &replaced_event = event.template get<proc::track::replaced_event_t>();
-                             auto const &key = replaced_event.key;
-                             auto const &value = replaced_event.value;
-                             replaced.push_back(std::make_pair(key, value));
+                         if (event.type() == proc::track::event_type_t::relayed) {
+                             auto const &relayed_event = event.template get<proc::track::relayed_event_t>();
+                             auto const &key = relayed_event.key;
+                             auto const &value = relayed_event.value;
+                             relayed.push_back(std::make_pair(key, value));
                          } else if (event.type() == proc::track::event_type_t::erased) {
                              erased.push_back(event.template get<proc::track::erased_event_t>().elements);
                          }
@@ -110,12 +110,12 @@ using namespace yas::proc;
     track.erase_module(module1);
 
     XCTAssertEqual(events.size(), 2);
-    XCTAssertEqual(events.at(0).type(), proc::track::event_type_t::replaced);
+    XCTAssertEqual(events.at(0).type(), proc::track::event_type_t::relayed);
     XCTAssertEqual(events.at(1).type(), proc::track::event_type_t::erased);
 
-    XCTAssertEqual(replaced.size(), 1);
-    XCTAssertEqual(replaced.at(0).first, (proc::time::range{0, 1}));
-    XCTAssertEqual(replaced.at(0).second.size(), 0);
+    XCTAssertEqual(relayed.size(), 1);
+    XCTAssertEqual(relayed.at(0).first, (proc::time::range{0, 1}));
+    XCTAssertEqual(relayed.at(0).second.size(), 0);
 
     XCTAssertEqual(erased.size(), 1);
     XCTAssertEqual(erased.at(0).size(), 1);
@@ -141,17 +141,17 @@ using namespace yas::proc;
     track.insert_module({0, 1}, module2);
 
     XCTAssertEqual(events.size(), 2);
-    XCTAssertEqual(events.at(1).type(), proc::track::event_type_t::replaced);
+    XCTAssertEqual(events.at(1).type(), proc::track::event_type_t::relayed);
 
     track.erase_module(module1);
 
     XCTAssertEqual(events.size(), 3);
-    XCTAssertEqual(events.at(2).type(), proc::track::event_type_t::replaced);
+    XCTAssertEqual(events.at(2).type(), proc::track::event_type_t::relayed);
 
     track.erase_module(module2);
 
     XCTAssertEqual(events.size(), 5);
-    XCTAssertEqual(events.at(3).type(), proc::track::event_type_t::replaced);
+    XCTAssertEqual(events.at(3).type(), proc::track::event_type_t::relayed);
     XCTAssertEqual(events.at(4).type(), proc::track::event_type_t::erased);
 }
 

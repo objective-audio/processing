@@ -82,7 +82,7 @@ using namespace yas::proc;
 
     XCTAssertEqual(track.modules().size(), 1);
     XCTAssertEqual(track.modules().begin()->second.size(), 1);
-    XCTAssertEqual(*track.modules().begin()->second.begin(), module2);
+    XCTAssertEqual(track.modules().begin()->second.at(0), module2);
 }
 
 - (void)test_insert_and_erase_modules_same_range {
