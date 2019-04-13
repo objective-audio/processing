@@ -99,7 +99,8 @@ using namespace yas::proc;
     timeline.insert_track(0, track);
 
     std::vector<timeline::event_t> events;
-    std::vector<std::tuple<track_index_t, proc::track, std::multimap<time::range, module>>> relayed;
+    std::vector<std::tuple<track_index_t, proc::track, std::map<time::range, chaining::vector::holder<module>>>>
+        relayed;
 
     auto chain =
         timeline.chain()
@@ -124,7 +125,8 @@ using namespace yas::proc;
     XCTAssertEqual(std::get<0>(relayed.at(0)), 0);
     XCTAssertEqual(std::get<1>(relayed.at(0)), track);
     XCTAssertEqual(std::get<2>(relayed.at(0)).begin()->first, (proc::time::range{0, 1}));
-    XCTAssertEqual(std::get<2>(relayed.at(0)).begin()->second, module);
+    XCTAssertEqual(std::get<2>(relayed.at(0)).begin()->second.size(), 1);
+    XCTAssertEqual(std::get<2>(relayed.at(0)).begin()->second.at(0), module);
 }
 
 @end

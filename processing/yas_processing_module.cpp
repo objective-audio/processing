@@ -3,6 +3,7 @@
 //
 
 #include "yas_processing_module.h"
+#include <cpp_utils/yas_stl_utils.h>
 #include "yas_processing_connector.h"
 
 using namespace yas;
@@ -106,4 +107,8 @@ proc::module::processors_t const &proc::module::processors() const {
 
 proc::module proc::module::copy() const {
     return this->impl_ptr<impl>()->copy();
+}
+
+std::vector<proc::module> proc::copy(std::vector<proc::module> const &modules) {
+    return to_vector<proc::module>(modules, [](proc::module const &module) { return module.copy(); });
 }

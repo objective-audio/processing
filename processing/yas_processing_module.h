@@ -35,4 +35,6 @@ class module : public base {
 
     module copy() const;
 };
+
+std::vector<module> copy(std::vector<module> const &);
 }  // namespace yas::proc
