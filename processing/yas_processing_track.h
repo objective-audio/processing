@@ -17,19 +17,21 @@ class track : public chaining::sender<chaining::event> {
 
    public:
     using modules_map_t = std::map<time::range, std::vector<module>>;
+    using module_holder_map_t = std::map<time::range, chaining::vector::holder<module>>;
     using event_type_t = chaining::event_type;
     using event_t = chaining::event;
-    using fetched_event_t = chaining::map::fetched_event<time::range, std::vector<module>>;
-    using inserted_event_t = chaining::map::inserted_event<time::range, std::vector<module>>;
-    using erased_event_t = chaining::map::erased_event<time::range, std::vector<module>>;
-    using replaced_event_t = chaining::map::replaced_event<time::range, std::vector<module>>;
+    using fetched_event_t = chaining::map::fetched_event<time::range, chaining::vector::holder<module>>;
+    using inserted_event_t = chaining::map::inserted_event<time::range, chaining::vector::holder<module>>;
+    using erased_event_t = chaining::map::erased_event<time::range, chaining::vector::holder<module>>;
+    using replaced_event_t = chaining::map::replaced_event<time::range, chaining::vector::holder<module>>;
+    using relayed_event_t = chaining::map::relayed_event<time::range, chaining::vector::holder<module>>;
 
     track();
     track(modules_map_t &&);
     track(std::nullptr_t);
 
-    modules_map_t const &modules() const;
-    modules_map_t &modules();
+    module_holder_map_t const &modules() const;
+    module_holder_map_t &modules();
 
     std::optional<time::range> total_range() const;
 

@@ -11,42 +11,63 @@ using namespace yas;
 
 #pragma mark - proc::track::impl
 
+namespace yas::proc {
+static track::module_holder_map_t to_module_holder_map(track::modules_map_t &&modules) {
+    track::module_holder_map_t map;
+    for (auto &pair : modules) {
+        map.emplace(pair.first, std::move(pair.second));
+    }
+    return map;
+}
+
+static track::modules_map_t copy_modules_map(std::map<time::range, chaining::vector::holder<module>> const &modules) {
+    track::modules_map_t map;
+    for (auto const &pair : modules) {
+        std::vector<module> copied;
+        for (auto const &module : pair.second.raw()) {
+            copied.emplace_back(module.copy());
+        }
+        map.emplace(pair.first, std::move(copied));
+    }
+    return map;
+}
+}  // namespace yas::proc
+
 struct proc::track::impl : chaining::sender<event_t>::impl {
-    chaining::map::holder<time::range, std::vector<module>> _modules_holder;
+    chaining::map::holder<time::range, chaining::vector::holder<module>> _modules_holder;
 
     impl() {
     }
 
-    impl(modules_map_t &&modules) : _modules_holder(std::move(modules)) {
+    impl(modules_map_t &&modules) : _modules_holder(to_module_holder_map(std::move(modules))) {
     }
 
     void insert_module(time::range &&range, module &&module) {
         if (this->_modules_holder.has_value(range)) {
-            auto modules = this->_modules_holder.at(range);
-            modules.emplace_back(std::move(module));
-            this->_modules_holder.insert_or_replace(std::move(range), std::move(modules));
+            this->_modules_holder.at(range).push_back(std::move(module));
         } else {
-            this->_modules_holder.insert_or_replace(std::move(range), {std::move(module)});
+            this->_modules_holder.insert_or_replace(std::move(range),
+                                                    chaining::vector::holder<proc::module>{{std::move(module)}});
         }
     }
 
     void erase_module(module const &erasing) {
         for (auto &pair : this->_modules_holder.raw()) {
-            auto &modules = pair.second;
+            auto &modules_holder = pair.second;
             bool erased = false;
 
-            erase_if(modules, [&erasing, &erased](proc::module const &module) {
+            std::size_t idx = 0;
+            for (auto const &module : modules_holder.raw()) {
                 if (module == erasing) {
+                    modules_holder.erase_at(idx);
                     erased = true;
-                    return true;
-                } else {
-                    return false;
+                    break;
                 }
-            });
+                ++idx;
+            }
 
             if (erased) {
-                this->_modules_holder.insert_or_replace(pair.first, modules);
-                if (modules.size() == 0) {
+                if (modules_holder.size() == 0) {
                     this->_modules_holder.erase_for_key(pair.first);
                 }
                 break;
@@ -57,7 +78,7 @@ struct proc::track::impl : chaining::sender<event_t>::impl {
     void process(time::range const &time_range, stream &stream) {
         for (auto &pair : this->_modules_holder.raw()) {
             if (auto const current_time_range = pair.first.intersected(time_range)) {
-                for (auto &module : pair.second) {
+                for (auto &module : pair.second.raw()) {
                     module.process(*current_time_range, stream);
                 }
             }
@@ -79,7 +100,7 @@ struct proc::track::impl : chaining::sender<event_t>::impl {
     }
 
     track copy() {
-        return proc::track{proc::copy_modules(this->_modules_holder.raw())};
+        return proc::track{copy_modules_map(this->_modules_holder.raw())};
     }
 
     void broadcast(event_t const &value) override {
@@ -118,11 +139,11 @@ proc::track::track(modules_map_t &&modules) : chaining::sender<event_t>(std::mak
 proc::track::track(std::nullptr_t) : chaining::sender<event_t>(nullptr) {
 }
 
-proc::track::modules_map_t const &proc::track::modules() const {
+proc::track::module_holder_map_t const &proc::track::modules() const {
     return this->impl_ptr<impl>()->_modules_holder.raw();
 }
 
-proc::track::modules_map_t &proc::track::modules() {
+proc::track::module_holder_map_t &proc::track::modules() {
     return this->impl_ptr<impl>()->_modules_holder.raw();
 }
 
