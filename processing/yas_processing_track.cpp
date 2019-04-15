@@ -20,7 +20,8 @@ static track::module_holder_map_t to_module_holder_map(track::modules_map_t &&mo
     return map;
 }
 
-static track::modules_map_t copy_modules_map(std::map<time::range, chaining::vector::holder<module>> const &modules) {
+static track::modules_map_t copy_to_modules_map(
+    std::map<time::range, chaining::vector::holder<module>> const &modules) {
     track::modules_map_t map;
     for (auto const &pair : modules) {
         std::vector<module> copied;
@@ -100,7 +101,7 @@ struct proc::track::impl : chaining::sender<event_t>::impl {
     }
 
     track copy() {
-        return proc::track{copy_modules_map(this->_modules_holder.raw())};
+        return proc::track{copy_to_modules_map(this->_modules_holder.raw())};
     }
 
     void broadcast(event_t const &value) override {
