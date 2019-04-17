@@ -46,4 +46,5 @@ class track : public chaining::sender<chaining::event> {
 };
 
 track::modules_map_t copy_modules(track::modules_map_t const &);
+track::modules_map_t copy_to_modules(std::map<time::range, chaining::vector::holder<module>> const &modules);
 }  // namespace yas::proc
