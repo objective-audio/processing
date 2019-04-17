@@ -12,8 +12,8 @@ using namespace yas;
 #pragma mark - proc::track::impl
 
 namespace yas::proc {
-static track::module_holder_map_t to_module_holder_map(track::modules_map_t &&modules) {
-    track::module_holder_map_t map;
+static track::modules_holder_map_t to_module_holder_map(track::modules_map_t &&modules) {
+    track::modules_holder_map_t map;
     for (auto &pair : modules) {
         map.emplace(pair.first, std::move(pair.second));
     }
@@ -140,11 +140,11 @@ proc::track::track(modules_map_t &&modules) : chaining::sender<event_t>(std::mak
 proc::track::track(std::nullptr_t) : chaining::sender<event_t>(nullptr) {
 }
 
-proc::track::module_holder_map_t const &proc::track::modules() const {
+proc::track::modules_holder_map_t const &proc::track::modules() const {
     return this->impl_ptr<impl>()->_modules_holder.raw();
 }
 
-proc::track::module_holder_map_t &proc::track::modules() {
+proc::track::modules_holder_map_t &proc::track::modules() {
     return this->impl_ptr<impl>()->_modules_holder.raw();
 }
 

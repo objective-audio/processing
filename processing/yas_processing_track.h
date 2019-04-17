@@ -17,7 +17,7 @@ class track : public chaining::sender<chaining::event> {
 
    public:
     using modules_map_t = std::map<time::range, std::vector<module>>;
-    using module_holder_map_t = std::map<time::range, chaining::vector::holder<module>>;
+    using modules_holder_map_t = std::map<time::range, chaining::vector::holder<module>>;
     using event_type_t = chaining::event_type;
     using event_t = chaining::event;
     using fetched_event_t = chaining::map::fetched_event<time::range, chaining::vector::holder<module>>;
@@ -30,8 +30,8 @@ class track : public chaining::sender<chaining::event> {
     track(modules_map_t &&);
     track(std::nullptr_t);
 
-    module_holder_map_t const &modules() const;
-    module_holder_map_t &modules();
+    modules_holder_map_t const &modules() const;
+    modules_holder_map_t &modules();
 
     std::optional<time::range> total_range() const;
 
