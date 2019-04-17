@@ -170,4 +170,52 @@ using namespace yas::proc;
     XCTAssertEqual(called.at(1), 1);
 }
 
+- (void)test_copy_to_modules {
+    proc::module module1{[] { return proc::module::processors_t{}; }};
+    proc::module module2{[] { return proc::module::processors_t{}; }};
+    proc::module module3{[] { return proc::module::processors_t{}; }};
+    proc::module module4{[] { return proc::module::processors_t{}; }};
+
+    proc::track::modules_holder_map_t src_modules;
+    src_modules.emplace(proc::time::range{0, 1}, chaining::vector::holder<module>{{module1, module2}});
+    src_modules.emplace(proc::time::range{1, 1}, chaining::vector::holder<module>{{module3, module4}});
+
+    auto dst_modules = proc::copy_to_modules(src_modules);
+
+    XCTAssertEqual(src_modules.at(proc::time::range{0, 1}).size(), 2);
+    XCTAssertEqual(src_modules.at(proc::time::range{1, 1}).size(), 2);
+
+    XCTAssertEqual(dst_modules.size(), 2);
+    XCTAssertEqual(dst_modules.count(proc::time::range{0, 1}), 1);
+    XCTAssertEqual(dst_modules.at(proc::time::range{0, 1}).size(), 2);
+    XCTAssertEqual(dst_modules.count(proc::time::range{1, 1}), 1);
+    XCTAssertEqual(dst_modules.at(proc::time::range{1, 1}).size(), 2);
+}
+
+- (void)test_to_modules_holders {
+    proc::module module1{[] { return proc::module::processors_t{}; }};
+    proc::module module2{[] { return proc::module::processors_t{}; }};
+    proc::module module3{[] { return proc::module::processors_t{}; }};
+    proc::module module4{[] { return proc::module::processors_t{}; }};
+
+    proc::track::modules_map_t src_modules;
+    src_modules.emplace(proc::time::range{0, 1}, std::vector<module>{module1, module2});
+    src_modules.emplace(proc::time::range{1, 1}, std::vector<module>{module3, module4});
+
+    auto dst_modules = proc::to_modules_holders(std::move(src_modules));
+
+    XCTAssertEqual(src_modules.at(proc::time::range{0, 1}).size(), 0);
+    XCTAssertEqual(src_modules.at(proc::time::range{1, 1}).size(), 0);
+
+    XCTAssertEqual(dst_modules.size(), 2);
+    XCTAssertEqual(dst_modules.count(proc::time::range{0, 1}), 1);
+    XCTAssertEqual(dst_modules.at(proc::time::range{0, 1}).size(), 2);
+    XCTAssertEqual(dst_modules.at(proc::time::range{0, 1}).at(0), module1);
+    XCTAssertEqual(dst_modules.at(proc::time::range{0, 1}).at(1), module2);
+    XCTAssertEqual(dst_modules.count(proc::time::range{1, 1}), 1);
+    XCTAssertEqual(dst_modules.at(proc::time::range{1, 1}).size(), 2);
+    XCTAssertEqual(dst_modules.at(proc::time::range{1, 1}).at(0), module3);
+    XCTAssertEqual(dst_modules.at(proc::time::range{1, 1}).at(1), module4);
+}
+
 @end

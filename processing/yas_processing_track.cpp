@@ -11,36 +11,13 @@ using namespace yas;
 
 #pragma mark - proc::track::impl
 
-namespace yas::proc {
-static track::module_holder_map_t to_module_holder_map(track::modules_map_t &&modules) {
-    track::module_holder_map_t map;
-    for (auto &pair : modules) {
-        map.emplace(pair.first, std::move(pair.second));
-    }
-    return map;
-}
-
-static track::modules_map_t copy_to_modules_map(
-    std::map<time::range, chaining::vector::holder<module>> const &modules) {
-    track::modules_map_t map;
-    for (auto const &pair : modules) {
-        std::vector<module> copied;
-        for (auto const &module : pair.second.raw()) {
-            copied.emplace_back(module.copy());
-        }
-        map.emplace(pair.first, std::move(copied));
-    }
-    return map;
-}
-}  // namespace yas::proc
-
 struct proc::track::impl : chaining::sender<event_t>::impl {
     chaining::map::holder<time::range, chaining::vector::holder<module>> _modules_holder;
 
     impl() {
     }
 
-    impl(modules_map_t &&modules) : _modules_holder(to_module_holder_map(std::move(modules))) {
+    impl(modules_map_t &&modules) : _modules_holder(to_modules_holders(std::move(modules))) {
     }
 
     void insert_module(time::range &&range, module &&module) {
@@ -101,7 +78,7 @@ struct proc::track::impl : chaining::sender<event_t>::impl {
     }
 
     track copy() {
-        return proc::track{copy_to_modules_map(this->_modules_holder.raw())};
+        return proc::track{copy_to_modules(this->_modules_holder.raw())};
     }
 
     void broadcast(event_t const &value) override {
@@ -140,11 +117,11 @@ proc::track::track(modules_map_t &&modules) : chaining::sender<event_t>(std::mak
 proc::track::track(std::nullptr_t) : chaining::sender<event_t>(nullptr) {
 }
 
-proc::track::module_holder_map_t const &proc::track::modules() const {
+proc::track::modules_holder_map_t const &proc::track::modules() const {
     return this->impl_ptr<impl>()->_modules_holder.raw();
 }
 
-proc::track::module_holder_map_t &proc::track::modules() {
+proc::track::modules_holder_map_t &proc::track::modules() {
     return this->impl_ptr<impl>()->_modules_holder.raw();
 }
 
@@ -178,4 +155,25 @@ proc::track::modules_map_t proc::copy_modules(track::modules_map_t const &src_mo
         result.emplace(pair.first, copy(pair.second));
     }
     return result;
+}
+
+proc::track::modules_map_t proc::copy_to_modules(
+    std::map<time::range, chaining::vector::holder<module>> const &modules) {
+    track::modules_map_t map;
+    for (auto const &pair : modules) {
+        std::vector<module> copied;
+        for (auto const &module : pair.second.raw()) {
+            copied.emplace_back(module.copy());
+        }
+        map.emplace(pair.first, std::move(copied));
+    }
+    return map;
+}
+
+proc::track::modules_holder_map_t proc::to_modules_holders(track::modules_map_t &&modules) {
+    track::modules_holder_map_t map;
+    for (auto &pair : modules) {
+        map.emplace(pair.first, std::move(pair.second));
+    }
+    return map;
 }
