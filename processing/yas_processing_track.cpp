@@ -12,7 +12,7 @@ using namespace yas;
 #pragma mark - proc::track::impl
 
 struct proc::track::impl : chaining::sender<event_t>::impl {
-    chaining::map::holder<time::range, chaining::vector::holder<module>> _modules_holder;
+    chaining::map::holder<time::range, module_vector_holder_t> _modules_holder;
 
     impl() {
     }
@@ -150,18 +150,17 @@ chaining::chain_sync_t<proc::track::event_t> proc::track::chain() {
 }
 
 proc::track::modules_map_t proc::copy_modules(track::modules_map_t const &src_modules) {
-    std::map<time::range, std::vector<module>> result;
+    track::modules_map_t result;
     for (auto const &pair : src_modules) {
         result.emplace(pair.first, copy(pair.second));
     }
     return result;
 }
 
-proc::track::modules_map_t proc::copy_to_modules(
-    std::map<time::range, chaining::vector::holder<module>> const &modules) {
+proc::track::modules_map_t proc::copy_to_modules(track::modules_holder_map_t const &modules) {
     track::modules_map_t map;
     for (auto const &pair : modules) {
-        std::vector<module> copied;
+        module_vector_t copied;
         for (auto const &module : pair.second.raw()) {
             copied.emplace_back(module.copy());
         }

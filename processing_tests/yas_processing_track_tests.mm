@@ -199,8 +199,8 @@ using namespace yas::proc;
     proc::module module4{[] { return proc::module::processors_t{}; }};
 
     proc::track::modules_map_t src_modules;
-    src_modules.emplace(proc::time::range{0, 1}, std::vector<module>{module1, module2});
-    src_modules.emplace(proc::time::range{1, 1}, std::vector<module>{module3, module4});
+    src_modules.emplace(proc::time::range{0, 1}, module_vector_t{module1, module2});
+    src_modules.emplace(proc::time::range{1, 1}, module_vector_t{module3, module4});
 
     auto dst_modules = proc::to_modules_holders(std::move(src_modules));
 
