@@ -109,18 +109,15 @@ using namespace yas::proc;
 
     track.erase_module(module1);
 
-    XCTAssertEqual(events.size(), 2);
-    XCTAssertEqual(events.at(0).type(), proc::track::event_type_t::relayed);
-    XCTAssertEqual(events.at(1).type(), proc::track::event_type_t::erased);
+    XCTAssertEqual(events.size(), 1);
+    XCTAssertEqual(events.at(0).type(), proc::track::event_type_t::erased);
 
-    XCTAssertEqual(relayed.size(), 1);
-    XCTAssertEqual(relayed.at(0).first, (proc::time::range{0, 1}));
-    XCTAssertEqual(relayed.at(0).second.size(), 0);
+    XCTAssertEqual(relayed.size(), 0);
 
     XCTAssertEqual(erased.size(), 1);
     XCTAssertEqual(erased.at(0).size(), 1);
     XCTAssertEqual(erased.at(0).begin()->first, (proc::time::range{0, 1}));
-    XCTAssertEqual(erased.at(0).begin()->second.size(), 0);
+    XCTAssertEqual(erased.at(0).begin()->second.size(), 1);
 }
 
 - (void)test_insert_and_erase_same_range {
@@ -150,9 +147,8 @@ using namespace yas::proc;
 
     track.erase_module(module2);
 
-    XCTAssertEqual(events.size(), 5);
-    XCTAssertEqual(events.at(3).type(), proc::track::event_type_t::relayed);
-    XCTAssertEqual(events.at(4).type(), proc::track::event_type_t::erased);
+    XCTAssertEqual(events.size(), 4);
+    XCTAssertEqual(events.at(3).type(), proc::track::event_type_t::erased);
 }
 
 @end
