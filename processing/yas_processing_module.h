@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <chaining/yas_chaining_umbrella.h>
 #include <cpp_utils/yas_base.h>
 #include <vector>
 #include "yas_processing_connector.h"
@@ -36,5 +37,14 @@ class module : public base {
     module copy() const;
 };
 
-std::vector<module> copy(std::vector<module> const &);
+using module_vector_t = std::vector<module>;
+using module_vector_holder_t = chaining::vector::holder<module>;
+
+namespace module_vector {
+    using event_type_t = chaining::event_type;
+    using inserted_event_t = chaining::vector::inserted_event<module>;
+    using erased_event_t = chaining::vector::erased_event<module>;
+}  // namespace module_vector
+
+module_vector_t copy(module_vector_t const &);
 }  // namespace yas::proc
