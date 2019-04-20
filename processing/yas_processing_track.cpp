@@ -37,7 +37,11 @@ struct proc::track::impl : chaining::sender<event_t>::impl {
             std::size_t idx = 0;
             for (auto const &module : modules_holder.raw()) {
                 if (module == erasing) {
-                    modules_holder.erase_at(idx);
+                    if (modules_holder.size() == 1) {
+                        this->_modules_holder.erase_for_key(pair.first);
+                    } else {
+                        modules_holder.erase_at(idx);
+                    }
                     erased = true;
                     break;
                 }
@@ -45,9 +49,6 @@ struct proc::track::impl : chaining::sender<event_t>::impl {
             }
 
             if (erased) {
-                if (modules_holder.size() == 0) {
-                    this->_modules_holder.erase_for_key(pair.first);
-                }
                 break;
             }
         }
