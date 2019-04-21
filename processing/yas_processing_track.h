@@ -37,6 +37,7 @@ class track : public chaining::sender<chaining::event> {
 
     void insert_module(time::range, module);
     void erase_module(module const &);
+    void erase_modules_for_range(time::range const &);
 
     track copy() const;
 
