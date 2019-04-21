@@ -29,29 +29,33 @@ struct proc::track::impl : chaining::sender<event_t>::impl {
         }
     }
 
-    void erase_module(module const &erasing) {
+    bool erase_module(module const &erasing) {
         for (auto &pair : this->_modules_holder.raw()) {
-            auto &modules_holder = pair.second;
-            bool erased = false;
+            if (this->erase_module(erasing, pair.first)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    bool erase_module(module const &erasing, time::range const &range) {
+        if (this->_modules_holder.has_value(range)) {
+            auto &modules = this->_modules_holder.at(range);
 
             std::size_t idx = 0;
-            for (auto const &module : modules_holder.raw()) {
+            for (auto const &module : modules.raw()) {
                 if (module == erasing) {
-                    if (modules_holder.size() == 1) {
-                        this->_modules_holder.erase_for_key(pair.first);
+                    if (modules.size() == 1) {
+                        this->_modules_holder.erase_for_key(range);
                     } else {
-                        modules_holder.erase_at(idx);
+                        modules.erase_at(idx);
                     }
-                    erased = true;
-                    break;
+                    return true;
                 }
                 ++idx;
             }
-
-            if (erased) {
-                break;
-            }
         }
+        return false;
     }
 
     void erase_modules_for_range(time::range const &range) {
@@ -138,8 +142,12 @@ void proc::track::insert_module(proc::time::range time_range, module module) {
     this->impl_ptr<impl>()->insert_module(std::move(time_range), std::move(module));
 }
 
-void proc::track::erase_module(module const &module) {
-    this->impl_ptr<impl>()->erase_module(module);
+bool proc::track::erase_module(module const &module) {
+    return this->impl_ptr<impl>()->erase_module(module);
+}
+
+bool proc::track::erase_module(module const &module, time::range const &range) {
+    return this->impl_ptr<impl>()->erase_module(module, range);
 }
 
 void proc::track::erase_modules_for_range(time::range const &range) {
