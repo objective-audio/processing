@@ -54,6 +54,10 @@ struct proc::track::impl : chaining::sender<event_t>::impl {
         }
     }
 
+    void erase_modules_for_range(time::range const &range) {
+        this->_modules_holder.erase_for_key(range);
+    }
+
     void process(time::range const &time_range, stream &stream) {
         for (auto &pair : this->_modules_holder.raw()) {
             if (auto const current_time_range = pair.first.intersected(time_range)) {
@@ -136,6 +140,10 @@ void proc::track::insert_module(proc::time::range time_range, module module) {
 
 void proc::track::erase_module(module const &module) {
     this->impl_ptr<impl>()->erase_module(module);
+}
+
+void proc::track::erase_modules_for_range(time::range const &range) {
+    this->impl_ptr<impl>()->erase_modules_for_range(range);
 }
 
 proc::track proc::track::copy() const {
