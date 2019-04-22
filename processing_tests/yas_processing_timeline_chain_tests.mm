@@ -117,7 +117,7 @@ using namespace yas::proc;
             .end();
 
     proc::module module{[] { return module::processors_t{}; }};
-    track.push_back_module({0, 1}, module);
+    track.push_back_module(module, {0, 1});
 
     XCTAssertEqual(events.size(), 1);
     XCTAssertEqual(events.at(0).type(), timeline::event_type_t::relayed);

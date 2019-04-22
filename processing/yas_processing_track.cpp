@@ -20,7 +20,7 @@ struct proc::track::impl : chaining::sender<event_t>::impl {
     impl(modules_map_t &&modules) : _modules_holder(to_modules_holders(std::move(modules))) {
     }
 
-    void push_back_module(time::range &&range, module &&module) {
+    void push_back_module(module &&module, time::range &&range) {
         if (this->_modules_holder.has_value(range)) {
             this->_modules_holder.at(range).push_back(std::move(module));
         } else {
@@ -150,8 +150,8 @@ std::optional<proc::time::range> proc::track::total_range() const {
     return impl_ptr<impl>()->total_range();
 }
 
-void proc::track::push_back_module(proc::time::range time_range, module module) {
-    this->impl_ptr<impl>()->push_back_module(std::move(time_range), std::move(module));
+void proc::track::push_back_module(module module, proc::time::range time_range) {
+    this->impl_ptr<impl>()->push_back_module(std::move(module), std::move(time_range));
 }
 
 void proc::track::insert_module(module module, std::size_t const idx, time::range time_range) {

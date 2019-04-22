@@ -25,8 +25,8 @@ using namespace yas::proc;
 
     proc::module module1{[] { return module::processors_t{}; }};
     proc::module module2{[] { return module::processors_t{}; }};
-    track.push_back_module({0, 1}, module1);
-    track.push_back_module({1, 1}, module2);
+    track.push_back_module(module1, {0, 1});
+    track.push_back_module(module2, {1, 1});
 
     std::vector<proc::track::event_t> events;
 
@@ -60,7 +60,7 @@ using namespace yas::proc;
     proc::module module1{[] { return module::processors_t{}; }};
     proc::module module2{[] { return module::processors_t{}; }};
 
-    track.push_back_module({0, 1}, module1);
+    track.push_back_module(module1, {0, 1});
 
     XCTAssertEqual(events.size(), 1);
     XCTAssertEqual(events.at(0).type(), proc::track::event_type_t::inserted);
@@ -70,7 +70,7 @@ using namespace yas::proc;
     XCTAssertEqual(inserted.at(0).begin()->second.size(), 1);
     XCTAssertEqual(inserted.at(0).begin()->second.at(0), module1);
 
-    track.push_back_module({1, 1}, module2);
+    track.push_back_module(module2, {1, 1});
 
     XCTAssertEqual(events.size(), 2);
     XCTAssertEqual(events.at(1).type(), proc::track::event_type_t::inserted);
@@ -86,8 +86,8 @@ using namespace yas::proc;
 
     proc::module module1{[] { return module::processors_t{}; }};
     proc::module module2{[] { return module::processors_t{}; }};
-    track.push_back_module({0, 1}, module1);
-    track.push_back_module({1, 1}, module2);
+    track.push_back_module(module1, {0, 1});
+    track.push_back_module(module2, {1, 1});
 
     std::vector<proc::track::event_t> events;
     std::vector<std::pair<proc::time::range, chaining::vector::holder<proc::module>>> relayed;
@@ -130,12 +130,12 @@ using namespace yas::proc;
     proc::module module1{[] { return module::processors_t{}; }};
     proc::module module2{[] { return module::processors_t{}; }};
 
-    track.push_back_module({0, 1}, module1);
+    track.push_back_module(module1, {0, 1});
 
     XCTAssertEqual(events.size(), 1);
     XCTAssertEqual(events.at(0).type(), proc::track::event_type_t::inserted);
 
-    track.push_back_module({0, 1}, module2);
+    track.push_back_module(module2, {0, 1});
 
     XCTAssertEqual(events.size(), 2);
     XCTAssertEqual(events.at(1).type(), proc::track::event_type_t::relayed);

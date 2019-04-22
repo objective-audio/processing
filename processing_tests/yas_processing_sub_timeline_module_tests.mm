@@ -38,7 +38,7 @@ using namespace yas::proc;
         plus_module.connect_output(to_connector_index(math2::output::result), 12);
 
         proc::track sub_track;
-        sub_track.push_back_module(time::range{1, 2}, std::move(plus_module));
+        sub_track.push_back_module(std::move(plus_module), time::range{1, 2});
         sub_timeline.insert_track(0, sub_track);
     }
 
@@ -50,11 +50,11 @@ using namespace yas::proc;
         right_module.connect_output(to_connector_index(constant::output::value), 1);
 
         proc::track main_track_0;
-        main_track_0.push_back_module(time::range{0, 4}, std::move(left_module));
+        main_track_0.push_back_module(std::move(left_module), time::range{0, 4});
         main_timeline.insert_track(0, main_track_0);
 
         proc::track main_track_1;
-        main_track_1.push_back_module(time::range{0, 4}, std::move(right_module));
+        main_track_1.push_back_module(std::move(right_module), time::range{0, 4});
         main_timeline.insert_track(1, main_track_1);
     }
 
@@ -65,7 +65,7 @@ using namespace yas::proc;
         sub_timeline_module.connect_output(12, 20);
 
         proc::track main_track_2;
-        main_track_2.push_back_module(time::range{0, 4}, std::move(sub_timeline_module));
+        main_track_2.push_back_module(std::move(sub_timeline_module), time::range{0, 4});
         main_timeline.insert_track(2, main_track_2);
     }
 
@@ -127,7 +127,7 @@ using namespace yas::proc;
         main_module.connect_output(to_connector_index(constant::output::value), 0);
 
         proc::track main_track;
-        main_track.push_back_module(time::range{0, 4}, std::move(main_module));
+        main_track.push_back_module(std::move(main_module), time::range{0, 4});
         main_timeline.insert_track(0, main_track);
     }
 
@@ -136,7 +136,7 @@ using namespace yas::proc;
         sub_module.connect_output(to_connector_index(constant::output::value), 0);
 
         proc::track sub_track;
-        sub_track.push_back_module(time::range{1, 2}, std::move(sub_module));
+        sub_track.push_back_module(std::move(sub_module), time::range{1, 2});
         sub_timeline.insert_track(0, sub_track);
     }
 
@@ -145,7 +145,7 @@ using namespace yas::proc;
         sub_timeline_module.connect_output(0, 0);
 
         proc::track main_track_2;
-        main_track_2.push_back_module(time::range{1, 2}, std::move(sub_timeline_module));
+        main_track_2.push_back_module(std::move(sub_timeline_module), time::range{1, 2});
         main_timeline.insert_track(1, main_track_2);
     }
 
@@ -182,7 +182,7 @@ using namespace yas::proc;
         plus_module.connect_output(to_connector_index(math2::output::result), 12);
 
         proc::track sub_track;
-        sub_track.push_back_module(time::range{0, 2}, std::move(plus_module));
+        sub_track.push_back_module(std::move(plus_module), time::range{0, 2});
         sub_timeline.insert_track(0, sub_track);
     }
 
@@ -194,11 +194,11 @@ using namespace yas::proc;
         right_module.connect_output(to_connector_index(constant::output::value), 1);
 
         proc::track main_track_0;
-        main_track_0.push_back_module(time::range{0, 4}, std::move(left_module));
+        main_track_0.push_back_module(std::move(left_module), time::range{0, 4});
         main_timeline.insert_track(0, main_track_0);
 
         proc::track main_track_1;
-        main_track_1.push_back_module(time::range{0, 4}, std::move(right_module));
+        main_track_1.push_back_module(std::move(right_module), time::range{0, 4});
         main_timeline.insert_track(1, main_track_1);
     }
 
@@ -209,7 +209,7 @@ using namespace yas::proc;
         sub_timeline_module.connect_output(12, 20);
 
         proc::track main_track_2;
-        main_track_2.push_back_module(time::range{1, 2}, std::move(sub_timeline_module));
+        main_track_2.push_back_module(std::move(sub_timeline_module), time::range{1, 2});
         main_timeline.insert_track(2, main_track_2);
     }
 
@@ -273,7 +273,7 @@ using namespace yas::proc;
         plus_module.connect_output(to_connector_index(math2::output::result), 12);
 
         proc::track sub_track;
-        sub_track.push_back_module(time::range{1, 1}, std::move(plus_module));
+        sub_track.push_back_module(std::move(plus_module), time::range{1, 1});
         sub_timeline.insert_track(0, sub_track);
     }
 
@@ -292,10 +292,10 @@ using namespace yas::proc;
             right_module.connect_output(to_connector_index(constant::output::value), 1);
 
             auto &main_track_0 = main_timeline.track(0);
-            main_track_0.push_back_module(time::range{idx, 1}, std::move(left_module));
+            main_track_0.push_back_module(std::move(left_module), time::range{idx, 1});
 
             auto &main_track_1 = main_timeline.track(1);
-            main_track_1.push_back_module(time::range{idx, 1}, std::move(right_module));
+            main_track_1.push_back_module(std::move(right_module), time::range{idx, 1});
         }
     }
 
@@ -306,7 +306,7 @@ using namespace yas::proc;
         sub_timeline_module.connect_output(12, 20);
 
         proc::track main_track_2;
-        main_track_2.push_back_module(time::range{1, 1}, std::move(sub_timeline_module));
+        main_track_2.push_back_module(std::move(sub_timeline_module), time::range{1, 1});
         main_timeline.insert_track(2, main_track_2);
     }
 
@@ -363,7 +363,7 @@ using namespace yas::proc;
             main_module.connect_output(to_connector_index(constant::output::value), 0);
 
             auto &main_track = main_timeline.track(0);
-            main_track.push_back_module(time::range{yas_each_index(each), 1}, std::move(main_module));
+            main_track.push_back_module(std::move(main_module), time::range{yas_each_index(each), 1});
         }
     }
 
@@ -376,7 +376,7 @@ using namespace yas::proc;
             sub_module.connect_output(to_connector_index(constant::output::value), 0);
 
             auto &sub_track = sub_timeline.track(0);
-            sub_track.push_back_module(time::range{1 + yas_each_index(each), 2}, std::move(sub_module));
+            sub_track.push_back_module(std::move(sub_module), time::range{1 + yas_each_index(each), 2});
         }
     }
 
@@ -385,7 +385,7 @@ using namespace yas::proc;
         sub_timeline_module.connect_output(0, 0);
 
         proc::track main_track_2;
-        main_track_2.push_back_module(time::range{1, 2}, std::move(sub_timeline_module));
+        main_track_2.push_back_module(std::move(sub_timeline_module), time::range{1, 2});
         main_timeline.insert_track(1, main_track_2);
     }
 
@@ -428,7 +428,7 @@ using namespace yas::proc;
         plus_module.connect_output(to_connector_index(math2::output::result), 12);
 
         proc::track sub_track;
-        sub_track.push_back_module(time::range{0, 2}, std::move(plus_module));
+        sub_track.push_back_module(std::move(plus_module), time::range{0, 2});
         sub_timeline.insert_track(0, sub_track);
     }
 
@@ -447,10 +447,10 @@ using namespace yas::proc;
             right_module.connect_output(to_connector_index(constant::output::value), 1);
 
             auto &main_track_0 = main_timeline.track(0);
-            main_track_0.push_back_module(time::range{idx, 4}, std::move(left_module));
+            main_track_0.push_back_module(std::move(left_module), time::range{idx, 4});
 
             auto &main_track_1 = main_timeline.track(1);
-            main_track_1.push_back_module(time::range{idx, 4}, std::move(right_module));
+            main_track_1.push_back_module(std::move(right_module), time::range{idx, 4});
         }
     }
 
@@ -461,7 +461,7 @@ using namespace yas::proc;
         sub_timeline_module.connect_output(12, 20);
 
         proc::track main_track_2;
-        main_track_2.push_back_module(time::range{1, 2}, std::move(sub_timeline_module));
+        main_track_2.push_back_module(std::move(sub_timeline_module), time::range{1, 2});
         main_timeline.insert_track(2, main_track_2);
     }
 
