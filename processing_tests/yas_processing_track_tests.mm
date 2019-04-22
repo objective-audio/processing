@@ -67,6 +67,23 @@ using namespace yas::proc;
     }
 }
 
+- (void)test_insert_module {
+    proc::track track;
+
+    proc::module module1{[] { return proc::module::processors_t{}; }};
+    proc::module module2{[] { return proc::module::processors_t{}; }};
+    proc::module module3{[] { return proc::module::processors_t{}; }};
+
+    track.insert_module(module1, 0, {0, 1});
+    track.insert_module(module2, 0, {0, 1});
+    track.insert_module(module3, 1, {0, 1});
+
+    XCTAssertEqual(track.modules().at({0, 1}).size(), 3);
+    XCTAssertEqual(track.modules().at({0, 1}).at(0), module2);
+    XCTAssertEqual(track.modules().at({0, 1}).at(1), module3);
+    XCTAssertEqual(track.modules().at({0, 1}).at(2), module1);
+}
+
 - (void)test_remove_module {
     proc::track track;
 
