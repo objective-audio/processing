@@ -121,7 +121,7 @@ using namespace yas::proc;
     }};
     module1.connect_output(0, 0);
 
-    track1.insert_module({0, 2}, module1);
+    track1.push_back_module(module1, {0, 2});
     timeline.insert_track(1, track1);
 
     // setup track2 > +1する
@@ -163,7 +163,7 @@ using namespace yas::proc;
     module2.connect_input(0, 0);
     module2.connect_output(0, 0);
 
-    track2.insert_module({0, 2}, module2);
+    track2.push_back_module(module2, {0, 2});
     timeline.insert_track(2, track2);
 
     {
@@ -242,7 +242,7 @@ using namespace yas::proc;
         auto const &idx = yas_each_index(fast_each);
         auto module = make_signal_module<int8_t>(idx);
         module.connect_output(to_connector_index(constant::output::value), ch_idx);
-        track.insert_module({idx, 1}, std::move(module));
+        track.push_back_module(std::move(module), {idx, 1});
     }
     timeline.insert_track(0, track);
 
@@ -294,25 +294,25 @@ using namespace yas::proc;
     XCTAssertFalse(timeline.total_range());
 
     proc::track track_0;
-    track_0.insert_module({0, 1}, proc::module{[] { return module::processors_t{}; }});
+    track_0.push_back_module(proc::module{[] { return module::processors_t{}; }}, {0, 1});
     timeline.insert_track(0, track_0);
 
     XCTAssertEqual(timeline.total_range(), (proc::time::range{0, 1}));
 
     proc::track track_1;
-    track_1.insert_module({1, 1}, proc::module{[] { return module::processors_t{}; }});
+    track_1.push_back_module(proc::module{[] { return module::processors_t{}; }}, {1, 1});
     timeline.insert_track(1, track_1);
 
     XCTAssertEqual(timeline.total_range(), (proc::time::range{0, 2}));
 
     proc::track track_2;
-    track_2.insert_module({99, 1}, proc::module{[] { return module::processors_t{}; }});
+    track_2.push_back_module(proc::module{[] { return module::processors_t{}; }}, {99, 1});
     timeline.insert_track(2, track_2);
 
     XCTAssertEqual(timeline.total_range(), (proc::time::range{0, 100}));
 
     proc::track track_3;
-    track_3.insert_module({-10, 1}, proc::module{[] { return module::processors_t{}; }});
+    track_3.push_back_module(proc::module{[] { return module::processors_t{}; }}, {-10, 1});
     timeline.insert_track(3, track_3);
 
     XCTAssertEqual(timeline.total_range(), (proc::time::range{-10, 110}));
@@ -330,7 +330,7 @@ using namespace yas::proc;
     }};
 
     proc::track track;
-    track.insert_module({0, 1}, std::move(module));
+    track.push_back_module(std::move(module), {0, 1});
 
     proc::timeline timeline;
     timeline.insert_track(0, std::move(track));

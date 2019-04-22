@@ -35,14 +35,14 @@ using namespace yas::proc;
     XCTAssertFalse(track);
 }
 
-- (void)test_insert_module {
+- (void)test_push_back_module {
     proc::track track;
 
     proc::module module1{[] { return proc::module::processors_t{}; }};
     proc::module module2{[] { return proc::module::processors_t{}; }};
 
-    track.insert_module({0, 1}, std::move(module1));
-    track.insert_module({1, 1}, std::move(module2));
+    track.push_back_module(std::move(module1), {0, 1});
+    track.push_back_module(std::move(module2), {1, 1});
 
     XCTAssertEqual(track.modules().size(), 2);
 
@@ -67,14 +67,31 @@ using namespace yas::proc;
     }
 }
 
+- (void)test_insert_module {
+    proc::track track;
+
+    proc::module module1{[] { return proc::module::processors_t{}; }};
+    proc::module module2{[] { return proc::module::processors_t{}; }};
+    proc::module module3{[] { return proc::module::processors_t{}; }};
+
+    track.insert_module(module1, 0, {0, 1});
+    track.insert_module(module2, 0, {0, 1});
+    track.insert_module(module3, 1, {0, 1});
+
+    XCTAssertEqual(track.modules().at({0, 1}).size(), 3);
+    XCTAssertEqual(track.modules().at({0, 1}).at(0), module2);
+    XCTAssertEqual(track.modules().at({0, 1}).at(1), module3);
+    XCTAssertEqual(track.modules().at({0, 1}).at(2), module1);
+}
+
 - (void)test_remove_module {
     proc::track track;
 
     proc::module module1{[] { return proc::module::processors_t{}; }};
     proc::module module2{[] { return proc::module::processors_t{}; }};
 
-    track.insert_module({0, 1}, module1);
-    track.insert_module({1, 1}, module2);
+    track.push_back_module(module1, {0, 1});
+    track.push_back_module(module2, {1, 1});
 
     XCTAssertEqual(track.modules().size(), 2);
 
@@ -85,20 +102,20 @@ using namespace yas::proc;
     XCTAssertEqual(track.modules().begin()->second.at(0), module2);
 }
 
-- (void)test_insert_and_erase_modules_same_range {
+- (void)test_push_back_and_erase_modules_same_range {
     proc::track track;
 
     proc::module module1{[] { return proc::module::processors_t{}; }};
     proc::module module2{[] { return proc::module::processors_t{}; }};
 
-    track.insert_module({0, 1}, module1);
+    track.push_back_module(module1, {0, 1});
 
     XCTAssertEqual(track.modules().size(), 1);
     XCTAssertEqual(track.modules().begin()->first, (proc::time::range{0, 1}));
     XCTAssertEqual(track.modules().begin()->second.size(), 1);
     XCTAssertEqual(track.modules().begin()->second.at(0), module1);
 
-    track.insert_module({0, 1}, module2);
+    track.push_back_module(module2, {0, 1});
 
     XCTAssertEqual(track.modules().size(), 1);
     XCTAssertEqual(track.modules().begin()->second.size(), 2);
@@ -123,9 +140,9 @@ using namespace yas::proc;
     proc::module module1b{[] { return proc::module::processors_t{}; }};
     proc::module module2{[] { return proc::module::processors_t{}; }};
 
-    track.insert_module({0, 1}, module1);
-    track.insert_module({0, 1}, module1b);
-    track.insert_module({1, 1}, module2);
+    track.push_back_module(module1, {0, 1});
+    track.push_back_module(module1b, {0, 1});
+    track.push_back_module(module2, {1, 1});
 
     XCTAssertEqual(track.modules().size(), 2);
 
@@ -136,24 +153,43 @@ using namespace yas::proc;
     XCTAssertEqual(track.modules().count({1, 1}), 1);
 }
 
+- (void)test_erase_module_with_range {
+    proc::track track;
+
+    proc::module module1{[] { return proc::module::processors_t{}; }};
+    proc::module module1b{[] { return proc::module::processors_t{}; }};
+
+    track.push_back_module(module1, {0, 1});
+    track.push_back_module(module1b, {0, 1});
+
+    XCTAssertEqual(track.modules().size(), 1);
+    XCTAssertEqual(track.modules().at({0, 1}).size(), 2);
+
+    track.erase_module(module1, {0, 1});
+
+    XCTAssertEqual(track.modules().size(), 1);
+    XCTAssertEqual(track.modules().at({0, 1}).size(), 1);
+    XCTAssertEqual(track.modules().at({0, 1}).at(0), module1b);
+}
+
 - (void)test_total_range {
     proc::track track;
 
     XCTAssertFalse(track.total_range());
 
-    track.insert_module({0, 1}, proc::module{[] { return proc::module::processors_t{}; }});
+    track.push_back_module(proc::module{[] { return proc::module::processors_t{}; }}, {0, 1});
 
     XCTAssertEqual(track.total_range(), (proc::time::range{0, 1}));
 
-    track.insert_module({1, 1}, proc::module{[] { return proc::module::processors_t{}; }});
+    track.push_back_module(proc::module{[] { return proc::module::processors_t{}; }}, {1, 1});
 
     XCTAssertEqual(track.total_range(), (proc::time::range{0, 2}));
 
-    track.insert_module({99, 1}, proc::module{[] { return proc::module::processors_t{}; }});
+    track.push_back_module(proc::module{[] { return proc::module::processors_t{}; }}, {99, 1});
 
     XCTAssertEqual(track.total_range(), (proc::time::range{0, 100}));
 
-    track.insert_module({-10, 1}, proc::module{[] { return proc::module::processors_t{}; }});
+    track.push_back_module(proc::module{[] { return proc::module::processors_t{}; }}, {-10, 1});
 
     XCTAssertEqual(track.total_range(), (proc::time::range{-10, 110}));
 }
@@ -170,7 +206,7 @@ using namespace yas::proc;
     }};
 
     proc::track track;
-    track.insert_module({0, 1}, std::move(module));
+    track.push_back_module(std::move(module), {0, 1});
 
     auto copied_track = track.copy();
 

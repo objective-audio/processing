@@ -20,7 +20,7 @@ struct proc::track::impl : chaining::sender<event_t>::impl {
     impl(modules_map_t &&modules) : _modules_holder(to_modules_holders(std::move(modules))) {
     }
 
-    void insert_module(time::range &&range, module &&module) {
+    void push_back_module(module &&module, time::range &&range) {
         if (this->_modules_holder.has_value(range)) {
             this->_modules_holder.at(range).push_back(std::move(module));
         } else {
@@ -29,29 +29,45 @@ struct proc::track::impl : chaining::sender<event_t>::impl {
         }
     }
 
-    void erase_module(module const &erasing) {
+    void insert_module(module &&module, std::size_t const idx, time::range &&range) {
+        if (this->_modules_holder.has_value(range) && idx <= this->_modules_holder.at(range).size()) {
+            this->_modules_holder.at(range).insert(std::move(module), idx);
+        } else if (idx == 0) {
+            this->_modules_holder.insert_or_replace(std::move(range),
+                                                    chaining::vector::holder<proc::module>{{std::move(module)}});
+        } else {
+            throw std::out_of_range(std::string(__PRETTY_FUNCTION__) + " : out of range. index(" + std::to_string(idx) +
+                                    ")");
+        }
+    }
+
+    bool erase_module(module const &erasing) {
         for (auto &pair : this->_modules_holder.raw()) {
-            auto &modules_holder = pair.second;
-            bool erased = false;
+            if (this->erase_module(erasing, pair.first)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    bool erase_module(module const &erasing, time::range const &range) {
+        if (this->_modules_holder.has_value(range)) {
+            auto &modules = this->_modules_holder.at(range);
 
             std::size_t idx = 0;
-            for (auto const &module : modules_holder.raw()) {
+            for (auto const &module : modules.raw()) {
                 if (module == erasing) {
-                    if (modules_holder.size() == 1) {
-                        this->_modules_holder.erase_for_key(pair.first);
+                    if (modules.size() == 1) {
+                        this->_modules_holder.erase_for_key(range);
                     } else {
-                        modules_holder.erase_at(idx);
+                        modules.erase_at(idx);
                     }
-                    erased = true;
-                    break;
+                    return true;
                 }
                 ++idx;
             }
-
-            if (erased) {
-                break;
-            }
         }
+        return false;
     }
 
     void erase_modules_for_range(time::range const &range) {
@@ -134,12 +150,20 @@ std::optional<proc::time::range> proc::track::total_range() const {
     return impl_ptr<impl>()->total_range();
 }
 
-void proc::track::insert_module(proc::time::range time_range, module module) {
-    this->impl_ptr<impl>()->insert_module(std::move(time_range), std::move(module));
+void proc::track::push_back_module(module module, proc::time::range time_range) {
+    this->impl_ptr<impl>()->push_back_module(std::move(module), std::move(time_range));
 }
 
-void proc::track::erase_module(module const &module) {
-    this->impl_ptr<impl>()->erase_module(module);
+void proc::track::insert_module(module module, std::size_t const idx, time::range time_range) {
+    this->impl_ptr<impl>()->insert_module(std::move(module), idx, std::move(time_range));
+}
+
+bool proc::track::erase_module(module const &module) {
+    return this->impl_ptr<impl>()->erase_module(module);
+}
+
+bool proc::track::erase_module(module const &module, time::range const &range) {
+    return this->impl_ptr<impl>()->erase_module(module, range);
 }
 
 void proc::track::erase_modules_for_range(time::range const &range) {
