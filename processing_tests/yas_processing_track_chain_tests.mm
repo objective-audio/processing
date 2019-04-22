@@ -25,8 +25,8 @@ using namespace yas::proc;
 
     proc::module module1{[] { return module::processors_t{}; }};
     proc::module module2{[] { return module::processors_t{}; }};
-    track.insert_module({0, 1}, module1);
-    track.insert_module({1, 1}, module2);
+    track.push_back_module({0, 1}, module1);
+    track.push_back_module({1, 1}, module2);
 
     std::vector<proc::track::event_t> events;
 
@@ -60,7 +60,7 @@ using namespace yas::proc;
     proc::module module1{[] { return module::processors_t{}; }};
     proc::module module2{[] { return module::processors_t{}; }};
 
-    track.insert_module({0, 1}, module1);
+    track.push_back_module({0, 1}, module1);
 
     XCTAssertEqual(events.size(), 1);
     XCTAssertEqual(events.at(0).type(), proc::track::event_type_t::inserted);
@@ -70,7 +70,7 @@ using namespace yas::proc;
     XCTAssertEqual(inserted.at(0).begin()->second.size(), 1);
     XCTAssertEqual(inserted.at(0).begin()->second.at(0), module1);
 
-    track.insert_module({1, 1}, module2);
+    track.push_back_module({1, 1}, module2);
 
     XCTAssertEqual(events.size(), 2);
     XCTAssertEqual(events.at(1).type(), proc::track::event_type_t::inserted);
@@ -86,8 +86,8 @@ using namespace yas::proc;
 
     proc::module module1{[] { return module::processors_t{}; }};
     proc::module module2{[] { return module::processors_t{}; }};
-    track.insert_module({0, 1}, module1);
-    track.insert_module({1, 1}, module2);
+    track.push_back_module({0, 1}, module1);
+    track.push_back_module({1, 1}, module2);
 
     std::vector<proc::track::event_t> events;
     std::vector<std::pair<proc::time::range, chaining::vector::holder<proc::module>>> relayed;
@@ -120,7 +120,7 @@ using namespace yas::proc;
     XCTAssertEqual(erased.at(0).begin()->second.size(), 1);
 }
 
-- (void)test_insert_and_erase_same_range {
+- (void)test_push_back_and_erase_same_range {
     proc::track track;
 
     std::vector<proc::track::event_t> events;
@@ -130,12 +130,12 @@ using namespace yas::proc;
     proc::module module1{[] { return module::processors_t{}; }};
     proc::module module2{[] { return module::processors_t{}; }};
 
-    track.insert_module({0, 1}, module1);
+    track.push_back_module({0, 1}, module1);
 
     XCTAssertEqual(events.size(), 1);
     XCTAssertEqual(events.at(0).type(), proc::track::event_type_t::inserted);
 
-    track.insert_module({0, 1}, module2);
+    track.push_back_module({0, 1}, module2);
 
     XCTAssertEqual(events.size(), 2);
     XCTAssertEqual(events.at(1).type(), proc::track::event_type_t::relayed);
