@@ -29,6 +29,18 @@ struct proc::track::impl : chaining::sender<event_t>::impl {
         }
     }
 
+    void insert_module(module &&module, std::size_t const idx, time::range &&range) {
+        if (this->_modules_holder.has_value(range) && idx <= this->_modules_holder.at(range).size()) {
+            this->_modules_holder.at(range).insert(std::move(module), idx);
+        } else if (idx == 0) {
+            this->_modules_holder.insert_or_replace(std::move(range),
+                                                    chaining::vector::holder<proc::module>{{std::move(module)}});
+        } else {
+            throw std::out_of_range(std::string(__PRETTY_FUNCTION__) + " : out of range. index(" + std::to_string(idx) +
+                                    ")");
+        }
+    }
+
     bool erase_module(module const &erasing) {
         for (auto &pair : this->_modules_holder.raw()) {
             if (this->erase_module(erasing, pair.first)) {
@@ -140,6 +152,10 @@ std::optional<proc::time::range> proc::track::total_range() const {
 
 void proc::track::push_back_module(proc::time::range time_range, module module) {
     this->impl_ptr<impl>()->push_back_module(std::move(time_range), std::move(module));
+}
+
+void proc::track::insert_module(module module, std::size_t const idx, time::range time_range) {
+    this->impl_ptr<impl>()->insert_module(std::move(module), idx, std::move(time_range));
 }
 
 bool proc::track::erase_module(module const &module) {
