@@ -174,7 +174,7 @@ typedef NS_ENUM(NSUInteger, SampleBits) {
             timeline.insert_track(trk_idx++, second_track);
             auto second_module = make_signal_module<float>(generator::kind::second, 0);
             second_module.connect_output(to_connector_index(generator::output::value), 0);
-            second_track.push_back_module(process_range, std::move(second_module));
+            second_track.push_back_module(std::move(second_module), process_range);
         }
 
         if (auto floor_track = proc::track{}) {
@@ -182,7 +182,7 @@ typedef NS_ENUM(NSUInteger, SampleBits) {
             auto floor_module = make_signal_module<float>(math1::kind::floor);
             floor_module.connect_input(to_connector_index(math1::input::parameter), 0);
             floor_module.connect_output(to_connector_index(math1::output::result), 1);
-            floor_track.push_back_module(process_range, std::move(floor_module));
+            floor_track.push_back_module(std::move(floor_module), process_range);
         }
 
         if (auto minus_track = proc::track{}) {
@@ -191,14 +191,14 @@ typedef NS_ENUM(NSUInteger, SampleBits) {
             minus_module.connect_input(to_connector_index(math2::input::left), 0);
             minus_module.connect_input(to_connector_index(math2::input::right), 1);
             minus_module.connect_output(to_connector_index(math2::output::result), 0);
-            minus_track.push_back_module(process_range, std::move(minus_module));
+            minus_track.push_back_module(std::move(minus_module), process_range);
         }
 
         if (auto pi_track = proc::track{}) {
             timeline.insert_track(trk_idx++, pi_track);
             auto pi_module = make_signal_module<float>(2.0f * M_PI * freqValue);
             pi_module.connect_output(to_connector_index(constant::output::value), 1);
-            pi_track.push_back_module(process_range, std::move(pi_module));
+            pi_track.push_back_module(std::move(pi_module), process_range);
         }
 
         if (auto multiply_track = proc::track{}) {
@@ -207,7 +207,7 @@ typedef NS_ENUM(NSUInteger, SampleBits) {
             multiply_module.connect_input(to_connector_index(math2::input::left), 0);
             multiply_module.connect_input(to_connector_index(math2::input::right), 1);
             multiply_module.connect_output(to_connector_index(math2::output::result), 0);
-            multiply_track.push_back_module(process_range, std::move(multiply_module));
+            multiply_track.push_back_module(std::move(multiply_module), process_range);
         }
 
         if (auto sine_track = proc::track{}) {
@@ -215,7 +215,7 @@ typedef NS_ENUM(NSUInteger, SampleBits) {
             auto sine_module = make_signal_module<float>(math1::kind::sin);
             sine_module.connect_input(to_connector_index(math1::input::parameter), 0);
             sine_module.connect_output(to_connector_index(math1::output::result), 0);
-            sine_track.push_back_module(process_range, std::move(sine_module));
+            sine_track.push_back_module(std::move(sine_module), process_range);
         }
 
         if (auto env_track = proc::track{}) {
@@ -223,7 +223,7 @@ typedef NS_ENUM(NSUInteger, SampleBits) {
             envelope::anchors_t<float> anchors{{0, startGainValue}, {process_range.length, endGainValue}};
             auto env_module = envelope::make_signal_module(std::move(anchors), 0);
             connect(env_module, envelope::output::value, 1);
-            env_track.push_back_module(process_range, std::move(env_module));
+            env_track.push_back_module(std::move(env_module), process_range);
         }
 
         if (auto gain_track = proc::track{}) {
@@ -232,14 +232,14 @@ typedef NS_ENUM(NSUInteger, SampleBits) {
             gain_module.connect_input(to_connector_index(math2::input::left), 0);
             gain_module.connect_input(to_connector_index(math2::input::right), 1);
             gain_module.connect_output(to_connector_index(math2::output::result), 0);
-            gain_track.push_back_module(process_range, std::move(gain_module));
+            gain_track.push_back_module(std::move(gain_module), process_range);
         }
 
         if (auto level_track = proc::track{}) {
             timeline.insert_track(trk_idx++, level_track);
             auto level_module = make_signal_module<float>(totalGainValue);
             level_module.connect_output(to_connector_index(constant::output::value), 1);
-            level_track.push_back_module(process_range, std::move(level_module));
+            level_track.push_back_module(std::move(level_module), process_range);
         }
 
         if (auto gain_track = proc::track{}) {
@@ -248,7 +248,7 @@ typedef NS_ENUM(NSUInteger, SampleBits) {
             gain_module.connect_input(to_connector_index(math2::input::left), 0);
             gain_module.connect_input(to_connector_index(math2::input::right), 1);
             gain_module.connect_output(to_connector_index(math2::output::result), 0);
-            gain_track.push_back_module(process_range, std::move(gain_module));
+            gain_track.push_back_module(std::move(gain_module), process_range);
         }
 
         length_t const slice_length = 1024;
