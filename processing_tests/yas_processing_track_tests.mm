@@ -136,6 +136,25 @@ using namespace yas::proc;
     XCTAssertEqual(track.modules().count({1, 1}), 1);
 }
 
+- (void)test_erase_module_with_range {
+    proc::track track;
+
+    proc::module module1{[] { return proc::module::processors_t{}; }};
+    proc::module module1b{[] { return proc::module::processors_t{}; }};
+
+    track.insert_module({0, 1}, module1);
+    track.insert_module({0, 1}, module1b);
+
+    XCTAssertEqual(track.modules().size(), 1);
+    XCTAssertEqual(track.modules().at({0, 1}).size(), 2);
+
+    track.erase_module(module1, {0, 1});
+
+    XCTAssertEqual(track.modules().size(), 1);
+    XCTAssertEqual(track.modules().at({0, 1}).size(), 1);
+    XCTAssertEqual(track.modules().at({0, 1}).at(0), module1b);
+}
+
 - (void)test_total_range {
     proc::track track;
 
