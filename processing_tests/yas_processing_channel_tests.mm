@@ -462,4 +462,35 @@ using namespace yas::proc;
     }
 }
 
+- (void)test_filtered_events_by_event {
+    proc::channel channel;
+
+    channel.insert_event(make_frame_time(0), make_number_event(int16_t(100)));
+    channel.insert_event(make_frame_time(1), make_number_event(int32_t(101)));
+    channel.insert_event(make_range_time(0, 1), make_signal_event<int16_t>(1));
+    channel.insert_event(make_range_time(1, 1), make_signal_event<int8_t>(1));
+
+    auto number_events = channel.filtered_events<number_event>();
+
+    XCTAssertEqual(number_events.size(), 2);
+
+    auto number_iterator = number_events.begin();
+    XCTAssertEqual((*number_iterator).first, 0);
+    XCTAssertTrue((*number_iterator).second.sample_type() == typeid(int16_t));
+    ++number_iterator;
+    XCTAssertEqual((*number_iterator).first, 1);
+    XCTAssertTrue((*number_iterator).second.sample_type() == typeid(int32_t));
+
+    auto signal_events = channel.filtered_events<signal_event>();
+
+    XCTAssertEqual(signal_events.size(), 2);
+
+    auto signal_iterator = signal_events.begin();
+    XCTAssertEqual((*signal_iterator).first, time::range(0, 1));
+    XCTAssertTrue((*signal_iterator).second.sample_type() == typeid(int16_t));
+    ++signal_iterator;
+    XCTAssertEqual((*signal_iterator).first, time::range(1, 1));
+    XCTAssertTrue((*signal_iterator).second.sample_type() == typeid(int8_t));
+}
+
 @end
