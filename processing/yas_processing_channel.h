@@ -24,9 +24,13 @@ class channel : public base {
     events_map_t const &events() const;
     events_map_t &events();
 
-    template <typename T, typename Event>
+    template <typename Event>
     std::multimap<typename Event::time_type::type, Event> filtered_events() const;
-    template <typename T, typename Event, typename P>
+    template <typename Event, typename P>
+    std::multimap<typename Event::time_type::type, Event> filtered_events(P predicate) const;
+    template <typename SampleType, typename Event>
+    std::multimap<typename Event::time_type::type, Event> filtered_events() const;
+    template <typename SampleType, typename Event, typename P>
     std::multimap<typename Event::time_type::type, Event> filtered_events(P predicate) const;
     events_map_t copied_events(time::range const &, frame_index_t const offset) const;
 
@@ -37,9 +41,9 @@ class channel : public base {
 
     template <typename P>
     void erase_event_if(P predicate);
-    template <typename T, typename Event>
+    template <typename SampleType, typename Event>
     void erase_event();
-    template <typename T, typename Event, typename P>
+    template <typename SampleType, typename Event, typename P>
     void erase_event(P predicate);
     void erase_events(time::range const &);
 };
