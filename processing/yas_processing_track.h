@@ -48,6 +48,7 @@ class track : public chaining::sender<chaining::event> {
     chaining::chain_sync_t<event_t> chain();
 };
 
+std::optional<time::range> total_range(std::map<track_index_t, track> const &);
 track::modules_map_t copy_modules(track::modules_map_t const &);
 track::modules_map_t copy_to_modules(track::modules_holder_map_t const &);
 track::modules_holder_map_t to_modules_holders(track::modules_map_t &&);
