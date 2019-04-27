@@ -182,6 +182,22 @@ chaining::chain_sync_t<proc::track::event_t> proc::track::chain() {
     return this->impl_ptr<impl>()->chain_sync();
 }
 
+std::optional<proc::time::range> proc::total_range(std::map<track_index_t, track> const &tracks) {
+    std::optional<proc::time::range> result{std::nullopt};
+
+    for (auto &track_pair : tracks) {
+        if (auto const &track_range = track_pair.second.total_range()) {
+            if (result) {
+                result = result->merged(*track_range);
+            } else {
+                result = track_range;
+            }
+        }
+    }
+
+    return result;
+}
+
 proc::track::modules_map_t proc::copy_modules(track::modules_map_t const &src_modules) {
     track::modules_map_t result;
     for (auto const &pair : src_modules) {

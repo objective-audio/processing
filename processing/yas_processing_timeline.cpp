@@ -27,19 +27,7 @@ struct proc::timeline::impl : chaining::sender<event_t>::impl {
     }
 
     std::optional<proc::time::range> total_range() {
-        std::optional<proc::time::range> result{std::nullopt};
-
-        for (auto &track_pair : this->_tracks_holder.raw()) {
-            if (auto const &track_range = track_pair.second.total_range()) {
-                if (result) {
-                    result = result->merged(*track_range);
-                } else {
-                    result = track_range;
-                }
-            }
-        }
-
-        return result;
+        return proc::total_range(this->_tracks_holder.raw());
     }
 
     timeline copy() {
