@@ -70,6 +70,17 @@ struct proc::track::impl : chaining::sender<event_t>::impl {
         return false;
     }
 
+    bool erase_module_at(std::size_t const idx, time::range const &range) {
+        if (this->_modules_holder.has_value(range)) {
+            auto &modules = this->_modules_holder.at(range);
+            if (idx < modules.size()) {
+                this->_modules_holder.at(range).erase_at(idx);
+                return true;
+            }
+        }
+        return false;
+    }
+
     void erase_modules_for_range(time::range const &range) {
         this->_modules_holder.erase_for_key(range);
     }
@@ -164,6 +175,10 @@ bool proc::track::erase_module(module const &module) {
 
 bool proc::track::erase_module(module const &module, time::range const &range) {
     return this->impl_ptr<impl>()->erase_module(module, range);
+}
+
+bool proc::track::erase_module_at(std::size_t const idx, time::range const &range) {
+    return this->impl_ptr<impl>()->erase_module_at(idx, range);
 }
 
 void proc::track::erase_modules_for_range(time::range const &range) {
