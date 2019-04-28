@@ -23,7 +23,6 @@ class track : public chaining::sender<chaining::event> {
     using fetched_event_t = chaining::map::fetched_event<time::range, chaining::vector::holder<module>>;
     using inserted_event_t = chaining::map::inserted_event<time::range, chaining::vector::holder<module>>;
     using erased_event_t = chaining::map::erased_event<time::range, chaining::vector::holder<module>>;
-    using replaced_event_t = chaining::map::replaced_event<time::range, chaining::vector::holder<module>>;
     using relayed_event_t = chaining::map::relayed_event<time::range, chaining::vector::holder<module>>;
 
     track();
