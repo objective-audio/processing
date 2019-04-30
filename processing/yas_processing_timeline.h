@@ -21,7 +21,9 @@ class timeline : public chaining::sender<chaining::event> {
 
    public:
     using track_map_t = std::map<track_index_t, proc::track>;
-    using offline_process_f = std::function<void(time::range const &, stream const &, bool &stop)>;
+    using process_track_f =
+        std::function<void(time::range const &, stream const &, std::optional<track_index_t> const &, bool &stop)>;
+    using process_f = std::function<void(time::range const &, stream const &, bool &stop)>;
     using event_type_t = chaining::event_type;
     using event_t = chaining::event;
     using fetched_event_t = chaining::map::fetched_event<track_index_t, proc::track>;
@@ -50,7 +52,8 @@ class timeline : public chaining::sender<chaining::event> {
     /// 1回だけ処理する
     void process(time::range const &, stream &);
     /// スライス分の処理を繰り返す
-    void process(time::range const &, sync_source const &, offline_process_f);
+    void process(time::range const &, sync_source const &, process_f const);
+    void process(time::range const &, sync_source const &, process_track_f const);
 
     chaining::chain_sync_t<event_t> chain();
 };
