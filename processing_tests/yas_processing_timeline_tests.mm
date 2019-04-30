@@ -230,7 +230,7 @@ using namespace yas::proc;
     }
 }
 
-- (void)test_process_offline {
+- (void)test_process_with_handler {
     timeline timeline;
 
     channel_index_t const ch_idx = 0;
@@ -270,7 +270,85 @@ using namespace yas::proc;
     XCTAssertEqual(called[2].second[0], 4);
 }
 
-- (void)test_stop_process_offline {
+- (void)test_process_with_track_handler {
+    timeline timeline;
+
+    channel_index_t const ch_idx = 0;
+    length_t const process_length = 5;
+
+    auto trk_each = make_fast_each(2);
+    while (yas_each_next(trk_each)) {
+        auto const &trk_idx = yas_each_index(trk_each);
+        proc::track track;
+        auto frame_each = make_fast_each<frame_index_t>(process_length);
+        while (yas_each_next(frame_each)) {
+            auto const &frame_idx = yas_each_index(frame_each);
+            int8_t const value = frame_idx + 10 * trk_idx;
+            auto module = make_signal_module<int8_t>(value);
+            module.connect_output(to_connector_index(constant::output::value), ch_idx);
+            track.push_back_module(std::move(module), {frame_idx, 1});
+        }
+        timeline.insert_track(trk_idx, track);
+    }
+
+    std::vector<std::tuple<time::range, std::optional<track_index_t>, std::vector<int8_t>>> called;
+
+    timeline.process(
+        time::range{0, process_length}, sync_source{1, 2},
+        [&ch_idx, &called](time::range const &time_range, stream const &stream,
+                           std::optional<track_index_t> const &trk_idx, bool &) {
+            auto const &channel = stream.channel(ch_idx);
+            auto const &pair = *channel.events().cbegin();
+            auto const signal = cast<signal_event>(pair.second);
+            called.push_back(std::make_tuple(pair.first.get<time::range>(), trk_idx, signal.vector<int8_t>()));
+        });
+
+    XCTAssertEqual(called.size(), 9);
+
+    XCTAssertEqual(std::get<0>(called[0]), (time::range{0, 2}));
+    XCTAssertEqual(std::get<1>(called[0]), 0);
+    XCTAssertEqual(std::get<2>(called[0])[0], 0);
+    XCTAssertEqual(std::get<2>(called[0])[1], 1);
+
+    XCTAssertEqual(std::get<0>(called[1]), (time::range{0, 2}));
+    XCTAssertEqual(std::get<1>(called[1]), 1);
+    XCTAssertEqual(std::get<2>(called[1])[0], 10);
+    XCTAssertEqual(std::get<2>(called[1])[1], 11);
+
+    XCTAssertEqual(std::get<0>(called[2]), (time::range{0, 2}));
+    XCTAssertEqual(std::get<1>(called[2]), std::nullopt);
+    XCTAssertEqual(std::get<2>(called[2])[0], 10);
+    XCTAssertEqual(std::get<2>(called[2])[1], 11);
+
+    XCTAssertEqual(std::get<0>(called[3]), (time::range{2, 2}));
+    XCTAssertEqual(std::get<1>(called[3]), 0);
+    XCTAssertEqual(std::get<2>(called[3])[0], 2);
+    XCTAssertEqual(std::get<2>(called[3])[1], 3);
+
+    XCTAssertEqual(std::get<0>(called[4]), (time::range{2, 2}));
+    XCTAssertEqual(std::get<1>(called[4]), 1);
+    XCTAssertEqual(std::get<2>(called[4])[0], 12);
+    XCTAssertEqual(std::get<2>(called[4])[1], 13);
+
+    XCTAssertEqual(std::get<0>(called[5]), (time::range{2, 2}));
+    XCTAssertEqual(std::get<1>(called[5]), std::nullopt);
+    XCTAssertEqual(std::get<2>(called[5])[0], 12);
+    XCTAssertEqual(std::get<2>(called[5])[1], 13);
+
+    XCTAssertEqual(std::get<0>(called[6]), (time::range{4, 1}));
+    XCTAssertEqual(std::get<1>(called[6]), 0);
+    XCTAssertEqual(std::get<2>(called[6])[0], 4);
+
+    XCTAssertEqual(std::get<0>(called[7]), (time::range{4, 1}));
+    XCTAssertEqual(std::get<1>(called[7]), 1);
+    XCTAssertEqual(std::get<2>(called[7])[0], 14);
+
+    XCTAssertEqual(std::get<0>(called[8]), (time::range{4, 1}));
+    XCTAssertEqual(std::get<1>(called[8]), std::nullopt);
+    XCTAssertEqual(std::get<2>(called[8])[0], 14);
+}
+
+- (void)test_stop_process_with_handler {
     timeline timeline;
 
     length_t const process_length = 10;
