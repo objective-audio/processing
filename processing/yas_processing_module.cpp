@@ -28,7 +28,14 @@ static void disconnect(connector_map_t &connectors, connector_index_t const idx)
 #pragma mark - module::impl
 
 struct proc::module::impl : base::impl {
-    impl(make_processors_t &&handler) : _make_handler(std::move(handler)), _processors(_make_handler()) {
+    impl(make_processors_t &&handler, connector_map_t &&input_connectors, connector_map_t &&output_connectors)
+        : _make_handler(std::move(handler)),
+          _processors(_make_handler()),
+          _input_connectors(std::move(input_connectors)),
+          _output_connectors(std::move(output_connectors)) {
+    }
+
+    impl(make_processors_t &&handler) : impl(std::move(handler), connector_map_t{}, connector_map_t{}) {
     }
 
     connector_map_t &input_connectors() {
@@ -55,7 +62,7 @@ struct proc::module::impl : base::impl {
         if (!this->_make_handler) {
             throw std::runtime_error("make_handler is null.");
         }
-        return module{this->_make_handler};
+        return module{this->_make_handler, this->_input_connectors, this->_output_connectors};
     }
 
    private:
@@ -68,6 +75,10 @@ struct proc::module::impl : base::impl {
 #pragma mark - module
 
 proc::module::module(make_processors_t handler) : base(std::make_shared<impl>(std::move(handler))) {
+}
+
+proc::module::module(make_processors_t handler, connector_map_t input_connectors, connector_map_t output_connectors)
+    : base(std::make_shared<impl>(std::move(handler), std::move(input_connectors), std::move(output_connectors))) {
 }
 
 proc::module::module(std::nullptr_t) : base(nullptr) {
