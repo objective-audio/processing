@@ -492,4 +492,18 @@ using namespace yas::proc;
     }
 }
 
+- (void)test_copy {
+    auto module = make_number_module<double>(math1::kind::abs);
+    module.connect_input(to_connector_index(math1::input::parameter), 1);
+    module.connect_output(to_connector_index(math1::output::result), 2);
+
+    auto copied = module.copy();
+
+    XCTAssertEqual(copied.processors().size(), 3);
+    XCTAssertEqual(copied.input_connectors().size(), 1);
+    XCTAssertEqual(copied.input_connectors().at(to_connector_index(math1::input::parameter)).channel_index, 1);
+    XCTAssertEqual(copied.output_connectors().size(), 1);
+    XCTAssertEqual(copied.output_connectors().at(to_connector_index(math1::output::result)).channel_index, 2);
+}
+
 @end

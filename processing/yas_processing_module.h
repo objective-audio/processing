@@ -21,6 +21,7 @@ class module : public base {
     using make_processors_t = std::function<std::vector<processor_f>()>;
 
     explicit module(make_processors_t);
+    module(make_processors_t, connector_map_t input_connectors, connector_map_t output_connectors);
     module(std::nullptr_t);
 
     void process(time::range const &, stream &);
