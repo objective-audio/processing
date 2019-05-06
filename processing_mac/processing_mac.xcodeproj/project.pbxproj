@@ -268,9 +268,9 @@
 			isa = PBXGroup;
 			children = (
 				B62381B321E2DD4D00234CC2 /* yas_processing_number_process_context_private.h */,
-				B62381B421E2DD4D00234CC2 /* yas_processing_signal_process_context.h */,
 				B62381B521E2DD4D00234CC2 /* yas_processing_number_process_context.h */,
 				B62381B621E2DD4D00234CC2 /* yas_processing_signal_process_context_private.h */,
+				B62381B421E2DD4D00234CC2 /* yas_processing_signal_process_context.h */,
 			);
 			path = context;
 			sourceTree = "<group>";
@@ -278,18 +278,18 @@
 		B62381C821E2DD4D00234CC2 /* processor */ = {
 			isa = PBXGroup;
 			children = (
-				B62381C921E2DD4D00234CC2 /* yas_processing_send_number_processor.cpp */,
-				B62381CA21E2DD4D00234CC2 /* yas_processing_send_number_processor.h */,
-				B62381CB21E2DD4D00234CC2 /* yas_processing_receive_signal_processor.h */,
 				B62381CC21E2DD4D00234CC2 /* yas_processing_receive_number_processor.cpp */,
+				B62381D021E2DD4D00234CC2 /* yas_processing_receive_number_processor.h */,
+				B62381D321E2DD4D00234CC2 /* yas_processing_receive_signal_processor.cpp */,
+				B62381CB21E2DD4D00234CC2 /* yas_processing_receive_signal_processor.h */,
+				B62381D221E2DD4D00234CC2 /* yas_processing_remove_number_processor.cpp */,
 				B62381CD21E2DD4D00234CC2 /* yas_processing_remove_number_processor.h */,
 				B62381CE21E2DD4D00234CC2 /* yas_processing_remove_signal_processor.cpp */,
 				B62381CF21E2DD4D00234CC2 /* yas_processing_remove_signal_processor.h */,
-				B62381D021E2DD4D00234CC2 /* yas_processing_receive_number_processor.h */,
-				B62381D121E2DD4D00234CC2 /* yas_processing_send_signal_processor.h */,
-				B62381D221E2DD4D00234CC2 /* yas_processing_remove_number_processor.cpp */,
-				B62381D321E2DD4D00234CC2 /* yas_processing_receive_signal_processor.cpp */,
+				B62381C921E2DD4D00234CC2 /* yas_processing_send_number_processor.cpp */,
+				B62381CA21E2DD4D00234CC2 /* yas_processing_send_number_processor.h */,
 				B62381D421E2DD4D00234CC2 /* yas_processing_send_signal_processor.cpp */,
+				B62381D121E2DD4D00234CC2 /* yas_processing_send_signal_processor.h */,
 			);
 			path = processor;
 			sourceTree = "<group>";
@@ -298,11 +298,11 @@
 			isa = PBXGroup;
 			children = (
 				B62381E321E2DD4D00234CC2 /* yas_processing_number_event_private.h */,
-				B62381E421E2DD4D00234CC2 /* yas_processing_number_event.h */,
-				B62381E521E2DD4D00234CC2 /* yas_processing_signal_event.h */,
-				B62381E621E2DD4D00234CC2 /* yas_processing_signal_event.cpp */,
 				B62381E721E2DD4D00234CC2 /* yas_processing_number_event.cpp */,
+				B62381E421E2DD4D00234CC2 /* yas_processing_number_event.h */,
 				B62381E821E2DD4D00234CC2 /* yas_processing_signal_event_private.h */,
+				B62381E621E2DD4D00234CC2 /* yas_processing_signal_event.cpp */,
+				B62381E521E2DD4D00234CC2 /* yas_processing_signal_event.h */,
 			);
 			path = event;
 			sourceTree = "<group>";
