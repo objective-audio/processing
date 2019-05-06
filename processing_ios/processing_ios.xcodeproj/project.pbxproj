@@ -210,32 +210,32 @@
 		B65AF74F21E38B3D00C65DB5 /* processing */ = {
 			isa = PBXGroup;
 			children = (
-				B65AF75021E38B3D00C65DB5 /* yas_processing_track.h */,
-				B65AF75121E38B3D00C65DB5 /* yas_processing_channel.h */,
-				B65AF75221E38B3D00C65DB5 /* yas_processing_umbrella.h */,
-				B65AF75321E38B3D00C65DB5 /* yas_processing_channel_private.h */,
-				B65AF75421E38B3D00C65DB5 /* yas_processing_sync_source.cpp */,
-				B65AF75521E38B3D00C65DB5 /* yas_processing_channel.cpp */,
-				B65AF75621E38B3D00C65DB5 /* yas_processing_processor.h */,
-				B65AF75721E38B3D00C65DB5 /* yas_processing_time.h */,
-				B65AF75821E38B3D00C65DB5 /* module */,
-				B65AF77321E38B3D00C65DB5 /* yas_processing_module.cpp */,
-				B65AF77421E38B3D00C65DB5 /* processor */,
-				B65AF78121E38B3D00C65DB5 /* yas_processing_stream.h */,
-				B65AF78221E38B3D00C65DB5 /* yas_processing_track.cpp */,
-				B65AF78321E38B3D00C65DB5 /* yas_processing_types.h */,
-				B65AF78421E38B3D00C65DB5 /* yas_processing_stream.cpp */,
-				B65AF78521E38B3D00C65DB5 /* yas_processing_timeline.cpp */,
-				B65AF78621E38B3D00C65DB5 /* yas_processing_event.h */,
-				B65AF78721E38B3D00C65DB5 /* yas_processing_module.h */,
-				B65AF78821E38B3D00C65DB5 /* yas_processing_connector.h */,
-				B65AF78921E38B3D00C65DB5 /* yas_processing_sync_source.h */,
-				B65AF78A21E38B3D00C65DB5 /* yas_processing_event.cpp */,
-				B65AF78B21E38B3D00C65DB5 /* yas_processing_connector_private.h */,
-				B65AF78C21E38B3D00C65DB5 /* yas_processing_time.cpp */,
 				B65AF78D21E38B3D00C65DB5 /* event */,
+				B65AF75821E38B3D00C65DB5 /* module */,
+				B65AF77421E38B3D00C65DB5 /* processor */,
+				B65AF75321E38B3D00C65DB5 /* yas_processing_channel_private.h */,
+				B65AF75521E38B3D00C65DB5 /* yas_processing_channel.cpp */,
+				B65AF75121E38B3D00C65DB5 /* yas_processing_channel.h */,
+				B65AF78B21E38B3D00C65DB5 /* yas_processing_connector_private.h */,
+				B65AF78821E38B3D00C65DB5 /* yas_processing_connector.h */,
 				B65AF79421E38B3D00C65DB5 /* yas_processing_constants.h */,
+				B65AF78A21E38B3D00C65DB5 /* yas_processing_event.cpp */,
+				B65AF78621E38B3D00C65DB5 /* yas_processing_event.h */,
+				B65AF77321E38B3D00C65DB5 /* yas_processing_module.cpp */,
+				B65AF78721E38B3D00C65DB5 /* yas_processing_module.h */,
+				B65AF75621E38B3D00C65DB5 /* yas_processing_processor.h */,
+				B65AF78421E38B3D00C65DB5 /* yas_processing_stream.cpp */,
+				B65AF78121E38B3D00C65DB5 /* yas_processing_stream.h */,
+				B65AF75421E38B3D00C65DB5 /* yas_processing_sync_source.cpp */,
+				B65AF78921E38B3D00C65DB5 /* yas_processing_sync_source.h */,
+				B65AF78C21E38B3D00C65DB5 /* yas_processing_time.cpp */,
+				B65AF75721E38B3D00C65DB5 /* yas_processing_time.h */,
+				B65AF78521E38B3D00C65DB5 /* yas_processing_timeline.cpp */,
 				B65AF79521E38B3D00C65DB5 /* yas_processing_timeline.h */,
+				B65AF78221E38B3D00C65DB5 /* yas_processing_track.cpp */,
+				B65AF75021E38B3D00C65DB5 /* yas_processing_track.h */,
+				B65AF78321E38B3D00C65DB5 /* yas_processing_types.h */,
+				B65AF75221E38B3D00C65DB5 /* yas_processing_umbrella.h */,
 			);
 			name = processing;
 			path = ../../processing;
@@ -244,28 +244,28 @@
 		B65AF75821E38B3D00C65DB5 /* module */ = {
 			isa = PBXGroup;
 			children = (
-				B65AF75921E38B3D00C65DB5 /* yas_processing_generator_modules.h */,
-				B65AF75A21E38B3D00C65DB5 /* yas_processing_compare_modules.cpp */,
-				B65AF75B21E38B3D00C65DB5 /* yas_processing_sub_timeline_module.h */,
-				B65AF75C21E38B3D00C65DB5 /* yas_processing_math2_modules.cpp */,
-				B65AF75D21E38B3D00C65DB5 /* yas_processing_cast_module_private.h */,
 				B65AF75E21E38B3D00C65DB5 /* context */,
-				B65AF76321E38B3D00C65DB5 /* yas_processing_compare_modules.h */,
-				B65AF76421E38B3D00C65DB5 /* yas_processing_routing_modules.h */,
-				B65AF76521E38B3D00C65DB5 /* yas_processing_generator_modules.cpp */,
-				B65AF76621E38B3D00C65DB5 /* yas_processing_math2_modules.h */,
-				B65AF76721E38B3D00C65DB5 /* yas_processing_math1_modules.cpp */,
-				B65AF76821E38B3D00C65DB5 /* yas_processing_number_to_signal_module.cpp */,
-				B65AF76921E38B3D00C65DB5 /* yas_processing_math1_modules.h */,
-				B65AF76A21E38B3D00C65DB5 /* yas_processing_number_to_signal_module.h */,
-				B65AF76B21E38B3D00C65DB5 /* yas_processing_envelope_module.cpp */,
-				B65AF76C21E38B3D00C65DB5 /* yas_processing_routing_modules.cpp */,
-				B65AF76D21E38B3D00C65DB5 /* yas_processing_envelope_module.h */,
-				B65AF76E21E38B3D00C65DB5 /* yas_processing_cast_module.h */,
-				B65AF76F21E38B3D00C65DB5 /* yas_processing_constant_module.cpp */,
+				B65AF75D21E38B3D00C65DB5 /* yas_processing_cast_module_private.h */,
 				B65AF77021E38B3D00C65DB5 /* yas_processing_cast_module.cpp */,
-				B65AF77121E38B3D00C65DB5 /* yas_processing_sub_timeline_module.cpp */,
+				B65AF76E21E38B3D00C65DB5 /* yas_processing_cast_module.h */,
+				B65AF75A21E38B3D00C65DB5 /* yas_processing_compare_modules.cpp */,
+				B65AF76321E38B3D00C65DB5 /* yas_processing_compare_modules.h */,
+				B65AF76F21E38B3D00C65DB5 /* yas_processing_constant_module.cpp */,
 				B65AF77221E38B3D00C65DB5 /* yas_processing_constant_module.h */,
+				B65AF76B21E38B3D00C65DB5 /* yas_processing_envelope_module.cpp */,
+				B65AF76D21E38B3D00C65DB5 /* yas_processing_envelope_module.h */,
+				B65AF76521E38B3D00C65DB5 /* yas_processing_generator_modules.cpp */,
+				B65AF75921E38B3D00C65DB5 /* yas_processing_generator_modules.h */,
+				B65AF76721E38B3D00C65DB5 /* yas_processing_math1_modules.cpp */,
+				B65AF76921E38B3D00C65DB5 /* yas_processing_math1_modules.h */,
+				B65AF75C21E38B3D00C65DB5 /* yas_processing_math2_modules.cpp */,
+				B65AF76621E38B3D00C65DB5 /* yas_processing_math2_modules.h */,
+				B65AF76821E38B3D00C65DB5 /* yas_processing_number_to_signal_module.cpp */,
+				B65AF76A21E38B3D00C65DB5 /* yas_processing_number_to_signal_module.h */,
+				B65AF76C21E38B3D00C65DB5 /* yas_processing_routing_modules.cpp */,
+				B65AF76421E38B3D00C65DB5 /* yas_processing_routing_modules.h */,
+				B65AF77121E38B3D00C65DB5 /* yas_processing_sub_timeline_module.cpp */,
+				B65AF75B21E38B3D00C65DB5 /* yas_processing_sub_timeline_module.h */,
 			);
 			path = module;
 			sourceTree = "<group>";
@@ -274,9 +274,9 @@
 			isa = PBXGroup;
 			children = (
 				B65AF75F21E38B3D00C65DB5 /* yas_processing_number_process_context_private.h */,
-				B65AF76021E38B3D00C65DB5 /* yas_processing_signal_process_context.h */,
 				B65AF76121E38B3D00C65DB5 /* yas_processing_number_process_context.h */,
 				B65AF76221E38B3D00C65DB5 /* yas_processing_signal_process_context_private.h */,
+				B65AF76021E38B3D00C65DB5 /* yas_processing_signal_process_context.h */,
 			);
 			path = context;
 			sourceTree = "<group>";
@@ -284,18 +284,18 @@
 		B65AF77421E38B3D00C65DB5 /* processor */ = {
 			isa = PBXGroup;
 			children = (
-				B65AF77521E38B3D00C65DB5 /* yas_processing_send_number_processor.cpp */,
-				B65AF77621E38B3D00C65DB5 /* yas_processing_send_number_processor.h */,
-				B65AF77721E38B3D00C65DB5 /* yas_processing_receive_signal_processor.h */,
 				B65AF77821E38B3D00C65DB5 /* yas_processing_receive_number_processor.cpp */,
+				B65AF77C21E38B3D00C65DB5 /* yas_processing_receive_number_processor.h */,
+				B65AF77F21E38B3D00C65DB5 /* yas_processing_receive_signal_processor.cpp */,
+				B65AF77721E38B3D00C65DB5 /* yas_processing_receive_signal_processor.h */,
+				B65AF77E21E38B3D00C65DB5 /* yas_processing_remove_number_processor.cpp */,
 				B65AF77921E38B3D00C65DB5 /* yas_processing_remove_number_processor.h */,
 				B65AF77A21E38B3D00C65DB5 /* yas_processing_remove_signal_processor.cpp */,
 				B65AF77B21E38B3D00C65DB5 /* yas_processing_remove_signal_processor.h */,
-				B65AF77C21E38B3D00C65DB5 /* yas_processing_receive_number_processor.h */,
-				B65AF77D21E38B3D00C65DB5 /* yas_processing_send_signal_processor.h */,
-				B65AF77E21E38B3D00C65DB5 /* yas_processing_remove_number_processor.cpp */,
-				B65AF77F21E38B3D00C65DB5 /* yas_processing_receive_signal_processor.cpp */,
+				B65AF77521E38B3D00C65DB5 /* yas_processing_send_number_processor.cpp */,
+				B65AF77621E38B3D00C65DB5 /* yas_processing_send_number_processor.h */,
 				B65AF78021E38B3D00C65DB5 /* yas_processing_send_signal_processor.cpp */,
+				B65AF77D21E38B3D00C65DB5 /* yas_processing_send_signal_processor.h */,
 			);
 			path = processor;
 			sourceTree = "<group>";
@@ -304,11 +304,11 @@
 			isa = PBXGroup;
 			children = (
 				B65AF78E21E38B3D00C65DB5 /* yas_processing_number_event_private.h */,
-				B65AF78F21E38B3D00C65DB5 /* yas_processing_number_event.h */,
-				B65AF79021E38B3D00C65DB5 /* yas_processing_signal_event.h */,
-				B65AF79121E38B3D00C65DB5 /* yas_processing_signal_event.cpp */,
 				B65AF79221E38B3D00C65DB5 /* yas_processing_number_event.cpp */,
+				B65AF78F21E38B3D00C65DB5 /* yas_processing_number_event.h */,
 				B65AF79321E38B3D00C65DB5 /* yas_processing_signal_event_private.h */,
+				B65AF79121E38B3D00C65DB5 /* yas_processing_signal_event.cpp */,
+				B65AF79021E38B3D00C65DB5 /* yas_processing_signal_event.h */,
 			);
 			path = event;
 			sourceTree = "<group>";

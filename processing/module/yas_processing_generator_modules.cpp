@@ -34,6 +34,9 @@ proc::module proc::make_signal_module(generator::kind const kind, frame_index_t 
                             case kind::second:
                                 yas_each_value(out_each) = (T)(top_idx + idx) / sr;
                                 break;
+                            case kind::frame:
+                                yas_each_value(out_each) = (T)(top_idx + idx);
+                                break;
                         }
                     }
                 }
@@ -47,6 +50,7 @@ proc::module proc::make_signal_module(generator::kind const kind, frame_index_t 
 
 template proc::module proc::make_signal_module<double>(generator::kind const, frame_index_t const);
 template proc::module proc::make_signal_module<float>(generator::kind const, frame_index_t const);
+template proc::module proc::make_signal_module<int64_t>(generator::kind const, frame_index_t const);
 
 #pragma mark -
 
