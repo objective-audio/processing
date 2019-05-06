@@ -13,6 +13,7 @@ class module;
 namespace generator {
     enum class kind {
         second,  /// 1秒につき1.0増えるシグナルを生成する
+        frame,
     };
 
     enum class output : connector_index_t {
