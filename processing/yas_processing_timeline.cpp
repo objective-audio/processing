@@ -44,7 +44,7 @@ struct proc::timeline::impl : chaining::sender<event_t>::impl {
             for (auto &track_pair : this->_tracks_holder.raw()) {
                 track_pair.second.process(current_range, stream);
 
-                if (!handler(current_range, stream, track_pair.first)) {
+                if (handler(current_range, stream, track_pair.first) == continuation::abort) {
                     stop = true;
                     break;
                 }
@@ -54,7 +54,7 @@ struct proc::timeline::impl : chaining::sender<event_t>::impl {
                 break;
             }
 
-            if (!handler(current_range, stream, std::nullopt)) {
+            if (handler(current_range, stream, std::nullopt) == continuation::abort) {
                 break;
             }
 
@@ -163,7 +163,7 @@ void proc::timeline::process(time::range const &range, sync_source const &sync_s
             if (!trk_idx.has_value()) {
                 return handler(range, stream);
             }
-            return true;
+            return continuation::keep;
         });
 }
 

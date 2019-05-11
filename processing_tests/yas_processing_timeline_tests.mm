@@ -254,7 +254,7 @@ using namespace yas::proc;
                          auto const &pair = *channel.events().cbegin();
                          auto const signal = cast<signal_event>(pair.second);
                          called.emplace_back(std::make_pair(pair.first.get<time::range>(), signal.vector<int8_t>()));
-                         return true;
+                         return proc::continuation::keep;
                      });
 
     XCTAssertEqual(called.size(), 3);
@@ -302,7 +302,7 @@ using namespace yas::proc;
             auto const &pair = *channel.events().cbegin();
             auto const signal = cast<signal_event>(pair.second);
             called.push_back(std::make_tuple(pair.first.get<time::range>(), trk_idx, signal.vector<int8_t>()));
-            return true;
+            return proc::continuation::keep;
         });
 
     XCTAssertEqual(called.size(), 9);
@@ -361,9 +361,9 @@ using namespace yas::proc;
                          last_frame = time_range.frame;
 
                          if (time_range.frame == 5) {
-                             return false;
+                             return proc::continuation::abort;
                          }
-                         return true;
+                         return proc::continuation::keep;
                      });
 
     XCTAssertEqual(last_frame, 5);
