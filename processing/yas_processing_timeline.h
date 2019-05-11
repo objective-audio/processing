@@ -22,8 +22,8 @@ class timeline : public chaining::sender<chaining::event> {
    public:
     using track_map_t = std::map<track_index_t, proc::track>;
     using process_track_f =
-        std::function<void(time::range const &, stream const &, std::optional<track_index_t> const &, bool &stop)>;
-    using process_f = std::function<void(time::range const &, stream const &, bool &stop)>;
+        std::function<bool(time::range const &, stream const &, std::optional<track_index_t> const &)>;
+    using process_f = std::function<bool(time::range const &, stream const &)>;
     using event_type_t = chaining::event_type;
     using event_t = chaining::event;
     using fetched_event_t = chaining::map::fetched_event<track_index_t, proc::track>;

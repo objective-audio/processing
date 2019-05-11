@@ -44,9 +44,8 @@ struct proc::timeline::impl : chaining::sender<event_t>::impl {
             for (auto &track_pair : this->_tracks_holder.raw()) {
                 track_pair.second.process(current_range, stream);
 
-                handler(current_range, stream, track_pair.first, stop);
-
-                if (stop) {
+                if (!handler(current_range, stream, track_pair.first)) {
+                    stop = true;
                     break;
                 }
             }
@@ -55,9 +54,7 @@ struct proc::timeline::impl : chaining::sender<event_t>::impl {
                 break;
             }
 
-            handler(current_range, stream, std::nullopt, stop);
-
-            if (stop) {
+            if (!handler(current_range, stream, std::nullopt)) {
                 break;
             }
 
@@ -160,13 +157,14 @@ void proc::timeline::process(time::range const &time_range, stream &stream) {
 }
 
 void proc::timeline::process(time::range const &range, sync_source const &sync_src, process_f const handler) {
-    this->impl_ptr<impl>()->process(range, sync_src,
-                                    [&handler](time::range const &range, stream const &stream,
-                                               std::optional<track_index_t> const &trk_idx, bool &stop) {
-                                        if (!trk_idx.has_value()) {
-                                            handler(range, stream, stop);
-                                        }
-                                    });
+    this->impl_ptr<impl>()->process(
+        range, sync_src,
+        [&handler](time::range const &range, stream const &stream, std::optional<track_index_t> const &trk_idx) {
+            if (!trk_idx.has_value()) {
+                return handler(range, stream);
+            }
+            return true;
+        });
 }
 
 void proc::timeline::process(time::range const &range, sync_source const &sync_src, process_track_f const handler) {
