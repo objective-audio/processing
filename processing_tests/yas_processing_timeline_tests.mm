@@ -249,11 +249,12 @@ using namespace yas::proc;
     std::vector<std::pair<time::range, std::vector<int8_t>>> called;
 
     timeline.process(time::range{0, process_length}, sync_source{1, 2},
-                     [&ch_idx, &called](time::range const &time_range, stream const &stream, bool &) {
+                     [&ch_idx, &called](time::range const &time_range, stream const &stream) {
                          auto const &channel = stream.channel(ch_idx);
                          auto const &pair = *channel.events().cbegin();
                          auto const signal = cast<signal_event>(pair.second);
                          called.emplace_back(std::make_pair(pair.first.get<time::range>(), signal.vector<int8_t>()));
+                         return proc::continuation::keep;
                      });
 
     XCTAssertEqual(called.size(), 3);
@@ -296,11 +297,12 @@ using namespace yas::proc;
     timeline.process(
         time::range{0, process_length}, sync_source{1, 2},
         [&ch_idx, &called](time::range const &time_range, stream const &stream,
-                           std::optional<track_index_t> const &trk_idx, bool &) {
+                           std::optional<track_index_t> const &trk_idx) {
             auto const &channel = stream.channel(ch_idx);
             auto const &pair = *channel.events().cbegin();
             auto const signal = cast<signal_event>(pair.second);
             called.push_back(std::make_tuple(pair.first.get<time::range>(), trk_idx, signal.vector<int8_t>()));
+            return proc::continuation::keep;
         });
 
     XCTAssertEqual(called.size(), 9);
@@ -355,12 +357,13 @@ using namespace yas::proc;
     frame_index_t last_frame = 0;
 
     timeline.process(time::range{0, process_length}, sync_source{1, 1},
-                     [&last_frame](time::range const &time_range, stream const &, bool &stop) {
+                     [&last_frame](time::range const &time_range, stream const &) {
                          last_frame = time_range.frame;
 
                          if (time_range.frame == 5) {
-                             stop = true;
+                             return proc::continuation::abort;
                          }
+                         return proc::continuation::keep;
                      });
 
     XCTAssertEqual(last_frame, 5);

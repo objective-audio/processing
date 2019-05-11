@@ -257,29 +257,29 @@ typedef NS_ENUM(NSUInteger, SampleBits) {
 
         bool write_failed = false;
 
-        timeline.process(
-            process_range, sync_source{sample_rate, slice_length},
-            [file, buffer, &write_failed](time::range const &current_range, stream const &stream, bool &stop) mutable {
-                auto const &channel = stream.channel(0);
-                auto const &events = channel.filtered_events<float, signal_event>();
-                if (events.size() > 0) {
-                    buffer.reset();
-                    buffer.set_frame_length(static_cast<uint32_t>(current_range.length));
+        timeline.process(process_range, sync_source{sample_rate, slice_length},
+                         [file, buffer, &write_failed](time::range const &current_range, stream const &stream) mutable {
+                             auto const &channel = stream.channel(0);
+                             auto const &events = channel.filtered_events<float, signal_event>();
+                             if (events.size() > 0) {
+                                 buffer.reset();
+                                 buffer.set_frame_length(static_cast<uint32_t>(current_range.length));
 
-                    float *buffer_data = buffer.data_ptr_at_channel<float>(0);
+                                 float *buffer_data = buffer.data_ptr_at_channel<float>(0);
 
-                    auto const &signal = events.begin()->second;
-                    float const *stream_data = signal.data<float>();
+                                 auto const &signal = events.begin()->second;
+                                 float const *stream_data = signal.data<float>();
 
-                    memcpy(buffer_data, stream_data, signal.byte_size());
+                                 memcpy(buffer_data, stream_data, signal.byte_size());
 
-                    auto write_result = file.write_from_buffer(buffer);
-                    if (!write_result) {
-                        stop = true;
-                        write_failed = true;
-                    }
-                }
-            });
+                                 auto write_result = file.write_from_buffer(buffer);
+                                 if (!write_result) {
+                                     write_failed = true;
+                                     return continuation::abort;
+                                 }
+                             }
+                             return continuation::keep;
+                         });
 
         if (write_failed) {
             NSLog(@"write to file failed.");
