@@ -16,4 +16,9 @@ using sample_rate_t = uint32_t;
 
 using connector_index_t = uint32_t;
 using connector_index_set_t = std::unordered_set<connector_index_t>;
+
+enum class continuation {
+    abort,
+    keep,
+};
 }  // namespace yas::proc
