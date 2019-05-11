@@ -275,10 +275,10 @@ typedef NS_ENUM(NSUInteger, SampleBits) {
                                  auto write_result = file.write_from_buffer(buffer);
                                  if (!write_result) {
                                      write_failed = true;
-                                     return false;
+                                     return continuation::abort;
                                  }
                              }
-                             return true;
+                             return continuation::keep;
                          });
 
         if (write_failed) {
