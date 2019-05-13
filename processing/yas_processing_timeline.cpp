@@ -172,7 +172,7 @@ void proc::timeline::process(time::range const &range, sync_source const &sync_s
     this->impl_ptr<impl>()->process_continuously(range, sync_src, handler);
 }
 
-chaining::chain_sync_t<proc::timeline::event_t> proc::timeline::chain() {
+chaining::chain_sync_t<proc::timeline::event_t> proc::timeline::chain() const {
     return this->impl_ptr<impl>()->_tracks_holder.chain();
 }
 
