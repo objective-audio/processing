@@ -12,14 +12,14 @@ namespace yas::proc {
 class module;
 class stream;
 
-class track : public chaining::sender<chaining::event> {
+class track : public chaining::sender<chaining::map::event> {
     class impl;
 
    public:
     using modules_map_t = std::map<time::range, std::vector<module>>;
     using modules_holder_map_t = std::map<time::range, chaining::vector::holder<module>>;
     using event_type_t = chaining::event_type;
-    using event_t = chaining::event;
+    using event_t = chaining::map::event;
     using fetched_event_t = chaining::map::fetched_event<time::range, chaining::vector::holder<module>>;
     using inserted_event_t = chaining::map::inserted_event<time::range, chaining::vector::holder<module>>;
     using erased_event_t = chaining::map::erased_event<time::range, chaining::vector::holder<module>>;
