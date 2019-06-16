@@ -16,7 +16,7 @@ class track;
 class stream;
 class sync_source;
 
-class timeline : public chaining::sender<chaining::event> {
+class timeline : public chaining::sender<chaining::map::event> {
     class impl;
 
    public:
@@ -25,7 +25,7 @@ class timeline : public chaining::sender<chaining::event> {
         std::function<continuation(time::range const &, stream const &, std::optional<track_index_t> const &)>;
     using process_f = std::function<continuation(time::range const &, stream const &)>;
     using event_type_t = chaining::event_type;
-    using event_t = chaining::event;
+    using event_t = chaining::map::event;
     using fetched_event_t = chaining::map::fetched_event<track_index_t, proc::track>;
     using inserted_event_t = chaining::map::inserted_event<track_index_t, proc::track>;
     using erased_event_t = chaining::map::erased_event<track_index_t, proc::track>;
