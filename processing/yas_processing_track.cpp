@@ -114,27 +114,27 @@ struct proc::track::impl : chaining::sender<event_t>::impl {
     }
 
     void broadcast(event_t const &value) override {
-        this->_modules_holder.sendable().broadcast(value);
+        this->_modules_holder.sendable()->broadcast(value);
     }
 
     void send_value_to_target(event_t const &value, std::uintptr_t const key) override {
-        this->_modules_holder.sendable().send_value_to_target(value, key);
+        this->_modules_holder.sendable()->send_value_to_target(value, key);
     }
 
     void erase_joint(std::uintptr_t const key) override {
-        this->_modules_holder.sendable().erase_joint(key);
+        this->_modules_holder.sendable()->erase_joint(key);
     }
 
     void fetch_for(chaining::any_joint const &joint) override {
-        this->_modules_holder.sendable().fetch_for(joint);
+        this->_modules_holder.sendable()->fetch_for(joint);
     }
 
     chaining::chain_unsync_t<event_t> chain_unsync() override {
-        return this->_modules_holder.sendable().chain_unsync();
+        return this->_modules_holder.sendable()->chain_unsync();
     }
 
     chaining::chain_sync_t<event_t> chain_sync() override {
-        return this->_modules_holder.sendable().chain_sync();
+        return this->_modules_holder.sendable()->chain_sync();
     }
 };
 
