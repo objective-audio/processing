@@ -26,14 +26,7 @@ using namespace yas::proc;
 - (void)test_create {
     timeline timeline;
 
-    XCTAssertTrue(timeline);
     XCTAssertEqual(timeline.track_count(), 0);
-}
-
-- (void)test_create_null {
-    timeline timeline = nullptr;
-
-    XCTAssertFalse(timeline);
 }
 
 - (void)test_insert_track {

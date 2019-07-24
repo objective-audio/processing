@@ -104,9 +104,6 @@ proc::timeline::timeline() : chaining::sender<event_t>(std::make_shared<impl>())
 proc::timeline::timeline(track_map_t &&tracks) : chaining::sender<event_t>(std::make_shared<impl>(std::move(tracks))) {
 }
 
-proc::timeline::timeline(std::nullptr_t) : chaining::sender<event_t>(nullptr) {
-}
-
 proc::timeline::track_map_t const &proc::timeline::tracks() const {
     return this->impl_ptr<impl>()->_tracks_holder.raw();
 }

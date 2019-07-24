@@ -25,14 +25,7 @@ using namespace yas::proc;
 - (void)test_create_track {
     proc::track track;
 
-    XCTAssertTrue(track);
     XCTAssertEqual(track.modules().size(), 0);
-}
-
-- (void)test_create_null {
-    proc::track track = nullptr;
-
-    XCTAssertFalse(track);
 }
 
 - (void)test_push_back_module {
@@ -46,24 +39,24 @@ using namespace yas::proc;
 
     XCTAssertEqual(track.modules().size(), 2);
 
-    if (auto const &const_track = track) {
-        std::size_t idx = 0;
-        for (auto const &pair : const_track.modules()) {
-            auto const &time_range = pair.first;
-            auto const &module_vec = pair.second;
+    auto const &const_track = track;
 
-            XCTAssertEqual(module_vec.size(), 1);
+    std::size_t idx = 0;
+    for (auto const &pair : const_track.modules()) {
+        auto const &time_range = pair.first;
+        auto const &module_vec = pair.second;
 
-            if (idx == 0) {
-                XCTAssertTrue((time_range == proc::time::range{0, 1}));
-            } else if (idx == 1) {
-                XCTAssertTrue((time_range == proc::time::range{1, 1}));
-            } else {
-                XCTFail();
-            }
+        XCTAssertEqual(module_vec.size(), 1);
 
-            ++idx;
+        if (idx == 0) {
+            XCTAssertTrue((time_range == proc::time::range{0, 1}));
+        } else if (idx == 1) {
+            XCTAssertTrue((time_range == proc::time::range{1, 1}));
+        } else {
+            XCTFail();
         }
+
+        ++idx;
     }
 }
 

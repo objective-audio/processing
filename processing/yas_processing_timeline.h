@@ -33,7 +33,6 @@ class timeline : public chaining::sender<chaining::map::event> {
 
     timeline();
     timeline(track_map_t &&);
-    timeline(std::nullptr_t);
 
     track_map_t const &tracks() const;
     track_map_t &tracks();
