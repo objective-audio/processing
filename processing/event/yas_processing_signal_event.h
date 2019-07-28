@@ -9,8 +9,7 @@
 #include "yas_processing_time.h"
 
 namespace yas::proc {
-class signal_event : public event {
-   public:
+struct signal_event : event {
     class impl;
 
     template <typename T>

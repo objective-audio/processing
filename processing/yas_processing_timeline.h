@@ -16,10 +16,9 @@ class track;
 class stream;
 class sync_source;
 
-class timeline : public chaining::sender<chaining::map::event> {
+struct timeline : chaining::sender<chaining::map::event> {
     class impl;
 
-   public:
     using track_map_t = std::map<track_index_t, proc::track>;
     using process_track_f =
         std::function<continuation(time::range const &, stream const &, std::optional<track_index_t> const &)>;

@@ -13,8 +13,7 @@
 #include "yas_processing_time.h"
 
 namespace yas::proc {
-class module : public base {
-   public:
+struct module : base {
     class impl;
 
     using processors_t = std::vector<processor_f>;

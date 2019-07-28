@@ -12,8 +12,7 @@
 namespace yas::proc {
 class sync_source;
 
-class stream : public base {
-   public:
+struct stream : base {
     explicit stream(sync_source);
     stream(std::nullptr_t);
 
