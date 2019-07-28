@@ -170,14 +170,14 @@ typedef NS_ENUM(NSUInteger, SampleBits) {
 
         timeline timeline;
 
-        if (auto second_track = proc::track{}) {
+        if (auto second_track = proc::track{}; true) {
             timeline.insert_track(trk_idx++, second_track);
             auto second_module = make_signal_module<float>(generator::kind::second, 0);
             second_module.connect_output(to_connector_index(generator::output::value), 0);
             second_track.push_back_module(std::move(second_module), process_range);
         }
 
-        if (auto floor_track = proc::track{}) {
+        if (auto floor_track = proc::track{}; true) {
             timeline.insert_track(trk_idx++, floor_track);
             auto floor_module = make_signal_module<float>(math1::kind::floor);
             floor_module.connect_input(to_connector_index(math1::input::parameter), 0);
@@ -185,7 +185,7 @@ typedef NS_ENUM(NSUInteger, SampleBits) {
             floor_track.push_back_module(std::move(floor_module), process_range);
         }
 
-        if (auto minus_track = proc::track{}) {
+        if (auto minus_track = proc::track{}; true) {
             timeline.insert_track(trk_idx++, minus_track);
             auto minus_module = make_signal_module<float>(math2::kind::minus);
             minus_module.connect_input(to_connector_index(math2::input::left), 0);
@@ -194,14 +194,14 @@ typedef NS_ENUM(NSUInteger, SampleBits) {
             minus_track.push_back_module(std::move(minus_module), process_range);
         }
 
-        if (auto pi_track = proc::track{}) {
+        if (auto pi_track = proc::track{}; true) {
             timeline.insert_track(trk_idx++, pi_track);
             auto pi_module = make_signal_module<float>(2.0f * M_PI * freqValue);
             pi_module.connect_output(to_connector_index(constant::output::value), 1);
             pi_track.push_back_module(std::move(pi_module), process_range);
         }
 
-        if (auto multiply_track = proc::track{}) {
+        if (auto multiply_track = proc::track{}; true) {
             timeline.insert_track(trk_idx++, multiply_track);
             auto multiply_module = make_signal_module<float>(math2::kind::multiply);
             multiply_module.connect_input(to_connector_index(math2::input::left), 0);
@@ -210,7 +210,7 @@ typedef NS_ENUM(NSUInteger, SampleBits) {
             multiply_track.push_back_module(std::move(multiply_module), process_range);
         }
 
-        if (auto sine_track = proc::track{}) {
+        if (auto sine_track = proc::track{}; true) {
             timeline.insert_track(trk_idx++, sine_track);
             auto sine_module = make_signal_module<float>(math1::kind::sin);
             sine_module.connect_input(to_connector_index(math1::input::parameter), 0);
@@ -218,7 +218,7 @@ typedef NS_ENUM(NSUInteger, SampleBits) {
             sine_track.push_back_module(std::move(sine_module), process_range);
         }
 
-        if (auto env_track = proc::track{}) {
+        if (auto env_track = proc::track{}; true) {
             timeline.insert_track(trk_idx++, env_track);
             envelope::anchors_t<float> anchors{{0, startGainValue}, {process_range.length, endGainValue}};
             auto env_module = envelope::make_signal_module(std::move(anchors), 0);
@@ -226,7 +226,7 @@ typedef NS_ENUM(NSUInteger, SampleBits) {
             env_track.push_back_module(std::move(env_module), process_range);
         }
 
-        if (auto gain_track = proc::track{}) {
+        if (auto gain_track = proc::track{}; true) {
             timeline.insert_track(trk_idx++, gain_track);
             auto gain_module = make_signal_module<float>(math2::kind::multiply);
             gain_module.connect_input(to_connector_index(math2::input::left), 0);
@@ -235,14 +235,14 @@ typedef NS_ENUM(NSUInteger, SampleBits) {
             gain_track.push_back_module(std::move(gain_module), process_range);
         }
 
-        if (auto level_track = proc::track{}) {
+        if (auto level_track = proc::track{}; true) {
             timeline.insert_track(trk_idx++, level_track);
             auto level_module = make_signal_module<float>(totalGainValue);
             level_module.connect_output(to_connector_index(constant::output::value), 1);
             level_track.push_back_module(std::move(level_module), process_range);
         }
 
-        if (auto gain_track = proc::track{}) {
+        if (auto gain_track = proc::track{}; true) {
             timeline.insert_track(trk_idx++, gain_track);
             auto gain_module = make_signal_module<float>(math2::kind::multiply);
             gain_module.connect_input(to_connector_index(math2::input::left), 0);
@@ -257,29 +257,30 @@ typedef NS_ENUM(NSUInteger, SampleBits) {
 
         bool write_failed = false;
 
-        timeline.process(process_range, sync_source{sample_rate, slice_length},
-                         [file, buffer, &write_failed](time::range const &current_range, stream const &stream) mutable {
-                             auto const &channel = stream.channel(0);
-                             auto const &events = channel.filtered_events<float, signal_event>();
-                             if (events.size() > 0) {
-                                 buffer.reset();
-                                 buffer.set_frame_length(static_cast<uint32_t>(current_range.length));
+        timeline.process(
+            process_range, sync_source{sample_rate, slice_length},
+            [&file, &buffer, &write_failed](time::range const &current_range, stream const &stream) mutable {
+                auto const &channel = stream.channel(0);
+                auto const &events = channel.filtered_events<float, signal_event>();
+                if (events.size() > 0) {
+                    buffer.reset();
+                    buffer.set_frame_length(static_cast<uint32_t>(current_range.length));
 
-                                 float *buffer_data = buffer.data_ptr_at_channel<float>(0);
+                    float *buffer_data = buffer.data_ptr_at_channel<float>(0);
 
-                                 auto const &signal = events.begin()->second;
-                                 float const *stream_data = signal.data<float>();
+                    auto const &signal = events.begin()->second;
+                    float const *stream_data = signal.data<float>();
 
-                                 memcpy(buffer_data, stream_data, signal.byte_size());
+                    memcpy(buffer_data, stream_data, signal.byte_size());
 
-                                 auto write_result = file.write_from_buffer(buffer);
-                                 if (!write_result) {
-                                     write_failed = true;
-                                     return continuation::abort;
-                                 }
-                             }
-                             return continuation::keep;
-                         });
+                    auto write_result = file.write_from_buffer(buffer);
+                    if (!write_result) {
+                        write_failed = true;
+                        return continuation::abort;
+                    }
+                }
+                return continuation::keep;
+            });
 
         if (write_failed) {
             NSLog(@"write to file failed.");
