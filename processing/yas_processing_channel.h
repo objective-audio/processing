@@ -11,7 +11,7 @@ namespace yas::proc {
 class event;
 class signal_event;
 
-class channel : public base {
+struct channel : base {
     class impl;
 
    public:

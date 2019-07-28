@@ -11,11 +11,10 @@
 #include "yas_processing_types.h"
 
 namespace yas::proc {
-class time : public base {
+struct time : base {
     template <typename T>
     class impl;
 
-   public:
     class impl_base;
 
     struct frame {

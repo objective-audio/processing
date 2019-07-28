@@ -16,10 +16,9 @@ class track;
 class stream;
 class sync_source;
 
-class timeline : public chaining::sender<chaining::map::event> {
+struct timeline : chaining::sender<chaining::map::event> {
     class impl;
 
-   public:
     using track_map_t = std::map<track_index_t, proc::track>;
     using process_track_f =
         std::function<continuation(time::range const &, stream const &, std::optional<track_index_t> const &)>;
@@ -33,7 +32,6 @@ class timeline : public chaining::sender<chaining::map::event> {
 
     timeline();
     timeline(track_map_t &&);
-    timeline(std::nullptr_t);
 
     track_map_t const &tracks() const;
     track_map_t &tracks();
@@ -52,8 +50,8 @@ class timeline : public chaining::sender<chaining::map::event> {
     /// 1回だけ処理する
     void process(time::range const &, stream &);
     /// スライス分の処理を繰り返す
-    void process(time::range const &, sync_source const &, process_f const);
-    void process(time::range const &, sync_source const &, process_track_f const);
+    void process(time::range const &, sync_source const &, process_f const &);
+    void process(time::range const &, sync_source const &, process_track_f const &);
 
     chaining::chain_sync_t<event_t> chain() const;
 };
