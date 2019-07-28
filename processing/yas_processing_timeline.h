@@ -51,8 +51,8 @@ class timeline : public chaining::sender<chaining::map::event> {
     /// 1回だけ処理する
     void process(time::range const &, stream &);
     /// スライス分の処理を繰り返す
-    void process(time::range const &, sync_source const &, process_f const);
-    void process(time::range const &, sync_source const &, process_track_f const);
+    void process(time::range const &, sync_source const &, process_f const &);
+    void process(time::range const &, sync_source const &, process_track_f const &);
 
     chaining::chain_sync_t<event_t> chain() const;
 };

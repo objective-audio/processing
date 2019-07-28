@@ -154,7 +154,7 @@ void proc::timeline::process(time::range const &time_range, stream &stream) {
     this->impl_ptr<impl>()->process(time_range, stream);
 }
 
-void proc::timeline::process(time::range const &range, sync_source const &sync_src, process_f const handler) {
+void proc::timeline::process(time::range const &range, sync_source const &sync_src, process_f const &handler) {
     this->impl_ptr<impl>()->process_continuously(
         range, sync_src,
         [&handler](time::range const &range, stream const &stream, std::optional<track_index_t> const &trk_idx) {
@@ -165,7 +165,7 @@ void proc::timeline::process(time::range const &range, sync_source const &sync_s
         });
 }
 
-void proc::timeline::process(time::range const &range, sync_source const &sync_src, process_track_f const handler) {
+void proc::timeline::process(time::range const &range, sync_source const &sync_src, process_track_f const &handler) {
     this->impl_ptr<impl>()->process_continuously(range, sync_src, handler);
 }
 
