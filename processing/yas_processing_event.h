@@ -4,26 +4,16 @@
 
 #pragma once
 
-#include <cpp_utils/yas_base.h>
+#include <memory>
 
 namespace yas::proc {
 class time;
 
-struct event : base {
-    struct impl : base::impl {
-        virtual bool validate_time(time const &) = 0;
-        virtual event copy() = 0;
-    };
+struct event {
+    virtual ~event() = default;
 
-   protected:
-    explicit event(std::shared_ptr<impl> const &);
-    explicit event(std::shared_ptr<impl> &&);
-
-   public:
-    event(std::nullptr_t);
-
-    bool validate_time(time const &) const;
-
-    event copy() const;
+    virtual bool validate_time(time const &) const = 0;
+    virtual std::shared_ptr<event> copy() const = 0;
+    virtual bool is_equal(std::shared_ptr<event> const &) const;
 };
 }  // namespace yas::proc

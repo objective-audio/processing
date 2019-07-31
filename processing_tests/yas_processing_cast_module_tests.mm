@@ -51,11 +51,11 @@ using namespace yas::proc;
     XCTAssertEqual(channel.events().size(), 1);
 
     auto &event = channel.events().cbegin()->second;
-    auto const signal = cast<signal_event>(event);
+    auto const signal = std::dynamic_pointer_cast<signal_event>(event);
     XCTAssertTrue(signal);
-    XCTAssertTrue(signal.sample_type() == typeid(float));
-    XCTAssertEqual(signal.size(), 2);
-    auto const *data = signal.data<float>();
+    XCTAssertTrue(signal->sample_type() == typeid(float));
+    XCTAssertEqual(signal->size(), 2);
+    auto const *data = signal->data<float>();
     XCTAssertEqual(data[0], 1.0);
     XCTAssertEqual(data[1], 2.0);
 }
@@ -89,9 +89,9 @@ using namespace yas::proc;
 
     XCTAssertTrue((pair.first == time::range{0, 2}));
     auto const &signal = pair.second;
-    XCTAssertTrue(signal.sample_type() == typeid(double));
-    XCTAssertEqual(signal.size(), 2);
-    auto const *data = signal.data<double>();
+    XCTAssertTrue(signal->sample_type() == typeid(double));
+    XCTAssertEqual(signal->size(), 2);
+    auto const *data = signal->data<double>();
     XCTAssertEqual(data[0], 32.0);
     XCTAssertEqual(data[1], 64.0);
 }
@@ -105,14 +105,14 @@ using namespace yas::proc;
 
     {
         auto &channel0 = stream.add_channel(0);
-        channel0.insert_event(make_frame_time(0), number_event{int8_t(0)});
-        channel0.insert_event(make_frame_time(1), number_event{int8_t(1)});
-        channel0.insert_event(make_frame_time(2), number_event{int8_t(2)});
-        channel0.insert_event(make_frame_time(0), number_event{int16_t(-1)});
+        channel0.insert_event(make_frame_time(0), number_event::make_shared(int8_t(0)));
+        channel0.insert_event(make_frame_time(1), number_event::make_shared(int8_t(1)));
+        channel0.insert_event(make_frame_time(2), number_event::make_shared(int8_t(2)));
+        channel0.insert_event(make_frame_time(0), number_event::make_shared(int16_t(-1)));
         auto &channel1 = stream.add_channel(1);
-        channel1.insert_event(make_frame_time(0), number_event{int8_t(10)});
+        channel1.insert_event(make_frame_time(0), number_event::make_shared(int8_t(10)));
         auto &channel2 = stream.add_channel(2);
-        channel2.insert_event(make_frame_time(0), number_event{int8_t(20)});
+        channel2.insert_event(make_frame_time(0), number_event::make_shared(int8_t(20)));
     }
 
     cast_module.process({0, 2}, stream);
@@ -122,30 +122,30 @@ using namespace yas::proc;
     XCTAssertEqual(channel0.events().size(), 2);
     auto it = channel0.events().cbegin();
     XCTAssertEqual(it->first, make_frame_time(0));
-    XCTAssertEqual(it->second, number_event{int16_t(-1)});
+    XCTAssertTrue(it->second->is_equal(number_event::make_shared(int16_t(-1))));
     ++it;
     XCTAssertEqual(it->first, make_frame_time(2));
-    XCTAssertEqual(it->second, number_event{int8_t(2)});
+    XCTAssertTrue(it->second->is_equal(number_event::make_shared(int8_t(2))));
 
     XCTAssertTrue(stream.has_channel(1));
     auto const &channel1 = stream.channel(1);
     XCTAssertEqual(channel1.events().size(), 3);
     it = channel1.events().cbegin();
     XCTAssertEqual(it->first, make_frame_time(0));
-    XCTAssertEqual(it->second, number_event{int8_t(10)});
+    XCTAssertTrue(it->second->is_equal(number_event::make_shared(int8_t(10))));
     ++it;
     XCTAssertEqual(it->first, make_frame_time(0));
-    XCTAssertEqual(it->second, number_event{float(0.0f)});
+    XCTAssertTrue(it->second->is_equal(number_event::make_shared(float(0.0f))));
     ++it;
     XCTAssertEqual(it->first, make_frame_time(1));
-    XCTAssertEqual(it->second, number_event{float(1.0f)});
+    XCTAssertTrue(it->second->is_equal(number_event::make_shared(float(1.0f))));
 
     XCTAssertTrue(stream.has_channel(2));
     auto const &channel2 = stream.channel(2);
     XCTAssertEqual(channel2.events().size(), 1);
     it = channel2.events().cbegin();
     XCTAssertEqual(it->first, make_frame_time(0));
-    XCTAssertEqual(it->second, number_event{int8_t(20)});
+    XCTAssertTrue(it->second->is_equal(number_event::make_shared(int8_t(20))));
 }
 
 - (void)test_process_number_same_channel {
@@ -157,10 +157,10 @@ using namespace yas::proc;
 
     {
         auto &channel = stream.add_channel(3);
-        channel.insert_event(make_frame_time(0), number_event{int32_t(0)});
-        channel.insert_event(make_frame_time(1), number_event{int32_t(1)});
-        channel.insert_event(make_frame_time(2), number_event{int32_t(2)});
-        channel.insert_event(make_frame_time(0), number_event{int16_t(-1)});
+        channel.insert_event(make_frame_time(0), number_event::make_shared(int32_t(0)));
+        channel.insert_event(make_frame_time(1), number_event::make_shared(int32_t(1)));
+        channel.insert_event(make_frame_time(2), number_event::make_shared(int32_t(2)));
+        channel.insert_event(make_frame_time(0), number_event::make_shared(int16_t(-1)));
     }
 
     cast_module.process({0, 2}, stream);
@@ -171,16 +171,16 @@ using namespace yas::proc;
 
     auto it = channel.events().cbegin();
     XCTAssertEqual(it->first, make_frame_time(0));
-    XCTAssertEqual(it->second, number_event{int16_t(-1)});
+    XCTAssertTrue(it->second->is_equal(number_event::make_shared(int16_t(-1))));
     ++it;
     XCTAssertEqual(it->first, make_frame_time(0));
-    XCTAssertEqual(it->second, number_event{double(0.0)});
+    XCTAssertTrue(it->second->is_equal(number_event::make_shared(double(0.0))));
     ++it;
     XCTAssertEqual(it->first, make_frame_time(1));
-    XCTAssertEqual(it->second, number_event{double(1.0)});
+    XCTAssertTrue(it->second->is_equal(number_event::make_shared(double(1.0))));
     ++it;
     XCTAssertEqual(it->first, make_frame_time(2));
-    XCTAssertEqual(it->second, number_event{int32_t(2)});
+    XCTAssertTrue(it->second->is_equal(number_event::make_shared(int32_t(2))));
 }
 
 - (void)test_connect_input {

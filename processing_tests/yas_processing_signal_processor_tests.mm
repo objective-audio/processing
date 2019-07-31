@@ -75,7 +75,9 @@ using namespace yas::proc;
         XCTAssertEqual(called_slice_length, 2);
 
         XCTAssertTrue(stream.has_channel(ch_idx));
-        auto const &vec = cast<proc::signal_event>(stream.channel(ch_idx).events().cbegin()->second).vector<int64_t>();
+        auto const &vec =
+            std::dynamic_pointer_cast<proc::signal_event>(stream.channel(ch_idx).events().cbegin()->second)
+                ->vector<int64_t>();
         XCTAssertEqual(vec.size(), 2);
         XCTAssertEqual(vec.at(0), 0);
         XCTAssertEqual(vec.at(1), 1);
@@ -96,7 +98,9 @@ using namespace yas::proc;
         XCTAssertEqual(called_slice_length, 1);
 
         XCTAssertTrue(stream.has_channel(ch_idx));
-        auto const &vec = cast<proc::signal_event>(stream.channel(ch_idx).events().cbegin()->second).vector<int64_t>();
+        auto const &vec =
+            std::dynamic_pointer_cast<proc::signal_event>(stream.channel(ch_idx).events().cbegin()->second)
+                ->vector<int64_t>();
         XCTAssertEqual(vec.size(), 1);
         XCTAssertEqual(vec.at(0), 1);
     }
@@ -116,7 +120,9 @@ using namespace yas::proc;
         XCTAssertEqual(called_slice_length, 1);
 
         XCTAssertTrue(stream.has_channel(ch_idx));
-        auto const &vec = cast<proc::signal_event>(stream.channel(ch_idx).events().cbegin()->second).vector<int64_t>();
+        auto const &vec =
+            std::dynamic_pointer_cast<proc::signal_event>(stream.channel(ch_idx).events().cbegin()->second)
+                ->vector<int64_t>();
         XCTAssertEqual(vec.size(), 1);
         XCTAssertEqual(vec.at(0), 0);
     }
@@ -133,8 +139,8 @@ using namespace yas::proc;
     length_t called_slice_length;
     int64_t called_signal[2];
 
-    auto stream_signal = proc::make_signal_event<int64_t>(2);
-    auto &stream_vec = stream_signal.vector<int64_t>();
+    auto stream_signal = proc::signal_event::make_shared<int64_t>(2);
+    auto &stream_vec = stream_signal->vector<int64_t>();
     stream_vec[0] = 10;
     stream_vec[1] = 11;
 
@@ -245,20 +251,20 @@ using namespace yas::proc;
     proc::stream stream{sync_source{1, 2}};
     stream.add_channel(receive_ch_idx);
 
-    auto input_stream_signal = proc::make_signal_event<int16_t>(2);
-    auto &input_stream_vec = input_stream_signal.vector<int16_t>();
+    auto input_stream_signal = proc::signal_event::make_shared<int16_t>(2);
+    auto &input_stream_vec = input_stream_signal->vector<int16_t>();
     input_stream_vec[0] = 1;
     input_stream_vec[1] = 2;
 
     auto &channel = stream.channel(receive_ch_idx);
     channel.insert_event(process_time, input_stream_signal);
 
-    auto process_signal = proc::make_signal_event<int16_t>(2);
+    auto process_signal = proc::signal_event::make_shared<int16_t>(2);
 
     auto receive_handler = [&process_signal](proc::time::range const &time_range, sync_source const &,
                                              channel_index_t const ch_idx, connector_index_t const,
                                              int16_t const *const signal_ptr) {
-        auto &process_vec = process_signal.vector<int16_t>();
+        auto &process_vec = process_signal->vector<int16_t>();
         for (auto const &idx : make_each_index(time_range.length)) {
             process_vec[idx] = signal_ptr[idx] * 2;
         }
@@ -267,7 +273,7 @@ using namespace yas::proc;
     auto send_handler = [&process_signal](proc::time::range const &time_range, sync_source const &,
                                           channel_index_t const ch_idx, connector_index_t const,
                                           int16_t *const signal_ptr) {
-        auto &process_vec = process_signal.vector<int16_t>();
+        auto &process_vec = process_signal->vector<int16_t>();
         for (auto const &idx : make_each_index(time_range.length)) {
             signal_ptr[idx] = process_vec[idx];
         }
@@ -286,7 +292,8 @@ using namespace yas::proc;
     XCTAssertTrue(stream.has_channel(send_ch_idx));
 
     auto const &send_channel = stream.channel(send_ch_idx);
-    auto const &send_vec = cast<proc::signal_event>(send_channel.events().cbegin()->second).vector<int16_t>();
+    auto const &send_vec =
+        std::dynamic_pointer_cast<proc::signal_event>(send_channel.events().cbegin()->second)->vector<int16_t>();
 
     XCTAssertEqual(send_vec.size(), 2);
     XCTAssertEqual(send_vec[0], 2);
@@ -295,7 +302,8 @@ using namespace yas::proc;
     XCTAssertTrue(stream.has_channel(receive_ch_idx));
 
     auto const &receive_channel = stream.channel(receive_ch_idx);
-    auto const &receive_vec = cast<proc::signal_event>(receive_channel.events().cbegin()->second).vector<int16_t>();
+    auto const &receive_vec =
+        std::dynamic_pointer_cast<proc::signal_event>(receive_channel.events().cbegin()->second)->vector<int16_t>();
 
     XCTAssertEqual(receive_vec.size(), 2);
     XCTAssertEqual(receive_vec[0], 1);

@@ -32,10 +32,10 @@ using namespace yas::proc;
 
     {
         auto &channel = stream.add_channel(in_ch_idx);
-        channel.insert_event(make_frame_time(1), make_number_event<int8_t>(1));
-        channel.insert_event(make_frame_time(3), make_number_event<int8_t>(3));
-        channel.insert_event(make_frame_time(10), make_number_event<int8_t>(10));
-        channel.insert_event(make_frame_time(13), make_number_event<int8_t>(13));
+        channel.insert_event(make_frame_time(1), number_event::make_shared<int8_t>(1));
+        channel.insert_event(make_frame_time(3), number_event::make_shared<int8_t>(3));
+        channel.insert_event(make_frame_time(10), number_event::make_shared<int8_t>(10));
+        channel.insert_event(make_frame_time(13), number_event::make_shared<int8_t>(13));
     }
 
     auto module = make_number_to_signal_module<int8_t>();
@@ -53,7 +53,7 @@ using namespace yas::proc;
 
         auto const &signal_event = signal_events.cbegin()->second;
 
-        auto const *const data = signal_event.data<int8_t>();
+        auto const *const data = signal_event->data<int8_t>();
 
         XCTAssertEqual(data[0], 0);
         XCTAssertEqual(data[1], 1);
@@ -90,7 +90,7 @@ using namespace yas::proc;
         XCTAssertEqual(signal_events.cbegin()->first, (time::range{process_length, process_length}));
 
         auto const &signal_event = signal_events.cbegin()->second;
-        auto const *const data = signal_event.data<int8_t>();
+        auto const *const data = signal_event->data<int8_t>();
 
         XCTAssertEqual(data[0], 3);
         XCTAssertEqual(data[1], 3);

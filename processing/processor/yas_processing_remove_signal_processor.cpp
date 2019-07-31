@@ -32,16 +32,16 @@ proc::processor_f proc::make_remove_signal_processor(connector_index_set_t keys)
 
                 auto const filtered_events = channel.filtered_events<T, signal_event>(predicate);
 
-                std::vector<std::pair<time::range, signal_event>> cropped_signals;
+                std::vector<std::pair<time::range, std::shared_ptr<signal_event>>> cropped_signals;
 
                 for (auto const &event_pair : filtered_events) {
                     auto const &src_frame = event_pair.first.frame;
                     auto const cropped_ranges = event_pair.first.cropped(current_time_range);
-                    signal_event const &src_signal = event_pair.second;
+                    std::shared_ptr<signal_event> const &src_signal = event_pair.second;
                     for (auto const &cropped_range : cropped_ranges) {
-                        signal_event dst_signal = make_signal_event<T>(cropped_range.length);
-                        auto const *src_ptr = &src_signal.data<T>()[cropped_range.frame - src_frame];
-                        dst_signal.copy_from(src_ptr, cropped_range.length);
+                        std::shared_ptr<signal_event> dst_signal = signal_event::make_shared<T>(cropped_range.length);
+                        auto const *src_ptr = &src_signal->data<T>()[cropped_range.frame - src_frame];
+                        dst_signal->copy_from(src_ptr, cropped_range.length);
                         cropped_signals.emplace_back(std::make_pair(cropped_range, std::move(dst_signal)));
                     }
                 }

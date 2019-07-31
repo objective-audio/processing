@@ -50,8 +50,8 @@ using namespace yas::proc;
 
     XCTAssertEqual(time_range, time::range(0, process_length));
 
-    auto const &signal = cast<signal_event>(channel.events().cbegin()->second);
-    auto *data = signal.data<int8_t>();
+    auto const &signal = std::dynamic_pointer_cast<signal_event>(channel.events().cbegin()->second);
+    auto *data = signal->data<int8_t>();
 
     XCTAssertEqual(data[0], 2);
     XCTAssertEqual(data[1], 2);
@@ -82,8 +82,8 @@ using namespace yas::proc;
 
     XCTAssertEqual(time_range, time::range(0, process_length));
 
-    auto const &signal = cast<signal_event>(channel.events().cbegin()->second);
-    auto *data = signal.data<int8_t>();
+    auto const &signal = std::dynamic_pointer_cast<signal_event>(channel.events().cbegin()->second);
+    auto *data = signal->data<int8_t>();
 
     XCTAssertEqual(data[0], 0);
 }
@@ -113,8 +113,8 @@ using namespace yas::proc;
 
     XCTAssertEqual(time_range, time::range(offset, process_length));
 
-    auto const &signal = cast<signal_event>(channel.events().cbegin()->second);
-    auto *data = signal.data<int8_t>();
+    auto const &signal = std::dynamic_pointer_cast<signal_event>(channel.events().cbegin()->second);
+    auto *data = signal->data<int8_t>();
 
     XCTAssertEqual(data[0], 2);
     XCTAssertEqual(data[1], 2);

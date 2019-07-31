@@ -30,7 +30,8 @@ proc::processor_f proc::make_send_number_processor(send_number_process_f<T> hand
                 auto map = handler(current_time_range, stream.sync_source(), ch_idx, co_idx);
 
                 for (auto const &number_pair : map) {
-                    channel.insert_event(make_frame_time(number_pair.first), make_number_event<T>(number_pair.second));
+                    channel.insert_event(make_frame_time(number_pair.first),
+                                         number_event::make_shared<T>(number_pair.second));
                 }
             }
         }

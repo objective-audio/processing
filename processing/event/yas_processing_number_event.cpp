@@ -21,7 +21,7 @@ struct proc::number_event::type_impl : impl {
         return sizeof(T);
     }
 
-    virtual bool is_equal(std::shared_ptr<base::impl> const &rhs) const override {
+    virtual bool is_equal(std::shared_ptr<number_event::impl> const &rhs) const override {
         if (auto casted_rhs = std::dynamic_pointer_cast<type_impl<T>>(rhs)) {
             return this->_value == casted_rhs->_value;
         }
@@ -29,8 +29,8 @@ struct proc::number_event::type_impl : impl {
         return false;
     }
 
-    event copy() override {
-        return number_event{_value};
+    std::shared_ptr<number_event> copy() override {
+        return number_event::make_shared(this->_value);
     }
 
     T _value;
@@ -38,7 +38,7 @@ struct proc::number_event::type_impl : impl {
 }  // namespace yas::proc
 
 template <typename T>
-proc::number_event::number_event(T value) : event(std::make_shared<type_impl<T>>(std::move(value))) {
+proc::number_event::number_event(T value) : _impl(std::make_shared<type_impl<T>>(std::move(value))) {
 }
 
 template proc::number_event::number_event(double);
@@ -53,20 +53,17 @@ template proc::number_event::number_event(uint16_t);
 template proc::number_event::number_event(uint8_t);
 template proc::number_event::number_event(boolean);
 
-proc::number_event::number_event(std::nullptr_t) : event(nullptr) {
-}
-
 std::type_info const &proc::number_event::sample_type() const {
-    return this->impl_ptr<impl>()->type();
+    return this->_impl->type();
 }
 
 std::size_t proc::number_event::sample_byte_count() const {
-    return this->impl_ptr<impl>()->sample_byte_count();
+    return this->_impl->sample_byte_count();
 }
 
 template <typename T>
 T const &proc::number_event::get() const {
-    return this->impl_ptr<type_impl<T>>()->_value;
+    return std::dynamic_pointer_cast<type_impl<T>>(this->_impl)->_value;
 }
 
 template double const &proc::number_event::get() const;
@@ -81,19 +78,34 @@ template uint16_t const &proc::number_event::get() const;
 template uint8_t const &proc::number_event::get() const;
 template boolean const &proc::number_event::get() const;
 
-template <typename T>
-proc::number_event proc::make_number_event(T value) {
-    return number_event{std::move(value)};
+std::shared_ptr<proc::event> proc::number_event::copy() const {
+    return this->_impl->copy();
 }
 
-template proc::number_event proc::make_number_event(double);
-template proc::number_event proc::make_number_event(float);
-template proc::number_event proc::make_number_event(int64_t);
-template proc::number_event proc::make_number_event(int32_t);
-template proc::number_event proc::make_number_event(int16_t);
-template proc::number_event proc::make_number_event(int8_t);
-template proc::number_event proc::make_number_event(uint64_t);
-template proc::number_event proc::make_number_event(uint32_t);
-template proc::number_event proc::make_number_event(uint16_t);
-template proc::number_event proc::make_number_event(uint8_t);
-template proc::number_event proc::make_number_event(boolean);
+bool proc::number_event::validate_time(time const &time) const {
+    return time.is_frame_type();
+}
+
+bool proc::number_event::is_equal(std::shared_ptr<event> const &rhs) const {
+    if (auto number_rhs = std::dynamic_pointer_cast<number_event>(rhs)) {
+        return this->_impl->is_equal(number_rhs->_impl);
+    }
+    return false;
+}
+
+template <typename T>
+std::shared_ptr<proc::number_event> proc::number_event::make_shared(T value) {
+    return std::shared_ptr<number_event>(new number_event{std::move(value)});
+}
+
+template std::shared_ptr<proc::number_event> proc::number_event::make_shared(double);
+template std::shared_ptr<proc::number_event> proc::number_event::make_shared(float);
+template std::shared_ptr<proc::number_event> proc::number_event::make_shared(int64_t);
+template std::shared_ptr<proc::number_event> proc::number_event::make_shared(int32_t);
+template std::shared_ptr<proc::number_event> proc::number_event::make_shared(int16_t);
+template std::shared_ptr<proc::number_event> proc::number_event::make_shared(int8_t);
+template std::shared_ptr<proc::number_event> proc::number_event::make_shared(uint64_t);
+template std::shared_ptr<proc::number_event> proc::number_event::make_shared(uint32_t);
+template std::shared_ptr<proc::number_event> proc::number_event::make_shared(uint16_t);
+template std::shared_ptr<proc::number_event> proc::number_event::make_shared(uint8_t);
+template std::shared_ptr<proc::number_event> proc::number_event::make_shared(boolean);

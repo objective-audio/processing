@@ -29,8 +29,8 @@ proc::processor_f proc::make_receive_number_processor(proc::receive_number_proce
                         for (auto const &pair : filtered_events) {
                             auto const &event_frame = pair.first;
                             if (current_time_range.is_contain(event_frame)) {
-                                number_event const &number_event = pair.second;
-                                auto const &value = number_event.get<T>();
+                                std::shared_ptr<number_event> const &number_event = pair.second;
+                                auto const &value = number_event->get<T>();
                                 handler(event_frame, ch_idx, connector_key, value);
                             }
                         }

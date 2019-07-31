@@ -4,17 +4,18 @@
 
 #pragma once
 
-#include <cpp_utils/yas_base.h>
 #include "yas_processing_channel.h"
+#include "yas_processing_sync_source.h"
 #include "yas_processing_time.h"
 #include "yas_processing_types.h"
 
 namespace yas::proc {
-class sync_source;
+struct stream final {
+    explicit stream(sync_source const &);
+    explicit stream(sync_source &&);
 
-struct stream : base {
-    explicit stream(sync_source);
-    stream(std::nullptr_t);
+    stream(stream &&) = default;
+    stream &operator=(stream &&) = default;
 
     sync_source const &sync_source() const;
 
@@ -28,6 +29,10 @@ struct stream : base {
     std::map<channel_index_t, proc::channel> const &channels() const;
 
    private:
-    class impl;
+    proc::sync_source _sync_source;
+    std::map<channel_index_t, proc::channel> _channels;
+
+    stream(stream const &) = delete;
+    stream &operator=(stream const &) = delete;
 };
 }  // namespace yas::proc

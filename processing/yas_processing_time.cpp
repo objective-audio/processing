@@ -148,8 +148,9 @@ bool proc::time::any::operator!=(time::any const &) const {
 
 #pragma mark - time::impl
 
-struct proc::time::impl_base : base::impl {
+struct proc::time::impl_base {
     virtual std::type_info const &type() const = 0;
+    virtual bool is_equal(std::shared_ptr<impl_base> const &) const = 0;
 };
 
 template <typename T>
@@ -162,7 +163,7 @@ struct proc::time::impl : impl_base {
     impl(typename T::type &&val) : _value(std::move(val)) {
     }
 
-    virtual bool is_equal(std::shared_ptr<base::impl> const &rhs) const override {
+    virtual bool is_equal(std::shared_ptr<impl_base> const &rhs) const override {
         if (auto casted_rhs = std::dynamic_pointer_cast<impl>(rhs)) {
             auto const &type_info = typeid(T);
             if (type_info == casted_rhs->type()) {
@@ -181,28 +182,28 @@ struct proc::time::impl : impl_base {
 #pragma mark - proc::time
 
 proc::time::time(frame_index_t const frame, length_t const length)
-    : base(std::make_shared<impl<time::range>>(time::range{frame, length})) {
+    : _impl(std::make_shared<impl<time::range>>(time::range{frame, length})) {
 }
 
-proc::time::time(range range) : base(std::make_shared<impl<time::range>>(std::move(range))) {
+proc::time::time(range range) : _impl(std::make_shared<impl<time::range>>(std::move(range))) {
 }
 
-proc::time::time(frame_index_t const frame) : base(std::make_shared<impl<time::frame>>(frame)) {
+proc::time::time(frame_index_t const frame) : _impl(std::make_shared<impl<time::frame>>(frame)) {
 }
 
-proc::time::time() : base(any_impl_ptr()) {
+proc::time::time() : _impl(any_impl_ptr()) {
 }
 
-proc::time::time(std::nullptr_t) : base(nullptr) {
+proc::time::time(std::nullptr_t) : _impl(nullptr) {
 }
 
 proc::time &proc::time::operator=(time::range const &range) {
-    this->set_impl_ptr(std::make_shared<impl<time::range>>(range));
+    this->_impl = std::make_shared<impl<time::range>>(range);
     return *this;
 }
 
 proc::time &proc::time::operator=(time::range &&range) {
-    this->set_impl_ptr(std::make_shared<impl<time::range>>(std::move(range)));
+    this->_impl = std::make_shared<impl<time::range>>(std::move(range));
     return *this;
 }
 
@@ -235,7 +236,7 @@ bool proc::time::operator<(time const &rhs) const {
 }
 
 std::type_info const &proc::time::type() const {
-    return this->impl_ptr<impl_base>()->type();
+    return this->_impl->type();
 }
 
 bool proc::time::is_range_type() const {
@@ -269,7 +270,7 @@ bool proc::time::is_contain(time const &rhs) const {
 
 template <typename T>
 typename T::type const &proc::time::get() const {
-    if (auto ip = std::dynamic_pointer_cast<impl<T>>(this->impl_ptr())) {
+    if (auto ip = std::dynamic_pointer_cast<impl<T>>(this->_impl)) {
         return ip->_value;
     }
 
@@ -290,6 +291,18 @@ proc::time proc::time::offset(frame_index_t const &offset) const {
     } else {
         throw "unreachable code.";
     }
+}
+
+proc::time::operator bool() const {
+    return this->_impl != nullptr;
+}
+
+bool proc::time::operator==(proc::time const &rhs) const {
+    return this->_impl->is_equal(rhs._impl);
+}
+
+bool proc::time::operator!=(proc::time const &rhs) const {
+    return !(*this == rhs);
 }
 
 std::string yas::to_string(proc::time const &time) {

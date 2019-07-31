@@ -27,7 +27,7 @@ static void disconnect(connector_map_t &connectors, connector_index_t const idx)
 
 #pragma mark - module::impl
 
-struct proc::module::impl : base::impl {
+struct proc::module::impl {
     impl(make_processors_t &&handler, connector_map_t &&input_connectors, connector_map_t &&output_connectors)
         : _make_handler(std::move(handler)),
           _processors(_make_handler()),
@@ -74,50 +74,59 @@ struct proc::module::impl : base::impl {
 
 #pragma mark - module
 
-proc::module::module(make_processors_t handler) : base(std::make_shared<impl>(std::move(handler))) {
+proc::module::module(make_processors_t handler) : _impl(std::make_shared<impl>(std::move(handler))) {
 }
 
 proc::module::module(make_processors_t handler, connector_map_t input_connectors, connector_map_t output_connectors)
-    : base(std::make_shared<impl>(std::move(handler), std::move(input_connectors), std::move(output_connectors))) {
-}
-
-proc::module::module(std::nullptr_t) : base(nullptr) {
+    : _impl(std::make_shared<impl>(std::move(handler), std::move(input_connectors), std::move(output_connectors))) {
 }
 
 void proc::module::process(time::range const &time_range, stream &stream) {
-    this->impl_ptr<impl>()->process(time_range, stream);
+    this->_impl->process(time_range, stream);
 }
 
 proc::connector_map_t const &proc::module::input_connectors() const {
-    return this->impl_ptr<impl>()->input_connectors();
+    return this->_impl->input_connectors();
 }
 
 proc::connector_map_t const &proc::module::output_connectors() const {
-    return this->impl_ptr<impl>()->output_connectors();
+    return this->_impl->output_connectors();
 }
 
 void proc::module::connect_input(connector_index_t const co_idx, channel_index_t const ch_idx) {
-    connect(this->impl_ptr<impl>()->input_connectors(), co_idx, ch_idx);
+    connect(this->_impl->input_connectors(), co_idx, ch_idx);
 }
 
 void proc::module::connect_output(connector_index_t const co_idx, channel_index_t const ch_idx) {
-    connect(this->impl_ptr<impl>()->output_connectors(), co_idx, ch_idx);
+    connect(this->_impl->output_connectors(), co_idx, ch_idx);
 }
 
 void proc::module::disconnect_input(connector_index_t const idx) {
-    disconnect(this->impl_ptr<impl>()->input_connectors(), idx);
+    disconnect(this->_impl->input_connectors(), idx);
 }
 
 void proc::module::disconnect_output(connector_index_t const idx) {
-    disconnect(this->impl_ptr<impl>()->output_connectors(), idx);
+    disconnect(this->_impl->output_connectors(), idx);
 }
 
 proc::module::processors_t const &proc::module::processors() const {
-    return this->impl_ptr<impl>()->processors();
+    return this->_impl->processors();
 }
 
 proc::module proc::module::copy() const {
-    return this->impl_ptr<impl>()->copy();
+    return this->_impl->copy();
+}
+
+bool proc::module::operator==(module const &rhs) const {
+    return this->_impl && rhs._impl && (this->_impl == rhs._impl);
+}
+
+bool proc::module::operator!=(module const &rhs) const {
+    return !(*this == rhs);
+}
+
+proc::module::operator bool() const {
+    return this->_impl != nullptr;
 }
 
 std::vector<proc::module> proc::copy(std::vector<proc::module> const &modules) {

@@ -30,12 +30,6 @@ using namespace yas::proc;
     XCTAssertEqual(module.output_connectors().size(), 0);
 }
 
-- (void)test_create_null {
-    proc::module module = nullptr;
-
-    XCTAssertFalse(module);
-}
-
 - (void)test_process_called {
     proc::stream stream{sync_source{1, 456}};
 

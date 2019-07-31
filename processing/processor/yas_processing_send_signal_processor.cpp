@@ -46,8 +46,8 @@ proc::processor_f proc::make_send_signal_processor(proc::send_signal_process_f<T
                             auto const length = time_range.length;
                             auto const dst_idx = time_range.frame - combined_time_range.frame;
                             auto *dst_ptr = &vec[dst_idx];
-                            signal_event const signal = pair.second;
-                            signal.copy_to<T>(dst_ptr, length);
+                            std::shared_ptr<signal_event> const &signal = pair.second;
+                            signal->copy_to<T>(dst_ptr, length);
                         }
 
                         channel.erase_event<T, signal_event>(std::move(predicate));
@@ -55,7 +55,8 @@ proc::processor_f proc::make_send_signal_processor(proc::send_signal_process_f<T
                         handler(current_time_range, stream.sync_source(), ch_idx, co_idx,
                                 &vec[current_time_range.frame - combined_time_range.frame]);
 
-                        channel.insert_event(time{combined_time_range}, signal_event{std::move(vec)});
+                        channel.insert_event(time{combined_time_range},
+                                             proc::signal_event::make_shared(std::move(vec)));
 
                         return;
                     }
@@ -65,7 +66,7 @@ proc::processor_f proc::make_send_signal_processor(proc::send_signal_process_f<T
 
                 handler(current_time_range, stream.sync_source(), ch_idx, co_idx, vec.data());
 
-                channel.insert_event(time{current_time_range}, signal_event{std::move(vec)});
+                channel.insert_event(time{current_time_range}, signal_event::make_shared(std::move(vec)));
             }
         }
     };

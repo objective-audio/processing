@@ -269,9 +269,9 @@ typedef NS_ENUM(NSUInteger, SampleBits) {
                     float *buffer_data = buffer.data_ptr_at_channel<float>(0);
 
                     auto const &signal = events.begin()->second;
-                    float const *stream_data = signal.data<float>();
+                    float const *stream_data = signal->data<float>();
 
-                    memcpy(buffer_data, stream_data, signal.byte_size());
+                    memcpy(buffer_data, stream_data, signal->byte_size());
 
                     auto write_result = file.write_from_buffer(buffer);
                     if (!write_result) {
