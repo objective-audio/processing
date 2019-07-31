@@ -54,12 +54,6 @@ using namespace yas::proc;
     XCTAssertTrue(time.type() == typeid(time::any));
 }
 
-- (void)test_create_null {
-    proc::time time = nullptr;
-
-    XCTAssertFalse(time);
-}
-
 - (void)test_make_range_time {
     auto time = make_range_time(1, 2);
 

@@ -5,7 +5,6 @@
 #pragma once
 
 #include <chaining/yas_chaining_umbrella.h>
-#include <cpp_utils/yas_base.h>
 #include <vector>
 #include "yas_processing_connector.h"
 #include "yas_processing_processor.h"
@@ -13,7 +12,7 @@
 #include "yas_processing_time.h"
 
 namespace yas::proc {
-struct module : base {
+struct module {
     class impl;
 
     using processors_t = std::vector<processor_f>;
@@ -21,7 +20,6 @@ struct module : base {
 
     explicit module(make_processors_t);
     module(make_processors_t, connector_map_t input_connectors, connector_map_t output_connectors);
-    module(std::nullptr_t);
 
     void process(time::range const &, stream &);
 
@@ -35,6 +33,14 @@ struct module : base {
     processors_t const &processors() const;
 
     module copy() const;
+
+    bool operator==(module const &) const;
+    bool operator!=(module const &) const;
+
+    explicit operator bool() const;
+
+   private:
+    std::shared_ptr<impl> _impl;
 };
 
 using module_vector_t = std::vector<module>;

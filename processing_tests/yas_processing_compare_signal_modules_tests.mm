@@ -60,8 +60,8 @@
 
     XCTAssertEqual(events.size(), 1);
 
-    auto const signal = cast<signal_event>(events.cbegin()->second);
-    auto const &vec = signal.vector<boolean>();
+    auto const signal = std::dynamic_pointer_cast<signal_event>(events.cbegin()->second);
+    auto const &vec = signal->vector<boolean>();
 
     XCTAssertEqual(vec.size(), process_length);
     XCTAssertTrue(vec[0]);   // 0 == 0
@@ -103,8 +103,8 @@
 
     XCTAssertEqual(events.size(), 1);
 
-    auto const signal = cast<signal_event>(events.cbegin()->second);
-    auto const &vec = signal.vector<boolean>();
+    auto const signal = std::dynamic_pointer_cast<signal_event>(events.cbegin()->second);
+    auto const &vec = signal->vector<boolean>();
 
     XCTAssertEqual(vec.size(), process_length);
     XCTAssertFalse(vec[0]);  // 0 != 0
@@ -142,8 +142,8 @@
 
     XCTAssertEqual(events.size(), 1);
 
-    auto const signal = cast<signal_event>(events.cbegin()->second);
-    auto const &vec = signal.vector<boolean>();
+    auto const signal = std::dynamic_pointer_cast<signal_event>(events.cbegin()->second);
+    auto const &vec = signal->vector<boolean>();
 
     XCTAssertEqual(vec.size(), process_length);
     XCTAssertFalse(vec[0]);   // 0 > 0
@@ -186,8 +186,8 @@
 
     XCTAssertEqual(events.size(), 1);
 
-    auto const signal = cast<signal_event>(events.cbegin()->second);
-    auto const &vec = signal.vector<boolean>();
+    auto const signal = std::dynamic_pointer_cast<signal_event>(events.cbegin()->second);
+    auto const &vec = signal->vector<boolean>();
 
     XCTAssertEqual(vec.size(), process_length);
     XCTAssertTrue(vec[0]);   // 0 >= 0
@@ -230,8 +230,8 @@
 
     XCTAssertEqual(events.size(), 1);
 
-    auto const signal = cast<signal_event>(events.cbegin()->second);
-    auto const &vec = signal.vector<boolean>();
+    auto const signal = std::dynamic_pointer_cast<signal_event>(events.cbegin()->second);
+    auto const &vec = signal->vector<boolean>();
 
     XCTAssertEqual(vec.size(), process_length);
     XCTAssertFalse(vec[0]);   // 0 < 0
@@ -274,8 +274,8 @@
 
     XCTAssertEqual(events.size(), 1);
 
-    auto const signal = cast<signal_event>(events.cbegin()->second);
-    auto const &vec = signal.vector<boolean>();
+    auto const signal = std::dynamic_pointer_cast<signal_event>(events.cbegin()->second);
+    auto const &vec = signal->vector<boolean>();
 
     XCTAssertEqual(vec.size(), process_length);
     XCTAssertTrue(vec[0]);   // 0 <= 0

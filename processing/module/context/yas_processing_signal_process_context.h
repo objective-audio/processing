@@ -10,7 +10,7 @@
 namespace yas::proc {
 template <typename T, std::size_t N>
 struct signal_process_context {
-    using pair_t = std::pair<time, signal_event>;
+    using pair_t = std::pair<time, std::shared_ptr<signal_event>>;
     using pair_vector_t = std::vector<pair_t>;
 
     signal_process_context();

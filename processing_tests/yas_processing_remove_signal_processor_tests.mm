@@ -26,7 +26,7 @@ using namespace yas::proc;
     stream stream{sync_source{1, 1}};
 
     auto &channel = stream.add_channel(0);
-    channel.insert_event(make_range_time(0, 1), make_signal_event<int16_t>(1));
+    channel.insert_event(make_range_time(0, 1), signal_event::make_shared<int16_t>(1));
 
     module module{[] { return module::processors_t{make_remove_signal_processor<int16_t>({0})}; }};
     module.connect_input(0, 0);
@@ -40,10 +40,10 @@ using namespace yas::proc;
     stream stream{sync_source{1, 1}};
 
     auto &channel = stream.add_channel(0);
-    auto signal = make_signal_event<int16_t>(3);
-    signal.data<int16_t>()[0] = 100;
-    signal.data<int16_t>()[1] = 101;
-    signal.data<int16_t>()[2] = 102;
+    auto signal = signal_event::make_shared<int16_t>(3);
+    signal->data<int16_t>()[0] = 100;
+    signal->data<int16_t>()[1] = 101;
+    signal->data<int16_t>()[2] = 102;
     channel.insert_event(make_range_time(0, 3), signal);
 
     module module{[] { return module::processors_t{make_remove_signal_processor<int16_t>({0})}; }};
@@ -56,21 +56,21 @@ using namespace yas::proc;
     auto iterator = channel.events().cbegin();
     XCTAssertEqual(iterator->first.get<time::range>().frame, 0);
     XCTAssertEqual(iterator->first.get<time::range>().length, 1);
-    XCTAssertEqual(cast<signal_event>(iterator->second).data<int16_t>()[0], 100);
+    XCTAssertEqual(std::dynamic_pointer_cast<signal_event>(iterator->second)->data<int16_t>()[0], 100);
 
     ++iterator;
     XCTAssertEqual(iterator->first.get<time::range>().frame, 2);
     XCTAssertEqual(iterator->first.get<time::range>().length, 1);
-    XCTAssertEqual(cast<signal_event>(iterator->second).data<int16_t>()[0], 102);
+    XCTAssertEqual(std::dynamic_pointer_cast<signal_event>(iterator->second)->data<int16_t>()[0], 102);
 }
 
 - (void)test_type {
     stream stream{sync_source{1, 1}};
 
     auto &channel = stream.add_channel(0);
-    channel.insert_event(make_range_time(0, 1), make_signal_event<int8_t>(1));
-    channel.insert_event(make_range_time(0, 1), make_signal_event<int16_t>(1));
-    channel.insert_event(make_range_time(0, 1), make_signal_event<int32_t>(1));
+    channel.insert_event(make_range_time(0, 1), signal_event::make_shared<int8_t>(1));
+    channel.insert_event(make_range_time(0, 1), signal_event::make_shared<int16_t>(1));
+    channel.insert_event(make_range_time(0, 1), signal_event::make_shared<int32_t>(1));
 
     module module{[] { return module::processors_t{make_remove_signal_processor<int16_t>({0})}; }};
     module.connect_input(0, 0);
@@ -80,9 +80,9 @@ using namespace yas::proc;
     XCTAssertEqual(channel.events().size(), 2);
 
     auto iterator = channel.events().cbegin();
-    XCTAssertTrue(cast<signal_event>(iterator->second).sample_type() != typeid(int16_t));
+    XCTAssertTrue(std::dynamic_pointer_cast<signal_event>(iterator->second)->sample_type() != typeid(int16_t));
     ++iterator;
-    XCTAssertTrue(cast<signal_event>(iterator->second).sample_type() != typeid(int16_t));
+    XCTAssertTrue(std::dynamic_pointer_cast<signal_event>(iterator->second)->sample_type() != typeid(int16_t));
 }
 
 - (void)test_key {
@@ -90,13 +90,13 @@ using namespace yas::proc;
 
     {
         auto &channel0 = stream.add_channel(0);
-        channel0.insert_event(make_range_time(0, 1), make_signal_event<int16_t>(1));
+        channel0.insert_event(make_range_time(0, 1), signal_event::make_shared<int16_t>(1));
 
         auto &channel1 = stream.add_channel(1);
-        channel1.insert_event(make_range_time(0, 1), make_signal_event<int16_t>(1));
+        channel1.insert_event(make_range_time(0, 1), signal_event::make_shared<int16_t>(1));
 
         auto &channel2 = stream.add_channel(2);
-        channel2.insert_event(make_range_time(0, 1), make_signal_event<int16_t>(1));
+        channel2.insert_event(make_range_time(0, 1), signal_event::make_shared<int16_t>(1));
     }
 
     module module{[] { return module::processors_t{make_remove_signal_processor<int16_t>({0, 2})}; }};

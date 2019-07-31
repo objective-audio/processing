@@ -10,21 +10,9 @@
 
 namespace yas::proc {
 struct signal_event : event {
-    class impl;
-
-    template <typename T>
-    class type_impl;
-
     using time_type = time::range;
-    using pair_t = std::pair<time::range, signal_event>;
+    using pair_t = std::pair<time::range, std::shared_ptr<signal_event>>;
     using pair_vector_t = std::vector<pair_t>;
-
-    template <typename T>
-    explicit signal_event(std::vector<T> &&bytes);
-    template <typename T>
-    explicit signal_event(std::vector<T> &bytes);
-
-    signal_event(std::nullptr_t);
 
     std::type_info const &sample_type() const;
     std::size_t sample_byte_count() const;
@@ -48,15 +36,41 @@ struct signal_event : event {
     template <typename T>
     void copy_to(T *, std::size_t const) const;
 
-    signal_event copy_in_range(time::range const &) const;
+    std::shared_ptr<signal_event> copy_in_range(time::range const &) const;
     pair_vector_t cropped(time::range const &) const;
     pair_t combined(time::range const &, pair_vector_t);
-};
 
-template <typename T>
-proc::signal_event make_signal_event(std::size_t const size);
-template <typename T>
-proc::signal_event make_signal_event(std::size_t const size, std::size_t const reserve);
+    std::shared_ptr<event> copy() const override;
+    bool validate_time(time const &) const override;
+
+   private:
+    class impl;
+
+    template <typename T>
+    class type_impl;
+
+    std::shared_ptr<impl> _impl;
+
+    template <typename T>
+    explicit signal_event(std::vector<T> &&bytes);
+    template <typename T>
+    explicit signal_event(std::vector<T> &bytes);
+
+    signal_event(signal_event const &) = delete;
+    signal_event(signal_event &&) = delete;
+    signal_event &operator=(signal_event const &) = delete;
+    signal_event &operator=(signal_event &&) = delete;
+
+   public:
+    template <typename T>
+    static std::shared_ptr<proc::signal_event> make_shared(std::size_t const size);
+    template <typename T>
+    static std::shared_ptr<proc::signal_event> make_shared(std::size_t const size, std::size_t const reserve);
+    template <typename T>
+    static std::shared_ptr<proc::signal_event> make_shared(std::vector<T> &&);
+    template <typename T>
+    static std::shared_ptr<proc::signal_event> make_shared(std::vector<T> &);
+};
 }  // namespace yas::proc
 
 #include "yas_processing_signal_event_private.h"

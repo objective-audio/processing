@@ -29,8 +29,8 @@ using namespace yas::proc;
 
     XCTAssertFalse(context.inputs().at(0).first);
     XCTAssertFalse(context.inputs().at(1).first);
-    XCTAssertEqual(context.inputs().at(0).second.size(), 0);
-    XCTAssertEqual(context.inputs().at(1).second.size(), 0);
+    XCTAssertEqual(context.inputs().at(0).second->size(), 0);
+    XCTAssertEqual(context.inputs().at(1).second->size(), 0);
 }
 
 - (void)test_set_time {
@@ -69,21 +69,21 @@ using namespace yas::proc;
     int8_t data0[2] = {11, 12};
     context.copy_data_from(data0, 2, 0);
 
-    XCTAssertEqual(context.inputs().at(0).second.size(), 2);
-    XCTAssertEqual(context.inputs().at(0).second.data<int8_t>()[0], 11);
-    XCTAssertEqual(context.inputs().at(0).second.data<int8_t>()[1], 12);
-    XCTAssertEqual(context.inputs().at(1).second.size(), 0);
+    XCTAssertEqual(context.inputs().at(0).second->size(), 2);
+    XCTAssertEqual(context.inputs().at(0).second->data<int8_t>()[0], 11);
+    XCTAssertEqual(context.inputs().at(0).second->data<int8_t>()[1], 12);
+    XCTAssertEqual(context.inputs().at(1).second->size(), 0);
 
     int8_t data1[3] = {21, 22, 23};
     context.copy_data_from(data1, 3, 1);
 
-    XCTAssertEqual(context.inputs().at(0).second.size(), 2);
-    XCTAssertEqual(context.inputs().at(0).second.data<int8_t>()[0], 11);
-    XCTAssertEqual(context.inputs().at(0).second.data<int8_t>()[1], 12);
-    XCTAssertEqual(context.inputs().at(1).second.size(), 3);
-    XCTAssertEqual(context.inputs().at(1).second.data<int8_t>()[0], 21);
-    XCTAssertEqual(context.inputs().at(1).second.data<int8_t>()[1], 22);
-    XCTAssertEqual(context.inputs().at(1).second.data<int8_t>()[2], 23);
+    XCTAssertEqual(context.inputs().at(0).second->size(), 2);
+    XCTAssertEqual(context.inputs().at(0).second->data<int8_t>()[0], 11);
+    XCTAssertEqual(context.inputs().at(0).second->data<int8_t>()[1], 12);
+    XCTAssertEqual(context.inputs().at(1).second->size(), 3);
+    XCTAssertEqual(context.inputs().at(1).second->data<int8_t>()[0], 21);
+    XCTAssertEqual(context.inputs().at(1).second->data<int8_t>()[1], 22);
+    XCTAssertEqual(context.inputs().at(1).second->data<int8_t>()[2], 23);
 }
 
 - (void)test_data {
@@ -113,7 +113,7 @@ using namespace yas::proc;
     context.reset(2);
 
     XCTAssertFalse(context.inputs().at(0).first);
-    XCTAssertEqual(context.inputs().at(0).second.size(), 0);
+    XCTAssertEqual(context.inputs().at(0).second->size(), 0);
 }
 
 @end

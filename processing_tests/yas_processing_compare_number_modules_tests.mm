@@ -65,10 +65,10 @@ using namespace yas::proc;
 
     auto event_iterator = events.cbegin();
 
-    XCTAssertFalse((event_iterator++)->second.get<boolean>());  // 1 == 0
-    XCTAssertTrue((event_iterator++)->second.get<boolean>());   // 2 == 2
-    XCTAssertFalse((event_iterator++)->second.get<boolean>());  // 3 == 2
-    XCTAssertFalse((event_iterator++)->second.get<boolean>());  // 0 == 2
+    XCTAssertFalse((event_iterator++)->second->get<boolean>());  // 1 == 0
+    XCTAssertTrue((event_iterator++)->second->get<boolean>());   // 2 == 2
+    XCTAssertFalse((event_iterator++)->second->get<boolean>());  // 3 == 2
+    XCTAssertFalse((event_iterator++)->second->get<boolean>());  // 0 == 2
 }
 
 - (void)test_is_not_equal {
@@ -104,10 +104,10 @@ using namespace yas::proc;
 
     auto event_iterator = events.cbegin();
 
-    XCTAssertTrue((event_iterator++)->second.get<boolean>());   // 1 != 0
-    XCTAssertFalse((event_iterator++)->second.get<boolean>());  // 2 != 2
-    XCTAssertTrue((event_iterator++)->second.get<boolean>());   // 3 != 2
-    XCTAssertTrue((event_iterator++)->second.get<boolean>());   // 0 != 2
+    XCTAssertTrue((event_iterator++)->second->get<boolean>());   // 1 != 0
+    XCTAssertFalse((event_iterator++)->second->get<boolean>());  // 2 != 2
+    XCTAssertTrue((event_iterator++)->second->get<boolean>());   // 3 != 2
+    XCTAssertTrue((event_iterator++)->second->get<boolean>());   // 0 != 2
 }
 
 - (void)test_is_greater {
@@ -139,15 +139,15 @@ using namespace yas::proc;
 
     auto event_iterator = events.cbegin();
 
-    XCTAssertFalse((event_iterator++)->second.get<boolean>());  // -1 > 0
-    XCTAssertFalse((event_iterator++)->second.get<boolean>());  // 0 > 0
-    XCTAssertTrue((event_iterator++)->second.get<boolean>());   // 1 > 0
-    XCTAssertFalse((event_iterator++)->second.get<boolean>());  // 2 > 3
-    XCTAssertFalse((event_iterator++)->second.get<boolean>());  // 3 > 3
-    XCTAssertTrue((event_iterator++)->second.get<boolean>());   // 4 > 3
-    XCTAssertFalse((event_iterator++)->second.get<boolean>());  // 0 > 1
-    XCTAssertFalse((event_iterator++)->second.get<boolean>());  // 0 > 0
-    XCTAssertTrue((event_iterator++)->second.get<boolean>());   // 0 > -1
+    XCTAssertFalse((event_iterator++)->second->get<boolean>());  // -1 > 0
+    XCTAssertFalse((event_iterator++)->second->get<boolean>());  // 0 > 0
+    XCTAssertTrue((event_iterator++)->second->get<boolean>());   // 1 > 0
+    XCTAssertFalse((event_iterator++)->second->get<boolean>());  // 2 > 3
+    XCTAssertFalse((event_iterator++)->second->get<boolean>());  // 3 > 3
+    XCTAssertTrue((event_iterator++)->second->get<boolean>());   // 4 > 3
+    XCTAssertFalse((event_iterator++)->second->get<boolean>());  // 0 > 1
+    XCTAssertFalse((event_iterator++)->second->get<boolean>());  // 0 > 0
+    XCTAssertTrue((event_iterator++)->second->get<boolean>());   // 0 > -1
 }
 
 - (void)test_is_greater_equal {
@@ -179,15 +179,15 @@ using namespace yas::proc;
 
     auto event_iterator = events.cbegin();
 
-    XCTAssertFalse((event_iterator++)->second.get<boolean>());  // -1 >= 0
-    XCTAssertTrue((event_iterator++)->second.get<boolean>());   // 0 >= 0
-    XCTAssertTrue((event_iterator++)->second.get<boolean>());   // 1 >= 0
-    XCTAssertFalse((event_iterator++)->second.get<boolean>());  // 2 >= 3
-    XCTAssertTrue((event_iterator++)->second.get<boolean>());   // 3 >= 3
-    XCTAssertTrue((event_iterator++)->second.get<boolean>());   // 4 >= 3
-    XCTAssertFalse((event_iterator++)->second.get<boolean>());  // 0 >= 1
-    XCTAssertTrue((event_iterator++)->second.get<boolean>());   // 0 >= 0
-    XCTAssertTrue((event_iterator++)->second.get<boolean>());   // 0 >= -1
+    XCTAssertFalse((event_iterator++)->second->get<boolean>());  // -1 >= 0
+    XCTAssertTrue((event_iterator++)->second->get<boolean>());   // 0 >= 0
+    XCTAssertTrue((event_iterator++)->second->get<boolean>());   // 1 >= 0
+    XCTAssertFalse((event_iterator++)->second->get<boolean>());  // 2 >= 3
+    XCTAssertTrue((event_iterator++)->second->get<boolean>());   // 3 >= 3
+    XCTAssertTrue((event_iterator++)->second->get<boolean>());   // 4 >= 3
+    XCTAssertFalse((event_iterator++)->second->get<boolean>());  // 0 >= 1
+    XCTAssertTrue((event_iterator++)->second->get<boolean>());   // 0 >= 0
+    XCTAssertTrue((event_iterator++)->second->get<boolean>());   // 0 >= -1
 }
 
 - (void)test_is_less {
@@ -219,15 +219,15 @@ using namespace yas::proc;
 
     auto event_iterator = events.cbegin();
 
-    XCTAssertTrue((event_iterator++)->second.get<boolean>());   // -1 < 0
-    XCTAssertFalse((event_iterator++)->second.get<boolean>());  // 0 < 0
-    XCTAssertFalse((event_iterator++)->second.get<boolean>());  // 1 < 0
-    XCTAssertTrue((event_iterator++)->second.get<boolean>());   // 2 < 3
-    XCTAssertFalse((event_iterator++)->second.get<boolean>());  // 3 < 3
-    XCTAssertFalse((event_iterator++)->second.get<boolean>());  // 4 < 3
-    XCTAssertTrue((event_iterator++)->second.get<boolean>());   // 0 < 1
-    XCTAssertFalse((event_iterator++)->second.get<boolean>());  // 0 < 0
-    XCTAssertFalse((event_iterator++)->second.get<boolean>());  // 0 < -1
+    XCTAssertTrue((event_iterator++)->second->get<boolean>());   // -1 < 0
+    XCTAssertFalse((event_iterator++)->second->get<boolean>());  // 0 < 0
+    XCTAssertFalse((event_iterator++)->second->get<boolean>());  // 1 < 0
+    XCTAssertTrue((event_iterator++)->second->get<boolean>());   // 2 < 3
+    XCTAssertFalse((event_iterator++)->second->get<boolean>());  // 3 < 3
+    XCTAssertFalse((event_iterator++)->second->get<boolean>());  // 4 < 3
+    XCTAssertTrue((event_iterator++)->second->get<boolean>());   // 0 < 1
+    XCTAssertFalse((event_iterator++)->second->get<boolean>());  // 0 < 0
+    XCTAssertFalse((event_iterator++)->second->get<boolean>());  // 0 < -1
 }
 
 - (void)test_is_less_equal {
@@ -259,15 +259,15 @@ using namespace yas::proc;
 
     auto event_iterator = events.cbegin();
 
-    XCTAssertTrue((event_iterator++)->second.get<boolean>());   // -1 <= 0
-    XCTAssertTrue((event_iterator++)->second.get<boolean>());   // 0 <= 0
-    XCTAssertFalse((event_iterator++)->second.get<boolean>());  // 1 <= 0
-    XCTAssertTrue((event_iterator++)->second.get<boolean>());   // 2 <= 3
-    XCTAssertTrue((event_iterator++)->second.get<boolean>());   // 3 <= 3
-    XCTAssertFalse((event_iterator++)->second.get<boolean>());  // 4 <= 3
-    XCTAssertTrue((event_iterator++)->second.get<boolean>());   // 0 <= 1
-    XCTAssertTrue((event_iterator++)->second.get<boolean>());   // 0 <= 0
-    XCTAssertFalse((event_iterator++)->second.get<boolean>());  // 0 <= -1
+    XCTAssertTrue((event_iterator++)->second->get<boolean>());   // -1 <= 0
+    XCTAssertTrue((event_iterator++)->second->get<boolean>());   // 0 <= 0
+    XCTAssertFalse((event_iterator++)->second->get<boolean>());  // 1 <= 0
+    XCTAssertTrue((event_iterator++)->second->get<boolean>());   // 2 <= 3
+    XCTAssertTrue((event_iterator++)->second->get<boolean>());   // 3 <= 3
+    XCTAssertFalse((event_iterator++)->second->get<boolean>());  // 4 <= 3
+    XCTAssertTrue((event_iterator++)->second->get<boolean>());   // 0 <= 1
+    XCTAssertTrue((event_iterator++)->second->get<boolean>());   // 0 <= 0
+    XCTAssertFalse((event_iterator++)->second->get<boolean>());  // 0 <= -1
 }
 
 - (void)test_connect_input {

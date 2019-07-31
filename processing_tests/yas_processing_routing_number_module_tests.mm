@@ -71,8 +71,8 @@ using namespace yas::proc;
     XCTAssertEqual(output_events.size(), 2);
 
     auto event_iterator = output_events.cbegin();
-    XCTAssertEqual((event_iterator++)->second.get<int8_t>(), 1);
-    XCTAssertEqual((event_iterator++)->second.get<int8_t>(), 2);
+    XCTAssertEqual((event_iterator++)->second->get<int8_t>(), 1);
+    XCTAssertEqual((event_iterator++)->second->get<int8_t>(), 2);
 }
 
 - (void)test_move_number_process_part {
@@ -94,13 +94,13 @@ using namespace yas::proc;
     XCTAssertEqual(unprocessed_events.size(), 1);
 
     XCTAssertEqual(unprocessed_events.cbegin()->first, 0);
-    XCTAssertEqual(unprocessed_events.cbegin()->second.get<int8_t>(), 1);
+    XCTAssertEqual(unprocessed_events.cbegin()->second->get<int8_t>(), 1);
 
     auto const &processed_events = stream.channel(output_ch_idx).filtered_events<int8_t, number_event>();
     XCTAssertEqual(processed_events.size(), 1);
 
     XCTAssertEqual(processed_events.cbegin()->first, 1);
-    XCTAssertEqual(processed_events.cbegin()->second.get<int8_t>(), 2);
+    XCTAssertEqual(processed_events.cbegin()->second->get<int8_t>(), 2);
 }
 
 - (void)test_copy_number_process {
@@ -122,15 +122,15 @@ using namespace yas::proc;
     XCTAssertEqual(input_events.size(), 2);
 
     auto input_iterator = input_events.cbegin();
-    XCTAssertEqual((input_iterator++)->second.get<int8_t>(), 1);
-    XCTAssertEqual((input_iterator++)->second.get<int8_t>(), 2);
+    XCTAssertEqual((input_iterator++)->second->get<int8_t>(), 1);
+    XCTAssertEqual((input_iterator++)->second->get<int8_t>(), 2);
 
     auto const &output_events = stream.channel(output_ch_idx).filtered_events<int8_t, number_event>();
     XCTAssertEqual(output_events.size(), 2);
 
     auto output_iterator = output_events.cbegin();
-    XCTAssertEqual((output_iterator++)->second.get<int8_t>(), 1);
-    XCTAssertEqual((output_iterator++)->second.get<int8_t>(), 2);
+    XCTAssertEqual((output_iterator++)->second->get<int8_t>(), 1);
+    XCTAssertEqual((output_iterator++)->second->get<int8_t>(), 2);
 }
 
 - (void)test_copy_number_process_part {
@@ -153,16 +153,16 @@ using namespace yas::proc;
 
     auto input_iterator = input_events.cbegin();
     XCTAssertEqual(input_iterator->first, 0);
-    XCTAssertEqual((input_iterator++)->second.get<int8_t>(), 1);
+    XCTAssertEqual((input_iterator++)->second->get<int8_t>(), 1);
     XCTAssertEqual(input_iterator->first, 1);
-    XCTAssertEqual((input_iterator++)->second.get<int8_t>(), 2);
+    XCTAssertEqual((input_iterator++)->second->get<int8_t>(), 2);
 
     auto const &output_events = stream.channel(output_ch_idx).filtered_events<int8_t, number_event>();
     XCTAssertEqual(output_events.size(), 1);
 
     auto output_iterator = output_events.cbegin();
     XCTAssertEqual(output_iterator->first, 1);
-    XCTAssertEqual(output_iterator->second.get<int8_t>(), 2);
+    XCTAssertEqual(output_iterator->second->get<int8_t>(), 2);
 }
 
 - (void)test_connect_input {

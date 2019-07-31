@@ -101,8 +101,9 @@ proc::module make_number_module() {
                 auto const &ch_idx = connector.channel_index;
                 auto &channel = stream.has_channel(ch_idx) ? stream.channel(ch_idx) : stream.add_channel(ch_idx);
                 for (auto const &input_pair : context->inputs()) {
-                    channel.insert_event(make_frame_time(input_pair.first),
-                                         number_event{static_cast<Out>(*input_pair.second.values[input_co_idx])});
+                    channel.insert_event(
+                        make_frame_time(input_pair.first),
+                        number_event::make_shared(static_cast<Out>(*input_pair.second.values[input_co_idx])));
                 }
             }
         };

@@ -31,8 +31,8 @@ proc::processor_f proc::make_remove_number_processor(connector_index_set_t keys)
                     if (time.type() == typeid(time::frame)) {
                         auto const &frame = time.get<time::frame>();
                         if (time_range.is_contain(frame)) {
-                            if (auto const number = cast<proc::number_event>(pair.second)) {
-                                return number.sample_type() == typeid(T);
+                            if (auto const number = std::dynamic_pointer_cast<proc::number_event>(pair.second)) {
+                                return number->sample_type() == typeid(T);
                             }
                         }
                     }

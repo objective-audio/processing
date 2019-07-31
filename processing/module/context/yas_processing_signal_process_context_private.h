@@ -15,7 +15,7 @@ signal_process_context<T, N>::signal_process_context() {
 
     auto each = make_fast_each(N);
     while (yas_each_next(each)) {
-        this->_inputs.emplace_back(std::make_pair(proc::time{nullptr}, signal_event{std::vector<T>(0)}));
+        this->_inputs.emplace_back(std::make_pair(proc::time{nullptr}, signal_event::make_shared(std::vector<T>(0))));
     }
 }
 
@@ -23,8 +23,8 @@ template <typename T, std::size_t N>
 void signal_process_context<T, N>::reset(std::size_t const reserve_size) {
     for (auto &input_pair : this->_inputs) {
         input_pair.first = nullptr;
-        input_pair.second.reserve(reserve_size);
-        input_pair.second.resize(0);
+        input_pair.second->reserve(reserve_size);
+        input_pair.second->resize(0);
     }
 }
 
@@ -35,14 +35,14 @@ typename signal_process_context<T, N>::pair_vector_t const &signal_process_conte
 
 template <typename T, std::size_t N>
 void signal_process_context<T, N>::copy_data_from(T const *ptr, std::size_t const size, std::size_t const idx) {
-    signal_event &signal = this->_inputs.at(idx).second;
-    signal.copy_from<T>(ptr, size);
+    std::shared_ptr<signal_event> &signal = this->_inputs.at(idx).second;
+    signal->copy_from<T>(ptr, size);
 }
 
 template <typename T, std::size_t N>
 T const *signal_process_context<T, N>::data(std::size_t const idx) const {
-    signal_event const &signal = this->_inputs.at(idx).second;
-    return signal.data<T>();
+    std::shared_ptr<signal_event> const &signal = this->_inputs.at(idx).second;
+    return signal->data<T>();
 }
 
 template <typename T, std::size_t N>

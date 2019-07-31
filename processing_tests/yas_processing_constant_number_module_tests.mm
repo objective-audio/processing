@@ -55,14 +55,14 @@ using namespace yas::proc;
 
     auto const &event_pair = *channel.events().cbegin();
     auto const &time = event_pair.first;
-    auto const number = cast<proc::number_event>(event_pair.second);
+    auto const number = std::dynamic_pointer_cast<proc::number_event>(event_pair.second);
 
     XCTAssertTrue(time.type() == typeid(proc::time::frame));
 
     auto const &frame = time.get<proc::time::frame>();
 
     XCTAssertEqual(frame, 3);
-    XCTAssertEqual(number.get<int16_t>(), 55);
+    XCTAssertEqual(number->get<int16_t>(), 55);
 }
 
 @end

@@ -25,15 +25,8 @@ using namespace yas::proc;
 - (void)test_create_stream {
     proc::stream stream{sync_source{1, 2}};
 
-    XCTAssertTrue(stream);
     XCTAssertEqual(stream.sync_source(), (sync_source{1, 2}));
     XCTAssertEqual(stream.channel_count(), 0);
-}
-
-- (void)test_create_null {
-    proc::stream stream{nullptr};
-
-    XCTAssertFalse(stream);
 }
 
 - (void)test_add_channel {
@@ -78,8 +71,8 @@ using namespace yas::proc;
 
     auto &returned_channel = stream.add_channel(1);
 
-    XCTAssertTrue(returned_channel);
-    XCTAssertEqual(returned_channel, stream.channel(1));
+    XCTAssertEqual(returned_channel.events().size(), 0);
+    XCTAssertEqual(&returned_channel, &stream.channel(1));
 }
 
 - (void)test_channel {
@@ -88,16 +81,16 @@ using namespace yas::proc;
     stream.add_channel(2);
 
     auto &channel = stream.channel(2);
-    channel.insert_event({0, 2}, signal_event{std::vector<int8_t>{5, 6}});
+    channel.insert_event({0, 2}, signal_event::make_shared(std::vector<int8_t>{5, 6}));
 
     auto const &const_stream = stream;
     auto const &const_channel = const_stream.channel(2);
 
     XCTAssertEqual(const_channel.events().size(), 1);
 
-    auto const const_signal = cast<proc::signal_event>(const_channel.events().cbegin()->second);
-    XCTAssertEqual(const_signal.vector<int8_t>()[0], 5);
-    XCTAssertEqual(const_signal.vector<int8_t>()[1], 6);
+    auto const const_signal = std::dynamic_pointer_cast<proc::signal_event>(const_channel.events().cbegin()->second);
+    XCTAssertEqual(const_signal->vector<int8_t>()[0], 5);
+    XCTAssertEqual(const_signal->vector<int8_t>()[1], 6);
 }
 
 - (void)test_channels {

@@ -7,19 +7,6 @@
 
 using namespace yas;
 
-proc::event::event(std::shared_ptr<impl> const &impl) : base(impl) {
-}
-
-proc::event::event(std::shared_ptr<impl> &&impl) : base(std::move(impl)) {
-}
-
-proc::event::event(std::nullptr_t) : base(nullptr) {
-}
-
-bool proc::event::validate_time(time const &time) const {
-    return this->impl_ptr<impl>()->validate_time(time);
-}
-
-proc::event proc::event::copy() const {
-    return this->impl_ptr<impl>()->copy();
+bool proc::event::is_equal(std::shared_ptr<event> const &rhs) const {
+    return reinterpret_cast<uintptr_t>(this) == reinterpret_cast<uintptr_t>(rhs.get());
 }

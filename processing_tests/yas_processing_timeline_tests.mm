@@ -86,12 +86,12 @@ using namespace yas::proc;
     proc::time called_send_time = nullptr;
     proc::time called_receive_time = nullptr;
 
-    auto process_signal = make_signal_event<int16_t>(2);
+    auto process_signal = signal_event::make_shared<int16_t>(2);
 
     auto clear = [&called_send_time, &called_receive_time, &process_signal]() {
         called_send_time = {};
         called_receive_time = {};
-        auto &vec = process_signal.vector<int16_t>();
+        auto &vec = process_signal->vector<int16_t>();
         for (auto const &idx : make_each_index(2)) {
             vec[idx] = 0;
         }
@@ -127,7 +127,7 @@ using namespace yas::proc;
         called_send_time = proc::time{time_range};
 
         if (co_idx == 0) {
-            auto &vec = process_signal.vector<int16_t>();
+            auto &vec = process_signal->vector<int16_t>();
             for (auto const &idx : make_each_index(time_range.length)) {
                 signal_ptr[idx] = vec[idx];
             }
@@ -140,7 +140,7 @@ using namespace yas::proc;
         called_receive_time = proc::time{time_range};
 
         if (co_idx == 0) {
-            auto &vec = process_signal.vector<int16_t>();
+            auto &vec = process_signal->vector<int16_t>();
             for (auto const &idx : make_each_index(time_range.length)) {
                 vec[idx] = signal_ptr[idx] + 1;
             }
@@ -170,7 +170,7 @@ using namespace yas::proc;
         XCTAssertTrue(stream.has_channel(0));
         auto &events = stream.channel(0).events();
         XCTAssertEqual(events.size(), 1);
-        auto const &vec = cast<proc::signal_event>(events.cbegin()->second).vector<int16_t>();
+        auto const &vec = std::dynamic_pointer_cast<proc::signal_event>(events.cbegin()->second)->vector<int16_t>();
         XCTAssertEqual(vec.size(), 2);
         XCTAssertEqual(vec[0], 1);
         XCTAssertEqual(vec[1], 2);
@@ -189,7 +189,7 @@ using namespace yas::proc;
         XCTAssertTrue(stream.has_channel(0));
         auto &events = stream.channel(0).events();
         XCTAssertEqual(events.size(), 1);
-        auto const &vec = cast<proc::signal_event>(events.cbegin()->second).vector<int16_t>();
+        auto const &vec = std::dynamic_pointer_cast<proc::signal_event>(events.cbegin()->second)->vector<int16_t>();
         XCTAssertEqual(vec.size(), 1);
         XCTAssertEqual(vec[0], 1);
     }
@@ -207,7 +207,7 @@ using namespace yas::proc;
         XCTAssertTrue(stream.has_channel(0));
         auto &events = stream.channel(0).events();
         XCTAssertEqual(events.size(), 1);
-        auto const &vec = cast<proc::signal_event>(events.cbegin()->second).vector<int16_t>();
+        auto const &vec = std::dynamic_pointer_cast<proc::signal_event>(events.cbegin()->second)->vector<int16_t>();
         XCTAssertEqual(vec.size(), 1);
         XCTAssertEqual(vec[0], 1);
     }
@@ -245,8 +245,8 @@ using namespace yas::proc;
                      [&ch_idx, &called](time::range const &time_range, stream const &stream) {
                          auto const &channel = stream.channel(ch_idx);
                          auto const &pair = *channel.events().cbegin();
-                         auto const signal = cast<signal_event>(pair.second);
-                         called.emplace_back(std::make_pair(pair.first.get<time::range>(), signal.vector<int8_t>()));
+                         auto const signal = std::dynamic_pointer_cast<signal_event>(pair.second);
+                         called.emplace_back(std::make_pair(pair.first.get<time::range>(), signal->vector<int8_t>()));
                          return proc::continuation::keep;
                      });
 
@@ -293,8 +293,8 @@ using namespace yas::proc;
                            std::optional<track_index_t> const &trk_idx) {
             auto const &channel = stream.channel(ch_idx);
             auto const &pair = *channel.events().cbegin();
-            auto const signal = cast<signal_event>(pair.second);
-            called.push_back(std::make_tuple(pair.first.get<time::range>(), trk_idx, signal.vector<int8_t>()));
+            auto const signal = std::dynamic_pointer_cast<signal_event>(pair.second);
+            called.push_back(std::make_tuple(pair.first.get<time::range>(), trk_idx, signal->vector<int8_t>()));
             return proc::continuation::keep;
         });
 

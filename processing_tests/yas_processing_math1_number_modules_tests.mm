@@ -85,14 +85,14 @@ namespace test {
 
     auto event_iterator = events.cbegin();
 
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::sin(test::radian_input_data[0]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::sin(test::radian_input_data[1]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::sin(test::radian_input_data[2]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::sin(test::radian_input_data[3]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::sin(test::radian_input_data[4]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::sin(test::radian_input_data[5]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::sin(test::radian_input_data[6]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::sin(test::radian_input_data[7]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::sin(test::radian_input_data[0]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::sin(test::radian_input_data[1]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::sin(test::radian_input_data[2]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::sin(test::radian_input_data[3]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::sin(test::radian_input_data[4]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::sin(test::radian_input_data[5]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::sin(test::radian_input_data[6]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::sin(test::radian_input_data[7]), 0.01);
 }
 
 - (void)test_cos {
@@ -110,14 +110,14 @@ namespace test {
 
     auto event_iterator = events.cbegin();
 
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::cos(test::radian_input_data[0]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::cos(test::radian_input_data[1]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::cos(test::radian_input_data[2]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::cos(test::radian_input_data[3]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::cos(test::radian_input_data[4]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::cos(test::radian_input_data[5]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::cos(test::radian_input_data[6]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::cos(test::radian_input_data[7]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::cos(test::radian_input_data[0]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::cos(test::radian_input_data[1]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::cos(test::radian_input_data[2]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::cos(test::radian_input_data[3]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::cos(test::radian_input_data[4]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::cos(test::radian_input_data[5]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::cos(test::radian_input_data[6]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::cos(test::radian_input_data[7]), 0.01);
 }
 
 - (void)test_tan {
@@ -135,14 +135,14 @@ namespace test {
 
     auto event_iterator = events.cbegin();
 
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::tan(test::radian_input_data[0]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::tan(test::radian_input_data[1]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::tan(test::radian_input_data[2]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::tan(test::radian_input_data[3]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::tan(test::radian_input_data[4]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::tan(test::radian_input_data[5]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::tan(test::radian_input_data[6]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::tan(test::radian_input_data[7]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::tan(test::radian_input_data[0]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::tan(test::radian_input_data[1]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::tan(test::radian_input_data[2]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::tan(test::radian_input_data[3]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::tan(test::radian_input_data[4]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::tan(test::radian_input_data[5]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::tan(test::radian_input_data[6]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::tan(test::radian_input_data[7]), 0.01);
 }
 
 - (void)test_asin {
@@ -160,14 +160,14 @@ namespace test {
 
     auto event_iterator = events.cbegin();
 
-    XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::asin(test::linear_input_data[1]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::asin(test::linear_input_data[2]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::asin(test::linear_input_data[3]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::asin(test::linear_input_data[4]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::asin(test::linear_input_data[5]), 0.01);
-    XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
-    XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
+    XCTAssertTrue(std::isnan((event_iterator++)->second->get<double>()));
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::asin(test::linear_input_data[1]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::asin(test::linear_input_data[2]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::asin(test::linear_input_data[3]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::asin(test::linear_input_data[4]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::asin(test::linear_input_data[5]), 0.01);
+    XCTAssertTrue(std::isnan((event_iterator++)->second->get<double>()));
+    XCTAssertTrue(std::isnan((event_iterator++)->second->get<double>()));
 }
 
 - (void)test_acos {
@@ -185,14 +185,14 @@ namespace test {
 
     auto event_iterator = events.cbegin();
 
-    XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::acos(test::linear_input_data[1]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::acos(test::linear_input_data[2]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::acos(test::linear_input_data[3]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::acos(test::linear_input_data[4]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::acos(test::linear_input_data[5]), 0.01);
-    XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
-    XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
+    XCTAssertTrue(std::isnan((event_iterator++)->second->get<double>()));
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::acos(test::linear_input_data[1]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::acos(test::linear_input_data[2]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::acos(test::linear_input_data[3]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::acos(test::linear_input_data[4]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::acos(test::linear_input_data[5]), 0.01);
+    XCTAssertTrue(std::isnan((event_iterator++)->second->get<double>()));
+    XCTAssertTrue(std::isnan((event_iterator++)->second->get<double>()));
 }
 
 - (void)test_atan {
@@ -210,14 +210,14 @@ namespace test {
 
     auto event_iterator = events.cbegin();
 
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::atan(test::linear_input_data[0]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::atan(test::linear_input_data[1]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::atan(test::linear_input_data[2]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::atan(test::linear_input_data[3]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::atan(test::linear_input_data[4]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::atan(test::linear_input_data[5]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::atan(test::linear_input_data[6]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::atan(test::linear_input_data[7]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::atan(test::linear_input_data[0]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::atan(test::linear_input_data[1]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::atan(test::linear_input_data[2]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::atan(test::linear_input_data[3]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::atan(test::linear_input_data[4]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::atan(test::linear_input_data[5]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::atan(test::linear_input_data[6]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::atan(test::linear_input_data[7]), 0.01);
 }
 
 - (void)test_sinh {
@@ -233,14 +233,14 @@ namespace test {
 
     auto event_iterator = events.cbegin();
 
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::sinh(test::linear_input_data[0]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::sinh(test::linear_input_data[1]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::sinh(test::linear_input_data[2]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::sinh(test::linear_input_data[3]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::sinh(test::linear_input_data[4]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::sinh(test::linear_input_data[5]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::sinh(test::linear_input_data[6]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::sinh(test::linear_input_data[7]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::sinh(test::linear_input_data[0]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::sinh(test::linear_input_data[1]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::sinh(test::linear_input_data[2]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::sinh(test::linear_input_data[3]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::sinh(test::linear_input_data[4]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::sinh(test::linear_input_data[5]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::sinh(test::linear_input_data[6]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::sinh(test::linear_input_data[7]), 0.01);
 }
 
 - (void)test_cosh {
@@ -256,14 +256,14 @@ namespace test {
 
     auto event_iterator = events.cbegin();
 
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::cosh(test::linear_input_data[0]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::cosh(test::linear_input_data[1]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::cosh(test::linear_input_data[2]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::cosh(test::linear_input_data[3]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::cosh(test::linear_input_data[4]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::cosh(test::linear_input_data[5]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::cosh(test::linear_input_data[6]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::cosh(test::linear_input_data[7]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::cosh(test::linear_input_data[0]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::cosh(test::linear_input_data[1]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::cosh(test::linear_input_data[2]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::cosh(test::linear_input_data[3]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::cosh(test::linear_input_data[4]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::cosh(test::linear_input_data[5]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::cosh(test::linear_input_data[6]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::cosh(test::linear_input_data[7]), 0.01);
 }
 
 - (void)test_tanh {
@@ -279,14 +279,14 @@ namespace test {
 
     auto event_iterator = events.cbegin();
 
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::tanh(test::linear_input_data[0]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::tanh(test::linear_input_data[1]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::tanh(test::linear_input_data[2]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::tanh(test::linear_input_data[3]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::tanh(test::linear_input_data[4]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::tanh(test::linear_input_data[5]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::tanh(test::linear_input_data[6]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::tanh(test::linear_input_data[7]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::tanh(test::linear_input_data[0]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::tanh(test::linear_input_data[1]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::tanh(test::linear_input_data[2]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::tanh(test::linear_input_data[3]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::tanh(test::linear_input_data[4]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::tanh(test::linear_input_data[5]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::tanh(test::linear_input_data[6]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::tanh(test::linear_input_data[7]), 0.01);
 }
 
 - (void)test_asinh {
@@ -302,14 +302,14 @@ namespace test {
 
     auto event_iterator = events.cbegin();
 
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::asinh(test::linear_input_data[0]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::asinh(test::linear_input_data[1]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::asinh(test::linear_input_data[2]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::asinh(test::linear_input_data[3]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::asinh(test::linear_input_data[4]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::asinh(test::linear_input_data[5]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::asinh(test::linear_input_data[6]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::asinh(test::linear_input_data[7]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::asinh(test::linear_input_data[0]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::asinh(test::linear_input_data[1]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::asinh(test::linear_input_data[2]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::asinh(test::linear_input_data[3]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::asinh(test::linear_input_data[4]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::asinh(test::linear_input_data[5]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::asinh(test::linear_input_data[6]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::asinh(test::linear_input_data[7]), 0.01);
 }
 
 - (void)test_acosh {
@@ -325,14 +325,14 @@ namespace test {
 
     auto event_iterator = events.cbegin();
 
-    XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
-    XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
-    XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
-    XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
-    XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::acosh(test::linear_input_data[5]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::acosh(test::linear_input_data[6]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::acosh(test::linear_input_data[7]), 0.01);
+    XCTAssertTrue(std::isnan((event_iterator++)->second->get<double>()));
+    XCTAssertTrue(std::isnan((event_iterator++)->second->get<double>()));
+    XCTAssertTrue(std::isnan((event_iterator++)->second->get<double>()));
+    XCTAssertTrue(std::isnan((event_iterator++)->second->get<double>()));
+    XCTAssertTrue(std::isnan((event_iterator++)->second->get<double>()));
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::acosh(test::linear_input_data[5]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::acosh(test::linear_input_data[6]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::acosh(test::linear_input_data[7]), 0.01);
 }
 
 - (void)test_atanh {
@@ -348,14 +348,14 @@ namespace test {
 
     auto event_iterator = events.cbegin();
 
-    XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::atanh(test::linear_input_data[1]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::atanh(test::linear_input_data[2]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::atanh(test::linear_input_data[3]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::atanh(test::linear_input_data[4]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::atanh(test::linear_input_data[5]), 0.01);
-    XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
-    XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
+    XCTAssertTrue(std::isnan((event_iterator++)->second->get<double>()));
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::atanh(test::linear_input_data[1]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::atanh(test::linear_input_data[2]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::atanh(test::linear_input_data[3]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::atanh(test::linear_input_data[4]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::atanh(test::linear_input_data[5]), 0.01);
+    XCTAssertTrue(std::isnan((event_iterator++)->second->get<double>()));
+    XCTAssertTrue(std::isnan((event_iterator++)->second->get<double>()));
 }
 
 - (void)test_exp {
@@ -371,14 +371,14 @@ namespace test {
 
     auto event_iterator = events.cbegin();
 
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::exp(test::linear_input_data[0]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::exp(test::linear_input_data[1]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::exp(test::linear_input_data[2]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::exp(test::linear_input_data[3]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::exp(test::linear_input_data[4]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::exp(test::linear_input_data[5]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::exp(test::linear_input_data[6]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::exp(test::linear_input_data[7]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::exp(test::linear_input_data[0]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::exp(test::linear_input_data[1]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::exp(test::linear_input_data[2]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::exp(test::linear_input_data[3]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::exp(test::linear_input_data[4]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::exp(test::linear_input_data[5]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::exp(test::linear_input_data[6]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::exp(test::linear_input_data[7]), 0.01);
 }
 
 - (void)test_exp2 {
@@ -394,14 +394,14 @@ namespace test {
 
     auto event_iterator = events.cbegin();
 
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::exp2(test::linear_input_data[0]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::exp2(test::linear_input_data[1]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::exp2(test::linear_input_data[2]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::exp2(test::linear_input_data[3]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::exp2(test::linear_input_data[4]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::exp2(test::linear_input_data[5]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::exp2(test::linear_input_data[6]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::exp2(test::linear_input_data[7]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::exp2(test::linear_input_data[0]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::exp2(test::linear_input_data[1]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::exp2(test::linear_input_data[2]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::exp2(test::linear_input_data[3]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::exp2(test::linear_input_data[4]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::exp2(test::linear_input_data[5]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::exp2(test::linear_input_data[6]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::exp2(test::linear_input_data[7]), 0.01);
 }
 
 - (void)test_expm1 {
@@ -417,14 +417,14 @@ namespace test {
 
     auto event_iterator = events.cbegin();
 
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::expm1(test::linear_input_data[0]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::expm1(test::linear_input_data[1]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::expm1(test::linear_input_data[2]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::expm1(test::linear_input_data[3]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::expm1(test::linear_input_data[4]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::expm1(test::linear_input_data[5]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::expm1(test::linear_input_data[6]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::expm1(test::linear_input_data[7]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::expm1(test::linear_input_data[0]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::expm1(test::linear_input_data[1]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::expm1(test::linear_input_data[2]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::expm1(test::linear_input_data[3]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::expm1(test::linear_input_data[4]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::expm1(test::linear_input_data[5]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::expm1(test::linear_input_data[6]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::expm1(test::linear_input_data[7]), 0.01);
 }
 
 - (void)test_log {
@@ -440,14 +440,14 @@ namespace test {
 
     auto event_iterator = events.cbegin();
 
-    XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
-    XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
-    XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::log(test::linear_input_data[3]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::log(test::linear_input_data[4]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::log(test::linear_input_data[5]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::log(test::linear_input_data[6]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::log(test::linear_input_data[7]), 0.01);
+    XCTAssertTrue(std::isnan((event_iterator++)->second->get<double>()));
+    XCTAssertTrue(std::isnan((event_iterator++)->second->get<double>()));
+    XCTAssertTrue(std::isnan((event_iterator++)->second->get<double>()));
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::log(test::linear_input_data[3]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::log(test::linear_input_data[4]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::log(test::linear_input_data[5]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::log(test::linear_input_data[6]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::log(test::linear_input_data[7]), 0.01);
 }
 
 - (void)test_log10 {
@@ -463,14 +463,14 @@ namespace test {
 
     auto event_iterator = events.cbegin();
 
-    XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
-    XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
-    XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::log10(test::linear_input_data[3]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::log10(test::linear_input_data[4]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::log10(test::linear_input_data[5]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::log10(test::linear_input_data[6]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::log10(test::linear_input_data[7]), 0.01);
+    XCTAssertTrue(std::isnan((event_iterator++)->second->get<double>()));
+    XCTAssertTrue(std::isnan((event_iterator++)->second->get<double>()));
+    XCTAssertTrue(std::isnan((event_iterator++)->second->get<double>()));
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::log10(test::linear_input_data[3]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::log10(test::linear_input_data[4]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::log10(test::linear_input_data[5]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::log10(test::linear_input_data[6]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::log10(test::linear_input_data[7]), 0.01);
 }
 
 - (void)test_log1p {
@@ -486,14 +486,14 @@ namespace test {
 
     auto event_iterator = events.cbegin();
 
-    XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::log1p(test::linear_input_data[1]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::log1p(test::linear_input_data[2]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::log1p(test::linear_input_data[3]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::log1p(test::linear_input_data[4]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::log1p(test::linear_input_data[5]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::log1p(test::linear_input_data[6]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::log1p(test::linear_input_data[7]), 0.01);
+    XCTAssertTrue(std::isnan((event_iterator++)->second->get<double>()));
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::log1p(test::linear_input_data[1]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::log1p(test::linear_input_data[2]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::log1p(test::linear_input_data[3]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::log1p(test::linear_input_data[4]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::log1p(test::linear_input_data[5]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::log1p(test::linear_input_data[6]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::log1p(test::linear_input_data[7]), 0.01);
 }
 
 - (void)test_log2 {
@@ -509,14 +509,14 @@ namespace test {
 
     auto event_iterator = events.cbegin();
 
-    XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
-    XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
-    XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::log2(test::linear_input_data[3]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::log2(test::linear_input_data[4]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::log2(test::linear_input_data[5]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::log2(test::linear_input_data[6]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::log2(test::linear_input_data[7]), 0.01);
+    XCTAssertTrue(std::isnan((event_iterator++)->second->get<double>()));
+    XCTAssertTrue(std::isnan((event_iterator++)->second->get<double>()));
+    XCTAssertTrue(std::isnan((event_iterator++)->second->get<double>()));
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::log2(test::linear_input_data[3]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::log2(test::linear_input_data[4]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::log2(test::linear_input_data[5]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::log2(test::linear_input_data[6]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::log2(test::linear_input_data[7]), 0.01);
 }
 
 - (void)test_sqrt {
@@ -532,14 +532,14 @@ namespace test {
 
     auto event_iterator = events.cbegin();
 
-    XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
-    XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
-    XCTAssertTrue(std::isnan((event_iterator++)->second.get<double>()));
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::sqrt(test::linear_input_data[3]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::sqrt(test::linear_input_data[4]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::sqrt(test::linear_input_data[5]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::sqrt(test::linear_input_data[6]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::sqrt(test::linear_input_data[7]), 0.01);
+    XCTAssertTrue(std::isnan((event_iterator++)->second->get<double>()));
+    XCTAssertTrue(std::isnan((event_iterator++)->second->get<double>()));
+    XCTAssertTrue(std::isnan((event_iterator++)->second->get<double>()));
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::sqrt(test::linear_input_data[3]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::sqrt(test::linear_input_data[4]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::sqrt(test::linear_input_data[5]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::sqrt(test::linear_input_data[6]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::sqrt(test::linear_input_data[7]), 0.01);
 }
 
 - (void)test_cbrt {
@@ -555,14 +555,14 @@ namespace test {
 
     auto event_iterator = events.cbegin();
 
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::cbrt(test::linear_input_data[0]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::cbrt(test::linear_input_data[1]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::cbrt(test::linear_input_data[2]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::cbrt(test::linear_input_data[3]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::cbrt(test::linear_input_data[4]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::cbrt(test::linear_input_data[5]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::cbrt(test::linear_input_data[6]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::cbrt(test::linear_input_data[7]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::cbrt(test::linear_input_data[0]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::cbrt(test::linear_input_data[1]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::cbrt(test::linear_input_data[2]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::cbrt(test::linear_input_data[3]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::cbrt(test::linear_input_data[4]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::cbrt(test::linear_input_data[5]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::cbrt(test::linear_input_data[6]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::cbrt(test::linear_input_data[7]), 0.01);
 }
 
 - (void)test_abs {
@@ -578,14 +578,14 @@ namespace test {
 
     auto event_iterator = events.cbegin();
 
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), 1.5, 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), 1.0, 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), 0.5, 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), 0.0, 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), 0.5, 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), 1.0, 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), 1.5, 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), 2.0, 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), 1.5, 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), 1.0, 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), 0.5, 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), 0.0, 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), 0.5, 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), 1.0, 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), 1.5, 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), 2.0, 0.01);
 }
 
 - (void)test_ceil {
@@ -601,14 +601,14 @@ namespace test {
 
     auto event_iterator = events.cbegin();
 
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::ceil(test::linear_input_data[0]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::ceil(test::linear_input_data[1]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::ceil(test::linear_input_data[2]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::ceil(test::linear_input_data[3]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::ceil(test::linear_input_data[4]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::ceil(test::linear_input_data[5]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::ceil(test::linear_input_data[6]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::ceil(test::linear_input_data[7]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::ceil(test::linear_input_data[0]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::ceil(test::linear_input_data[1]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::ceil(test::linear_input_data[2]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::ceil(test::linear_input_data[3]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::ceil(test::linear_input_data[4]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::ceil(test::linear_input_data[5]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::ceil(test::linear_input_data[6]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::ceil(test::linear_input_data[7]), 0.01);
 }
 
 - (void)test_floor {
@@ -624,14 +624,14 @@ namespace test {
 
     auto event_iterator = events.cbegin();
 
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::floor(test::linear_input_data[0]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::floor(test::linear_input_data[1]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::floor(test::linear_input_data[2]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::floor(test::linear_input_data[3]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::floor(test::linear_input_data[4]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::floor(test::linear_input_data[5]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::floor(test::linear_input_data[6]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::floor(test::linear_input_data[7]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::floor(test::linear_input_data[0]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::floor(test::linear_input_data[1]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::floor(test::linear_input_data[2]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::floor(test::linear_input_data[3]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::floor(test::linear_input_data[4]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::floor(test::linear_input_data[5]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::floor(test::linear_input_data[6]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::floor(test::linear_input_data[7]), 0.01);
 }
 
 - (void)test_trunc {
@@ -647,14 +647,14 @@ namespace test {
 
     auto event_iterator = events.cbegin();
 
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::trunc(test::linear_input_data[0]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::trunc(test::linear_input_data[1]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::trunc(test::linear_input_data[2]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::trunc(test::linear_input_data[3]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::trunc(test::linear_input_data[4]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::trunc(test::linear_input_data[5]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::trunc(test::linear_input_data[6]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::trunc(test::linear_input_data[7]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::trunc(test::linear_input_data[0]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::trunc(test::linear_input_data[1]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::trunc(test::linear_input_data[2]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::trunc(test::linear_input_data[3]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::trunc(test::linear_input_data[4]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::trunc(test::linear_input_data[5]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::trunc(test::linear_input_data[6]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::trunc(test::linear_input_data[7]), 0.01);
 }
 
 - (void)test_round {
@@ -670,14 +670,14 @@ namespace test {
 
     auto event_iterator = events.cbegin();
 
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::round(test::linear_input_data[0]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::round(test::linear_input_data[1]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::round(test::linear_input_data[2]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::round(test::linear_input_data[3]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::round(test::linear_input_data[4]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::round(test::linear_input_data[5]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::round(test::linear_input_data[6]), 0.01);
-    XCTAssertEqualWithAccuracy((event_iterator++)->second.get<double>(), std::round(test::linear_input_data[7]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::round(test::linear_input_data[0]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::round(test::linear_input_data[1]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::round(test::linear_input_data[2]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::round(test::linear_input_data[3]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::round(test::linear_input_data[4]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::round(test::linear_input_data[5]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::round(test::linear_input_data[6]), 0.01);
+    XCTAssertEqualWithAccuracy((event_iterator++)->second->get<double>(), std::round(test::linear_input_data[7]), 0.01);
 }
 
 - (void)test_connect_input {

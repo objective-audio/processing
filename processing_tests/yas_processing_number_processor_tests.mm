@@ -44,11 +44,11 @@ using namespace yas::proc;
     auto &channel0 = stream.add_channel(0);
     auto &channel1 = stream.add_channel(1);
 
-    channel0.insert_event(make_frame_time(1), number_event{int64_t(100)});
-    channel0.insert_event(make_frame_time(0), number_event{int64_t(0)});
-    channel0.insert_event(make_frame_time(2), number_event{int64_t(20)});
+    channel0.insert_event(make_frame_time(1), number_event::make_shared(int64_t(100)));
+    channel0.insert_event(make_frame_time(0), number_event::make_shared(int64_t(0)));
+    channel0.insert_event(make_frame_time(2), number_event::make_shared(int64_t(20)));
 
-    channel1.insert_event(make_frame_time(1), number_event{int64_t(1000)});
+    channel1.insert_event(make_frame_time(1), number_event::make_shared(int64_t(1000)));
 
     module module{[processor = std::move(processor)] { return module::processors_t{{std::move(processor)}}; }};
     module.connect_input(10, 0);

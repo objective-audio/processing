@@ -4,14 +4,13 @@
 
 #pragma once
 
-#include <cpp_utils/yas_base.h>
 #include <memory>
 #include <optional>
 #include <vector>
 #include "yas_processing_types.h"
 
 namespace yas::proc {
-struct time : base {
+struct time {
     template <typename T>
     class impl;
 
@@ -77,8 +76,14 @@ struct time : base {
 
     time offset(frame_index_t const &) const;
 
+    explicit operator bool() const;
+    bool operator==(time const &) const;
+    bool operator!=(time const &) const;
+
    private:
     static std::shared_ptr<proc::time::impl<time::any>> const &any_impl_ptr();
+
+    std::shared_ptr<impl_base> _impl;
 };
 
 time make_range_time(frame_index_t const, length_t const);
