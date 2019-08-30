@@ -24,12 +24,12 @@ using namespace yas::proc;
 }
 
 - (void)test_make_module {
-    XCTAssertTrue(make_module(timeline{}));
+    XCTAssertTrue(make_module(timeline::make_shared()));
 }
 
 - (void)test_process_signal {
-    timeline main_timeline;
-    timeline sub_timeline;
+    auto main_timeline = timeline::make_shared();
+    auto sub_timeline = timeline::make_shared();
 
     {
         auto plus_module = make_signal_module<int8_t>(math2::kind::plus);
@@ -37,9 +37,9 @@ using namespace yas::proc;
         plus_module.connect_input(to_connector_index(math2::input::right), 11);
         plus_module.connect_output(to_connector_index(math2::output::result), 12);
 
-        proc::track sub_track;
-        sub_track.push_back_module(std::move(plus_module), time::range{1, 2});
-        sub_timeline.insert_track(0, sub_track);
+        auto sub_track = proc::track::make_shared();
+        sub_track->push_back_module(std::move(plus_module), time::range{1, 2});
+        sub_timeline->insert_track(0, sub_track);
     }
 
     {
@@ -49,13 +49,13 @@ using namespace yas::proc;
         auto right_module = make_signal_module(int8_t(8));
         right_module.connect_output(to_connector_index(constant::output::value), 1);
 
-        proc::track main_track_0;
-        main_track_0.push_back_module(std::move(left_module), time::range{0, 4});
-        main_timeline.insert_track(0, main_track_0);
+        auto main_track_0 = proc::track::make_shared();
+        main_track_0->push_back_module(std::move(left_module), time::range{0, 4});
+        main_timeline->insert_track(0, main_track_0);
 
-        proc::track main_track_1;
-        main_track_1.push_back_module(std::move(right_module), time::range{0, 4});
-        main_timeline.insert_track(1, main_track_1);
+        auto main_track_1 = proc::track::make_shared();
+        main_track_1->push_back_module(std::move(right_module), time::range{0, 4});
+        main_timeline->insert_track(1, main_track_1);
     }
 
     {
@@ -64,14 +64,14 @@ using namespace yas::proc;
         sub_timeline_module.connect_input(11, 1);
         sub_timeline_module.connect_output(12, 20);
 
-        proc::track main_track_2;
-        main_track_2.push_back_module(std::move(sub_timeline_module), time::range{0, 4});
-        main_timeline.insert_track(2, main_track_2);
+        auto main_track_2 = proc::track::make_shared();
+        main_track_2->push_back_module(std::move(sub_timeline_module), time::range{0, 4});
+        main_timeline->insert_track(2, main_track_2);
     }
 
     stream stream{sync_source{1, 4}};
 
-    main_timeline.process(time::range{0, 4}, stream);
+    main_timeline->process(time::range{0, 4}, stream);
 
     XCTAssertEqual(stream.channel_count(), 3);
     XCTAssertTrue(stream.has_channel(0));
@@ -119,39 +119,39 @@ using namespace yas::proc;
 }
 
 - (void)test_process_overwrite_signal {
-    timeline main_timeline;
-    timeline sub_timeline;
+    auto main_timeline = timeline::make_shared();
+    auto sub_timeline = timeline::make_shared();
 
     {
         auto main_module = make_signal_module(int8_t(1));
         main_module.connect_output(to_connector_index(constant::output::value), 0);
 
-        proc::track main_track;
-        main_track.push_back_module(std::move(main_module), time::range{0, 4});
-        main_timeline.insert_track(0, main_track);
+        auto main_track = proc::track::make_shared();
+        main_track->push_back_module(std::move(main_module), time::range{0, 4});
+        main_timeline->insert_track(0, main_track);
     }
 
     {
         auto sub_module = make_signal_module(int8_t(2));
         sub_module.connect_output(to_connector_index(constant::output::value), 0);
 
-        proc::track sub_track;
-        sub_track.push_back_module(std::move(sub_module), time::range{1, 2});
-        sub_timeline.insert_track(0, sub_track);
+        auto sub_track = proc::track::make_shared();
+        sub_track->push_back_module(std::move(sub_module), time::range{1, 2});
+        sub_timeline->insert_track(0, sub_track);
     }
 
     {
         auto sub_timeline_module = make_module(std::move(sub_timeline));
         sub_timeline_module.connect_output(0, 0);
 
-        proc::track main_track_2;
-        main_track_2.push_back_module(std::move(sub_timeline_module), time::range{1, 2});
-        main_timeline.insert_track(1, main_track_2);
+        auto main_track_2 = proc::track::make_shared();
+        main_track_2->push_back_module(std::move(sub_timeline_module), time::range{1, 2});
+        main_timeline->insert_track(1, main_track_2);
     }
 
     stream stream{sync_source{1, 4}};
 
-    main_timeline.process(time::range{0, 4}, stream);
+    main_timeline->process(time::range{0, 4}, stream);
 
     XCTAssertEqual(stream.channel_count(), 1);
     XCTAssertTrue(stream.has_channel(0));
@@ -172,8 +172,8 @@ using namespace yas::proc;
 }
 
 - (void)test_process_signal_offset {
-    timeline main_timeline;
-    timeline sub_timeline;
+    auto main_timeline = timeline::make_shared();
+    auto sub_timeline = timeline::make_shared();
 
     {
         auto plus_module = make_signal_module<int8_t>(math2::kind::plus);
@@ -181,9 +181,9 @@ using namespace yas::proc;
         plus_module.connect_input(to_connector_index(math2::input::right), 11);
         plus_module.connect_output(to_connector_index(math2::output::result), 12);
 
-        proc::track sub_track;
-        sub_track.push_back_module(std::move(plus_module), time::range{0, 2});
-        sub_timeline.insert_track(0, sub_track);
+        auto sub_track = proc::track::make_shared();
+        sub_track->push_back_module(std::move(plus_module), time::range{0, 2});
+        sub_timeline->insert_track(0, sub_track);
     }
 
     {
@@ -193,13 +193,13 @@ using namespace yas::proc;
         auto right_module = make_signal_module(int8_t(8));
         right_module.connect_output(to_connector_index(constant::output::value), 1);
 
-        proc::track main_track_0;
-        main_track_0.push_back_module(std::move(left_module), time::range{0, 4});
-        main_timeline.insert_track(0, main_track_0);
+        auto main_track_0 = proc::track::make_shared();
+        main_track_0->push_back_module(std::move(left_module), time::range{0, 4});
+        main_timeline->insert_track(0, main_track_0);
 
-        proc::track main_track_1;
-        main_track_1.push_back_module(std::move(right_module), time::range{0, 4});
-        main_timeline.insert_track(1, main_track_1);
+        auto main_track_1 = proc::track::make_shared();
+        main_track_1->push_back_module(std::move(right_module), time::range{0, 4});
+        main_timeline->insert_track(1, main_track_1);
     }
 
     {
@@ -208,14 +208,14 @@ using namespace yas::proc;
         sub_timeline_module.connect_input(11, 1);
         sub_timeline_module.connect_output(12, 20);
 
-        proc::track main_track_2;
-        main_track_2.push_back_module(std::move(sub_timeline_module), time::range{1, 2});
-        main_timeline.insert_track(2, main_track_2);
+        auto main_track_2 = proc::track::make_shared();
+        main_track_2->push_back_module(std::move(sub_timeline_module), time::range{1, 2});
+        main_timeline->insert_track(2, main_track_2);
     }
 
     stream stream{sync_source{1, 4}};
 
-    main_timeline.process(time::range{0, 4}, stream);
+    main_timeline->process(time::range{0, 4}, stream);
 
     XCTAssertEqual(stream.channel_count(), 3);
     XCTAssertTrue(stream.has_channel(0));
@@ -263,8 +263,8 @@ using namespace yas::proc;
 }
 
 - (void)test_process_number {
-    timeline main_timeline;
-    timeline sub_timeline;
+    auto main_timeline = timeline::make_shared();
+    auto sub_timeline = timeline::make_shared();
 
     {
         auto plus_module = make_number_module<int8_t>(math2::kind::plus);
@@ -272,14 +272,14 @@ using namespace yas::proc;
         plus_module.connect_input(to_connector_index(math2::input::right), 11);
         plus_module.connect_output(to_connector_index(math2::output::result), 12);
 
-        proc::track sub_track;
-        sub_track.push_back_module(std::move(plus_module), time::range{1, 1});
-        sub_timeline.insert_track(0, sub_track);
+        auto sub_track = proc::track::make_shared();
+        sub_track->push_back_module(std::move(plus_module), time::range{1, 1});
+        sub_timeline->insert_track(0, sub_track);
     }
 
     {
-        main_timeline.insert_track(0, proc::track{});
-        main_timeline.insert_track(1, proc::track{});
+        main_timeline->insert_track(0, proc::track::make_shared());
+        main_timeline->insert_track(1, proc::track::make_shared());
 
         auto each = make_fast_each(3);
         while (yas_each_next(each)) {
@@ -291,11 +291,11 @@ using namespace yas::proc;
             auto right_module = make_number_module(int8_t(8));
             right_module.connect_output(to_connector_index(constant::output::value), 1);
 
-            auto &main_track_0 = main_timeline.track(0);
-            main_track_0.push_back_module(std::move(left_module), time::range{idx, 1});
+            auto &main_track_0 = main_timeline->track(0);
+            main_track_0->push_back_module(std::move(left_module), time::range{idx, 1});
 
-            auto &main_track_1 = main_timeline.track(1);
-            main_track_1.push_back_module(std::move(right_module), time::range{idx, 1});
+            auto &main_track_1 = main_timeline->track(1);
+            main_track_1->push_back_module(std::move(right_module), time::range{idx, 1});
         }
     }
 
@@ -305,14 +305,14 @@ using namespace yas::proc;
         sub_timeline_module.connect_input(11, 1);
         sub_timeline_module.connect_output(12, 20);
 
-        proc::track main_track_2;
-        main_track_2.push_back_module(std::move(sub_timeline_module), time::range{1, 1});
-        main_timeline.insert_track(2, main_track_2);
+        auto main_track_2 = proc::track::make_shared();
+        main_track_2->push_back_module(std::move(sub_timeline_module), time::range{1, 1});
+        main_timeline->insert_track(2, main_track_2);
     }
 
     stream stream{sync_source{1, 3}};
 
-    main_timeline.process(time::range{0, 3}, stream);
+    main_timeline->process(time::range{0, 3}, stream);
 
     XCTAssertEqual(stream.channel_count(), 3);
     XCTAssertTrue(stream.has_channel(0));
@@ -351,32 +351,32 @@ using namespace yas::proc;
 }
 
 - (void)test_process_overwrite_number {
-    timeline main_timeline;
-    timeline sub_timeline;
+    auto main_timeline = timeline::make_shared();
+    auto sub_timeline = timeline::make_shared();
 
     {
-        main_timeline.insert_track(0, proc::track{});
+        main_timeline->insert_track(0, proc::track::make_shared());
 
         auto each = make_fast_each(4);
         while (yas_each_next(each)) {
             auto main_module = make_number_module(int8_t(1));
             main_module.connect_output(to_connector_index(constant::output::value), 0);
 
-            auto &main_track = main_timeline.track(0);
-            main_track.push_back_module(std::move(main_module), time::range{yas_each_index(each), 1});
+            auto &main_track = main_timeline->track(0);
+            main_track->push_back_module(std::move(main_module), time::range{yas_each_index(each), 1});
         }
     }
 
     {
-        sub_timeline.insert_track(0, proc::track{});
+        sub_timeline->insert_track(0, proc::track::make_shared());
 
         auto each = make_fast_each(2);
         while (yas_each_next(each)) {
             auto sub_module = make_number_module(int8_t(2));
             sub_module.connect_output(to_connector_index(constant::output::value), 0);
 
-            auto &sub_track = sub_timeline.track(0);
-            sub_track.push_back_module(std::move(sub_module), time::range{1 + yas_each_index(each), 2});
+            auto &sub_track = sub_timeline->track(0);
+            sub_track->push_back_module(std::move(sub_module), time::range{1 + yas_each_index(each), 2});
         }
     }
 
@@ -384,14 +384,14 @@ using namespace yas::proc;
         auto sub_timeline_module = make_module(std::move(sub_timeline));
         sub_timeline_module.connect_output(0, 0);
 
-        proc::track main_track_2;
-        main_track_2.push_back_module(std::move(sub_timeline_module), time::range{1, 2});
-        main_timeline.insert_track(1, main_track_2);
+        auto main_track_2 = proc::track::make_shared();
+        main_track_2->push_back_module(std::move(sub_timeline_module), time::range{1, 2});
+        main_timeline->insert_track(1, main_track_2);
     }
 
     stream stream{sync_source{1, 4}};
 
-    main_timeline.process(time::range{0, 4}, stream);
+    main_timeline->process(time::range{0, 4}, stream);
 
     XCTAssertEqual(stream.channel_count(), 1);
     XCTAssertTrue(stream.has_channel(0));
@@ -418,8 +418,8 @@ using namespace yas::proc;
 }
 
 - (void)test_process_number_offset {
-    timeline main_timeline;
-    timeline sub_timeline;
+    auto main_timeline = timeline::make_shared();
+    auto sub_timeline = timeline::make_shared();
 
     {
         auto plus_module = make_number_module<int8_t>(math2::kind::plus);
@@ -427,14 +427,14 @@ using namespace yas::proc;
         plus_module.connect_input(to_connector_index(math2::input::right), 11);
         plus_module.connect_output(to_connector_index(math2::output::result), 12);
 
-        proc::track sub_track;
-        sub_track.push_back_module(std::move(plus_module), time::range{0, 2});
-        sub_timeline.insert_track(0, sub_track);
+        auto sub_track = proc::track::make_shared();
+        sub_track->push_back_module(std::move(plus_module), time::range{0, 2});
+        sub_timeline->insert_track(0, sub_track);
     }
 
     {
-        main_timeline.insert_track(0, proc::track{});
-        main_timeline.insert_track(1, proc::track{});
+        main_timeline->insert_track(0, proc::track::make_shared());
+        main_timeline->insert_track(1, proc::track::make_shared());
 
         auto each = make_fast_each(4);
         while (yas_each_next(each)) {
@@ -446,11 +446,11 @@ using namespace yas::proc;
             auto right_module = make_number_module(int8_t(8));
             right_module.connect_output(to_connector_index(constant::output::value), 1);
 
-            auto &main_track_0 = main_timeline.track(0);
-            main_track_0.push_back_module(std::move(left_module), time::range{idx, 4});
+            auto &main_track_0 = main_timeline->track(0);
+            main_track_0->push_back_module(std::move(left_module), time::range{idx, 4});
 
-            auto &main_track_1 = main_timeline.track(1);
-            main_track_1.push_back_module(std::move(right_module), time::range{idx, 4});
+            auto &main_track_1 = main_timeline->track(1);
+            main_track_1->push_back_module(std::move(right_module), time::range{idx, 4});
         }
     }
 
@@ -460,14 +460,14 @@ using namespace yas::proc;
         sub_timeline_module.connect_input(11, 1);
         sub_timeline_module.connect_output(12, 20);
 
-        proc::track main_track_2;
-        main_track_2.push_back_module(std::move(sub_timeline_module), time::range{1, 2});
-        main_timeline.insert_track(2, main_track_2);
+        auto main_track_2 = proc::track::make_shared();
+        main_track_2->push_back_module(std::move(sub_timeline_module), time::range{1, 2});
+        main_timeline->insert_track(2, main_track_2);
     }
 
     stream stream{sync_source{1, 4}};
 
-    main_timeline.process(time::range{0, 4}, stream);
+    main_timeline->process(time::range{0, 4}, stream);
 
     XCTAssertEqual(stream.channel_count(), 3);
     XCTAssertTrue(stream.has_channel(0));

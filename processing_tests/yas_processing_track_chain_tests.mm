@@ -21,36 +21,36 @@ using namespace yas::proc;
 }
 
 - (void)test_fetched {
-    proc::track track;
+    auto track = proc::track::make_shared();
 
     proc::module module1{[] { return module::processors_t{}; }};
     proc::module module2{[] { return module::processors_t{}; }};
-    track.push_back_module(module1, {0, 1});
-    track.push_back_module(module2, {1, 1});
+    track->push_back_module(module1, {0, 1});
+    track->push_back_module(module2, {1, 1});
 
     std::vector<proc::track::event_t> events;
 
-    auto chain = track.chain().perform([&events](auto const &event) { events.push_back(event); }).sync();
+    auto chain = track->chain().perform([&events](auto const &event) { events.push_back(event); }).sync();
 
     XCTAssertEqual(events.size(), 1);
     XCTAssertEqual(events.at(0).type(), proc::track::event_type_t::fetched);
     auto iterator = events.at(0).get<proc::track::fetched_event_t>().elements.begin();
     XCTAssertEqual(iterator->first, (proc::time::range{0, 1}));
-    XCTAssertEqual(iterator->second.size(), 1);
-    XCTAssertEqual(iterator->second.at(0), module1);
+    XCTAssertEqual(iterator->second->size(), 1);
+    XCTAssertEqual(iterator->second->at(0), module1);
     ++iterator;
     XCTAssertEqual(iterator->first, (proc::time::range{1, 1}));
-    XCTAssertEqual(iterator->second.size(), 1);
-    XCTAssertEqual(iterator->second.at(0), module2);
+    XCTAssertEqual(iterator->second->size(), 1);
+    XCTAssertEqual(iterator->second->at(0), module2);
 }
 
 - (void)test_inserted {
-    proc::track track;
+    auto track = proc::track::make_shared();
 
     std::vector<proc::track::event_t> events;
-    std::vector<std::map<proc::time::range, chaining::vector::holder<proc::module>>> inserted;
+    std::vector<std::map<proc::time::range, chaining::vector::holder_ptr<proc::module>>> inserted;
 
-    auto chain = track.chain()
+    auto chain = track->chain()
                      .perform([&events, &inserted](auto const &event) {
                          events.push_back(event);
                          inserted.push_back(event.template get<proc::track::inserted_event_t>().elements);
@@ -60,40 +60,40 @@ using namespace yas::proc;
     proc::module module1{[] { return module::processors_t{}; }};
     proc::module module2{[] { return module::processors_t{}; }};
 
-    track.push_back_module(module1, {0, 1});
+    track->push_back_module(module1, {0, 1});
 
     XCTAssertEqual(events.size(), 1);
     XCTAssertEqual(events.at(0).type(), proc::track::event_type_t::inserted);
     XCTAssertEqual(inserted.size(), 1);
     XCTAssertEqual(inserted.at(0).size(), 1);
     XCTAssertEqual(inserted.at(0).begin()->first, (proc::time::range{0, 1}));
-    XCTAssertEqual(inserted.at(0).begin()->second.size(), 1);
-    XCTAssertEqual(inserted.at(0).begin()->second.at(0), module1);
+    XCTAssertEqual(inserted.at(0).begin()->second->size(), 1);
+    XCTAssertEqual(inserted.at(0).begin()->second->at(0), module1);
 
-    track.push_back_module(module2, {1, 1});
+    track->push_back_module(module2, {1, 1});
 
     XCTAssertEqual(events.size(), 2);
     XCTAssertEqual(events.at(1).type(), proc::track::event_type_t::inserted);
     XCTAssertEqual(inserted.size(), 2);
     XCTAssertEqual(inserted.at(1).size(), 1);
     XCTAssertEqual(inserted.at(1).begin()->first, (proc::time::range{1, 1}));
-    XCTAssertEqual(inserted.at(1).begin()->second.size(), 1);
-    XCTAssertEqual(inserted.at(1).begin()->second.at(0), module2);
+    XCTAssertEqual(inserted.at(1).begin()->second->size(), 1);
+    XCTAssertEqual(inserted.at(1).begin()->second->at(0), module2);
 }
 
 - (void)test_erased {
-    proc::track track;
+    auto track = proc::track::make_shared();
 
     proc::module module1{[] { return module::processors_t{}; }};
     proc::module module2{[] { return module::processors_t{}; }};
-    track.push_back_module(module1, {0, 1});
-    track.push_back_module(module2, {1, 1});
+    track->push_back_module(module1, {0, 1});
+    track->push_back_module(module2, {1, 1});
 
     std::vector<proc::track::event_t> events;
-    std::vector<std::pair<proc::time::range, chaining::vector::holder<proc::module>>> relayed;
-    std::vector<std::map<proc::time::range, chaining::vector::holder<proc::module>>> erased;
+    std::vector<std::pair<proc::time::range, chaining::vector::holder_ptr<proc::module>>> relayed;
+    std::vector<std::map<proc::time::range, chaining::vector::holder_ptr<proc::module>>> erased;
 
-    auto chain = track.chain()
+    auto chain = track->chain()
                      .perform([&events, &erased, &relayed](auto const &event) {
                          events.push_back(event);
                          if (event.type() == proc::track::event_type_t::relayed) {
@@ -107,7 +107,7 @@ using namespace yas::proc;
                      })
                      .end();
 
-    track.erase_module(module1);
+    track->erase_module(module1);
 
     XCTAssertEqual(events.size(), 1);
     XCTAssertEqual(events.at(0).type(), proc::track::event_type_t::erased);
@@ -117,35 +117,35 @@ using namespace yas::proc;
     XCTAssertEqual(erased.size(), 1);
     XCTAssertEqual(erased.at(0).size(), 1);
     XCTAssertEqual(erased.at(0).begin()->first, (proc::time::range{0, 1}));
-    XCTAssertEqual(erased.at(0).begin()->second.size(), 1);
+    XCTAssertEqual(erased.at(0).begin()->second->size(), 1);
 }
 
 - (void)test_push_back_and_erase_same_range {
-    proc::track track;
+    auto track = proc::track::make_shared();
 
     std::vector<proc::track::event_t> events;
 
-    auto chain = track.chain().perform([&events](auto const &event) { events.push_back(event); }).end();
+    auto chain = track->chain().perform([&events](auto const &event) { events.push_back(event); }).end();
 
     proc::module module1{[] { return module::processors_t{}; }};
     proc::module module2{[] { return module::processors_t{}; }};
 
-    track.push_back_module(module1, {0, 1});
+    track->push_back_module(module1, {0, 1});
 
     XCTAssertEqual(events.size(), 1);
     XCTAssertEqual(events.at(0).type(), proc::track::event_type_t::inserted);
 
-    track.push_back_module(module2, {0, 1});
+    track->push_back_module(module2, {0, 1});
 
     XCTAssertEqual(events.size(), 2);
     XCTAssertEqual(events.at(1).type(), proc::track::event_type_t::relayed);
 
-    track.erase_module(module1);
+    track->erase_module(module1);
 
     XCTAssertEqual(events.size(), 3);
     XCTAssertEqual(events.at(2).type(), proc::track::event_type_t::relayed);
 
-    track.erase_module(module2);
+    track->erase_module(module2);
 
     XCTAssertEqual(events.size(), 4);
     XCTAssertEqual(events.at(3).type(), proc::track::event_type_t::erased);

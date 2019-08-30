@@ -21,17 +21,17 @@ using namespace yas::proc;
 }
 
 - (void)test_fetched {
-    timeline timeline;
+    auto timeline = timeline::make_shared();
 
-    track track0;
-    track track1;
+    auto track0 = track::make_shared();
+    auto track1 = track::make_shared();
 
-    timeline.insert_track(0, track0);
-    timeline.insert_track(1, track1);
+    timeline->insert_track(0, track0);
+    timeline->insert_track(1, track1);
 
     std::vector<timeline::event_t> events;
 
-    auto chain = timeline.chain().perform([&events](auto const &event) { events.push_back(event); }).sync();
+    auto chain = timeline->chain().perform([&events](auto const &event) { events.push_back(event); }).sync();
 
     XCTAssertEqual(events.size(), 1);
     XCTAssertEqual(events.at(0).type(), timeline::event_type_t::fetched);
@@ -44,21 +44,21 @@ using namespace yas::proc;
 }
 
 - (void)test_inserted {
-    timeline timeline;
+    auto timeline = timeline::make_shared();
 
-    track track;
+    auto track = track::make_shared();
 
     std::vector<timeline::event_t> events;
-    std::vector<std::map<track_index_t, proc::track>> inserted;
+    std::vector<std::map<track_index_t, proc::track_ptr>> inserted;
 
-    auto chain = timeline.chain()
+    auto chain = timeline->chain()
                      .perform([&events, &inserted](auto const &event) {
                          events.push_back(event);
                          inserted.push_back(event.template get<proc::timeline::inserted_event_t>().elements);
                      })
                      .end();
 
-    timeline.insert_track(0, track);
+    timeline->insert_track(0, track);
 
     XCTAssertEqual(events.size(), 1);
     XCTAssertEqual(events.at(0).type(), timeline::event_type_t::inserted);
@@ -68,22 +68,22 @@ using namespace yas::proc;
 }
 
 - (void)test_erased {
-    timeline timeline;
+    auto timeline = timeline::make_shared();
 
-    track track;
-    timeline.insert_track(0, track);
+    auto track = track::make_shared();
+    timeline->insert_track(0, track);
 
     std::vector<timeline::event_t> events;
-    std::vector<std::map<track_index_t, proc::track>> erased;
+    std::vector<std::map<track_index_t, proc::track_ptr>> erased;
 
-    auto chain = timeline.chain()
+    auto chain = timeline->chain()
                      .perform([&events, &erased](auto const &event) {
                          events.push_back(event);
                          erased.push_back(event.template get<proc::timeline::erased_event_t>().elements);
                      })
                      .end();
 
-    timeline.erase_track(0);
+    timeline->erase_track(0);
 
     XCTAssertEqual(events.size(), 1);
     XCTAssertEqual(events.at(0).type(), timeline::event_type_t::erased);
@@ -93,17 +93,17 @@ using namespace yas::proc;
 }
 
 - (void)test_relayed {
-    timeline timeline;
+    auto timeline = timeline::make_shared();
 
-    track track;
-    timeline.insert_track(0, track);
+    auto track = track::make_shared();
+    timeline->insert_track(0, track);
 
     std::vector<timeline::event_t> events;
-    std::vector<std::tuple<track_index_t, proc::track, std::map<time::range, chaining::vector::holder<module>>>>
+    std::vector<std::tuple<track_index_t, proc::track_ptr, std::map<time::range, chaining::vector::holder_ptr<module>>>>
         relayed;
 
     auto chain =
-        timeline.chain()
+        timeline->chain()
             .perform([&events, &relayed](auto const &event) {
                 events.push_back(event);
                 proc::timeline::relayed_event_t const &relayed_event =
@@ -117,7 +117,7 @@ using namespace yas::proc;
             .end();
 
     proc::module module{[] { return module::processors_t{}; }};
-    track.push_back_module(module, {0, 1});
+    track->push_back_module(module, {0, 1});
 
     XCTAssertEqual(events.size(), 1);
     XCTAssertEqual(events.at(0).type(), timeline::event_type_t::relayed);
@@ -125,8 +125,8 @@ using namespace yas::proc;
     XCTAssertEqual(std::get<0>(relayed.at(0)), 0);
     XCTAssertEqual(std::get<1>(relayed.at(0)), track);
     XCTAssertEqual(std::get<2>(relayed.at(0)).begin()->first, (proc::time::range{0, 1}));
-    XCTAssertEqual(std::get<2>(relayed.at(0)).begin()->second.size(), 1);
-    XCTAssertEqual(std::get<2>(relayed.at(0)).begin()->second.at(0), module);
+    XCTAssertEqual(std::get<2>(relayed.at(0)).begin()->second->size(), 1);
+    XCTAssertEqual(std::get<2>(relayed.at(0)).begin()->second->at(0), module);
 }
 
 @end
