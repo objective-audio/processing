@@ -22,10 +22,6 @@ struct track final : chaining::sender<chaining::map::event> {
     using erased_event_t = chaining::map::erased_event<time::range, module_vector_holder_ptr_t>;
     using relayed_event_t = chaining::map::relayed_event<time::range, module_vector_holder_ptr_t>;
 
-    struct impl;
-
-    explicit track(modules_map_t &&);
-
     modules_holder_map_t const &modules() const;
     modules_holder_map_t &modules();
 
@@ -51,7 +47,14 @@ struct track final : chaining::sender<chaining::map::event> {
     static track_ptr make_shared(modules_map_t &&);
 
    private:
-    std::unique_ptr<impl> _impl;
+    using modules_holder_t = chaining::map::holder<time::range, module_vector_holder_ptr_t>;
+    using modules_holder_ptr_t = chaining::map::holder_ptr<time::range, module_vector_holder_ptr_t>;
+    using modules_sender_t = chaining::sender_protocol<proc::track::event_t>;
+
+    modules_holder_ptr_t const _modules_holder;
+    std::shared_ptr<modules_sender_t> const _modules_sender;
+
+    explicit track(modules_map_t &&);
 
     void fetch_for(chaining::any_joint const &joint) const override;
     void broadcast(event_t const &value) const override;
