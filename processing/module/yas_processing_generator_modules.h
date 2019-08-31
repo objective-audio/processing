@@ -4,12 +4,9 @@
 
 #pragma once
 
-#include "yas_processing_ptr.h"
 #include "yas_processing_types.h"
 
 namespace yas::proc {
-class module;
-
 /// 単純な生成モジュール
 namespace generator {
     enum class kind {

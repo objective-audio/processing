@@ -4,12 +4,9 @@
 
 #pragma once
 
-#include "yas_processing_ptr.h"
 #include "yas_processing_types.h"
 
 namespace yas::proc {
-class module;
-
 /// 固定値を生成するモジュール
 namespace constant {
     enum class output : connector_index_t {

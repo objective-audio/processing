@@ -8,7 +8,7 @@
 #include <cpp_utils/yas_weakable.h>
 #include <optional>
 #include "yas_processing_module.h"
-#include "yas_processing_ptr.h"
+
 #include "yas_processing_time.h"
 
 namespace yas::proc {

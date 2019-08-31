@@ -4,12 +4,9 @@
 
 #pragma once
 
-#include "yas_processing_ptr.h"
 #include "yas_processing_types.h"
 
 namespace yas::proc {
-class module;
-
 /// 数値からシグナルへ変換するモジュール
 namespace number_to_signal {
     enum class output : connector_index_t {

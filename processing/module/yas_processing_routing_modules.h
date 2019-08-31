@@ -4,12 +4,9 @@
 
 #pragma once
 
-#include "yas_processing_ptr.h"
 #include "yas_processing_types.h"
 
 namespace yas::proc {
-class module;
-
 /// ルーティングするモジュール
 namespace routing {
     enum class kind {

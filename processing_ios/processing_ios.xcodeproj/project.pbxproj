@@ -77,7 +77,6 @@
 		B65AF7D521E38B3D00C65DB5 /* yas_processing_signal_event_private.h in Headers */ = {isa = PBXBuildFile; fileRef = B65AF79321E38B3D00C65DB5 /* yas_processing_signal_event_private.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B65AF7D621E38B3D00C65DB5 /* yas_processing_constants.h in Headers */ = {isa = PBXBuildFile; fileRef = B65AF79421E38B3D00C65DB5 /* yas_processing_constants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B65AF7D721E38B3D00C65DB5 /* yas_processing_timeline.h in Headers */ = {isa = PBXBuildFile; fileRef = B65AF79521E38B3D00C65DB5 /* yas_processing_timeline.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B6A6DAFC231A4C110047FD9B /* yas_processing_ptr.h in Headers */ = {isa = PBXBuildFile; fileRef = B6A6DAFB231A4C110047FD9B /* yas_processing_ptr.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -154,7 +153,6 @@
 		B65AF79321E38B3D00C65DB5 /* yas_processing_signal_event_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yas_processing_signal_event_private.h; sourceTree = "<group>"; };
 		B65AF79421E38B3D00C65DB5 /* yas_processing_constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yas_processing_constants.h; sourceTree = "<group>"; };
 		B65AF79521E38B3D00C65DB5 /* yas_processing_timeline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yas_processing_timeline.h; sourceTree = "<group>"; };
-		B6A6DAFB231A4C110047FD9B /* yas_processing_ptr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yas_processing_ptr.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -226,7 +224,6 @@
 				B65AF77321E38B3D00C65DB5 /* yas_processing_module.cpp */,
 				B65AF78721E38B3D00C65DB5 /* yas_processing_module.h */,
 				B65AF75621E38B3D00C65DB5 /* yas_processing_processor.h */,
-				B6A6DAFB231A4C110047FD9B /* yas_processing_ptr.h */,
 				B65AF78421E38B3D00C65DB5 /* yas_processing_stream.cpp */,
 				B65AF78121E38B3D00C65DB5 /* yas_processing_stream.h */,
 				B65AF75421E38B3D00C65DB5 /* yas_processing_sync_source.cpp */,
@@ -347,7 +344,6 @@
 				B65AF7AA21E38B3D00C65DB5 /* yas_processing_math2_modules.h in Headers */,
 				B65AF7BE21E38B3D00C65DB5 /* yas_processing_remove_signal_processor.h in Headers */,
 				B65AF7C621E38B3D00C65DB5 /* yas_processing_types.h in Headers */,
-				B6A6DAFC231A4C110047FD9B /* yas_processing_ptr.h in Headers */,
 				B65AF7A521E38B3D00C65DB5 /* yas_processing_number_process_context.h in Headers */,
 				B65AF7A721E38B3D00C65DB5 /* yas_processing_compare_modules.h in Headers */,
 				B65AF79921E38B3D00C65DB5 /* yas_processing_channel_private.h in Headers */,
