@@ -13,20 +13,20 @@ using namespace yas;
 namespace yas::proc {
 namespace sub_timeline {
     struct context {
-        timeline timeline;
+        timeline_ptr const timeline;
 
-        context(proc::timeline &&timeline) : timeline(std::move(timeline)) {
+        context(proc::timeline_ptr const &timeline) : timeline(timeline) {
         }
     };
 
-    std::shared_ptr<context> make_context(timeline &&timeline) {
-        return std::make_shared<context>(std::move(timeline));
+    std::shared_ptr<context> make_context(timeline_ptr const &timeline) {
+        return std::make_shared<context>(timeline);
     }
 }  // namespace sub_timeline
 }  // namespace yas::proc
 
-proc::module proc::make_module(timeline timeline, frame_index_t const offset) {
-    auto context = sub_timeline::make_context(std::move(timeline));
+proc::module proc::make_module(timeline_ptr const &timeline, frame_index_t const offset) {
+    auto context = sub_timeline::make_context(timeline);
 
     auto make_processors = [context = std::move(context), offset] {
         auto processor = [context, offset](time::range const &time_range, connector_map_t const &input_connectors,
@@ -48,7 +48,7 @@ proc::module proc::make_module(timeline timeline, frame_index_t const offset) {
                 }
             }
 
-            context->timeline.process(time_range.offset(-offset), sub_stream);
+            context->timeline->process(time_range.offset(-offset), sub_stream);
 
             for (auto const &connector : output_connectors) {
                 auto const &co_idx = connector.first;

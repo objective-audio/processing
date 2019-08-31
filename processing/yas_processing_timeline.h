@@ -8,43 +8,35 @@
 #include <functional>
 #include <optional>
 #include "yas_processing_time.h"
+#include "yas_processing_track.h"
 #include "yas_processing_types.h"
 
 namespace yas::proc {
-class track;
-class stream;
-class sync_source;
-
-struct timeline : chaining::sender<chaining::map::event> {
+struct timeline final : chaining::sender<chaining::map::event> {
     class impl;
 
-    using track_map_t = std::map<track_index_t, proc::track>;
+    using track_map_t = std::map<track_index_t, proc::track_ptr>;
     using process_track_f =
         std::function<continuation(time::range const &, stream const &, std::optional<track_index_t> const &)>;
     using process_f = std::function<continuation(time::range const &, stream const &)>;
     using event_type_t = chaining::event_type;
     using event_t = chaining::map::event;
-    using fetched_event_t = chaining::map::fetched_event<track_index_t, proc::track>;
-    using inserted_event_t = chaining::map::inserted_event<track_index_t, proc::track>;
-    using erased_event_t = chaining::map::erased_event<track_index_t, proc::track>;
-    using relayed_event_t = chaining::map::relayed_event<track_index_t, proc::track>;
-
-    timeline();
-    timeline(track_map_t &&);
+    using fetched_event_t = chaining::map::fetched_event<track_index_t, proc::track_ptr>;
+    using inserted_event_t = chaining::map::inserted_event<track_index_t, proc::track_ptr>;
+    using erased_event_t = chaining::map::erased_event<track_index_t, proc::track_ptr>;
+    using relayed_event_t = chaining::map::relayed_event<track_index_t, proc::track_ptr>;
 
     track_map_t const &tracks() const;
-    track_map_t &tracks();
 
-    bool insert_track(track_index_t const, track);
+    bool insert_track(track_index_t const, track_ptr const &);
     void erase_track(track_index_t const);
     std::size_t track_count() const;
     bool has_track(track_index_t const) const;
-    proc::track const &track(track_index_t const) const;
-    proc::track &track(track_index_t const);
+    proc::track_ptr const &track(track_index_t const) const;
 
     std::optional<time::range> total_range() const;
 
-    timeline copy() const;
+    timeline_ptr copy() const;
 
     /// 1回だけ処理する
     void process(time::range const &, stream &);
@@ -53,6 +45,21 @@ struct timeline : chaining::sender<chaining::map::event> {
     void process(time::range const &, sync_source const &, process_track_f const &);
 
     chaining::chain_sync_t<event_t> chain() const;
+
+    static timeline_ptr make_shared();
+    static timeline_ptr make_shared(track_map_t &&);
+
+   private:
+    std::unique_ptr<impl> _impl;
+
+    timeline(track_map_t &&);
+
+    chaining::chain_unsync_t<event_t> chain_unsync() const override;
+    chaining::chain_sync_t<event_t> chain_sync() const override;
+    void fetch_for(chaining::any_joint const &joint) const override;
+    void broadcast(event_t const &value) const override;
+    void erase_joint(std::uintptr_t const key) const override;
+    void send_value_to_target(event_t const &value, std::uintptr_t const key) const override;
 };
 
 timeline::track_map_t copy_tracks(timeline::track_map_t const &);

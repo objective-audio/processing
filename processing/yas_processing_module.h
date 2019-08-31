@@ -12,7 +12,7 @@
 #include "yas_processing_time.h"
 
 namespace yas::proc {
-struct module {
+struct module final {
     class impl;
 
     using processors_t = std::vector<processor_f>;
@@ -45,6 +45,7 @@ struct module {
 
 using module_vector_t = std::vector<module>;
 using module_vector_holder_t = chaining::vector::holder<module>;
+using module_vector_holder_ptr_t = chaining::vector::holder_ptr<module>;
 
 namespace module_vector {
     using event_type_t = chaining::event_type;
