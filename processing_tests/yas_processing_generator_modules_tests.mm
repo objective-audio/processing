@@ -30,9 +30,9 @@ using namespace yas::proc;
     stream stream{sync_source{sr, 20}};
 
     auto module = make_signal_module<double>(generator::kind::second, 0);
-    module.connect_output(to_connector_index(generator::output::value), ch_idx);
+    module->connect_output(to_connector_index(generator::output::value), ch_idx);
 
-    module.process(time::range{0, process_length}, stream);
+    module->process(time::range{0, process_length}, stream);
 
     XCTAssertTrue(stream.has_channel(ch_idx));
 
@@ -73,9 +73,9 @@ using namespace yas::proc;
     stream stream{sync_source{sr, 20}};
 
     auto module = make_signal_module<int64_t>(generator::kind::frame, 0);
-    module.connect_output(to_connector_index(generator::output::value), ch_idx);
+    module->connect_output(to_connector_index(generator::output::value), ch_idx);
 
-    module.process(time::range{0, process_length}, stream);
+    module->process(time::range{0, process_length}, stream);
 
     XCTAssertTrue(stream.has_channel(ch_idx));
 
@@ -116,9 +116,9 @@ using namespace yas::proc;
     stream stream{sync_source{sr, 20}};
 
     auto module = make_signal_module<int64_t>(generator::kind::frame, 100);
-    module.connect_output(to_connector_index(generator::output::value), ch_idx);
+    module->connect_output(to_connector_index(generator::output::value), ch_idx);
 
-    module.process(time::range{0, process_length}, stream);
+    module->process(time::range{0, process_length}, stream);
 
     XCTAssertTrue(stream.has_channel(ch_idx));
 
@@ -155,7 +155,7 @@ using namespace yas::proc;
     auto module = make_number_module<int32_t>(1);
     connect(module, generator::output::value, 9);
 
-    auto const &connectors = module.output_connectors();
+    auto const &connectors = module->output_connectors();
 
     XCTAssertEqual(connectors.size(), 1);
     XCTAssertEqual(connectors.cbegin()->first, to_connector_index(generator::output::value));

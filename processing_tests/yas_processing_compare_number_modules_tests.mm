@@ -55,7 +55,7 @@ using namespace yas::proc;
     connect(module, compare::input::right, 1);
     connect(module, compare::output::result, 2);
 
-    module.process({0, process_length}, stream);
+    module->process({0, process_length}, stream);
 
     XCTAssertTrue(stream.has_channel(2));
 
@@ -94,7 +94,7 @@ using namespace yas::proc;
     connect(module, compare::input::right, 1);
     connect(module, compare::output::result, 2);
 
-    module.process({0, process_length}, stream);
+    module->process({0, process_length}, stream);
 
     XCTAssertTrue(stream.has_channel(2));
 
@@ -129,7 +129,7 @@ using namespace yas::proc;
     connect(module, compare::input::right, 1);
     connect(module, compare::output::result, 2);
 
-    module.process({0, process_length}, stream);
+    module->process({0, process_length}, stream);
 
     XCTAssertTrue(stream.has_channel(2));
 
@@ -169,7 +169,7 @@ using namespace yas::proc;
     connect(module, compare::input::right, 1);
     connect(module, compare::output::result, 2);
 
-    module.process({0, process_length}, stream);
+    module->process({0, process_length}, stream);
 
     XCTAssertTrue(stream.has_channel(2));
 
@@ -209,7 +209,7 @@ using namespace yas::proc;
     connect(module, compare::input::right, 1);
     connect(module, compare::output::result, 2);
 
-    module.process({0, process_length}, stream);
+    module->process({0, process_length}, stream);
 
     XCTAssertTrue(stream.has_channel(2));
 
@@ -249,7 +249,7 @@ using namespace yas::proc;
     connect(module, compare::input::right, 1);
     connect(module, compare::output::result, 2);
 
-    module.process({0, process_length}, stream);
+    module->process({0, process_length}, stream);
 
     XCTAssertTrue(stream.has_channel(2));
 
@@ -274,7 +274,7 @@ using namespace yas::proc;
     auto module = make_number_module<int16_t>(compare::kind::is_equal);
     connect(module, compare::input::left, 5);
 
-    auto const &connectors = module.input_connectors();
+    auto const &connectors = module->input_connectors();
     XCTAssertEqual(connectors.size(), 1);
     XCTAssertEqual(connectors.cbegin()->first, to_connector_index(compare::input::left));
     XCTAssertEqual(connectors.cbegin()->second.channel_index, 5);
@@ -284,7 +284,7 @@ using namespace yas::proc;
     auto module = make_number_module<int16_t>(compare::kind::is_equal);
     connect(module, compare::output::result, 6);
 
-    auto const &connectors = module.output_connectors();
+    auto const &connectors = module->output_connectors();
 
     XCTAssertEqual(connectors.size(), 1);
     XCTAssertEqual(connectors.cbegin()->first, to_connector_index(compare::output::result));

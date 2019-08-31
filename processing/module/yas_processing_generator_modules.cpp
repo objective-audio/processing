@@ -12,7 +12,7 @@
 using namespace yas;
 
 template <typename T>
-proc::module proc::make_signal_module(generator::kind const kind, frame_index_t const offset) {
+proc::module_ptr proc::make_signal_module(generator::kind const kind, frame_index_t const offset) {
     using namespace yas::proc::generator;
 
     auto make_processors = [kind, offset] {
@@ -45,17 +45,18 @@ proc::module proc::make_signal_module(generator::kind const kind, frame_index_t 
         return module::processors_t{{std::move(prepare_processor), std::move(send_processor)}};
     };
 
-    return proc::module{std::move(make_processors)};
+    return proc::module::make_shared(std::move(make_processors));
 }
 
-template proc::module proc::make_signal_module<double>(generator::kind const, frame_index_t const);
-template proc::module proc::make_signal_module<float>(generator::kind const, frame_index_t const);
-template proc::module proc::make_signal_module<int64_t>(generator::kind const, frame_index_t const);
+template proc::module_ptr proc::make_signal_module<double>(generator::kind const, frame_index_t const);
+template proc::module_ptr proc::make_signal_module<float>(generator::kind const, frame_index_t const);
+template proc::module_ptr proc::make_signal_module<int64_t>(generator::kind const, frame_index_t const);
 
 #pragma mark -
 
-void yas::connect(proc::module &module, proc::generator::output const &output, proc::channel_index_t const &ch_idx) {
-    module.connect_output(proc::to_connector_index(output), ch_idx);
+void yas::connect(proc::module_ptr const &module, proc::generator::output const &output,
+                  proc::channel_index_t const &ch_idx) {
+    module->connect_output(proc::to_connector_index(output), ch_idx);
 }
 
 std::string yas::to_string(proc::generator::output const &output) {

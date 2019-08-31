@@ -20,7 +20,7 @@ using namespace yas;
 #pragma mark - signal
 
 template <typename T>
-proc::module proc::make_signal_module(compare::kind const kind) {
+proc::module_ptr proc::make_signal_module(compare::kind const kind) {
     using namespace yas::proc::compare;
 
     auto make_processors = [kind] {
@@ -95,25 +95,25 @@ proc::module proc::make_signal_module(compare::kind const kind) {
             {std::move(prepare_processor), std::move(receive_processor), std::move(send_processor)}};
     };
 
-    return proc::module{std::move(make_processors)};
+    return proc::module::make_shared(std::move(make_processors));
 }
 
-template proc::module proc::make_signal_module<double>(compare::kind const);
-template proc::module proc::make_signal_module<float>(compare::kind const);
-template proc::module proc::make_signal_module<int64_t>(compare::kind const);
-template proc::module proc::make_signal_module<int32_t>(compare::kind const);
-template proc::module proc::make_signal_module<int16_t>(compare::kind const);
-template proc::module proc::make_signal_module<int8_t>(compare::kind const);
-template proc::module proc::make_signal_module<uint64_t>(compare::kind const);
-template proc::module proc::make_signal_module<uint32_t>(compare::kind const);
-template proc::module proc::make_signal_module<uint16_t>(compare::kind const);
-template proc::module proc::make_signal_module<uint8_t>(compare::kind const);
-template proc::module proc::make_signal_module<boolean>(compare::kind const);
+template proc::module_ptr proc::make_signal_module<double>(compare::kind const);
+template proc::module_ptr proc::make_signal_module<float>(compare::kind const);
+template proc::module_ptr proc::make_signal_module<int64_t>(compare::kind const);
+template proc::module_ptr proc::make_signal_module<int32_t>(compare::kind const);
+template proc::module_ptr proc::make_signal_module<int16_t>(compare::kind const);
+template proc::module_ptr proc::make_signal_module<int8_t>(compare::kind const);
+template proc::module_ptr proc::make_signal_module<uint64_t>(compare::kind const);
+template proc::module_ptr proc::make_signal_module<uint32_t>(compare::kind const);
+template proc::module_ptr proc::make_signal_module<uint16_t>(compare::kind const);
+template proc::module_ptr proc::make_signal_module<uint8_t>(compare::kind const);
+template proc::module_ptr proc::make_signal_module<boolean>(compare::kind const);
 
 #pragma mark - number
 
 template <typename T>
-proc::module proc::make_number_module(compare::kind const kind) {
+proc::module_ptr proc::make_number_module(compare::kind const kind) {
     using namespace yas::proc::compare;
 
     auto make_processors = [kind] {
@@ -185,29 +185,31 @@ proc::module proc::make_number_module(compare::kind const kind) {
             {std::move(prepare_processor), std::move(receive_processor), std::move(send_processor)}};
     };
 
-    return proc::module{std::move(make_processors)};
+    return proc::module::make_shared(std::move(make_processors));
 }
 
-template proc::module proc::make_number_module<double>(compare::kind const);
-template proc::module proc::make_number_module<float>(compare::kind const);
-template proc::module proc::make_number_module<int64_t>(compare::kind const);
-template proc::module proc::make_number_module<int32_t>(compare::kind const);
-template proc::module proc::make_number_module<int16_t>(compare::kind const);
-template proc::module proc::make_number_module<int8_t>(compare::kind const);
-template proc::module proc::make_number_module<uint64_t>(compare::kind const);
-template proc::module proc::make_number_module<uint32_t>(compare::kind const);
-template proc::module proc::make_number_module<uint16_t>(compare::kind const);
-template proc::module proc::make_number_module<uint8_t>(compare::kind const);
-template proc::module proc::make_number_module<boolean>(compare::kind const);
+template proc::module_ptr proc::make_number_module<double>(compare::kind const);
+template proc::module_ptr proc::make_number_module<float>(compare::kind const);
+template proc::module_ptr proc::make_number_module<int64_t>(compare::kind const);
+template proc::module_ptr proc::make_number_module<int32_t>(compare::kind const);
+template proc::module_ptr proc::make_number_module<int16_t>(compare::kind const);
+template proc::module_ptr proc::make_number_module<int8_t>(compare::kind const);
+template proc::module_ptr proc::make_number_module<uint64_t>(compare::kind const);
+template proc::module_ptr proc::make_number_module<uint32_t>(compare::kind const);
+template proc::module_ptr proc::make_number_module<uint16_t>(compare::kind const);
+template proc::module_ptr proc::make_number_module<uint8_t>(compare::kind const);
+template proc::module_ptr proc::make_number_module<boolean>(compare::kind const);
 
 #pragma mark -
 
-void yas::connect(proc::module &module, proc::compare::input const &input, proc::channel_index_t const &ch_idx) {
-    module.connect_input(proc::to_connector_index(input), ch_idx);
+void yas::connect(proc::module_ptr const &module, proc::compare::input const &input,
+                  proc::channel_index_t const &ch_idx) {
+    module->connect_input(proc::to_connector_index(input), ch_idx);
 }
 
-void yas::connect(proc::module &module, proc::compare::output const &output, proc::channel_index_t const &ch_idx) {
-    module.connect_output(proc::to_connector_index(output), ch_idx);
+void yas::connect(proc::module_ptr const &module, proc::compare::output const &output,
+                  proc::channel_index_t const &ch_idx) {
+    module->connect_output(proc::to_connector_index(output), ch_idx);
 }
 
 std::string yas::to_string(proc::compare::input const &input) {

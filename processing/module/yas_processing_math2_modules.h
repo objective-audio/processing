@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include "yas_processing_ptr.h"
 #include "yas_processing_types.h"
 
 namespace yas::proc {
@@ -34,15 +35,15 @@ namespace math2 {
 }  // namespace math2
 
 template <typename T>
-module make_signal_module(math2::kind const);
+module_ptr make_signal_module(math2::kind const);
 
 template <typename T>
-module make_number_module(math2::kind const);
+module_ptr make_number_module(math2::kind const);
 }  // namespace yas::proc
 
 namespace yas {
-void connect(proc::module &, proc::math2::input const &, proc::channel_index_t const &);
-void connect(proc::module &, proc::math2::output const &, proc::channel_index_t const &);
+void connect(proc::module_ptr const &, proc::math2::input const &, proc::channel_index_t const &);
+void connect(proc::module_ptr const &, proc::math2::output const &, proc::channel_index_t const &);
 
 std::string to_string(proc::math2::kind const &);
 std::string to_string(proc::math2::input const &);

@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include "yas_processing_ptr.h"
 #include "yas_processing_types.h"
 
 namespace yas::proc {
@@ -22,11 +23,11 @@ namespace generator {
 }  // namespace generator
 
 template <typename T>
-module make_signal_module(generator::kind const, frame_index_t const offset);
+module_ptr make_signal_module(generator::kind const, frame_index_t const offset);
 }  // namespace yas::proc
 
 namespace yas {
-void connect(proc::module &, proc::generator::output const &, proc::channel_index_t const &);
+void connect(proc::module_ptr const &, proc::generator::output const &, proc::channel_index_t const &);
 
 std::string to_string(proc::generator::output const &);
 }  // namespace yas

@@ -62,7 +62,7 @@ struct context {
 }  // namespace yas::proc::envelope
 
 template <typename T>
-proc::module proc::envelope::make_signal_module(anchors_t<T> anchors, frame_index_t const offset) {
+proc::module_ptr proc::envelope::make_signal_module(anchors_t<T> anchors, frame_index_t const offset) {
     auto context = std::make_shared<envelope::context<T>>(std::move(anchors));
 
     auto make_processors = [context = std::move(context), offset] {
@@ -89,22 +89,23 @@ proc::module proc::envelope::make_signal_module(anchors_t<T> anchors, frame_inde
         return module::processors_t{{std::move(prepare_processor), std::move(send_processor)}};
     };
 
-    return proc::module{std::move(make_processors)};
+    return proc::module::make_shared(std::move(make_processors));
 }
 
-template proc::module proc::envelope::make_signal_module(anchors_t<double>, frame_index_t const);
-template proc::module proc::envelope::make_signal_module(anchors_t<float>, frame_index_t const);
-template proc::module proc::envelope::make_signal_module(anchors_t<int64_t>, frame_index_t const);
-template proc::module proc::envelope::make_signal_module(anchors_t<int32_t>, frame_index_t const);
-template proc::module proc::envelope::make_signal_module(anchors_t<int16_t>, frame_index_t const);
-template proc::module proc::envelope::make_signal_module(anchors_t<int8_t>, frame_index_t const);
-template proc::module proc::envelope::make_signal_module(anchors_t<uint64_t>, frame_index_t const);
-template proc::module proc::envelope::make_signal_module(anchors_t<uint32_t>, frame_index_t const);
-template proc::module proc::envelope::make_signal_module(anchors_t<uint16_t>, frame_index_t const);
-template proc::module proc::envelope::make_signal_module(anchors_t<uint8_t>, frame_index_t const);
+template proc::module_ptr proc::envelope::make_signal_module(anchors_t<double>, frame_index_t const);
+template proc::module_ptr proc::envelope::make_signal_module(anchors_t<float>, frame_index_t const);
+template proc::module_ptr proc::envelope::make_signal_module(anchors_t<int64_t>, frame_index_t const);
+template proc::module_ptr proc::envelope::make_signal_module(anchors_t<int32_t>, frame_index_t const);
+template proc::module_ptr proc::envelope::make_signal_module(anchors_t<int16_t>, frame_index_t const);
+template proc::module_ptr proc::envelope::make_signal_module(anchors_t<int8_t>, frame_index_t const);
+template proc::module_ptr proc::envelope::make_signal_module(anchors_t<uint64_t>, frame_index_t const);
+template proc::module_ptr proc::envelope::make_signal_module(anchors_t<uint32_t>, frame_index_t const);
+template proc::module_ptr proc::envelope::make_signal_module(anchors_t<uint16_t>, frame_index_t const);
+template proc::module_ptr proc::envelope::make_signal_module(anchors_t<uint8_t>, frame_index_t const);
 
-void yas::connect(proc::module &module, proc::envelope::output const &output, proc::channel_index_t const &ch_idx) {
-    module.connect_output(proc::to_connector_index(output), ch_idx);
+void yas::connect(proc::module_ptr const &module, proc::envelope::output const &output,
+                  proc::channel_index_t const &ch_idx) {
+    module->connect_output(proc::to_connector_index(output), ch_idx);
 }
 
 std::string yas::to_string(proc::envelope::output const &output) {

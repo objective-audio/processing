@@ -44,7 +44,7 @@
     connect(module, math2::input::right, 1);
     connect(module, math2::output::result, 2);
 
-    module.process({0, process_length}, stream);
+    module->process({0, process_length}, stream);
 
     XCTAssertTrue(stream.has_channel(2));
 
@@ -78,7 +78,7 @@
     connect(module, math2::input::right, 1);
     connect(module, math2::output::result, 2);
 
-    module.process({0, 5}, stream);
+    module->process({0, 5}, stream);
 
     XCTAssertTrue(stream.has_channel(2));
 
@@ -112,7 +112,7 @@
     connect(module, math2::input::right, 1);
     connect(module, math2::output::result, 2);
 
-    module.process({0, 5}, stream);
+    module->process({0, 5}, stream);
 
     XCTAssertTrue(stream.has_channel(2));
 
@@ -146,7 +146,7 @@
     connect(module, math2::input::right, 1);
     connect(module, math2::output::result, 2);
 
-    module.process({0, 5}, stream);
+    module->process({0, 5}, stream);
 
     XCTAssertTrue(stream.has_channel(2));
 
@@ -180,7 +180,7 @@
     connect(module, math2::input::right, 1);
     connect(module, math2::output::result, 2);
 
-    module.process({0, process_length}, stream);
+    module->process({0, process_length}, stream);
 
     XCTAssertTrue(stream.has_channel(2));
 
@@ -218,7 +218,7 @@
     connect(module, math2::input::right, 1);
     connect(module, math2::output::result, 2);
 
-    module.process({0, 5}, stream);
+    module->process({0, 5}, stream);
 
     XCTAssertTrue(stream.has_channel(2));
 
@@ -252,7 +252,7 @@
     connect(module, math2::input::right, 1);
     connect(module, math2::output::result, 2);
 
-    module.process({0, 5}, stream);
+    module->process({0, 5}, stream);
 
     XCTAssertTrue(stream.has_channel(2));
 

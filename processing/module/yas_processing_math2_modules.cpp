@@ -20,7 +20,7 @@ using namespace yas;
 #pragma mark - signal
 
 template <typename T>
-proc::module proc::make_signal_module(math2::kind const kind) {
+proc::module_ptr proc::make_signal_module(math2::kind const kind) {
     using namespace yas::proc::math2;
 
     auto make_processors = [kind] {
@@ -100,24 +100,24 @@ proc::module proc::make_signal_module(math2::kind const kind) {
             {std::move(prepare_processor), std::move(receive_processor), std::move(send_processor)}};
     };
 
-    return proc::module{std::move(make_processors)};
+    return proc::module::make_shared(std::move(make_processors));
 }
 
-template proc::module proc::make_signal_module<double>(math2::kind const);
-template proc::module proc::make_signal_module<float>(math2::kind const);
-template proc::module proc::make_signal_module<int64_t>(math2::kind const);
-template proc::module proc::make_signal_module<int32_t>(math2::kind const);
-template proc::module proc::make_signal_module<int16_t>(math2::kind const);
-template proc::module proc::make_signal_module<int8_t>(math2::kind const);
-template proc::module proc::make_signal_module<uint64_t>(math2::kind const);
-template proc::module proc::make_signal_module<uint32_t>(math2::kind const);
-template proc::module proc::make_signal_module<uint16_t>(math2::kind const);
-template proc::module proc::make_signal_module<uint8_t>(math2::kind const);
+template proc::module_ptr proc::make_signal_module<double>(math2::kind const);
+template proc::module_ptr proc::make_signal_module<float>(math2::kind const);
+template proc::module_ptr proc::make_signal_module<int64_t>(math2::kind const);
+template proc::module_ptr proc::make_signal_module<int32_t>(math2::kind const);
+template proc::module_ptr proc::make_signal_module<int16_t>(math2::kind const);
+template proc::module_ptr proc::make_signal_module<int8_t>(math2::kind const);
+template proc::module_ptr proc::make_signal_module<uint64_t>(math2::kind const);
+template proc::module_ptr proc::make_signal_module<uint32_t>(math2::kind const);
+template proc::module_ptr proc::make_signal_module<uint16_t>(math2::kind const);
+template proc::module_ptr proc::make_signal_module<uint8_t>(math2::kind const);
 
 #pragma mark - number
 
 template <typename T>
-proc::module proc::make_number_module(math2::kind const kind) {
+proc::module_ptr proc::make_number_module(math2::kind const kind) {
     using namespace yas::proc::math2;
 
     auto make_processors = [kind] {
@@ -190,28 +190,30 @@ proc::module proc::make_number_module(math2::kind const kind) {
             {std::move(prepare_processor), std::move(receive_processor), std::move(send_processor)}};
     };
 
-    return proc::module{std::move(make_processors)};
+    return proc::module::make_shared(std::move(make_processors));
 }
 
-template proc::module proc::make_number_module<double>(math2::kind const);
-template proc::module proc::make_number_module<float>(math2::kind const);
-template proc::module proc::make_number_module<int64_t>(math2::kind const);
-template proc::module proc::make_number_module<int32_t>(math2::kind const);
-template proc::module proc::make_number_module<int16_t>(math2::kind const);
-template proc::module proc::make_number_module<int8_t>(math2::kind const);
-template proc::module proc::make_number_module<uint64_t>(math2::kind const);
-template proc::module proc::make_number_module<uint32_t>(math2::kind const);
-template proc::module proc::make_number_module<uint16_t>(math2::kind const);
-template proc::module proc::make_number_module<uint8_t>(math2::kind const);
+template proc::module_ptr proc::make_number_module<double>(math2::kind const);
+template proc::module_ptr proc::make_number_module<float>(math2::kind const);
+template proc::module_ptr proc::make_number_module<int64_t>(math2::kind const);
+template proc::module_ptr proc::make_number_module<int32_t>(math2::kind const);
+template proc::module_ptr proc::make_number_module<int16_t>(math2::kind const);
+template proc::module_ptr proc::make_number_module<int8_t>(math2::kind const);
+template proc::module_ptr proc::make_number_module<uint64_t>(math2::kind const);
+template proc::module_ptr proc::make_number_module<uint32_t>(math2::kind const);
+template proc::module_ptr proc::make_number_module<uint16_t>(math2::kind const);
+template proc::module_ptr proc::make_number_module<uint8_t>(math2::kind const);
 
 #pragma mark -
 
-void yas::connect(proc::module &module, proc::math2::input const &input, proc::channel_index_t const &ch_idx) {
-    module.connect_input(proc::to_connector_index(input), ch_idx);
+void yas::connect(proc::module_ptr const &module, proc::math2::input const &input,
+                  proc::channel_index_t const &ch_idx) {
+    module->connect_input(proc::to_connector_index(input), ch_idx);
 }
 
-void yas::connect(proc::module &module, proc::math2::output const &output, proc::channel_index_t const &ch_idx) {
-    module.connect_output(proc::to_connector_index(output), ch_idx);
+void yas::connect(proc::module_ptr const &module, proc::math2::output const &output,
+                  proc::channel_index_t const &ch_idx) {
+    module->connect_output(proc::to_connector_index(output), ch_idx);
 }
 
 std::string yas::to_string(proc::math2::kind const &kind) {

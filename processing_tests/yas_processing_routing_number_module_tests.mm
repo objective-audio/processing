@@ -62,7 +62,7 @@ using namespace yas::proc;
 
     auto stream = test::make_number_stream(process_length, data, time::range{0, process_length}, 0);
 
-    module.process(time::range{0, process_length}, stream);
+    module->process(time::range{0, process_length}, stream);
 
     auto const &input_events = stream.channel(input_ch_idx).events();
     XCTAssertEqual(input_events.size(), 0);
@@ -88,7 +88,7 @@ using namespace yas::proc;
 
     auto stream = test::make_number_stream(process_length, data, time::range{0, process_length}, 0);
 
-    module.process(time::range{1, 1}, stream);
+    module->process(time::range{1, 1}, stream);
 
     auto const &unprocessed_events = stream.channel(input_ch_idx).filtered_events<int8_t, number_event>();
     XCTAssertEqual(unprocessed_events.size(), 1);
@@ -116,7 +116,7 @@ using namespace yas::proc;
 
     auto stream = test::make_number_stream(process_length, data, time::range{0, process_length}, 0);
 
-    module.process(time::range{0, process_length}, stream);
+    module->process(time::range{0, process_length}, stream);
 
     auto const &input_events = stream.channel(input_ch_idx).filtered_events<int8_t, number_event>();
     XCTAssertEqual(input_events.size(), 2);
@@ -146,7 +146,7 @@ using namespace yas::proc;
 
     auto stream = test::make_number_stream(process_length, data, time::range{0, process_length}, 0);
 
-    module.process(time::range{1, 1}, stream);
+    module->process(time::range{1, 1}, stream);
 
     auto const &input_events = stream.channel(input_ch_idx).filtered_events<int8_t, number_event>();
     XCTAssertEqual(input_events.size(), 2);
@@ -169,7 +169,7 @@ using namespace yas::proc;
     auto module = make_number_module<int8_t>(routing::kind::copy);
     connect(module, routing::input::value, 15);
 
-    auto const &connectors = module.input_connectors();
+    auto const &connectors = module->input_connectors();
     XCTAssertEqual(connectors.size(), 1);
     XCTAssertEqual(connectors.cbegin()->first, to_connector_index(routing::input::value));
     XCTAssertEqual(connectors.cbegin()->second.channel_index, 15);
@@ -179,7 +179,7 @@ using namespace yas::proc;
     auto module = make_number_module<int8_t>(routing::kind::move);
     connect(module, routing::output::value, 16);
 
-    auto const &connectors = module.output_connectors();
+    auto const &connectors = module->output_connectors();
 
     XCTAssertEqual(connectors.size(), 1);
     XCTAssertEqual(connectors.cbegin()->first, to_connector_index(routing::output::value));

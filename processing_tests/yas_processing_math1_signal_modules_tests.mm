@@ -77,7 +77,7 @@ namespace test {
     auto stream = test::make_signal_stream<double>(time::range{0, test::process_length}, test::radian_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const &events = stream.channel(ch_idx).events();
     auto const signal = std::dynamic_pointer_cast<proc::signal_event>(events.cbegin()->second);
@@ -100,7 +100,7 @@ namespace test {
     auto stream = test::make_signal_stream<double>(time::range{0, test::process_length}, test::radian_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const &events = stream.channel(ch_idx).events();
     auto const signal = std::dynamic_pointer_cast<proc::signal_event>(events.cbegin()->second);
@@ -123,7 +123,7 @@ namespace test {
     auto stream = test::make_signal_stream<double>(time::range{0, test::process_length}, test::radian_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const &events = stream.channel(ch_idx).events();
     auto const signal = std::dynamic_pointer_cast<proc::signal_event>(events.cbegin()->second);
@@ -146,7 +146,7 @@ namespace test {
     auto stream = test::make_signal_stream<double>(time::range{0, test::process_length}, test::linear_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const &events = stream.channel(ch_idx).events();
     auto const signal = std::dynamic_pointer_cast<proc::signal_event>(events.cbegin()->second);
@@ -169,7 +169,7 @@ namespace test {
     auto stream = test::make_signal_stream<double>(time::range{0, test::process_length}, test::linear_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const &events = stream.channel(ch_idx).events();
     auto const signal = std::dynamic_pointer_cast<proc::signal_event>(events.cbegin()->second);
@@ -192,7 +192,7 @@ namespace test {
     auto stream = test::make_signal_stream<double>(time::range{0, test::process_length}, test::linear_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const &events = stream.channel(ch_idx).events();
     auto const signal = std::dynamic_pointer_cast<proc::signal_event>(events.cbegin()->second);
@@ -215,7 +215,7 @@ namespace test {
     auto stream = test::make_signal_stream<double>(time::range{0, test::process_length}, test::linear_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const &events = stream.channel(ch_idx).events();
     auto const signal = std::dynamic_pointer_cast<proc::signal_event>(events.cbegin()->second);
@@ -238,7 +238,7 @@ namespace test {
     auto stream = test::make_signal_stream<double>(time::range{0, test::process_length}, test::linear_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const &events = stream.channel(ch_idx).events();
     auto const signal = std::dynamic_pointer_cast<proc::signal_event>(events.cbegin()->second);
@@ -261,7 +261,7 @@ namespace test {
     auto stream = test::make_signal_stream<double>(time::range{0, test::process_length}, test::linear_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const &events = stream.channel(ch_idx).events();
     auto const signal = std::dynamic_pointer_cast<proc::signal_event>(events.cbegin()->second);
@@ -284,7 +284,7 @@ namespace test {
     auto stream = test::make_signal_stream<double>(time::range{0, test::process_length}, test::linear_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const &events = stream.channel(ch_idx).events();
     auto const signal = std::dynamic_pointer_cast<proc::signal_event>(events.cbegin()->second);
@@ -307,7 +307,7 @@ namespace test {
     auto stream = test::make_signal_stream<double>(time::range{0, test::process_length}, test::linear_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const &events = stream.channel(ch_idx).events();
     auto const signal = std::dynamic_pointer_cast<proc::signal_event>(events.cbegin()->second);
@@ -330,7 +330,7 @@ namespace test {
     auto stream = test::make_signal_stream<double>(time::range{0, test::process_length}, test::linear_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const &events = stream.channel(ch_idx).events();
     auto const signal = std::dynamic_pointer_cast<proc::signal_event>(events.cbegin()->second);
@@ -353,7 +353,7 @@ namespace test {
     auto stream = test::make_signal_stream<double>(time::range{0, test::process_length}, test::linear_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const &events = stream.channel(ch_idx).events();
     auto const signal = std::dynamic_pointer_cast<proc::signal_event>(events.cbegin()->second);
@@ -376,7 +376,7 @@ namespace test {
     auto stream = test::make_signal_stream<double>(time::range{0, test::process_length}, test::linear_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const &events = stream.channel(ch_idx).events();
     auto const signal = std::dynamic_pointer_cast<proc::signal_event>(events.cbegin()->second);
@@ -399,7 +399,7 @@ namespace test {
     auto stream = test::make_signal_stream<double>(time::range{0, test::process_length}, test::linear_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const &events = stream.channel(ch_idx).events();
     auto const signal = std::dynamic_pointer_cast<proc::signal_event>(events.cbegin()->second);
@@ -422,7 +422,7 @@ namespace test {
     auto stream = test::make_signal_stream<double>(time::range{0, test::process_length}, test::linear_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const &events = stream.channel(ch_idx).events();
     auto const signal = std::dynamic_pointer_cast<proc::signal_event>(events.cbegin()->second);
@@ -445,7 +445,7 @@ namespace test {
     auto stream = test::make_signal_stream<double>(time::range{0, test::process_length}, test::linear_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const &events = stream.channel(ch_idx).events();
     auto const signal = std::dynamic_pointer_cast<proc::signal_event>(events.cbegin()->second);
@@ -468,7 +468,7 @@ namespace test {
     auto stream = test::make_signal_stream<double>(time::range{0, test::process_length}, test::linear_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const &events = stream.channel(ch_idx).events();
     auto const signal = std::dynamic_pointer_cast<proc::signal_event>(events.cbegin()->second);
@@ -491,7 +491,7 @@ namespace test {
     auto stream = test::make_signal_stream<double>(time::range{0, test::process_length}, test::linear_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const &events = stream.channel(ch_idx).events();
     auto const signal = std::dynamic_pointer_cast<proc::signal_event>(events.cbegin()->second);
@@ -514,7 +514,7 @@ namespace test {
     auto stream = test::make_signal_stream<double>(time::range{0, test::process_length}, test::linear_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const &events = stream.channel(ch_idx).events();
     auto const signal = std::dynamic_pointer_cast<proc::signal_event>(events.cbegin()->second);
@@ -537,7 +537,7 @@ namespace test {
     auto stream = test::make_signal_stream<double>(time::range{0, test::process_length}, test::linear_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const &events = stream.channel(ch_idx).events();
     auto const signal = std::dynamic_pointer_cast<proc::signal_event>(events.cbegin()->second);
@@ -560,7 +560,7 @@ namespace test {
     auto stream = test::make_signal_stream<double>(time::range{0, test::process_length}, test::linear_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const &events = stream.channel(ch_idx).events();
     auto const signal = std::dynamic_pointer_cast<proc::signal_event>(events.cbegin()->second);
@@ -583,7 +583,7 @@ namespace test {
     auto stream = test::make_signal_stream<double>(time::range{0, test::process_length}, test::linear_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const &events = stream.channel(ch_idx).events();
     auto const signal = std::dynamic_pointer_cast<proc::signal_event>(events.cbegin()->second);
@@ -606,7 +606,7 @@ namespace test {
     auto stream = test::make_signal_stream<double>(time::range{0, test::process_length}, test::linear_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const &events = stream.channel(ch_idx).events();
     auto const signal = std::dynamic_pointer_cast<proc::signal_event>(events.cbegin()->second);
@@ -629,7 +629,7 @@ namespace test {
     auto stream = test::make_signal_stream<double>(time::range{0, test::process_length}, test::linear_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const &events = stream.channel(ch_idx).events();
     auto const signal = std::dynamic_pointer_cast<proc::signal_event>(events.cbegin()->second);
@@ -652,7 +652,7 @@ namespace test {
     auto stream = test::make_signal_stream<double>(time::range{0, test::process_length}, test::linear_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const &events = stream.channel(ch_idx).events();
     auto const signal = std::dynamic_pointer_cast<proc::signal_event>(events.cbegin()->second);

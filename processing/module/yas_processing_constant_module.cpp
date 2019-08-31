@@ -12,7 +12,7 @@
 using namespace yas;
 
 template <typename T>
-proc::module proc::make_signal_module(T value) {
+proc::module_ptr proc::make_signal_module(T value) {
     auto make_processors = [value] {
         return module::processors_t{{proc::make_send_signal_processor<T>(
             [value, each = fast_each<T *>{}](proc::time::range const &time_range, sync_source const &,
@@ -26,23 +26,23 @@ proc::module proc::make_signal_module(T value) {
             })}};
     };
 
-    return proc::module{std::move(make_processors)};
+    return proc::module::make_shared(std::move(make_processors));
 }
 
-template proc::module proc::make_signal_module(double);
-template proc::module proc::make_signal_module(float);
-template proc::module proc::make_signal_module(int64_t);
-template proc::module proc::make_signal_module(int32_t);
-template proc::module proc::make_signal_module(int16_t);
-template proc::module proc::make_signal_module(int8_t);
-template proc::module proc::make_signal_module(uint64_t);
-template proc::module proc::make_signal_module(uint32_t);
-template proc::module proc::make_signal_module(uint16_t);
-template proc::module proc::make_signal_module(uint8_t);
-template proc::module proc::make_signal_module(boolean);
+template proc::module_ptr proc::make_signal_module(double);
+template proc::module_ptr proc::make_signal_module(float);
+template proc::module_ptr proc::make_signal_module(int64_t);
+template proc::module_ptr proc::make_signal_module(int32_t);
+template proc::module_ptr proc::make_signal_module(int16_t);
+template proc::module_ptr proc::make_signal_module(int8_t);
+template proc::module_ptr proc::make_signal_module(uint64_t);
+template proc::module_ptr proc::make_signal_module(uint32_t);
+template proc::module_ptr proc::make_signal_module(uint16_t);
+template proc::module_ptr proc::make_signal_module(uint8_t);
+template proc::module_ptr proc::make_signal_module(boolean);
 
 template <typename T>
-proc::module proc::make_number_module(T value) {
+proc::module_ptr proc::make_number_module(T value) {
     auto make_processors = [value]() {
         return module::processors_t{
             {proc::make_send_number_processor<T>([value](proc::time::range const &time_range, sync_source const &,
@@ -51,17 +51,17 @@ proc::module proc::make_number_module(T value) {
             })}};
     };
 
-    return proc::module{std::move(make_processors)};
+    return proc::module::make_shared(std::move(make_processors));
 }
 
-template proc::module proc::make_number_module(double);
-template proc::module proc::make_number_module(float);
-template proc::module proc::make_number_module(int64_t);
-template proc::module proc::make_number_module(int32_t);
-template proc::module proc::make_number_module(int16_t);
-template proc::module proc::make_number_module(int8_t);
-template proc::module proc::make_number_module(uint64_t);
-template proc::module proc::make_number_module(uint32_t);
-template proc::module proc::make_number_module(uint16_t);
-template proc::module proc::make_number_module(uint8_t);
-template proc::module proc::make_number_module(boolean);
+template proc::module_ptr proc::make_number_module(double);
+template proc::module_ptr proc::make_number_module(float);
+template proc::module_ptr proc::make_number_module(int64_t);
+template proc::module_ptr proc::make_number_module(int32_t);
+template proc::module_ptr proc::make_number_module(int16_t);
+template proc::module_ptr proc::make_number_module(int8_t);
+template proc::module_ptr proc::make_number_module(uint64_t);
+template proc::module_ptr proc::make_number_module(uint32_t);
+template proc::module_ptr proc::make_number_module(uint16_t);
+template proc::module_ptr proc::make_number_module(uint8_t);
+template proc::module_ptr proc::make_number_module(boolean);

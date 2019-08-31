@@ -47,7 +47,7 @@ using namespace yas::proc;
     connect(module, math2::input::left, 0);
     connect(module, math2::output::result, 2);
 
-    module.process({0, process_length}, stream);
+    module->process({0, process_length}, stream);
 
     auto const &result_channel = stream.channel(2);
 
@@ -74,7 +74,7 @@ using namespace yas::proc;
     connect(module, math2::input::right, 1);
     connect(module, math2::output::result, 0);
 
-    module.process({0, process_length}, stream);
+    module->process({0, process_length}, stream);
 
     auto const &result_channel = stream.channel(0);
 
@@ -104,7 +104,7 @@ using namespace yas::proc;
     connect(module, math2::input::right, 1);
     connect(module, math2::output::result, 2);
 
-    module.process({0, process_length}, stream);
+    module->process({0, process_length}, stream);
 
     XCTAssertTrue(stream.has_channel(2));
 
@@ -144,7 +144,7 @@ using namespace yas::proc;
     connect(module, math2::input::right, 1);
     connect(module, math2::output::result, 2);
 
-    module.process({0, process_length}, stream);
+    module->process({0, process_length}, stream);
 
     XCTAssertTrue(stream.has_channel(2));
 
@@ -174,7 +174,7 @@ using namespace yas::proc;
     connect(module, math2::input::right, 1);
     connect(module, math2::output::result, 2);
 
-    module.process({0, process_length}, stream);
+    module->process({0, process_length}, stream);
 
     XCTAssertTrue(stream.has_channel(2));
 
@@ -204,7 +204,7 @@ using namespace yas::proc;
     connect(module, math2::input::right, 1);
     connect(module, math2::output::result, 2);
 
-    module.process({0, process_length}, stream);
+    module->process({0, process_length}, stream);
 
     XCTAssertTrue(stream.has_channel(2));
 
@@ -244,7 +244,7 @@ using namespace yas::proc;
     connect(module, math2::input::right, 1);
     connect(module, math2::output::result, 2);
 
-    module.process({0, process_length}, stream);
+    module->process({0, process_length}, stream);
 
     XCTAssertTrue(stream.has_channel(2));
 
@@ -290,7 +290,7 @@ using namespace yas::proc;
     connect(module, math2::input::right, 1);
     connect(module, math2::output::result, 2);
 
-    module.process({0, process_length}, stream);
+    module->process({0, process_length}, stream);
 
     XCTAssertTrue(stream.has_channel(2));
 
@@ -332,7 +332,7 @@ using namespace yas::proc;
     connect(module, math2::input::right, 1);
     connect(module, math2::output::result, 2);
 
-    module.process({0, process_length}, stream);
+    module->process({0, process_length}, stream);
 
     XCTAssertTrue(stream.has_channel(2));
 
@@ -352,7 +352,7 @@ using namespace yas::proc;
     auto module = make_number_module<double>(math2::kind::plus);
     connect(module, math2::input::left, 11);
 
-    auto const &connectors = module.input_connectors();
+    auto const &connectors = module->input_connectors();
 
     XCTAssertEqual(connectors.size(), 1);
     XCTAssertEqual(connectors.cbegin()->first, to_connector_index(math2::input::left));
@@ -363,7 +363,7 @@ using namespace yas::proc;
     auto module = make_number_module<double>(math2::kind::minus);
     connect(module, math2::output::result, 2);
 
-    auto const &connectors = module.output_connectors();
+    auto const &connectors = module->output_connectors();
 
     XCTAssertEqual(connectors.size(), 1);
     XCTAssertEqual(connectors.cbegin()->first, to_connector_index(math2::output::result));

@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include "yas_processing_ptr.h"
 #include "yas_processing_types.h"
 
 namespace yas::proc {
@@ -17,8 +18,8 @@ namespace constant {
 }
 
 template <typename T>
-module make_signal_module(T);
+module_ptr make_signal_module(T);
 
 template <typename T>
-module make_number_module(T);
+module_ptr make_number_module(T);
 }  // namespace yas::proc

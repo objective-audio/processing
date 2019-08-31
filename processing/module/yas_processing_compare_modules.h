@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include "yas_processing_ptr.h"
 #include "yas_processing_types.h"
 
 namespace yas::proc {
@@ -35,15 +36,15 @@ enum class output : connector_index_t {
 
 namespace yas::proc {
 template <typename T>
-module make_signal_module(compare::kind const);
+module_ptr make_signal_module(compare::kind const);
 
 template <typename T>
-module make_number_module(compare::kind const);
+module_ptr make_number_module(compare::kind const);
 }  // namespace yas::proc
 
 namespace yas {
-void connect(proc::module &, proc::compare::input const &, proc::channel_index_t const &);
-void connect(proc::module &, proc::compare::output const &, proc::channel_index_t const &);
+void connect(proc::module_ptr const &, proc::compare::input const &, proc::channel_index_t const &);
+void connect(proc::module_ptr const &, proc::compare::output const &, proc::channel_index_t const &);
 
 std::string to_string(proc::compare::input const &);
 std::string to_string(proc::compare::output const &);

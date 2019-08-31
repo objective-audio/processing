@@ -33,11 +33,11 @@ using namespace yas::proc;
     auto &channel1 = stream.add_channel(1);
     channel1.insert_event(make_frame_time(0), proc::number_event::make_shared(int8_t(0)));
 
-    module module{[] { return module::processors_t{make_remove_number_processor<int8_t>({0})}; }};
+    auto module = module::make_shared([] { return module::processors_t{make_remove_number_processor<int8_t>({0})}; });
 
-    module.connect_input(0, 0);
+    module->connect_input(0, 0);
 
-    module.process({0, 1}, stream);
+    module->process({0, 1}, stream);
 
     XCTAssertEqual(channel0.events().size(), 2);
     XCTAssertEqual(channel1.events().size(), 1);
@@ -57,12 +57,14 @@ using namespace yas::proc;
         channel2.insert_event(make_frame_time(0), number_event::make_shared<int8_t>(2));
     }
 
-    module module{[] { return module::processors_t{make_remove_number_processor<int8_t>({0, 2})}; }};
-    module.connect_input(0, 0);
-    module.connect_input(1, 1);
-    module.connect_input(2, 2);
+    auto module = module::make_shared([] {
+        return module::processors_t{make_remove_number_processor<int8_t>({0, 2})};
+    });
+    module->connect_input(0, 0);
+    module->connect_input(1, 1);
+    module->connect_input(2, 2);
 
-    module.process({0, 1}, stream);
+    module->process({0, 1}, stream);
 
     {
         auto &channel0 = stream.channel(0);
