@@ -267,8 +267,7 @@ proc::track::modules_map_t proc::copy_to_modules(track::modules_holder_map_t con
 proc::track::modules_holder_map_t proc::to_modules_holders(track::modules_map_t &&modules) {
     track::modules_holder_map_t map;
     for (auto &pair : modules) {
-#warning todo
-        //        map.emplace(pair.first, std::move(pair.second));
+        map.emplace(pair.first, module_vector_holder_t::make_shared(std::move(pair.second)));
     }
     return map;
 }
