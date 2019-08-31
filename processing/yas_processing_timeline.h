@@ -13,8 +13,6 @@
 
 namespace yas::proc {
 struct timeline final : chaining::sender<chaining::map::event> {
-    class impl;
-
     using track_map_t = std::map<track_index_t, proc::track_ptr>;
     using process_track_f =
         std::function<continuation(time::range const &, stream const &, std::optional<track_index_t> const &)>;
@@ -50,9 +48,17 @@ struct timeline final : chaining::sender<chaining::map::event> {
     static timeline_ptr make_shared(track_map_t &&);
 
    private:
-    std::unique_ptr<impl> _impl;
+    using tracks_holder_t = chaining::map::holder<track_index_t, proc::track_ptr>;
+    using tracks_holder_ptr_t = chaining::map::holder_ptr<track_index_t, proc::track_ptr>;
+    using tracks_sender_t = chaining::sender_protocol<proc::timeline::event_t>;
+
+    tracks_holder_ptr_t const _tracks_holder;
+    std::shared_ptr<tracks_sender_t> const _tracks_sender;
 
     timeline(track_map_t &&);
+
+    void _process_continuously(time::range const &range, sync_source const &sync_src, process_track_f const &handler);
+    continuation _process_tracks(time::range const &, stream &, process_track_f const &);
 
     chaining::chain_unsync_t<event_t> chain_unsync() const override;
     chaining::chain_sync_t<event_t> chain_sync() const override;
