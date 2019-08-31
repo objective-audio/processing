@@ -5,12 +5,10 @@
 #pragma once
 
 #include <string>
-#include "yas_processing_ptr.h"
+
 #include "yas_processing_types.h"
 
 namespace yas::proc {
-class module;
-
 /// 型を変換するモジュール
 namespace cast {
     enum class output : connector_index_t {

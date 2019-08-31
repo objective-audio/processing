@@ -5,12 +5,10 @@
 #pragma once
 
 #include <map>
-#include "yas_processing_ptr.h"
+
 #include "yas_processing_types.h"
 
 namespace yas::proc {
-class module;
-
 /// エンベロープを生成するモジュール
 namespace envelope {
     template <typename T>

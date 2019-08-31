@@ -4,12 +4,9 @@
 
 #pragma once
 
-#include "yas_processing_ptr.h"
 #include "yas_processing_types.h"
 
 namespace yas::proc {
-class module;
-
 /// パラメータを2つ受け取る算術関数の結果を生成するモジュール
 namespace math2 {
     enum class kind {

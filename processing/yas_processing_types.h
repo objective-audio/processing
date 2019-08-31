@@ -5,9 +5,18 @@
 #pragma once
 
 #include <cstdint>
+#include <memory>
 #include <unordered_set>
 
 namespace yas::proc {
+class track;
+class timeline;
+class module;
+
+using track_ptr = std::shared_ptr<track>;
+using timeline_ptr = std::shared_ptr<timeline>;
+using module_ptr = std::shared_ptr<module>;
+
 using channel_index_t = int64_t;
 using track_index_t = int64_t;
 using frame_index_t = int64_t;
