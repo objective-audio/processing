@@ -28,10 +28,10 @@ using namespace yas::proc;
     auto &channel = stream.add_channel(0);
     channel.insert_event(make_range_time(0, 1), signal_event::make_shared<int16_t>(1));
 
-    module module{[] { return module::processors_t{make_remove_signal_processor<int16_t>({0})}; }};
-    module.connect_input(0, 0);
+    auto module = module::make_shared([] { return module::processors_t{make_remove_signal_processor<int16_t>({0})}; });
+    module->connect_input(0, 0);
 
-    module.process({0, 1}, stream);
+    module->process({0, 1}, stream);
 
     XCTAssertEqual(channel.events().size(), 0);
 }
@@ -46,10 +46,10 @@ using namespace yas::proc;
     signal->data<int16_t>()[2] = 102;
     channel.insert_event(make_range_time(0, 3), signal);
 
-    module module{[] { return module::processors_t{make_remove_signal_processor<int16_t>({0})}; }};
-    module.connect_input(0, 0);
+    auto module = module::make_shared([] { return module::processors_t{make_remove_signal_processor<int16_t>({0})}; });
+    module->connect_input(0, 0);
 
-    module.process({1, 1}, stream);
+    module->process({1, 1}, stream);
 
     XCTAssertEqual(channel.events().size(), 2);
 
@@ -72,10 +72,10 @@ using namespace yas::proc;
     channel.insert_event(make_range_time(0, 1), signal_event::make_shared<int16_t>(1));
     channel.insert_event(make_range_time(0, 1), signal_event::make_shared<int32_t>(1));
 
-    module module{[] { return module::processors_t{make_remove_signal_processor<int16_t>({0})}; }};
-    module.connect_input(0, 0);
+    auto module = module::make_shared([] { return module::processors_t{make_remove_signal_processor<int16_t>({0})}; });
+    module->connect_input(0, 0);
 
-    module.process({0, 1}, stream);
+    module->process({0, 1}, stream);
 
     XCTAssertEqual(channel.events().size(), 2);
 
@@ -99,12 +99,14 @@ using namespace yas::proc;
         channel2.insert_event(make_range_time(0, 1), signal_event::make_shared<int16_t>(1));
     }
 
-    module module{[] { return module::processors_t{make_remove_signal_processor<int16_t>({0, 2})}; }};
-    module.connect_input(0, 0);
-    module.connect_input(1, 1);
-    module.connect_input(2, 2);
+    auto module = module::make_shared([] {
+        return module::processors_t{make_remove_signal_processor<int16_t>({0, 2})};
+    });
+    module->connect_input(0, 0);
+    module->connect_input(1, 1);
+    module->connect_input(2, 2);
 
-    module.process({0, 1}, stream);
+    module->process({0, 1}, stream);
 
     {
         auto const &channel0 = stream.channel(0);

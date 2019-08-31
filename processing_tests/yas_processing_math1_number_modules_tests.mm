@@ -77,7 +77,7 @@ namespace test {
     auto stream = test::make_number_stream<double>(test::process_length, test::radian_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
 
@@ -102,7 +102,7 @@ namespace test {
     auto stream = test::make_number_stream<double>(test::process_length, test::radian_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
 
@@ -127,7 +127,7 @@ namespace test {
     auto stream = test::make_number_stream<double>(test::process_length, test::radian_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
 
@@ -152,7 +152,7 @@ namespace test {
     auto stream = test::make_number_stream<double>(test::process_length, test::linear_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
 
@@ -177,7 +177,7 @@ namespace test {
     auto stream = test::make_number_stream<double>(test::process_length, test::linear_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
 
@@ -202,7 +202,7 @@ namespace test {
     auto stream = test::make_number_stream<double>(test::process_length, test::linear_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
 
@@ -227,7 +227,7 @@ namespace test {
     auto stream = test::make_number_stream<double>(test::process_length, test::linear_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
 
@@ -250,7 +250,7 @@ namespace test {
     auto stream = test::make_number_stream<double>(test::process_length, test::linear_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
 
@@ -273,7 +273,7 @@ namespace test {
     auto stream = test::make_number_stream<double>(test::process_length, test::linear_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
 
@@ -296,7 +296,7 @@ namespace test {
     auto stream = test::make_number_stream<double>(test::process_length, test::linear_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
 
@@ -319,7 +319,7 @@ namespace test {
     auto stream = test::make_number_stream<double>(test::process_length, test::linear_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
 
@@ -342,7 +342,7 @@ namespace test {
     auto stream = test::make_number_stream<double>(test::process_length, test::linear_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
 
@@ -365,7 +365,7 @@ namespace test {
     auto stream = test::make_number_stream<double>(test::process_length, test::linear_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
 
@@ -388,7 +388,7 @@ namespace test {
     auto stream = test::make_number_stream<double>(test::process_length, test::linear_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
 
@@ -411,7 +411,7 @@ namespace test {
     auto stream = test::make_number_stream<double>(test::process_length, test::linear_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
 
@@ -434,7 +434,7 @@ namespace test {
     auto stream = test::make_number_stream<double>(test::process_length, test::linear_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
 
@@ -457,7 +457,7 @@ namespace test {
     auto stream = test::make_number_stream<double>(test::process_length, test::linear_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
 
@@ -480,7 +480,7 @@ namespace test {
     auto stream = test::make_number_stream<double>(test::process_length, test::linear_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
 
@@ -503,7 +503,7 @@ namespace test {
     auto stream = test::make_number_stream<double>(test::process_length, test::linear_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
 
@@ -526,7 +526,7 @@ namespace test {
     auto stream = test::make_number_stream<double>(test::process_length, test::linear_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
 
@@ -549,7 +549,7 @@ namespace test {
     auto stream = test::make_number_stream<double>(test::process_length, test::linear_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
 
@@ -572,7 +572,7 @@ namespace test {
     auto stream = test::make_number_stream<double>(test::process_length, test::linear_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
 
@@ -595,7 +595,7 @@ namespace test {
     auto stream = test::make_number_stream<double>(test::process_length, test::linear_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
 
@@ -618,7 +618,7 @@ namespace test {
     auto stream = test::make_number_stream<double>(test::process_length, test::linear_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
 
@@ -641,7 +641,7 @@ namespace test {
     auto stream = test::make_number_stream<double>(test::process_length, test::linear_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
 
@@ -664,7 +664,7 @@ namespace test {
     auto stream = test::make_number_stream<double>(test::process_length, test::linear_input_data,
                                                    time::range{0, test::process_length}, ch_idx);
 
-    module.process(time::range{0, test::process_length}, stream);
+    module->process(time::range{0, test::process_length}, stream);
 
     auto const events = stream.channel(ch_idx).filtered_events<double, number_event>();
 
@@ -684,7 +684,7 @@ namespace test {
     auto module = make_number_module<double>(math1::kind::sin);
     connect(module, math1::input::parameter, 1);
 
-    auto const &connectors = module.input_connectors();
+    auto const &connectors = module->input_connectors();
 
     XCTAssertEqual(connectors.size(), 1);
     XCTAssertEqual(connectors.cbegin()->first, to_connector_index(math1::input::parameter));
@@ -695,7 +695,7 @@ namespace test {
     auto module = make_number_module<double>(math1::kind::cos);
     connect(module, math1::output::result, 2);
 
-    auto const &connectors = module.output_connectors();
+    auto const &connectors = module->output_connectors();
 
     XCTAssertEqual(connectors.size(), 1);
     XCTAssertEqual(connectors.cbegin()->first, to_connector_index(math1::output::result));

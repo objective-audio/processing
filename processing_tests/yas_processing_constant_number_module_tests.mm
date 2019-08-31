@@ -41,11 +41,11 @@ using namespace yas::proc;
     int16_t const value = 55;
 
     auto module = make_number_module(value);
-    module.connect_output(to_connector_index(constant::output::value), 0);
+    module->connect_output(to_connector_index(constant::output::value), 0);
 
     stream stream{sync_source{1, 2}};
 
-    module.process(time::range{3, 2}, stream);
+    module->process(time::range{3, 2}, stream);
 
     XCTAssertTrue(stream.has_channel(0));
 

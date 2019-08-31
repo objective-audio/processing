@@ -25,7 +25,7 @@ namespace sub_timeline {
 }  // namespace sub_timeline
 }  // namespace yas::proc
 
-proc::module proc::make_module(timeline_ptr const &timeline, frame_index_t const offset) {
+proc::module_ptr proc::make_module(timeline_ptr const &timeline, frame_index_t const offset) {
     auto context = sub_timeline::make_context(timeline);
 
     auto make_processors = [context = std::move(context), offset] {
@@ -78,5 +78,5 @@ proc::module proc::make_module(timeline_ptr const &timeline, frame_index_t const
         return module::processors_t{std::move(processor)};
     };
 
-    return proc::module{std::move(make_processors)};
+    return proc::module::make_shared(std::move(make_processors));
 }

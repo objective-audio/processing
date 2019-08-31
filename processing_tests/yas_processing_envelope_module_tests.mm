@@ -39,7 +39,7 @@ using namespace yas::proc;
     auto module = envelope::make_signal_module(std::move(anchors), 0);
     connect(module, envelope::output::value, ch_idx);
 
-    module.process(time::range{0, process_length}, stream);
+    module->process(time::range{0, process_length}, stream);
 
     XCTAssertTrue(stream.has_channel(ch_idx));
 
@@ -71,7 +71,7 @@ using namespace yas::proc;
     auto module = envelope::make_signal_module(std::move(anchors), 0);
     connect(module, envelope::output::value, ch_idx);
 
-    module.process(time::range{0, process_length}, stream);
+    module->process(time::range{0, process_length}, stream);
 
     XCTAssertTrue(stream.has_channel(ch_idx));
 
@@ -102,7 +102,7 @@ using namespace yas::proc;
     auto module = envelope::make_signal_module(std::move(anchors), offset);
     connect(module, envelope::output::value, ch_idx);
 
-    module.process(time::range{offset, process_length}, stream);
+    module->process(time::range{offset, process_length}, stream);
 
     XCTAssertTrue(stream.has_channel(ch_idx));
 

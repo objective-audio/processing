@@ -23,8 +23,8 @@ using namespace yas::proc;
 - (void)test_fetched {
     auto track = proc::track::make_shared();
 
-    proc::module module1{[] { return module::processors_t{}; }};
-    proc::module module2{[] { return module::processors_t{}; }};
+    auto module1 = proc::module::make_shared([] { return module::processors_t{}; });
+    auto module2 = proc::module::make_shared([] { return module::processors_t{}; });
     track->push_back_module(module1, {0, 1});
     track->push_back_module(module2, {1, 1});
 
@@ -48,7 +48,7 @@ using namespace yas::proc;
     auto track = proc::track::make_shared();
 
     std::vector<proc::track::event_t> events;
-    std::vector<std::map<proc::time::range, chaining::vector::holder_ptr<proc::module>>> inserted;
+    std::vector<std::map<proc::time::range, chaining::vector::holder_ptr<proc::module_ptr>>> inserted;
 
     auto chain = track->chain()
                      .perform([&events, &inserted](auto const &event) {
@@ -57,8 +57,8 @@ using namespace yas::proc;
                      })
                      .end();
 
-    proc::module module1{[] { return module::processors_t{}; }};
-    proc::module module2{[] { return module::processors_t{}; }};
+    auto module1 = proc::module::make_shared([] { return module::processors_t{}; });
+    auto module2 = proc::module::make_shared([] { return module::processors_t{}; });
 
     track->push_back_module(module1, {0, 1});
 
@@ -84,14 +84,14 @@ using namespace yas::proc;
 - (void)test_erased {
     auto track = proc::track::make_shared();
 
-    proc::module module1{[] { return module::processors_t{}; }};
-    proc::module module2{[] { return module::processors_t{}; }};
+    auto module1 = proc::module::make_shared([] { return module::processors_t{}; });
+    auto module2 = proc::module::make_shared([] { return module::processors_t{}; });
     track->push_back_module(module1, {0, 1});
     track->push_back_module(module2, {1, 1});
 
     std::vector<proc::track::event_t> events;
-    std::vector<std::pair<proc::time::range, chaining::vector::holder_ptr<proc::module>>> relayed;
-    std::vector<std::map<proc::time::range, chaining::vector::holder_ptr<proc::module>>> erased;
+    std::vector<std::pair<proc::time::range, chaining::vector::holder_ptr<proc::module_ptr>>> relayed;
+    std::vector<std::map<proc::time::range, chaining::vector::holder_ptr<proc::module_ptr>>> erased;
 
     auto chain = track->chain()
                      .perform([&events, &erased, &relayed](auto const &event) {
@@ -127,8 +127,8 @@ using namespace yas::proc;
 
     auto chain = track->chain().perform([&events](auto const &event) { events.push_back(event); }).end();
 
-    proc::module module1{[] { return module::processors_t{}; }};
-    proc::module module2{[] { return module::processors_t{}; }};
+    auto module1 = proc::module::make_shared([] { return module::processors_t{}; });
+    auto module2 = proc::module::make_shared([] { return module::processors_t{}; });
 
     track->push_back_module(module1, {0, 1});
 

@@ -31,8 +31,8 @@ using namespace yas::proc;
 - (void)test_push_back_module {
     auto track = proc::track::make_shared();
 
-    proc::module module1{[] { return proc::module::processors_t{}; }};
-    proc::module module2{[] { return proc::module::processors_t{}; }};
+    auto module1 = proc::module::make_shared([] { return proc::module::processors_t{}; });
+    auto module2 = proc::module::make_shared([] { return proc::module::processors_t{}; });
 
     track->push_back_module(std::move(module1), {0, 1});
     track->push_back_module(std::move(module2), {1, 1});
@@ -63,9 +63,9 @@ using namespace yas::proc;
 - (void)test_insert_module {
     auto track = proc::track::make_shared();
 
-    proc::module module1{[] { return proc::module::processors_t{}; }};
-    proc::module module2{[] { return proc::module::processors_t{}; }};
-    proc::module module3{[] { return proc::module::processors_t{}; }};
+    auto module1 = proc::module::make_shared([] { return proc::module::processors_t{}; });
+    auto module2 = proc::module::make_shared([] { return proc::module::processors_t{}; });
+    auto module3 = proc::module::make_shared([] { return proc::module::processors_t{}; });
 
     track->insert_module(module1, 0, {0, 1});
     track->insert_module(module2, 0, {0, 1});
@@ -80,8 +80,8 @@ using namespace yas::proc;
 - (void)test_remove_module {
     auto track = proc::track::make_shared();
 
-    proc::module module1{[] { return proc::module::processors_t{}; }};
-    proc::module module2{[] { return proc::module::processors_t{}; }};
+    auto module1 = proc::module::make_shared([] { return proc::module::processors_t{}; });
+    auto module2 = proc::module::make_shared([] { return proc::module::processors_t{}; });
 
     track->push_back_module(module1, {0, 1});
     track->push_back_module(module2, {1, 1});
@@ -98,8 +98,8 @@ using namespace yas::proc;
 - (void)test_push_back_and_erase_modules_same_range {
     auto track = proc::track::make_shared();
 
-    proc::module module1{[] { return proc::module::processors_t{}; }};
-    proc::module module2{[] { return proc::module::processors_t{}; }};
+    auto module1 = proc::module::make_shared([] { return proc::module::processors_t{}; });
+    auto module2 = proc::module::make_shared([] { return proc::module::processors_t{}; });
 
     track->push_back_module(module1, {0, 1});
 
@@ -129,9 +129,9 @@ using namespace yas::proc;
 - (void)test_erase_modules_for_range {
     auto track = proc::track::make_shared();
 
-    proc::module module1{[] { return proc::module::processors_t{}; }};
-    proc::module module1b{[] { return proc::module::processors_t{}; }};
-    proc::module module2{[] { return proc::module::processors_t{}; }};
+    auto module1 = proc::module::make_shared([] { return proc::module::processors_t{}; });
+    auto module1b = proc::module::make_shared([] { return proc::module::processors_t{}; });
+    auto module2 = proc::module::make_shared([] { return proc::module::processors_t{}; });
 
     track->push_back_module(module1, {0, 1});
     track->push_back_module(module1b, {0, 1});
@@ -149,8 +149,8 @@ using namespace yas::proc;
 - (void)test_erase_module_with_range {
     auto track = proc::track::make_shared();
 
-    proc::module module1{[] { return proc::module::processors_t{}; }};
-    proc::module module1b{[] { return proc::module::processors_t{}; }};
+    auto module1 = proc::module::make_shared([] { return proc::module::processors_t{}; });
+    auto module1b = proc::module::make_shared([] { return proc::module::processors_t{}; });
 
     track->push_back_module(module1, {0, 1});
     track->push_back_module(module1b, {0, 1});
@@ -168,9 +168,9 @@ using namespace yas::proc;
 - (void)test_erase_module_at {
     auto track = proc::track::make_shared();
 
-    proc::module module1{[] { return proc::module::processors_t{}; }};
-    proc::module module2{[] { return proc::module::processors_t{}; }};
-    proc::module module3{[] { return proc::module::processors_t{}; }};
+    auto module1 = proc::module::make_shared([] { return proc::module::processors_t{}; });
+    auto module2 = proc::module::make_shared([] { return proc::module::processors_t{}; });
+    auto module3 = proc::module::make_shared([] { return proc::module::processors_t{}; });
 
     track->push_back_module(module1, {0, 1});
     track->push_back_module(module2, {0, 1});
@@ -188,19 +188,19 @@ using namespace yas::proc;
 
     XCTAssertFalse(track->total_range());
 
-    track->push_back_module(proc::module{[] { return proc::module::processors_t{}; }}, {0, 1});
+    track->push_back_module(proc::module::make_shared([] { return proc::module::processors_t{}; }), {0, 1});
 
     XCTAssertEqual(track->total_range(), (proc::time::range{0, 1}));
 
-    track->push_back_module(proc::module{[] { return proc::module::processors_t{}; }}, {1, 1});
+    track->push_back_module(proc::module::make_shared([] { return proc::module::processors_t{}; }), {1, 1});
 
     XCTAssertEqual(track->total_range(), (proc::time::range{0, 2}));
 
-    track->push_back_module(proc::module{[] { return proc::module::processors_t{}; }}, {99, 1});
+    track->push_back_module(proc::module::make_shared([] { return proc::module::processors_t{}; }), {99, 1});
 
     XCTAssertEqual(track->total_range(), (proc::time::range{0, 100}));
 
-    track->push_back_module(proc::module{[] { return proc::module::processors_t{}; }}, {-10, 1});
+    track->push_back_module(proc::module::make_shared([] { return proc::module::processors_t{}; }), {-10, 1});
 
     XCTAssertEqual(track->total_range(), (proc::time::range{-10, 110}));
 }
@@ -209,12 +209,12 @@ using namespace yas::proc;
     std::vector<int> called;
 
     auto index = std::make_shared<int>(0);
-    proc::module module{[index = std::move(index), &called] {
+    auto module = proc::module::make_shared([index = std::move(index), &called] {
         auto processor = [index = *index, &called](time::range const &, connector_map_t const &,
                                                    connector_map_t const &, stream &) { called.push_back(index); };
         ++(*index);
         return module::processors_t{std::move(processor)};
-    }};
+    });
 
     auto track = proc::track::make_shared();
     track->push_back_module(std::move(module), {0, 1});
@@ -238,14 +238,14 @@ using namespace yas::proc;
 }
 
 - (void)test_copy_to_modules {
-    proc::module module1{[] { return proc::module::processors_t{}; }};
-    proc::module module2{[] { return proc::module::processors_t{}; }};
-    proc::module module3{[] { return proc::module::processors_t{}; }};
-    proc::module module4{[] { return proc::module::processors_t{}; }};
+    auto module1 = proc::module::make_shared([] { return proc::module::processors_t{}; });
+    auto module2 = proc::module::make_shared([] { return proc::module::processors_t{}; });
+    auto module3 = proc::module::make_shared([] { return proc::module::processors_t{}; });
+    auto module4 = proc::module::make_shared([] { return proc::module::processors_t{}; });
 
     proc::track::modules_holder_map_t src_modules;
-    src_modules.emplace(proc::time::range{0, 1}, chaining::vector::holder<module>::make_shared({module1, module2}));
-    src_modules.emplace(proc::time::range{1, 1}, chaining::vector::holder<module>::make_shared({module3, module4}));
+    src_modules.emplace(proc::time::range{0, 1}, chaining::vector::holder<module_ptr>::make_shared({module1, module2}));
+    src_modules.emplace(proc::time::range{1, 1}, chaining::vector::holder<module_ptr>::make_shared({module3, module4}));
 
     auto dst_modules = proc::copy_to_modules(src_modules);
 
@@ -260,10 +260,10 @@ using namespace yas::proc;
 }
 
 - (void)test_to_modules_holders {
-    proc::module module1{[] { return proc::module::processors_t{}; }};
-    proc::module module2{[] { return proc::module::processors_t{}; }};
-    proc::module module3{[] { return proc::module::processors_t{}; }};
-    proc::module module4{[] { return proc::module::processors_t{}; }};
+    auto module1 = proc::module::make_shared([] { return proc::module::processors_t{}; });
+    auto module2 = proc::module::make_shared([] { return proc::module::processors_t{}; });
+    auto module3 = proc::module::make_shared([] { return proc::module::processors_t{}; });
+    auto module4 = proc::module::make_shared([] { return proc::module::processors_t{}; });
 
     proc::track::modules_map_t src_modules;
     src_modules.emplace(proc::time::range{0, 1}, module_vector_t{module1, module2});

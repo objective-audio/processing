@@ -21,7 +21,7 @@ using namespace yas;
 #pragma mark - signal
 
 template <typename T>
-proc::module proc::make_signal_module(proc::routing::kind const kind) {
+proc::module_ptr proc::make_signal_module(proc::routing::kind const kind) {
     using namespace yas::proc::routing;
 
     auto make_processors = [kind] {
@@ -72,25 +72,25 @@ proc::module proc::make_signal_module(proc::routing::kind const kind) {
         return processors;
     };
 
-    return proc::module{std::move(make_processors)};
+    return proc::module::make_shared(std::move(make_processors));
 }
 
-template proc::module proc::make_signal_module<double>(proc::routing::kind const);
-template proc::module proc::make_signal_module<float>(proc::routing::kind const);
-template proc::module proc::make_signal_module<int64_t>(proc::routing::kind const);
-template proc::module proc::make_signal_module<int32_t>(proc::routing::kind const);
-template proc::module proc::make_signal_module<int16_t>(proc::routing::kind const);
-template proc::module proc::make_signal_module<int8_t>(proc::routing::kind const);
-template proc::module proc::make_signal_module<uint64_t>(proc::routing::kind const);
-template proc::module proc::make_signal_module<uint32_t>(proc::routing::kind const);
-template proc::module proc::make_signal_module<uint16_t>(proc::routing::kind const);
-template proc::module proc::make_signal_module<uint8_t>(proc::routing::kind const);
-template proc::module proc::make_signal_module<boolean>(proc::routing::kind const);
+template proc::module_ptr proc::make_signal_module<double>(proc::routing::kind const);
+template proc::module_ptr proc::make_signal_module<float>(proc::routing::kind const);
+template proc::module_ptr proc::make_signal_module<int64_t>(proc::routing::kind const);
+template proc::module_ptr proc::make_signal_module<int32_t>(proc::routing::kind const);
+template proc::module_ptr proc::make_signal_module<int16_t>(proc::routing::kind const);
+template proc::module_ptr proc::make_signal_module<int8_t>(proc::routing::kind const);
+template proc::module_ptr proc::make_signal_module<uint64_t>(proc::routing::kind const);
+template proc::module_ptr proc::make_signal_module<uint32_t>(proc::routing::kind const);
+template proc::module_ptr proc::make_signal_module<uint16_t>(proc::routing::kind const);
+template proc::module_ptr proc::make_signal_module<uint8_t>(proc::routing::kind const);
+template proc::module_ptr proc::make_signal_module<boolean>(proc::routing::kind const);
 
 #pragma mark - number
 
 template <typename T>
-proc::module proc::make_number_module(routing::kind const kind) {
+proc::module_ptr proc::make_number_module(routing::kind const kind) {
     using namespace yas::proc::routing;
 
     auto make_processors = [kind] {
@@ -135,29 +135,31 @@ proc::module proc::make_number_module(routing::kind const kind) {
         return processors;
     };
 
-    return proc::module{std::move(make_processors)};
+    return proc::module::make_shared(std::move(make_processors));
 }
 
-template proc::module proc::make_number_module<double>(proc::routing::kind const);
-template proc::module proc::make_number_module<float>(proc::routing::kind const);
-template proc::module proc::make_number_module<int64_t>(proc::routing::kind const);
-template proc::module proc::make_number_module<int32_t>(proc::routing::kind const);
-template proc::module proc::make_number_module<int16_t>(proc::routing::kind const);
-template proc::module proc::make_number_module<int8_t>(proc::routing::kind const);
-template proc::module proc::make_number_module<uint64_t>(proc::routing::kind const);
-template proc::module proc::make_number_module<uint32_t>(proc::routing::kind const);
-template proc::module proc::make_number_module<uint16_t>(proc::routing::kind const);
-template proc::module proc::make_number_module<uint8_t>(proc::routing::kind const);
-template proc::module proc::make_number_module<boolean>(proc::routing::kind const);
+template proc::module_ptr proc::make_number_module<double>(proc::routing::kind const);
+template proc::module_ptr proc::make_number_module<float>(proc::routing::kind const);
+template proc::module_ptr proc::make_number_module<int64_t>(proc::routing::kind const);
+template proc::module_ptr proc::make_number_module<int32_t>(proc::routing::kind const);
+template proc::module_ptr proc::make_number_module<int16_t>(proc::routing::kind const);
+template proc::module_ptr proc::make_number_module<int8_t>(proc::routing::kind const);
+template proc::module_ptr proc::make_number_module<uint64_t>(proc::routing::kind const);
+template proc::module_ptr proc::make_number_module<uint32_t>(proc::routing::kind const);
+template proc::module_ptr proc::make_number_module<uint16_t>(proc::routing::kind const);
+template proc::module_ptr proc::make_number_module<uint8_t>(proc::routing::kind const);
+template proc::module_ptr proc::make_number_module<boolean>(proc::routing::kind const);
 
 #pragma mark -
 
-void yas::connect(proc::module &module, proc::routing::input const &input, proc::channel_index_t const &ch_idx) {
-    module.connect_input(proc::to_connector_index(input), ch_idx);
+void yas::connect(proc::module_ptr const &module, proc::routing::input const &input,
+                  proc::channel_index_t const &ch_idx) {
+    module->connect_input(proc::to_connector_index(input), ch_idx);
 }
 
-void yas::connect(proc::module &module, proc::routing::output const &output, proc::channel_index_t const &ch_idx) {
-    module.connect_output(proc::to_connector_index(output), ch_idx);
+void yas::connect(proc::module_ptr const &module, proc::routing::output const &output,
+                  proc::channel_index_t const &ch_idx) {
+    module->connect_output(proc::to_connector_index(output), ch_idx);
 }
 
 std::string yas::to_string(proc::routing::input const &input) {

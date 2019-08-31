@@ -25,110 +25,67 @@ static void disconnect(connector_map_t &connectors, connector_index_t const idx)
 }
 }  // namespace yas::proc
 
-#pragma mark - module::impl
-
-struct proc::module::impl {
-    impl(make_processors_t &&handler, connector_map_t &&input_connectors, connector_map_t &&output_connectors)
-        : _make_handler(std::move(handler)),
-          _processors(_make_handler()),
-          _input_connectors(std::move(input_connectors)),
-          _output_connectors(std::move(output_connectors)) {
-    }
-
-    impl(make_processors_t &&handler) : impl(std::move(handler), connector_map_t{}, connector_map_t{}) {
-    }
-
-    connector_map_t &input_connectors() {
-        return this->_input_connectors;
-    }
-
-    connector_map_t &output_connectors() {
-        return this->_output_connectors;
-    }
-
-    processors_t &processors() {
-        return this->_processors;
-    }
-
-    void process(proc::time::range const &time_range, stream &stream) {
-        for (auto &processor : this->_processors) {
-            if (processor) {
-                processor(time_range, this->_input_connectors, this->_output_connectors, stream);
-            }
-        }
-    }
-
-    module copy() {
-        if (!this->_make_handler) {
-            throw std::runtime_error("make_handler is null.");
-        }
-        return module{this->_make_handler, this->_input_connectors, this->_output_connectors};
-    }
-
-   private:
-    make_processors_t _make_handler = nullptr;
-    processors_t _processors;
-    connector_map_t _input_connectors;
-    connector_map_t _output_connectors;
-};
-
 #pragma mark - module
 
-proc::module::module(make_processors_t handler) : _impl(std::make_shared<impl>(std::move(handler))) {
-}
-
-proc::module::module(make_processors_t handler, connector_map_t input_connectors, connector_map_t output_connectors)
-    : _impl(std::make_shared<impl>(std::move(handler), std::move(input_connectors), std::move(output_connectors))) {
+proc::module::module(make_processors_t &&handler, connector_map_t &&input_connectors,
+                     connector_map_t &&output_connectors)
+    : _make_handler(std::move(handler)),
+      _processors(_make_handler()),
+      _input_connectors(std::move(input_connectors)),
+      _output_connectors(std::move(output_connectors)) {
 }
 
 void proc::module::process(time::range const &time_range, stream &stream) {
-    this->_impl->process(time_range, stream);
+    for (auto &processor : this->_processors) {
+        if (processor) {
+            processor(time_range, this->_input_connectors, this->_output_connectors, stream);
+        }
+    }
 }
 
 proc::connector_map_t const &proc::module::input_connectors() const {
-    return this->_impl->input_connectors();
+    return this->_input_connectors;
 }
 
 proc::connector_map_t const &proc::module::output_connectors() const {
-    return this->_impl->output_connectors();
+    return this->_output_connectors;
 }
 
 void proc::module::connect_input(connector_index_t const co_idx, channel_index_t const ch_idx) {
-    connect(this->_impl->input_connectors(), co_idx, ch_idx);
+    connect(this->_input_connectors, co_idx, ch_idx);
 }
 
 void proc::module::connect_output(connector_index_t const co_idx, channel_index_t const ch_idx) {
-    connect(this->_impl->output_connectors(), co_idx, ch_idx);
+    connect(this->_output_connectors, co_idx, ch_idx);
 }
 
 void proc::module::disconnect_input(connector_index_t const idx) {
-    disconnect(this->_impl->input_connectors(), idx);
+    disconnect(this->_input_connectors, idx);
 }
 
 void proc::module::disconnect_output(connector_index_t const idx) {
-    disconnect(this->_impl->output_connectors(), idx);
+    disconnect(this->_output_connectors, idx);
 }
 
 proc::module::processors_t const &proc::module::processors() const {
-    return this->_impl->processors();
+    return this->_processors;
 }
 
-proc::module proc::module::copy() const {
-    return this->_impl->copy();
+proc::module_ptr proc::module::copy() const {
+    if (!this->_make_handler) {
+        throw std::runtime_error("make_handler is null.");
+    }
+    return module::make_shared(this->_make_handler, this->_input_connectors, this->_output_connectors);
 }
 
-bool proc::module::operator==(module const &rhs) const {
-    return this->_impl && rhs._impl && (this->_impl == rhs._impl);
+proc::module_ptr proc::module::make_shared(make_processors_t handler) {
+    return make_shared(std::move(handler), {}, {});
 }
 
-bool proc::module::operator!=(module const &rhs) const {
-    return !(*this == rhs);
+proc::module_ptr proc::module::make_shared(make_processors_t handler, connector_map_t inputs, connector_map_t outputs) {
+    return module_ptr(new module{std::move(handler), std::move(inputs), std::move(outputs)});
 }
 
-proc::module::operator bool() const {
-    return this->_impl != nullptr;
-}
-
-std::vector<proc::module> proc::copy(std::vector<proc::module> const &modules) {
-    return to_vector<proc::module>(modules, [](proc::module const &module) { return module.copy(); });
+std::vector<proc::module_ptr> proc::copy(std::vector<proc::module_ptr> const &modules) {
+    return to_vector<proc::module_ptr>(modules, [](proc::module_ptr const &module) { return module->copy(); });
 }

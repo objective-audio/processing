@@ -55,17 +55,17 @@ using namespace yas::proc;
         }
     };
 
-    auto module = proc::module{[handler = std::move(handler)] {
+    auto module = proc::module::make_shared([handler = std::move(handler)] {
         return module::processors_t{proc::make_send_signal_processor<int64_t>(std::move(handler))};
-    }};
-    module.connect_output(out_co_idx, ch_idx);
+    });
+    module->connect_output(out_co_idx, ch_idx);
 
     {
         clear();
 
         proc::stream stream{sync_source{1, 2}};
 
-        module.process({0, 2}, stream);
+        module->process({0, 2}, stream);
 
         XCTAssertEqual(called_time.get<time::range>().frame, 0);
         XCTAssertEqual(called_time.get<time::range>().length, 2);
@@ -88,7 +88,7 @@ using namespace yas::proc;
 
         proc::stream stream{sync_source{2, 1}};
 
-        module.process({1, 1}, stream);
+        module->process({1, 1}, stream);
 
         XCTAssertEqual(called_time.get<time::range>().frame, 1);
         XCTAssertEqual(called_time.get<time::range>().length, 1);
@@ -110,7 +110,7 @@ using namespace yas::proc;
 
         proc::stream stream{sync_source{8, 1}};
 
-        module.process({0, 1}, stream);
+        module->process({0, 1}, stream);
 
         XCTAssertEqual(called_time.get<time::range>().frame, 0);
         XCTAssertEqual(called_time.get<time::range>().length, 1);
@@ -181,16 +181,16 @@ using namespace yas::proc;
 
     auto processor = make_receive_signal_processor<int64_t>(std::move(handler));
 
-    auto module =
-        proc::module{[processor = std::move(processor)] { return module::processors_t{std::move(processor)}; }};
-    module.connect_input(in_co_idx, ch_idx);
+    auto module = proc::module::make_shared(
+        [processor = std::move(processor)] { return module::processors_t{std::move(processor)}; });
+    module->connect_input(in_co_idx, ch_idx);
 
     {
         clear();
 
         auto stream = make_stream({0, 2}, {1, 2});
 
-        XCTAssertNoThrow(module.process({0, 2}, stream));
+        XCTAssertNoThrow(module->process({0, 2}, stream));
 
         XCTAssertEqual(called_time.get<time::range>().frame, 0);
         XCTAssertEqual(called_time.get<time::range>().length, 2);
@@ -208,7 +208,7 @@ using namespace yas::proc;
 
         auto stream = make_stream({0, 2}, {4, 1});
 
-        XCTAssertNoThrow(module.process({0, 1}, stream));
+        XCTAssertNoThrow(module->process({0, 1}, stream));
 
         XCTAssertEqual(called_time.get<time::range>().frame, 0);
         XCTAssertEqual(called_time.get<time::range>().length, 1);
@@ -226,7 +226,7 @@ using namespace yas::proc;
 
         auto stream = make_stream({0, 2}, {16, 1});
 
-        XCTAssertNoThrow(module.process({1, 1}, stream));
+        XCTAssertNoThrow(module->process({1, 1}, stream));
 
         XCTAssertEqual(called_time.get<time::range>().frame, 1);
         XCTAssertEqual(called_time.get<time::range>().length, 1);
@@ -279,15 +279,16 @@ using namespace yas::proc;
         }
     };
 
-    auto module = proc::module{[receive_handler = std::move(receive_handler), send_handler = std::move(send_handler)] {
-        auto receive_processor = make_receive_signal_processor<int16_t>(std::move(receive_handler));
-        auto send_processor = proc::make_send_signal_processor<int16_t>(std::move(send_handler));
-        return module::processors_t{{std::move(receive_processor), std::move(send_processor)}};
-    }};
-    module.connect_input(in_co_idx, receive_ch_idx);
-    module.connect_output(out_co_idx, send_ch_idx);
+    auto module = proc::module::make_shared(
+        [receive_handler = std::move(receive_handler), send_handler = std::move(send_handler)] {
+            auto receive_processor = make_receive_signal_processor<int16_t>(std::move(receive_handler));
+            auto send_processor = proc::make_send_signal_processor<int16_t>(std::move(send_handler));
+            return module::processors_t{{std::move(receive_processor), std::move(send_processor)}};
+        });
+    module->connect_input(in_co_idx, receive_ch_idx);
+    module->connect_output(out_co_idx, send_ch_idx);
 
-    module.process(process_time.get<time::range>(), stream);
+    module->process(process_time.get<time::range>(), stream);
 
     XCTAssertTrue(stream.has_channel(send_ch_idx));
 

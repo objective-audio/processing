@@ -52,7 +52,7 @@
     connect(module, compare::input::right, 1);
     connect(module, compare::output::result, 2);
 
-    module.process({0, process_length}, stream);
+    module->process({0, process_length}, stream);
 
     XCTAssertTrue(stream.has_channel(2));
 
@@ -95,7 +95,7 @@
     connect(module, compare::input::right, 1);
     connect(module, compare::output::result, 2);
 
-    module.process({0, process_length}, stream);
+    module->process({0, process_length}, stream);
 
     XCTAssertTrue(stream.has_channel(2));
 
@@ -134,7 +134,7 @@
     connect(module, compare::input::right, 1);
     connect(module, compare::output::result, 2);
 
-    module.process({0, process_length}, stream);
+    module->process({0, process_length}, stream);
 
     XCTAssertTrue(stream.has_channel(2));
 
@@ -178,7 +178,7 @@
     connect(module, compare::input::right, 1);
     connect(module, compare::output::result, 2);
 
-    module.process({0, process_length}, stream);
+    module->process({0, process_length}, stream);
 
     XCTAssertTrue(stream.has_channel(2));
 
@@ -222,7 +222,7 @@
     connect(module, compare::input::right, 1);
     connect(module, compare::output::result, 2);
 
-    module.process({0, process_length}, stream);
+    module->process({0, process_length}, stream);
 
     XCTAssertTrue(stream.has_channel(2));
 
@@ -266,7 +266,7 @@
     connect(module, compare::input::right, 1);
     connect(module, compare::output::result, 2);
 
-    module.process({0, process_length}, stream);
+    module->process({0, process_length}, stream);
 
     XCTAssertTrue(stream.has_channel(2));
 

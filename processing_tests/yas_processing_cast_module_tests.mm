@@ -30,10 +30,10 @@ using namespace yas::proc;
 
 - (void)test_process_signal_diff_channel {
     auto constant_module1 = make_signal_module(int8_t(1));
-    constant_module1.connect_output(to_connector_index(constant::output::value), 0);
+    constant_module1->connect_output(to_connector_index(constant::output::value), 0);
 
     auto constant_module2 = make_signal_module(int8_t(2));
-    constant_module2.connect_output(to_connector_index(constant::output::value), 0);
+    constant_module2->connect_output(to_connector_index(constant::output::value), 0);
 
     auto cast_module = cast::make_signal_module<int8_t, float>();
     connect(cast_module, cast::input::value, 0);
@@ -41,9 +41,9 @@ using namespace yas::proc;
 
     stream stream{sync_source{1, 2}};
 
-    constant_module1.process({0, 1}, stream);
-    constant_module2.process({1, 1}, stream);
-    cast_module.process({0, 2}, stream);
+    constant_module1->process({0, 1}, stream);
+    constant_module2->process({1, 1}, stream);
+    cast_module->process({0, 2}, stream);
 
     XCTAssertTrue(stream.has_channel(1));
 
@@ -62,10 +62,10 @@ using namespace yas::proc;
 
 - (void)test_process_signal_same_channel {
     auto constant_module1 = make_signal_module(int8_t(32));
-    constant_module1.connect_output(to_connector_index(constant::output::value), 2);
+    constant_module1->connect_output(to_connector_index(constant::output::value), 2);
 
     auto constant_module2 = make_signal_module(int8_t(64));
-    constant_module2.connect_output(to_connector_index(constant::output::value), 2);
+    constant_module2->connect_output(to_connector_index(constant::output::value), 2);
 
     auto cast_module = cast::make_signal_module<int8_t, double>();
     connect(cast_module, cast::input::value, 2);
@@ -73,9 +73,9 @@ using namespace yas::proc;
 
     stream stream{sync_source{1, 2}};
 
-    constant_module1.process({0, 1}, stream);
-    constant_module2.process({1, 1}, stream);
-    cast_module.process({0, 2}, stream);
+    constant_module1->process({0, 1}, stream);
+    constant_module2->process({1, 1}, stream);
+    cast_module->process({0, 2}, stream);
 
     XCTAssertTrue(stream.has_channel(2));
 
@@ -115,7 +115,7 @@ using namespace yas::proc;
         channel2.insert_event(make_frame_time(0), number_event::make_shared(int8_t(20)));
     }
 
-    cast_module.process({0, 2}, stream);
+    cast_module->process({0, 2}, stream);
 
     XCTAssertTrue(stream.has_channel(0));
     auto const &channel0 = stream.channel(0);
@@ -163,7 +163,7 @@ using namespace yas::proc;
         channel.insert_event(make_frame_time(0), number_event::make_shared(int16_t(-1)));
     }
 
-    cast_module.process({0, 2}, stream);
+    cast_module->process({0, 2}, stream);
 
     XCTAssertTrue(stream.has_channel(3));
     auto const &channel = stream.channel(3);
@@ -187,7 +187,7 @@ using namespace yas::proc;
     auto module = cast::make_number_module<int32_t, double>();
     connect(module, cast::input::value, 3);
 
-    auto const &connectors = module.input_connectors();
+    auto const &connectors = module->input_connectors();
     XCTAssertEqual(connectors.size(), 1);
     XCTAssertEqual(connectors.cbegin()->first, to_connector_index(cast::input::value));
     XCTAssertEqual(connectors.cbegin()->second.channel_index, 3);
@@ -197,7 +197,7 @@ using namespace yas::proc;
     auto module = cast::make_number_module<int32_t, double>();
     connect(module, cast::output::value, 4);
 
-    auto const &connectors = module.output_connectors();
+    auto const &connectors = module->output_connectors();
 
     XCTAssertEqual(connectors.size(), 1);
     XCTAssertEqual(connectors.cbegin()->first, to_connector_index(cast::output::value));

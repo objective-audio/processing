@@ -101,7 +101,7 @@ using namespace yas::proc;
 
     auto track1 = track::make_shared();
 
-    auto module1 = module{[] {
+    auto module1 = module::make_shared([] {
         auto send_handler1 = [](proc::time::range const &time_range, sync_source const &, channel_index_t const ch_idx,
                                 connector_index_t const co_idx, int16_t *const signal_ptr) {
             if (co_idx == 0) {
@@ -111,8 +111,8 @@ using namespace yas::proc;
             }
         };
         return module::processors_t{make_send_signal_processor<int16_t>({std::move(send_handler1)})};
-    }};
-    module1.connect_output(0, 0);
+    });
+    module1->connect_output(0, 0);
 
     track1->push_back_module(module1, {0, 2});
     timeline->insert_track(1, track1);
@@ -147,14 +147,15 @@ using namespace yas::proc;
         }
     };
 
-    auto module2 = module{[receive_handler2 = std::move(receive_handler2), send_handler2 = std::move(send_handler2)] {
-        auto receive_processor2 = make_receive_signal_processor<int16_t>({std::move(receive_handler2)});
-        auto send_processor2 = make_send_signal_processor<int16_t>({std::move(send_handler2)});
-        return module::processors_t{{std::move(receive_processor2), std::move(send_processor2)}};
-    }};
+    auto module2 =
+        module::make_shared([receive_handler2 = std::move(receive_handler2), send_handler2 = std::move(send_handler2)] {
+            auto receive_processor2 = make_receive_signal_processor<int16_t>({std::move(receive_handler2)});
+            auto send_processor2 = make_send_signal_processor<int16_t>({std::move(send_handler2)});
+            return module::processors_t{{std::move(receive_processor2), std::move(send_processor2)}};
+        });
 
-    module2.connect_input(0, 0);
-    module2.connect_output(0, 0);
+    module2->connect_input(0, 0);
+    module2->connect_output(0, 0);
 
     track2->push_back_module(module2, {0, 2});
     timeline->insert_track(2, track2);
@@ -234,7 +235,7 @@ using namespace yas::proc;
     while (yas_each_next(fast_each)) {
         auto const &idx = yas_each_index(fast_each);
         auto module = make_signal_module<int8_t>(idx);
-        module.connect_output(to_connector_index(constant::output::value), ch_idx);
+        module->connect_output(to_connector_index(constant::output::value), ch_idx);
         track->push_back_module(std::move(module), {idx, 1});
     }
     timeline->insert_track(0, track);
@@ -279,7 +280,7 @@ using namespace yas::proc;
             auto const &frame_idx = yas_each_index(frame_each);
             int8_t const value = frame_idx + 10 * trk_idx;
             auto module = make_signal_module<int8_t>(value);
-            module.connect_output(to_connector_index(constant::output::value), ch_idx);
+            module->connect_output(to_connector_index(constant::output::value), ch_idx);
             track->push_back_module(std::move(module), {frame_idx, 1});
         }
         timeline->insert_track(trk_idx, track);
@@ -368,25 +369,25 @@ using namespace yas::proc;
     XCTAssertFalse(timeline->total_range());
 
     auto track_0 = proc::track::make_shared();
-    track_0->push_back_module(proc::module{[] { return module::processors_t{}; }}, {0, 1});
+    track_0->push_back_module(proc::module::make_shared([] { return module::processors_t{}; }), {0, 1});
     timeline->insert_track(0, track_0);
 
     XCTAssertEqual(timeline->total_range(), (proc::time::range{0, 1}));
 
     auto track_1 = proc::track::make_shared();
-    track_1->push_back_module(proc::module{[] { return module::processors_t{}; }}, {1, 1});
+    track_1->push_back_module(proc::module::make_shared([] { return module::processors_t{}; }), {1, 1});
     timeline->insert_track(1, track_1);
 
     XCTAssertEqual(timeline->total_range(), (proc::time::range{0, 2}));
 
     auto track_2 = proc::track::make_shared();
-    track_2->push_back_module(proc::module{[] { return module::processors_t{}; }}, {99, 1});
+    track_2->push_back_module(proc::module::make_shared([] { return module::processors_t{}; }), {99, 1});
     timeline->insert_track(2, track_2);
 
     XCTAssertEqual(timeline->total_range(), (proc::time::range{0, 100}));
 
     auto track_3 = proc::track::make_shared();
-    track_3->push_back_module(proc::module{[] { return module::processors_t{}; }}, {-10, 1});
+    track_3->push_back_module(proc::module::make_shared([] { return module::processors_t{}; }), {-10, 1});
     timeline->insert_track(3, track_3);
 
     XCTAssertEqual(timeline->total_range(), (proc::time::range{-10, 110}));
@@ -396,12 +397,12 @@ using namespace yas::proc;
     std::vector<int> called;
 
     auto index = std::make_shared<int>(0);
-    proc::module module{[index = std::move(index), &called] {
+    auto module = proc::module::make_shared([index = std::move(index), &called] {
         auto processor = [index = *index, &called](time::range const &, connector_map_t const &,
                                                    connector_map_t const &, stream &) { called.push_back(index); };
         ++(*index);
         return module::processors_t{std::move(processor)};
-    }};
+    });
 
     auto track = proc::track::make_shared();
     track->push_back_module(std::move(module), {0, 1});

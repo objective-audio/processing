@@ -16,7 +16,7 @@ namespace test {
                                          proc::connector_map_t const &, proc::stream &)>;
 
     template <typename T, typename Kind>
-    static module make_signal_module(Kind const kind, channel_index_t const ch_idx) {
+    static module_ptr make_signal_module(Kind const kind, channel_index_t const ch_idx) {
         auto module = proc::make_signal_module<T>(kind);
         connect(module, math1::input::parameter, ch_idx);
         connect(module, math1::output::result, ch_idx);
@@ -25,7 +25,7 @@ namespace test {
     }
 
     template <typename T, typename Kind>
-    static module make_number_module(Kind const kind, channel_index_t const ch_idx) {
+    static module_ptr make_number_module(Kind const kind, channel_index_t const ch_idx) {
         auto module = proc::make_number_module<T>(kind);
         connect(module, math1::input::parameter, ch_idx);
         connect(module, math1::output::result, ch_idx);

@@ -17,7 +17,7 @@
 using namespace yas;
 
 template <typename T>
-proc::module proc::make_number_to_signal_module() {
+proc::module_ptr proc::make_number_to_signal_module() {
     auto make_processors = [] {
         auto context = std::make_shared<number_process_context<T, 1>>();
 
@@ -57,31 +57,31 @@ proc::module proc::make_number_to_signal_module() {
                                      std::move(remove_processor), std::move(send_processor)}};
     };
 
-    return module{std::move(make_processors)};
+    return proc::module::make_shared(std::move(make_processors));
 }
 
-template proc::module proc::make_number_to_signal_module<double>();
-template proc::module proc::make_number_to_signal_module<float>();
-template proc::module proc::make_number_to_signal_module<int64_t>();
-template proc::module proc::make_number_to_signal_module<int32_t>();
-template proc::module proc::make_number_to_signal_module<int16_t>();
-template proc::module proc::make_number_to_signal_module<int8_t>();
-template proc::module proc::make_number_to_signal_module<uint64_t>();
-template proc::module proc::make_number_to_signal_module<uint32_t>();
-template proc::module proc::make_number_to_signal_module<uint16_t>();
-template proc::module proc::make_number_to_signal_module<uint8_t>();
-template proc::module proc::make_number_to_signal_module<boolean>();
+template proc::module_ptr proc::make_number_to_signal_module<double>();
+template proc::module_ptr proc::make_number_to_signal_module<float>();
+template proc::module_ptr proc::make_number_to_signal_module<int64_t>();
+template proc::module_ptr proc::make_number_to_signal_module<int32_t>();
+template proc::module_ptr proc::make_number_to_signal_module<int16_t>();
+template proc::module_ptr proc::make_number_to_signal_module<int8_t>();
+template proc::module_ptr proc::make_number_to_signal_module<uint64_t>();
+template proc::module_ptr proc::make_number_to_signal_module<uint32_t>();
+template proc::module_ptr proc::make_number_to_signal_module<uint16_t>();
+template proc::module_ptr proc::make_number_to_signal_module<uint8_t>();
+template proc::module_ptr proc::make_number_to_signal_module<boolean>();
 
 #pragma mark -
 
-void yas::connect(proc::module &module, proc::number_to_signal::input const &input,
+void yas::connect(proc::module_ptr const &module, proc::number_to_signal::input const &input,
                   proc::channel_index_t const &ch_idx) {
-    module.connect_input(proc::to_connector_index(input), ch_idx);
+    module->connect_input(proc::to_connector_index(input), ch_idx);
 }
 
-void yas::connect(proc::module &module, proc::number_to_signal::output const &output,
+void yas::connect(proc::module_ptr const &module, proc::number_to_signal::output const &output,
                   proc::channel_index_t const &ch_idx) {
-    module.connect_output(proc::to_connector_index(output), ch_idx);
+    module->connect_output(proc::to_connector_index(output), ch_idx);
 }
 
 std::string yas::to_string(proc::number_to_signal::input const &input) {

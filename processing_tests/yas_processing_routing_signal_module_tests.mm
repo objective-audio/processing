@@ -59,7 +59,7 @@
 
     auto stream = test::make_signal_stream(time::range{0, process_length}, data, time::range{0, process_length}, 0);
 
-    module.process(time::range{0, process_length}, stream);
+    module->process(time::range{0, process_length}, stream);
 
     auto const &input_events = stream.channel(input_ch_idx).events();
     XCTAssertEqual(input_events.size(), 0);
@@ -82,12 +82,12 @@
     int8_t data[process_length] = {1, 2};
 
     auto module = make_signal_module<int8_t>(routing::kind::move);
-    module.connect_input(to_connector_index(routing::input::value), input_ch_idx);
-    module.connect_output(to_connector_index(routing::output::value), output_ch_idx);
+    module->connect_input(to_connector_index(routing::input::value), input_ch_idx);
+    module->connect_output(to_connector_index(routing::output::value), output_ch_idx);
 
     auto stream = test::make_signal_stream(time::range{0, process_length}, data, time::range{0, process_length}, 0);
 
-    module.process(time::range{1, 1}, stream);
+    module->process(time::range{1, 1}, stream);
 
     auto const &unprocessed_events = stream.channel(input_ch_idx).events();
     XCTAssertEqual(unprocessed_events.size(), 1);
@@ -118,12 +118,12 @@
     int8_t data[process_length] = {1, 2};
 
     auto module = make_signal_module<int8_t>(routing::kind::copy);
-    module.connect_input(to_connector_index(routing::input::value), input_ch_idx);
-    module.connect_output(to_connector_index(routing::output::value), output_ch_idx);
+    module->connect_input(to_connector_index(routing::input::value), input_ch_idx);
+    module->connect_output(to_connector_index(routing::output::value), output_ch_idx);
 
     auto stream = test::make_signal_stream(time::range{0, process_length}, data, time::range{0, process_length}, 0);
 
-    module.process(time::range{0, process_length}, stream);
+    module->process(time::range{0, process_length}, stream);
 
     auto const &input_events = stream.channel(input_ch_idx).events();
     XCTAssertEqual(input_events.size(), 1);
@@ -152,12 +152,12 @@
     int8_t data[process_length] = {1, 2};
 
     auto module = make_signal_module<int8_t>(routing::kind::copy);
-    module.connect_input(to_connector_index(routing::input::value), input_ch_idx);
-    module.connect_output(to_connector_index(routing::output::value), output_ch_idx);
+    module->connect_input(to_connector_index(routing::input::value), input_ch_idx);
+    module->connect_output(to_connector_index(routing::output::value), output_ch_idx);
 
     auto stream = test::make_signal_stream(time::range{0, process_length}, data, time::range{0, process_length}, 0);
 
-    module.process(time::range{1, 1}, stream);
+    module->process(time::range{1, 1}, stream);
 
     auto const &input_events = stream.channel(input_ch_idx).events();
     XCTAssertEqual(input_events.size(), 1);

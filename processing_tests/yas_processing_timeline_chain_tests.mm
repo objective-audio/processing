@@ -99,7 +99,8 @@ using namespace yas::proc;
     timeline->insert_track(0, track);
 
     std::vector<timeline::event_t> events;
-    std::vector<std::tuple<track_index_t, proc::track_ptr, std::map<time::range, chaining::vector::holder_ptr<module>>>>
+    std::vector<
+        std::tuple<track_index_t, proc::track_ptr, std::map<time::range, chaining::vector::holder_ptr<module_ptr>>>>
         relayed;
 
     auto chain =
@@ -116,7 +117,7 @@ using namespace yas::proc;
             })
             .end();
 
-    proc::module module{[] { return module::processors_t{}; }};
+    auto module = proc::module::make_shared([] { return module::processors_t{}; });
     track->push_back_module(module, {0, 1});
 
     XCTAssertEqual(events.size(), 1);

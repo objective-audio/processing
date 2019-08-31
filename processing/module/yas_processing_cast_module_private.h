@@ -20,7 +20,7 @@
 
 namespace yas::proc::cast {
 template <typename In, typename Out>
-proc::module make_signal_module() {
+proc::module_ptr make_signal_module() {
     auto make_processors = [] {
         auto context = std::make_shared<signal_process_context<In, 1>>();
 
@@ -69,11 +69,11 @@ proc::module make_signal_module() {
                                      std::move(remove_processor), std::move(send_processor)}};
     };
 
-    return proc::module{std::move(make_processors)};
+    return proc::module::make_shared(std::move(make_processors));
 }
 
 template <typename In, typename Out>
-proc::module make_number_module() {
+proc::module_ptr make_number_module() {
     auto make_processors = [] {
         auto context = std::make_shared<number_process_context<In, 2>>();
 
@@ -112,6 +112,6 @@ proc::module make_number_module() {
                                      std::move(remove_processor), std::move(send_processor)}};
     };
 
-    return proc::module{std::move(make_processors)};
+    return proc::module::make_shared(std::move(make_processors));
 }
 }  // namespace yas::proc::cast

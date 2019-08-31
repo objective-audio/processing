@@ -13,7 +13,7 @@
 
 namespace yas::proc {
 struct track final : chaining::sender<chaining::map::event> {
-    using modules_map_t = std::map<time::range, std::vector<module>>;
+    using modules_map_t = std::map<time::range, std::vector<module_ptr>>;
     using modules_holder_map_t = std::map<time::range, module_vector_holder_ptr_t>;
     using event_type_t = chaining::event_type;
     using event_t = chaining::map::event;
@@ -27,10 +27,10 @@ struct track final : chaining::sender<chaining::map::event> {
 
     std::optional<time::range> total_range() const;
 
-    void push_back_module(module, time::range);
-    void insert_module(module, std::size_t const, time::range);
-    bool erase_module(module const &);
-    bool erase_module(module const &, time::range const &);
+    void push_back_module(module_ptr const &, time::range);
+    void insert_module(module_ptr const &, std::size_t const, time::range);
+    bool erase_module(module_ptr const &);
+    bool erase_module(module_ptr const &, time::range const &);
     bool erase_module_at(std::size_t const, time::range const &);
     void erase_modules_for_range(time::range const &);
 

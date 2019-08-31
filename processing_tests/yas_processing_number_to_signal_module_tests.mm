@@ -42,7 +42,7 @@ using namespace yas::proc;
     connect(module, number_to_signal::input::number, in_ch_idx);
     connect(module, number_to_signal::output::signal, out_ch_idx);
 
-    module.process({0, process_length}, stream);
+    module->process({0, process_length}, stream);
 
     {
         auto const &channel = stream.channel(out_ch_idx);
@@ -80,7 +80,7 @@ using namespace yas::proc;
 
     XCTAssertEqual(stream.channel(out_ch_idx).events().size(), 0);
 
-    module.process({process_length, process_length}, stream);
+    module->process({process_length, process_length}, stream);
 
     {
         auto const &channel = stream.channel(out_ch_idx);
@@ -107,7 +107,7 @@ using namespace yas::proc;
     auto module = make_number_to_signal_module<int32_t>();
     connect(module, number_to_signal::input::number, 13);
 
-    auto const &connectors = module.input_connectors();
+    auto const &connectors = module->input_connectors();
     XCTAssertEqual(connectors.size(), 1);
     XCTAssertEqual(connectors.cbegin()->first, to_connector_index(number_to_signal::input::number));
     XCTAssertEqual(connectors.cbegin()->second.channel_index, 13);
@@ -117,7 +117,7 @@ using namespace yas::proc;
     auto module = make_number_to_signal_module<int32_t>();
     connect(module, number_to_signal::output::signal, 14);
 
-    auto const &connectors = module.output_connectors();
+    auto const &connectors = module->output_connectors();
 
     XCTAssertEqual(connectors.size(), 1);
     XCTAssertEqual(connectors.cbegin()->first, to_connector_index(number_to_signal::output::signal));
