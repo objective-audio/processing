@@ -14,8 +14,8 @@ struct stream final {
     explicit stream(sync_source const &);
     explicit stream(sync_source &&);
 
-    stream(stream &&) = default;
-    stream &operator=(stream &&) = default;
+    stream(stream &&);
+    stream(stream const &);
 
     sync_source const &sync_source() const;
 
@@ -32,7 +32,7 @@ struct stream final {
     proc::sync_source _sync_source;
     std::map<channel_index_t, proc::channel> _channels;
 
-    stream(stream const &) = delete;
+    stream &operator=(stream &&) = delete;
     stream &operator=(stream const &) = delete;
 };
 }  // namespace yas::proc
