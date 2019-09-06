@@ -16,6 +16,12 @@ proc::stream::stream(proc::sync_source const &sync_src) : _sync_source(sync_src)
 proc::stream::stream(proc::sync_source &&sync_src) : _sync_source(std::move(sync_src)) {
 }
 
+proc::stream::stream(stream &&other) : _sync_source(std::move(other._sync_source)) {
+}
+
+proc::stream::stream(stream const &other) : _sync_source(other._sync_source) {
+}
+
 proc::sync_source const &proc::stream::sync_source() const {
     return this->_sync_source;
 }
