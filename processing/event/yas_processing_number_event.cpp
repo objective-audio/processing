@@ -29,7 +29,7 @@ struct proc::number_event::type_impl : impl {
         return false;
     }
 
-    std::shared_ptr<number_event> copy() override {
+    number_event_ptr copy() override {
         return number_event::make_shared(this->_value);
     }
 
@@ -94,18 +94,18 @@ bool proc::number_event::is_equal(std::shared_ptr<event> const &rhs) const {
 }
 
 template <typename T>
-std::shared_ptr<proc::number_event> proc::number_event::make_shared(T value) {
-    return std::shared_ptr<number_event>(new number_event{std::move(value)});
+proc::number_event_ptr proc::number_event::make_shared(T value) {
+    return number_event_ptr(new number_event{std::move(value)});
 }
 
-template std::shared_ptr<proc::number_event> proc::number_event::make_shared(double);
-template std::shared_ptr<proc::number_event> proc::number_event::make_shared(float);
-template std::shared_ptr<proc::number_event> proc::number_event::make_shared(int64_t);
-template std::shared_ptr<proc::number_event> proc::number_event::make_shared(int32_t);
-template std::shared_ptr<proc::number_event> proc::number_event::make_shared(int16_t);
-template std::shared_ptr<proc::number_event> proc::number_event::make_shared(int8_t);
-template std::shared_ptr<proc::number_event> proc::number_event::make_shared(uint64_t);
-template std::shared_ptr<proc::number_event> proc::number_event::make_shared(uint32_t);
-template std::shared_ptr<proc::number_event> proc::number_event::make_shared(uint16_t);
-template std::shared_ptr<proc::number_event> proc::number_event::make_shared(uint8_t);
-template std::shared_ptr<proc::number_event> proc::number_event::make_shared(boolean);
+template proc::number_event_ptr proc::number_event::make_shared(double);
+template proc::number_event_ptr proc::number_event::make_shared(float);
+template proc::number_event_ptr proc::number_event::make_shared(int64_t);
+template proc::number_event_ptr proc::number_event::make_shared(int32_t);
+template proc::number_event_ptr proc::number_event::make_shared(int16_t);
+template proc::number_event_ptr proc::number_event::make_shared(int8_t);
+template proc::number_event_ptr proc::number_event::make_shared(uint64_t);
+template proc::number_event_ptr proc::number_event::make_shared(uint32_t);
+template proc::number_event_ptr proc::number_event::make_shared(uint16_t);
+template proc::number_event_ptr proc::number_event::make_shared(uint8_t);
+template proc::number_event_ptr proc::number_event::make_shared(boolean);

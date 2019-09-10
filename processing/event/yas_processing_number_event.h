@@ -43,7 +43,7 @@ struct number_event : event {
 
    public:
     template <typename T>
-    static std::shared_ptr<proc::number_event> make_shared(T);
+    static proc::number_event_ptr make_shared(T);
 };
 }  // namespace yas::proc
 
