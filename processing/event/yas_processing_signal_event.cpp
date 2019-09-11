@@ -30,11 +30,11 @@ void proc::signal_event::reserve(std::size_t const size) {
     return this->_impl->reserve(size);
 }
 
-std::shared_ptr<proc::signal_event> proc::signal_event::copy_in_range(time::range const &range) const {
+proc::signal_event_ptr proc::signal_event::copy_in_range(time::range const &range) const {
     return this->_impl->copy_in_range(range);
 }
 
-std::vector<std::pair<proc::time::range, std::shared_ptr<proc::signal_event>>> proc::signal_event::cropped(
+std::vector<std::pair<proc::time::range, proc::signal_event_ptr>> proc::signal_event::cropped(
     time::range const &range) const {
     return this->_impl->cropped(range);
 }

@@ -41,7 +41,7 @@ void proc::channel::insert_events(events_map_t events) {
 }
 
 proc::signal_event::pair_t proc::channel::combine_signal_event(time::range const &insert_range,
-                                                               std::shared_ptr<signal_event> const &signal) {
+                                                               signal_event_ptr const &signal) {
     auto const &sample_type = signal->sample_type();
 
     auto predicate = [&insert_range, &sample_type](auto const &pair) {

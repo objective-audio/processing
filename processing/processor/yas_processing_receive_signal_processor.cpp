@@ -31,7 +31,7 @@ proc::processor_f proc::make_receive_signal_processor(proc::receive_signal_proce
                             auto const &event_time_range = pair.first;
                             if (auto const time_range_opt = current_time_range.intersected(event_time_range)) {
                                 auto const &time_range = *time_range_opt;
-                                std::shared_ptr<signal_event> const &signal = pair.second;
+                                signal_event_ptr const &signal = pair.second;
                                 auto const *ptr = signal->data<T>();
                                 auto const idx = time_range.frame - event_time_range.frame;
                                 handler(time_range, stream.sync_source(), ch_idx, co_idx, &ptr[idx]);

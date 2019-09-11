@@ -35,13 +35,13 @@ typename signal_process_context<T, N>::pair_vector_t const &signal_process_conte
 
 template <typename T, std::size_t N>
 void signal_process_context<T, N>::copy_data_from(T const *ptr, std::size_t const size, std::size_t const idx) {
-    std::shared_ptr<signal_event> &signal = this->_inputs.at(idx).second;
+    signal_event_ptr &signal = this->_inputs.at(idx).second;
     signal->copy_from<T>(ptr, size);
 }
 
 template <typename T, std::size_t N>
 T const *signal_process_context<T, N>::data(std::size_t const idx) const {
-    std::shared_ptr<signal_event> const &signal = this->_inputs.at(idx).second;
+    signal_event_ptr const &signal = this->_inputs.at(idx).second;
     return signal->data<T>();
 }
 

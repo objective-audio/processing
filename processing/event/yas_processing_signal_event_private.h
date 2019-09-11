@@ -15,10 +15,10 @@ struct proc::signal_event::impl {
     virtual std::size_t byte_size() const = 0;
     virtual void resize(std::size_t const) = 0;
     virtual void reserve(std::size_t const) = 0;
-    virtual std::shared_ptr<signal_event> copy_in_range(time::range const &) = 0;
-    virtual std::vector<std::pair<time::range, std::shared_ptr<signal_event>>> cropped(time::range const &) = 0;
+    virtual signal_event_ptr copy_in_range(time::range const &) = 0;
+    virtual std::vector<std::pair<time::range, signal_event_ptr>> cropped(time::range const &) = 0;
     virtual pair_t combined(time::range const &, pair_vector_t) = 0;
-    virtual std::shared_ptr<signal_event> copy() = 0;
+    virtual signal_event_ptr copy() = 0;
 };
 
 template <typename T>
@@ -29,7 +29,7 @@ struct proc::signal_event::type_impl : impl {
     type_impl(std::vector<T> &bytes) : _vector_ref(bytes) {
     }
 
-    std::shared_ptr<signal_event> copy() override {
+    signal_event_ptr copy() override {
         return signal_event::make_shared(std::vector<T>{_vector_ref});
     }
 
@@ -71,7 +71,7 @@ struct proc::signal_event::type_impl : impl {
         memcpy(ptr, vec.data(), size * sizeof(T));
     }
 
-    std::shared_ptr<signal_event> copy_in_range(time::range const &range) override {
+    signal_event_ptr copy_in_range(time::range const &range) override {
         if (!time::range{0, static_cast<length_t>(this->size())}.is_contain(range)) {
             throw "out of range.";
         }
@@ -120,7 +120,7 @@ struct proc::signal_event::type_impl : impl {
 
         for (auto const &event_pair : event_pairs) {
             auto const &event_range = event_pair.first;
-            std::shared_ptr<signal_event> const &event_signal = event_pair.second;
+            signal_event_ptr const &event_signal = event_pair.second;
 
             if (event_signal->sample_type() != typeid(T)) {
                 throw "sample type mismatch.";
@@ -182,24 +182,24 @@ void proc::signal_event::copy_to(T *ptr, std::size_t const size) const {
 }
 
 template <typename T>
-std::shared_ptr<proc::signal_event> proc::signal_event::make_shared(std::size_t const size) {
-    return std::shared_ptr<proc::signal_event>(new signal_event{std::vector<T>(size)});
+proc::signal_event_ptr proc::signal_event::make_shared(std::size_t const size) {
+    return proc::signal_event_ptr(new signal_event{std::vector<T>(size)});
 }
 
 template <typename T>
-std::shared_ptr<proc::signal_event> proc::signal_event::make_shared(std::size_t const size, std::size_t const reserve) {
+proc::signal_event_ptr proc::signal_event::make_shared(std::size_t const size, std::size_t const reserve) {
     auto vec = std::vector<T>(size);
     vec.reserve(reserve);
-    return std::shared_ptr<proc::signal_event>(new signal_event{std::move(vec)});
+    return proc::signal_event_ptr(new signal_event{std::move(vec)});
 }
 
 template <typename T>
-std::shared_ptr<proc::signal_event> proc::signal_event::make_shared(std::vector<T> &&vec) {
-    return std::shared_ptr<proc::signal_event>(new signal_event{std::move(vec)});
+proc::signal_event_ptr proc::signal_event::make_shared(std::vector<T> &&vec) {
+    return proc::signal_event_ptr(new signal_event{std::move(vec)});
 }
 
 template <typename T>
-std::shared_ptr<proc::signal_event> proc::signal_event::make_shared(std::vector<T> &vec) {
-    return std::shared_ptr<proc::signal_event>(new signal_event{vec});
+proc::signal_event_ptr proc::signal_event::make_shared(std::vector<T> &vec) {
+    return proc::signal_event_ptr(new signal_event{vec});
 }
 }  // namespace yas
