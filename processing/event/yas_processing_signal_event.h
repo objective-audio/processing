@@ -40,7 +40,7 @@ struct signal_event : event {
     pair_vector_t cropped(time::range const &) const;
     pair_t combined(time::range const &, pair_vector_t);
 
-    std::shared_ptr<event> copy() const override;
+    event_ptr copy() const override;
     bool validate_time(time const &) const override;
 
    private:

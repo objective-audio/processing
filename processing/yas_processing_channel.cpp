@@ -26,7 +26,7 @@ proc::channel::events_map_t &proc::channel::events() {
     return this->_events;
 }
 
-void proc::channel::insert_event(time time, std::shared_ptr<event> event) {
+void proc::channel::insert_event(time time, event_ptr event) {
     if (!event->validate_time(time)) {
         throw "invalid time for event.";
     }

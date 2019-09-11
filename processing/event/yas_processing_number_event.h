@@ -21,9 +21,9 @@ struct number_event : event {
     template <typename T>
     T const &get() const;
 
-    std::shared_ptr<event> copy() const override;
+    event_ptr copy() const override;
     bool validate_time(time const &) const override;
-    bool is_equal(std::shared_ptr<event> const &) const override;
+    bool is_equal(event_ptr const &) const override;
 
    private:
     class impl;

@@ -7,6 +7,6 @@
 
 using namespace yas;
 
-bool proc::event::is_equal(std::shared_ptr<event> const &rhs) const {
+bool proc::event::is_equal(event_ptr const &rhs) const {
     return reinterpret_cast<uintptr_t>(this) == reinterpret_cast<uintptr_t>(rhs.get());
 }

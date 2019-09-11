@@ -43,7 +43,7 @@ proc::signal_event::pair_t proc::signal_event::combined(time::range const &inser
     return this->_impl->combined(insert_range, event_pairs);
 }
 
-std::shared_ptr<proc::event> proc::signal_event::copy() const {
+proc::event_ptr proc::signal_event::copy() const {
     return this->_impl->copy();
 }
 
