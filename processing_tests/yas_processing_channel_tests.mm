@@ -175,7 +175,7 @@ using namespace yas::proc;
 
     channel.erase_event<float, signal_event>([](auto const &pair) {
         time::range const &time_range = pair.first;
-        std::shared_ptr<signal_event> const &signal = pair.second;
+        signal_event_ptr const &signal = pair.second;
         if (time_range.frame != 0 || signal->data<float>()[0] > 0.0f) {
             return true;
         }
@@ -186,7 +186,7 @@ using namespace yas::proc;
 
     auto const float_signal_events = channel.filtered_events<float, signal_event>();
     XCTAssertEqual(float_signal_events.size(), 1);
-    std::shared_ptr<signal_event> const &float_event = float_signal_events.cbegin()->second;
+    signal_event_ptr const &float_event = float_signal_events.cbegin()->second;
     XCTAssertEqual(float_event->data<float>()[0], 0.0f);
 
     auto const double_signal_events = channel.filtered_events<double, signal_event>();

@@ -21,9 +21,9 @@ struct number_event : event {
     template <typename T>
     T const &get() const;
 
-    std::shared_ptr<event> copy() const override;
+    event_ptr copy() const override;
     bool validate_time(time const &) const override;
-    bool is_equal(std::shared_ptr<event> const &) const override;
+    bool is_equal(event_ptr const &) const override;
 
    private:
     class impl;
@@ -43,7 +43,7 @@ struct number_event : event {
 
    public:
     template <typename T>
-    static std::shared_ptr<proc::number_event> make_shared(T);
+    static proc::number_event_ptr make_shared(T);
 };
 }  // namespace yas::proc
 

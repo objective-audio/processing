@@ -40,7 +40,7 @@ namespace test {
 
         auto &channel = stream.add_channel(ch_idx);
 
-        std::shared_ptr<signal_event> phase_signal = signal_event::make_shared<T>(data_time_range.length);
+        signal_event_ptr phase_signal = signal_event::make_shared<T>(data_time_range.length);
         auto *phase_data = phase_signal->data<T>();
         auto each = make_fast_each_ptr(phase_data, data_time_range.length);
         while (yas_each_next(each)) {
@@ -62,7 +62,7 @@ namespace test {
         {
             auto &channel = stream.add_channel(left_ch_idx);
 
-            std::shared_ptr<signal_event> signal = signal_event::make_shared<T>(left_time_range.length);
+            signal_event_ptr signal = signal_event::make_shared<T>(left_time_range.length);
             auto *out_data = signal->data<T>();
             auto each = make_fast_each_ptr(out_data, left_time_range.length);
             while (yas_each_next(each)) {
@@ -75,7 +75,7 @@ namespace test {
         {
             auto &channel = stream.add_channel(right_ch_idx);
 
-            std::shared_ptr<signal_event> signal = signal_event::make_shared<T>(right_time_range.length);
+            signal_event_ptr signal = signal_event::make_shared<T>(right_time_range.length);
             auto *out_data = signal->data<T>();
             auto each = make_fast_each_ptr(out_data, right_time_range.length);
             while (yas_each_next(each)) {

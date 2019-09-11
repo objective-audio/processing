@@ -46,7 +46,7 @@ proc::processor_f proc::make_send_signal_processor(proc::send_signal_process_f<T
                             auto const length = time_range.length;
                             auto const dst_idx = time_range.frame - combined_time_range.frame;
                             auto *dst_ptr = &vec[dst_idx];
-                            std::shared_ptr<signal_event> const &signal = pair.second;
+                            signal_event_ptr const &signal = pair.second;
                             signal->copy_to<T>(dst_ptr, length);
                         }
 
