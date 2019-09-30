@@ -5,10 +5,8 @@
 #pragma once
 
 #include <chaining/yas_chaining_umbrella.h>
-#include <cpp_utils/yas_weakable.h>
 #include <optional>
 #include "yas_processing_module.h"
-
 #include "yas_processing_time.h"
 
 namespace yas::proc {
