@@ -3,6 +3,7 @@
 //
 
 #include "yas_processing_number_event.h"
+
 #include <cpp_utils/yas_boolean.h>
 
 using namespace yas;

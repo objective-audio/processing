@@ -5,6 +5,7 @@
 #pragma once
 
 #include <processing/yas_processing_umbrella.h>
+
 #include <functional>
 
 using namespace yas;

@@ -5,6 +5,7 @@
 #pragma once
 
 #include <unordered_set>
+
 #include "yas_processing_processor.h"
 
 namespace yas::proc {

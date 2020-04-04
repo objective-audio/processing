@@ -5,6 +5,7 @@
 #pragma once
 
 #include <memory>
+
 #include "yas_processing_types.h"
 
 namespace yas::proc {
