@@ -3,6 +3,7 @@
 //
 
 #include "yas_processing_event.h"
+
 #include "yas_processing_time.h"
 
 using namespace yas;

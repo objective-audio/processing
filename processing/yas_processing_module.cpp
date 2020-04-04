@@ -3,7 +3,9 @@
 //
 
 #include "yas_processing_module.h"
+
 #include <cpp_utils/yas_stl_utils.h>
+
 #include "yas_processing_connector.h"
 
 using namespace yas;

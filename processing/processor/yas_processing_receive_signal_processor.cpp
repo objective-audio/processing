@@ -3,7 +3,9 @@
 //
 
 #include "yas_processing_receive_signal_processor.h"
+
 #include <cpp_utils/yas_boolean.h>
+
 #include "yas_processing_channel.h"
 #include "yas_processing_module.h"
 #include "yas_processing_processor.h"

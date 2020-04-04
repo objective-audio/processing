@@ -3,7 +3,9 @@
 //
 
 #include "yas_processing_stream.h"
+
 #include <map>
+
 #include "yas_processing_channel.h"
 
 using namespace yas;

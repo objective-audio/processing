@@ -6,6 +6,7 @@
 
 #include <functional>
 #include <string>
+
 #include "yas_processing_processor.h"
 #include "yas_processing_time.h"
 #include "yas_processing_types.h"

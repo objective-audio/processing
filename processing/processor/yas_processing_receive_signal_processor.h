@@ -5,6 +5,7 @@
 #pragma once
 
 #include <functional>
+
 #include "yas_processing_processor.h"
 #include "yas_processing_sync_source.h"
 #include "yas_processing_time.h"

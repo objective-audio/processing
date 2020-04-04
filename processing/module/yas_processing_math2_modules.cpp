@@ -3,7 +3,9 @@
 //
 
 #include "yas_processing_math2_modules.h"
+
 #include <cpp_utils/yas_fast_each.h>
+
 #include "yas_processing_constants.h"
 #include "yas_processing_module.h"
 #include "yas_processing_number_event.h"
