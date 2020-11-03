@@ -4,11 +4,11 @@
 
 #pragma once
 
+#include <processing/yas_processing_types.h>
+
 #include <memory>
 #include <optional>
 #include <vector>
-
-#include "yas_processing_types.h"
 
 namespace yas::proc {
 struct time {

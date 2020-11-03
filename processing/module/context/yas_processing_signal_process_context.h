@@ -4,8 +4,8 @@
 
 #pragma once
 
-#include "yas_processing_signal_event.h"
-#include "yas_processing_time.h"
+#include <processing/yas_processing_signal_event.h>
+#include <processing/yas_processing_time.h>
 
 namespace yas::proc {
 template <typename T, std::size_t N>
@@ -30,4 +30,4 @@ struct signal_process_context {
 };
 }  // namespace yas::proc
 
-#include "yas_processing_signal_process_context_private.h"
+#include <processing/yas_processing_signal_process_context_private.h>

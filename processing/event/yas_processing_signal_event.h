@@ -4,10 +4,10 @@
 
 #pragma once
 
-#include <vector>
+#include <processing/yas_processing_event.h>
+#include <processing/yas_processing_time.h>
 
-#include "yas_processing_event.h"
-#include "yas_processing_time.h"
+#include <vector>
 
 namespace yas::proc {
 struct signal_event : event {
@@ -74,4 +74,4 @@ struct signal_event : event {
 };
 }  // namespace yas::proc
 
-#include "yas_processing_signal_event_private.h"
+#include <processing/yas_processing_signal_event_private.h>

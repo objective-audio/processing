@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "yas_processing_processor.h"
+#include <processing/yas_processing_processor.h>
 
 namespace yas::proc {
 template <typename T>

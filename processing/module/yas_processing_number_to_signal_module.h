@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "yas_processing_types.h"
+#include <processing/yas_processing_types.h>
 
 namespace yas::proc {
 /// 数値からシグナルへ変換するモジュール

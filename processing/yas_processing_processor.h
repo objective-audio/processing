@@ -4,8 +4,8 @@
 
 #pragma once
 
-#include "yas_processing_connector.h"
-#include "yas_processing_time.h"
+#include <processing/yas_processing_connector.h>
+#include <processing/yas_processing_time.h>
 
 namespace yas::proc {
 class stream;

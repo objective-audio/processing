@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "yas_processing_time.h"
+#include <processing/yas_processing_time.h>
 
 namespace yas {
 struct proc::number_event::impl {

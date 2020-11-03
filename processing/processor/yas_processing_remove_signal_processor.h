@@ -4,9 +4,9 @@
 
 #pragma once
 
-#include <unordered_set>
+#include <processing/yas_processing_processor.h>
 
-#include "yas_processing_processor.h"
+#include <unordered_set>
 
 namespace yas::proc {
 template <typename T>

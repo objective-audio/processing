@@ -5,13 +5,12 @@
 #pragma once
 
 #include <chaining/yas_chaining_umbrella.h>
+#include <processing/yas_processing_time.h>
+#include <processing/yas_processing_track.h>
+#include <processing/yas_processing_types.h>
 
 #include <functional>
 #include <optional>
-
-#include "yas_processing_time.h"
-#include "yas_processing_track.h"
-#include "yas_processing_types.h"
 
 namespace yas::proc {
 struct timeline final : chaining::sender<chaining::map::event> {

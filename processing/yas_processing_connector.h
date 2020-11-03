@@ -4,11 +4,11 @@
 
 #pragma once
 
+#include <processing/yas_processing_types.h>
+
 #include <map>
 #include <optional>
 #include <string>
-
-#include "yas_processing_types.h"
 
 namespace yas::proc {
 struct connector {
@@ -21,4 +21,4 @@ template <typename T>
 connector_index_t to_connector_index(T const &);
 }  // namespace yas::proc
 
-#include "yas_processing_connector_private.h"
+#include <processing/yas_processing_connector_private.h>
