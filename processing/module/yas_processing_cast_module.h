@@ -4,9 +4,9 @@
 
 #pragma once
 
-#include <string>
+#include <processing/yas_processing_types.h>
 
-#include "yas_processing_types.h"
+#include <string>
 
 namespace yas::proc {
 /// 型を変換するモジュール
@@ -35,4 +35,4 @@ std::string to_string(proc::cast::input const &);
 std::string to_string(proc::cast::output const &);
 }  // namespace yas
 
-#include "yas_processing_cast_module_private.h"
+#include <processing/yas_processing_cast_module_private.h>

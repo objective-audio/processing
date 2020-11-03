@@ -4,10 +4,10 @@
 
 #pragma once
 
-#include <map>
+#include <processing/yas_processing_event.h>
+#include <processing/yas_processing_time.h>
 
-#include "yas_processing_event.h"
-#include "yas_processing_time.h"
+#include <map>
 
 namespace yas::proc {
 struct number_event : event {
@@ -48,4 +48,4 @@ struct number_event : event {
 };
 }  // namespace yas::proc
 
-#include "yas_processing_number_event_private.h"
+#include <processing/yas_processing_number_event_private.h>

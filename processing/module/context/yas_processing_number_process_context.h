@@ -4,12 +4,12 @@
 
 #pragma once
 
+#include <processing/yas_processing_time.h>
+#include <processing/yas_processing_types.h>
+
 #include <map>
 #include <optional>
 #include <vector>
-
-#include "yas_processing_time.h"
-#include "yas_processing_types.h"
 
 namespace yas::proc {
 template <typename T, std::size_t N>
@@ -34,4 +34,4 @@ struct number_process_context {
 };
 }  // namespace yas::proc
 
-#include "yas_processing_number_process_context_private.h"
+#include <processing/yas_processing_number_process_context_private.h>

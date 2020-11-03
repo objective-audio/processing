@@ -5,13 +5,12 @@
 #pragma once
 
 #include <chaining/yas_chaining_umbrella.h>
+#include <processing/yas_processing_connector.h>
+#include <processing/yas_processing_processor.h>
+#include <processing/yas_processing_stream.h>
+#include <processing/yas_processing_time.h>
 
 #include <vector>
-
-#include "yas_processing_connector.h"
-#include "yas_processing_processor.h"
-#include "yas_processing_stream.h"
-#include "yas_processing_time.h"
 
 namespace yas::proc {
 struct module final {

@@ -4,9 +4,9 @@
 
 #pragma once
 
-#include <memory>
+#include <processing/yas_processing_types.h>
 
-#include "yas_processing_types.h"
+#include <memory>
 
 namespace yas::proc {
 class time;

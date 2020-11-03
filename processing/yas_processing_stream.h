@@ -4,10 +4,10 @@
 
 #pragma once
 
-#include "yas_processing_channel.h"
-#include "yas_processing_sync_source.h"
-#include "yas_processing_time.h"
-#include "yas_processing_types.h"
+#include <processing/yas_processing_channel.h>
+#include <processing/yas_processing_sync_source.h>
+#include <processing/yas_processing_time.h>
+#include <processing/yas_processing_types.h>
 
 namespace yas::proc {
 struct stream final {

@@ -4,12 +4,12 @@
 
 #pragma once
 
+#include <processing/yas_processing_processor.h>
+#include <processing/yas_processing_time.h>
+#include <processing/yas_processing_types.h>
+
 #include <functional>
 #include <string>
-
-#include "yas_processing_processor.h"
-#include "yas_processing_time.h"
-#include "yas_processing_types.h"
 
 namespace yas::proc {
 class sync_source;

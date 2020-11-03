@@ -4,9 +4,9 @@
 
 #pragma once
 
-#include <map>
+#include <processing/yas_processing_time.h>
 
-#include "yas_processing_time.h"
+#include <map>
 
 namespace yas::proc {
 class event;
@@ -56,4 +56,4 @@ struct channel {
 };
 }  // namespace yas::proc
 
-#include "yas_processing_channel_private.h"
+#include <processing/yas_processing_channel_private.h>

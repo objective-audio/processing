@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "yas_processing_types.h"
+#include <processing/yas_processing_types.h>
 
 namespace yas::proc {
 /// パラメータを2つ受け取る算術関数の結果を生成するモジュール

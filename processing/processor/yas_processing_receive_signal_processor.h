@@ -4,12 +4,12 @@
 
 #pragma once
 
-#include <functional>
+#include <processing/yas_processing_processor.h>
+#include <processing/yas_processing_sync_source.h>
+#include <processing/yas_processing_time.h>
+#include <processing/yas_processing_types.h>
 
-#include "yas_processing_processor.h"
-#include "yas_processing_sync_source.h"
-#include "yas_processing_time.h"
-#include "yas_processing_types.h"
+#include <functional>
 
 namespace yas::proc {
 template <typename T>

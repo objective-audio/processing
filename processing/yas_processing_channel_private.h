@@ -5,8 +5,7 @@
 #pragma once
 
 #include <cpp_utils/yas_stl_utils.h>
-
-#include "yas_processing_event.h"
+#include <processing/yas_processing_event.h>
 
 namespace yas {
 template <typename P>
