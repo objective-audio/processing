@@ -27,10 +27,10 @@ struct track final : chaining::sender<chaining::map::event> {
     std::optional<time::range> total_range() const;
 
     void push_back_module(module_ptr const &, time::range);
-    void insert_module(module_ptr const &, std::size_t const, time::range);
+    void insert_module(module_ptr const &, module_index_t const, time::range);
     bool erase_module(module_ptr const &);
     bool erase_module(module_ptr const &, time::range const &);
-    bool erase_module_at(std::size_t const, time::range const &);
+    bool erase_module_at(module_index_t const, time::range const &);
     void erase_modules_for_range(time::range const &);
 
     track_ptr copy() const;

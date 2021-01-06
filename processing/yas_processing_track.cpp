@@ -45,7 +45,7 @@ void proc::track::push_back_module(module_ptr const &module, proc::time::range r
     }
 }
 
-void proc::track::insert_module(module_ptr const &module, std::size_t const idx, time::range range) {
+void proc::track::insert_module(module_ptr const &module, module_index_t const idx, time::range range) {
     if (this->_modules_holder->has_value(range) && idx <= this->_modules_holder->at(range)->size()) {
         this->_modules_holder->at(range)->insert(std::move(module), idx);
     } else if (idx == 0) {
@@ -86,7 +86,7 @@ bool proc::track::erase_module(module_ptr const &erasing, time::range const &ran
     return false;
 }
 
-bool proc::track::erase_module_at(std::size_t const idx, time::range const &range) {
+bool proc::track::erase_module_at(module_index_t const idx, time::range const &range) {
     if (this->_modules_holder->has_value(range)) {
         auto &modules = this->_modules_holder->at(range);
         if (idx < modules->size()) {
