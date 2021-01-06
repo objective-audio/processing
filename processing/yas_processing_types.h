@@ -26,7 +26,7 @@ using signal_event_ptr = std::shared_ptr<signal_event>;
 using channel_index_t = int64_t;
 using track_index_t = int64_t;
 using frame_index_t = int64_t;
-using module_index_t = uint32_t;
+using module_index_t = std::size_t;
 using length_t = uint64_t;
 using sample_rate_t = uint32_t;
 
