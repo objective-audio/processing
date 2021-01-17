@@ -18,7 +18,7 @@ proc::timeline::timeline(track_map_t &&tracks)
 }
 
 proc::timeline::track_map_t const &proc::timeline::tracks() const {
-    return this->_tracks_holder->raw();
+    return this->_tracks_holder->value();
 }
 
 bool proc::timeline::insert_track(track_index_t const trk_idx, proc::track_ptr const &track) {
@@ -48,15 +48,15 @@ proc::track_ptr const &proc::timeline::track(track_index_t const trk_idx) const 
 }
 
 std::optional<proc::time::range> proc::timeline::total_range() const {
-    return proc::total_range(this->_tracks_holder->raw());
+    return proc::total_range(this->_tracks_holder->value());
 }
 
 proc::timeline_ptr proc::timeline::copy() const {
-    return timeline::make_shared(proc::copy_tracks(this->_tracks_holder->raw()));
+    return timeline::make_shared(proc::copy_tracks(this->_tracks_holder->value()));
 }
 
 void proc::timeline::process(time::range const &time_range, stream &stream) {
-    for (auto &track_pair : this->_tracks_holder->raw()) {
+    for (auto &track_pair : this->_tracks_holder->value()) {
         track_pair.second->process(time_range, stream);
     }
 }
@@ -104,7 +104,7 @@ void proc::timeline::_process_continuously(time::range const &range, sync_source
 
 proc::continuation proc::timeline::_process_tracks(time::range const &current_range, stream &stream,
                                                    process_track_f const &handler) {
-    for (auto &track_pair : this->_tracks_holder->raw()) {
+    for (auto &track_pair : this->_tracks_holder->value()) {
         track_pair.second->process(current_range, stream);
 
         if (handler(current_range, stream, track_pair.first) == continuation::abort) {
