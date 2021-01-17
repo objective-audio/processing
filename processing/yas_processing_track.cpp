@@ -16,17 +16,17 @@ proc::track::track(modules_map_t &&modules)
 }
 
 proc::track::modules_holder_map_t const &proc::track::modules() const {
-    return this->_modules_holder->raw();
+    return this->_modules_holder->value();
 }
 
 proc::track::modules_holder_map_t &proc::track::modules() {
-    return this->_modules_holder->raw();
+    return this->_modules_holder->value();
 }
 
 std::optional<proc::time::range> proc::track::total_range() const {
     std::optional<time::range> result{std::nullopt};
 
-    for (auto const &pair : this->_modules_holder->raw()) {
+    for (auto const &pair : this->_modules_holder->value()) {
         if (result) {
             result = result->merged(pair.first);
         } else {
@@ -58,7 +58,7 @@ void proc::track::insert_module(module_ptr const &module, module_index_t const i
 }
 
 bool proc::track::erase_module(module_ptr const &module) {
-    for (auto &pair : this->_modules_holder->raw()) {
+    for (auto &pair : this->_modules_holder->value()) {
         if (this->erase_module(module, pair.first)) {
             return true;
         }
@@ -71,7 +71,7 @@ bool proc::track::erase_module(module_ptr const &erasing, time::range const &ran
         auto const &modules = this->_modules_holder->at(range);
 
         std::size_t idx = 0;
-        for (auto const &module : modules->raw()) {
+        for (auto const &module : modules->value()) {
             if (module == erasing) {
                 if (modules->size() == 1) {
                     this->_modules_holder->erase_for_key(range);
@@ -102,13 +102,13 @@ void proc::track::erase_modules_for_range(time::range const &range) {
 }
 
 proc::track_ptr proc::track::copy() const {
-    return proc::track::make_shared(copy_to_modules(this->_modules_holder->raw()));
+    return proc::track::make_shared(copy_to_modules(this->_modules_holder->value()));
 }
 
 void proc::track::process(time::range const &time_range, stream &stream) {
-    for (auto const &pair : this->_modules_holder->raw()) {
+    for (auto const &pair : this->_modules_holder->value()) {
         if (auto const current_time_range = pair.first.intersected(time_range)) {
-            for (auto &module : pair.second->raw()) {
+            for (auto &module : pair.second->value()) {
                 module->process(*current_time_range, stream);
             }
         }
@@ -181,7 +181,7 @@ proc::track::modules_map_t proc::copy_to_modules(track::modules_holder_map_t con
     track::modules_map_t map;
     for (auto const &pair : modules) {
         module_vector_t copied;
-        for (auto const &module : pair.second->raw()) {
+        for (auto const &module : pair.second->value()) {
             copied.emplace_back(module->copy());
         }
         map.emplace(pair.first, std::move(copied));
