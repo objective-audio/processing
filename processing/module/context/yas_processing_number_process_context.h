@@ -4,8 +4,8 @@
 
 #pragma once
 
+#include <processing/yas_processing_common_types.h>
 #include <processing/yas_processing_time.h>
-#include <processing/yas_processing_types.h>
 
 #include <map>
 #include <optional>

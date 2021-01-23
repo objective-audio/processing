@@ -414,8 +414,8 @@ using namespace yas::proc;
 
     XCTAssertEqual(copied_timeline->tracks().size(), 1);
     XCTAssertTrue(copied_timeline->has_track(0));
-    XCTAssertEqual(copied_timeline->track(0)->modules().size(), 1);
-    XCTAssertEqual(copied_timeline->track(0)->modules().count({0, 1}), 1);
+    XCTAssertEqual(copied_timeline->track(0)->module_sets().size(), 1);
+    XCTAssertEqual(copied_timeline->track(0)->module_sets().count({0, 1}), 1);
 
     proc::stream stream{sync_source{1, 1}};
 
