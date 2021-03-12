@@ -25,7 +25,7 @@ using namespace yas::proc;
 - (void)test_make_track {
     auto track = proc::track::make_shared();
 
-    XCTAssertEqual(track->modules().size(), 0);
+    XCTAssertEqual(track->module_sets().size(), 0);
 }
 
 - (void)test_push_back_module {
@@ -37,12 +37,12 @@ using namespace yas::proc;
     track->push_back_module(std::move(module1), {0, 1});
     track->push_back_module(std::move(module2), {1, 1});
 
-    XCTAssertEqual(track->modules().size(), 2);
+    XCTAssertEqual(track->module_sets().size(), 2);
 
     auto const &const_track = track;
 
     std::size_t idx = 0;
-    for (auto const &pair : const_track->modules()) {
+    for (auto const &pair : const_track->module_sets()) {
         auto const &time_range = pair.first;
         auto const &module_vec = pair.second;
 
@@ -71,10 +71,10 @@ using namespace yas::proc;
     track->insert_module(module2, 0, {0, 1});
     track->insert_module(module3, 1, {0, 1});
 
-    XCTAssertEqual(track->modules().at({0, 1})->size(), 3);
-    XCTAssertEqual(track->modules().at({0, 1})->at(0), module2);
-    XCTAssertEqual(track->modules().at({0, 1})->at(1), module3);
-    XCTAssertEqual(track->modules().at({0, 1})->at(2), module1);
+    XCTAssertEqual(track->module_sets().at({0, 1})->size(), 3);
+    XCTAssertEqual(track->module_sets().at({0, 1})->at(0), module2);
+    XCTAssertEqual(track->module_sets().at({0, 1})->at(1), module3);
+    XCTAssertEqual(track->module_sets().at({0, 1})->at(2), module1);
 }
 
 - (void)test_remove_module {
@@ -86,13 +86,13 @@ using namespace yas::proc;
     track->push_back_module(module1, {0, 1});
     track->push_back_module(module2, {1, 1});
 
-    XCTAssertEqual(track->modules().size(), 2);
+    XCTAssertEqual(track->module_sets().size(), 2);
 
     track->erase_module(module1);
 
-    XCTAssertEqual(track->modules().size(), 1);
-    XCTAssertEqual(track->modules().begin()->second->size(), 1);
-    XCTAssertEqual(track->modules().begin()->second->at(0), module2);
+    XCTAssertEqual(track->module_sets().size(), 1);
+    XCTAssertEqual(track->module_sets().begin()->second->size(), 1);
+    XCTAssertEqual(track->module_sets().begin()->second->at(0), module2);
 }
 
 - (void)test_push_back_and_erase_modules_same_range {
@@ -103,27 +103,27 @@ using namespace yas::proc;
 
     track->push_back_module(module1, {0, 1});
 
-    XCTAssertEqual(track->modules().size(), 1);
-    XCTAssertEqual(track->modules().begin()->first, (proc::time::range{0, 1}));
-    XCTAssertEqual(track->modules().begin()->second->size(), 1);
-    XCTAssertEqual(track->modules().begin()->second->at(0), module1);
+    XCTAssertEqual(track->module_sets().size(), 1);
+    XCTAssertEqual(track->module_sets().begin()->first, (proc::time::range{0, 1}));
+    XCTAssertEqual(track->module_sets().begin()->second->size(), 1);
+    XCTAssertEqual(track->module_sets().begin()->second->at(0), module1);
 
     track->push_back_module(module2, {0, 1});
 
-    XCTAssertEqual(track->modules().size(), 1);
-    XCTAssertEqual(track->modules().begin()->second->size(), 2);
-    XCTAssertEqual(track->modules().begin()->second->at(0), module1);
-    XCTAssertEqual(track->modules().begin()->second->at(1), module2);
+    XCTAssertEqual(track->module_sets().size(), 1);
+    XCTAssertEqual(track->module_sets().begin()->second->size(), 2);
+    XCTAssertEqual(track->module_sets().begin()->second->at(0), module1);
+    XCTAssertEqual(track->module_sets().begin()->second->at(1), module2);
 
     track->erase_module(module1);
 
-    XCTAssertEqual(track->modules().size(), 1);
-    XCTAssertEqual(track->modules().begin()->second->size(), 1);
-    XCTAssertEqual(track->modules().begin()->second->at(0), module2);
+    XCTAssertEqual(track->module_sets().size(), 1);
+    XCTAssertEqual(track->module_sets().begin()->second->size(), 1);
+    XCTAssertEqual(track->module_sets().begin()->second->at(0), module2);
 
     track->erase_module(module2);
 
-    XCTAssertEqual(track->modules().size(), 0);
+    XCTAssertEqual(track->module_sets().size(), 0);
 }
 
 - (void)test_erase_modules_for_range {
@@ -137,13 +137,13 @@ using namespace yas::proc;
     track->push_back_module(module1b, {0, 1});
     track->push_back_module(module2, {1, 1});
 
-    XCTAssertEqual(track->modules().size(), 2);
+    XCTAssertEqual(track->module_sets().size(), 2);
 
     track->erase_modules_for_range({0, 1});
 
-    XCTAssertEqual(track->modules().size(), 1);
-    XCTAssertEqual(track->modules().count({0, 1}), 0);
-    XCTAssertEqual(track->modules().count({1, 1}), 1);
+    XCTAssertEqual(track->module_sets().size(), 1);
+    XCTAssertEqual(track->module_sets().count({0, 1}), 0);
+    XCTAssertEqual(track->module_sets().count({1, 1}), 1);
 }
 
 - (void)test_erase_module_with_range {
@@ -155,32 +155,37 @@ using namespace yas::proc;
     track->push_back_module(module1, {0, 1});
     track->push_back_module(module1b, {0, 1});
 
-    XCTAssertEqual(track->modules().size(), 1);
-    XCTAssertEqual(track->modules().at({0, 1})->size(), 2);
+    XCTAssertEqual(track->module_sets().size(), 1);
+    XCTAssertEqual(track->module_sets().at({0, 1})->size(), 2);
 
     track->erase_module(module1, {0, 1});
 
-    XCTAssertEqual(track->modules().size(), 1);
-    XCTAssertEqual(track->modules().at({0, 1})->size(), 1);
-    XCTAssertEqual(track->modules().at({0, 1})->at(0), module1b);
+    XCTAssertEqual(track->module_sets().size(), 1);
+    XCTAssertEqual(track->module_sets().at({0, 1})->size(), 1);
+    XCTAssertEqual(track->module_sets().at({0, 1})->at(0), module1b);
 }
 
 - (void)test_erase_module_at {
     auto track = proc::track::make_shared();
 
-    auto module1 = proc::module::make_shared([] { return proc::module::processors_t{}; });
-    auto module2 = proc::module::make_shared([] { return proc::module::processors_t{}; });
-    auto module3 = proc::module::make_shared([] { return proc::module::processors_t{}; });
+    auto const module1 = proc::module::make_shared([] { return proc::module::processors_t{}; });
+    auto const module2 = proc::module::make_shared([] { return proc::module::processors_t{}; });
+    auto const module3 = proc::module::make_shared([] { return proc::module::processors_t{}; });
 
     track->push_back_module(module1, {0, 1});
     track->push_back_module(module2, {0, 1});
     track->push_back_module(module3, {0, 1});
 
+    XCTAssertEqual(track->module_sets().at({0, 1})->size(), 3);
+    XCTAssertEqual(track->module_sets().at({0, 1})->at(0), module1);
+    XCTAssertEqual(track->module_sets().at({0, 1})->at(1), module2);
+    XCTAssertEqual(track->module_sets().at({0, 1})->at(2), module3);
+
     track->erase_module_at(1, {0, 1});
 
-    XCTAssertEqual(track->modules().at({0, 1})->size(), 2);
-    XCTAssertEqual(track->modules().at({0, 1})->at(0), module1);
-    XCTAssertEqual(track->modules().at({0, 1})->at(1), module3);
+    XCTAssertEqual(track->module_sets().at({0, 1})->size(), 2);
+    XCTAssertEqual(track->module_sets().at({0, 1})->at(0), module1);
+    XCTAssertEqual(track->module_sets().at({0, 1})->at(1), module3);
 }
 
 - (void)test_total_range {
@@ -221,8 +226,8 @@ using namespace yas::proc;
 
     auto copied_track = track->copy();
 
-    XCTAssertEqual(copied_track->modules().size(), 1);
-    XCTAssertEqual(copied_track->modules().count({0, 1}), 1);
+    XCTAssertEqual(copied_track->module_sets().size(), 1);
+    XCTAssertEqual(copied_track->module_sets().count({0, 1}), 1);
 
     proc::stream stream{sync_source{1, 1}};
 
@@ -235,54 +240,6 @@ using namespace yas::proc;
 
     XCTAssertEqual(called.size(), 2);
     XCTAssertEqual(called.at(1), 1);
-}
-
-- (void)test_copy_to_modules {
-    auto module1 = proc::module::make_shared([] { return proc::module::processors_t{}; });
-    auto module2 = proc::module::make_shared([] { return proc::module::processors_t{}; });
-    auto module3 = proc::module::make_shared([] { return proc::module::processors_t{}; });
-    auto module4 = proc::module::make_shared([] { return proc::module::processors_t{}; });
-
-    proc::track::modules_holder_map_t src_modules;
-    src_modules.emplace(proc::time::range{0, 1}, chaining::vector::holder<module_ptr>::make_shared({module1, module2}));
-    src_modules.emplace(proc::time::range{1, 1}, chaining::vector::holder<module_ptr>::make_shared({module3, module4}));
-
-    auto dst_modules = proc::copy_to_modules(src_modules);
-
-    XCTAssertEqual(src_modules.at(proc::time::range{0, 1})->size(), 2);
-    XCTAssertEqual(src_modules.at(proc::time::range{1, 1})->size(), 2);
-
-    XCTAssertEqual(dst_modules.size(), 2);
-    XCTAssertEqual(dst_modules.count(proc::time::range{0, 1}), 1);
-    XCTAssertEqual(dst_modules.at(proc::time::range{0, 1}).size(), 2);
-    XCTAssertEqual(dst_modules.count(proc::time::range{1, 1}), 1);
-    XCTAssertEqual(dst_modules.at(proc::time::range{1, 1}).size(), 2);
-}
-
-- (void)test_to_modules_holders {
-    auto module1 = proc::module::make_shared([] { return proc::module::processors_t{}; });
-    auto module2 = proc::module::make_shared([] { return proc::module::processors_t{}; });
-    auto module3 = proc::module::make_shared([] { return proc::module::processors_t{}; });
-    auto module4 = proc::module::make_shared([] { return proc::module::processors_t{}; });
-
-    proc::track::modules_map_t src_modules;
-    src_modules.emplace(proc::time::range{0, 1}, module_vector_t{module1, module2});
-    src_modules.emplace(proc::time::range{1, 1}, module_vector_t{module3, module4});
-
-    auto dst_modules = proc::to_modules_holders(std::move(src_modules));
-
-    XCTAssertEqual(src_modules.at(proc::time::range{0, 1}).size(), 0);
-    XCTAssertEqual(src_modules.at(proc::time::range{1, 1}).size(), 0);
-
-    XCTAssertEqual(dst_modules.size(), 2);
-    XCTAssertEqual(dst_modules.count(proc::time::range{0, 1}), 1);
-    XCTAssertEqual(dst_modules.at(proc::time::range{0, 1})->size(), 2);
-    XCTAssertEqual(dst_modules.at(proc::time::range{0, 1})->at(0), module1);
-    XCTAssertEqual(dst_modules.at(proc::time::range{0, 1})->at(1), module2);
-    XCTAssertEqual(dst_modules.count(proc::time::range{1, 1}), 1);
-    XCTAssertEqual(dst_modules.at(proc::time::range{1, 1})->size(), 2);
-    XCTAssertEqual(dst_modules.at(proc::time::range{1, 1})->at(0), module3);
-    XCTAssertEqual(dst_modules.at(proc::time::range{1, 1})->at(1), module4);
 }
 
 @end

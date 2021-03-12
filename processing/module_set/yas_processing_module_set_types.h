@@ -1,0 +1,30 @@
+//
+//  yas_processing_module_set_types.h
+//
+
+#pragma once
+
+#include <observing/yas_observing_umbrella.h>
+#include <processing/yas_processing_ptr.h>
+
+#include <vector>
+
+namespace yas::proc {
+using module_vector_t = std::vector<module_ptr>;
+using module_vector_holder_t = observing::vector::holder<module_ptr>;
+using module_vector_holder_ptr_t = observing::vector::holder_ptr<module_ptr>;
+
+enum class module_set_event_type {
+    any,
+    replaced,
+    inserted,
+    erased,
+};
+
+struct module_set_event {
+    module_set_event_type type;
+    std::vector<module_ptr> const &modules;
+    module_ptr const *module = nullptr;
+    std::optional<std::size_t> index = std::nullopt;
+};
+}  // namespace yas::proc

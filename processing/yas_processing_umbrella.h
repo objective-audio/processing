@@ -12,6 +12,7 @@
 #include <processing/yas_processing_math1_modules.h>
 #include <processing/yas_processing_math2_modules.h>
 #include <processing/yas_processing_module.h>
+#include <processing/yas_processing_module_set.h>
 #include <processing/yas_processing_number_event.h>
 #include <processing/yas_processing_number_to_signal_module.h>
 #include <processing/yas_processing_receive_number_processor.h>

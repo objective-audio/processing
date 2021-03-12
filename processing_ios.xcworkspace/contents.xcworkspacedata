@@ -8,12 +8,12 @@
       location = "group:processing_ios/processing_ios.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:submodules/chaining/chaining_ios/chaining_ios.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "group:submodules/cpp_utils/cpp_utils_ios/cpp_utils_ios.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:submodules/objc_utils/objc_utils_ios/objc_utils_ios.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:submodules/observing/observing_ios/observing_ios.xcodeproj">
    </FileRef>
 </Workspace>
