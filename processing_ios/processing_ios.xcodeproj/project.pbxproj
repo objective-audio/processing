@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		B65AF74221E38B0600C65DB5 /* processing.h in Headers */ = {isa = PBXBuildFile; fileRef = B65AF74021E38B0600C65DB5 /* processing.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B65AF74A21E38B2100C65DB5 /* chaining.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B65AF74921E38B2100C65DB5 /* chaining.framework */; };
 		B65AF74C21E38B2100C65DB5 /* cpp_utils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B65AF74B21E38B2100C65DB5 /* cpp_utils.framework */; };
 		B65AF74E21E38B2100C65DB5 /* objc_utils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B65AF74D21E38B2100C65DB5 /* objc_utils.framework */; };
 		B67E644B25FBAB010031C189 /* yas_processing_track.h in Headers */ = {isa = PBXBuildFile; fileRef = B67E63ED25FBAB010031C189 /* yas_processing_track.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -97,7 +96,6 @@
 		B65AF74021E38B0600C65DB5 /* processing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = processing.h; sourceTree = "<group>"; };
 		B65AF74121E38B0600C65DB5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B65AF74721E38B2100C65DB5 /* audio.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = audio.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B65AF74921E38B2100C65DB5 /* chaining.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = chaining.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B65AF74B21E38B2100C65DB5 /* cpp_utils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = cpp_utils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B65AF74D21E38B2100C65DB5 /* objc_utils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = objc_utils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B67E63ED25FBAB010031C189 /* yas_processing_track.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yas_processing_track.h; sourceTree = "<group>"; };
@@ -186,7 +184,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B65AF74A21E38B2100C65DB5 /* chaining.framework in Frameworks */,
 				B65AF74C21E38B2100C65DB5 /* cpp_utils.framework in Frameworks */,
 				B6A989EA25F3B425007BD61F /* observing.framework in Frameworks */,
 				B65AF74E21E38B2100C65DB5 /* objc_utils.framework in Frameworks */,
@@ -228,7 +225,6 @@
 			children = (
 				B6A989E925F3B425007BD61F /* observing.framework */,
 				B65AF74721E38B2100C65DB5 /* audio.framework */,
-				B65AF74921E38B2100C65DB5 /* chaining.framework */,
 				B65AF74B21E38B2100C65DB5 /* cpp_utils.framework */,
 				B65AF74D21E38B2100C65DB5 /* objc_utils.framework */,
 			);
