@@ -16,7 +16,4 @@
    <FileRef
       location = "group:submodules/observing/observing_ios/observing_ios.xcodeproj">
    </FileRef>
-   <FileRef
-      location = "group:submodules/observing/observing_ios/observing_ios.xcodeproj">
-   </FileRef>
 </Workspace>
