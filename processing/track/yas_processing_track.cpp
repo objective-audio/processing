@@ -142,7 +142,7 @@ void track::_observe_module_set(time::range const &range) {
             this->_push_track_event({.type = track_event_type::relayed,
                                      .module_sets = this->_module_sets_holder->elements(),
                                      .module_set = &this->_module_sets_holder->at(range),
-                                     .range = &range,
+                                     .range = range,
                                      .module_set_event = &set_event});
         },
         false);

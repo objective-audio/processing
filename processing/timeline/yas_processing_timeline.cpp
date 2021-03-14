@@ -143,7 +143,7 @@ void timeline::_observe_track(track_index_t const &track_idx) {
             this->_push_timeline_event({.type = timeline_event_type::relayed,
                                         .tracks = this->_tracks_holder->elements(),
                                         .track = &this->_tracks_holder->at(track_idx),
-                                        .index = &track_idx,
+                                        .index = track_idx,
                                         .track_event = &trk_event});
         },
         false);

@@ -25,7 +25,7 @@ struct track_event {
     track_event_type type;
     track_module_set_map_t const &module_sets;
     module_set_ptr const *module_set = nullptr;
-    time::range const *range = nullptr;
+    std::optional<time::range> range = std::nullopt;
     module_set_event const *module_set_event = nullptr;
 };
 }  // namespace yas::proc

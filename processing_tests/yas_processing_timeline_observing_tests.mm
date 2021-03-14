@@ -38,6 +38,8 @@ using namespace yas::proc;
     auto const &tracks = events.at(0).tracks;
     XCTAssertEqual(tracks.at(0), track0);
     XCTAssertEqual(tracks.at(1), track1);
+    XCTAssertEqual(events.at(0).index, std::nullopt);
+    XCTAssertEqual(events.at(0).track, nullptr);
 }
 
 - (void)test_inserted {

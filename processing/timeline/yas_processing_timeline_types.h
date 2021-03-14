@@ -26,7 +26,7 @@ struct timeline_event {
     timeline_event_type type;
     timeline_track_map_t const &tracks;
     track_ptr const *track = nullptr;
-    track_index_t const *index = nullptr;
+    std::optional<track_index_t> index = std::nullopt;
     track_event const *track_event = nullptr;
 };
 }  // namespace yas::proc
