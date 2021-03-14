@@ -37,6 +37,9 @@ using namespace yas::proc;
     auto const &modules1_1 = elements.at(time::range{1, 1});
     XCTAssertEqual(modules1_1->size(), 1);
     XCTAssertEqual(modules1_1->at(0), module2);
+
+    XCTAssertEqual(events.at(0).range, std::nullopt);
+    XCTAssertEqual(events.at(0).module_set, nullptr);
 }
 
 - (void)test_inserted {
