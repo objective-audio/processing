@@ -27,6 +27,8 @@ struct event {
     virtual bool is_equal(event_ptr const &) const;
 
     event_type type() const;
+    number_event_ptr const &number() const;
+    signal_event_ptr const &signal() const;
 
    protected:
     event();

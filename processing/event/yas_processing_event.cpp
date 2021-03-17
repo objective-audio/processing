@@ -30,3 +30,11 @@ event_type event::type() const {
         throw std::runtime_error("event not found.");
     }
 }
+
+number_event_ptr const &event::number() const {
+    return this->_number;
+}
+
+signal_event_ptr const &event::signal() const {
+    return this->_signal;
+}
