@@ -56,12 +56,12 @@ using namespace yas::proc;
     auto iterator = channel.events().cbegin();
     XCTAssertEqual(iterator->first.get<time::range>().frame, 0);
     XCTAssertEqual(iterator->first.get<time::range>().length, 1);
-    XCTAssertEqual(std::dynamic_pointer_cast<signal_event>(iterator->second)->data<int16_t>()[0], 100);
+    XCTAssertEqual(iterator->second.get<signal_event>()->data<int16_t>()[0], 100);
 
     ++iterator;
     XCTAssertEqual(iterator->first.get<time::range>().frame, 2);
     XCTAssertEqual(iterator->first.get<time::range>().length, 1);
-    XCTAssertEqual(std::dynamic_pointer_cast<signal_event>(iterator->second)->data<int16_t>()[0], 102);
+    XCTAssertEqual(iterator->second.get<signal_event>()->data<int16_t>()[0], 102);
 }
 
 - (void)test_type {
@@ -80,9 +80,9 @@ using namespace yas::proc;
     XCTAssertEqual(channel.events().size(), 2);
 
     auto iterator = channel.events().cbegin();
-    XCTAssertTrue(std::dynamic_pointer_cast<signal_event>(iterator->second)->sample_type() != typeid(int16_t));
+    XCTAssertTrue(iterator->second.get<signal_event>()->sample_type() != typeid(int16_t));
     ++iterator;
-    XCTAssertTrue(std::dynamic_pointer_cast<signal_event>(iterator->second)->sample_type() != typeid(int16_t));
+    XCTAssertTrue(iterator->second.get<signal_event>()->sample_type() != typeid(int16_t));
 }
 
 - (void)test_key {

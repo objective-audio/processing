@@ -60,7 +60,7 @@
 
     XCTAssertEqual(events.size(), 1);
 
-    auto const signal = std::dynamic_pointer_cast<signal_event>(events.cbegin()->second);
+    auto const signal = events.cbegin()->second.get<signal_event>();
     auto const &vec = signal->vector<boolean>();
 
     XCTAssertEqual(vec.size(), process_length);
@@ -103,7 +103,7 @@
 
     XCTAssertEqual(events.size(), 1);
 
-    auto const signal = std::dynamic_pointer_cast<signal_event>(events.cbegin()->second);
+    auto const signal = events.cbegin()->second.get<signal_event>();
     auto const &vec = signal->vector<boolean>();
 
     XCTAssertEqual(vec.size(), process_length);
@@ -142,7 +142,7 @@
 
     XCTAssertEqual(events.size(), 1);
 
-    auto const signal = std::dynamic_pointer_cast<signal_event>(events.cbegin()->second);
+    auto const signal = events.cbegin()->second.get<signal_event>();
     auto const &vec = signal->vector<boolean>();
 
     XCTAssertEqual(vec.size(), process_length);
@@ -186,7 +186,7 @@
 
     XCTAssertEqual(events.size(), 1);
 
-    auto const signal = std::dynamic_pointer_cast<signal_event>(events.cbegin()->second);
+    auto const signal = events.cbegin()->second.get<signal_event>();
     auto const &vec = signal->vector<boolean>();
 
     XCTAssertEqual(vec.size(), process_length);
@@ -230,7 +230,7 @@
 
     XCTAssertEqual(events.size(), 1);
 
-    auto const signal = std::dynamic_pointer_cast<signal_event>(events.cbegin()->second);
+    auto const signal = events.cbegin()->second.get<signal_event>();
     auto const &vec = signal->vector<boolean>();
 
     XCTAssertEqual(vec.size(), process_length);
@@ -274,7 +274,7 @@
 
     XCTAssertEqual(events.size(), 1);
 
-    auto const signal = std::dynamic_pointer_cast<signal_event>(events.cbegin()->second);
+    auto const signal = events.cbegin()->second.get<signal_event>();
     auto const &vec = signal->vector<boolean>();
 
     XCTAssertEqual(vec.size(), process_length);

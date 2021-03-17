@@ -44,7 +44,7 @@ using namespace yas::proc;
 
 - (void)test_copy {
     auto src_event = number_event::make_shared(uint32_t(11));
-    auto copied_event = std::dynamic_pointer_cast<number_event>(src_event->copy());
+    auto copied_event = src_event->copy();
 
     XCTAssertTrue(src_event->is_equal(copied_event));
     XCTAssertEqual(copied_event->get<uint32_t>(), 11);

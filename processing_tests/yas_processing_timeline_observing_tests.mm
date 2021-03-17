@@ -48,7 +48,7 @@ using namespace yas::proc;
     auto track = track::make_shared();
 
     std::vector<timeline_event> events;
-    std::vector<std::pair<track_index_t, proc::track_ptr>> inserted;
+    std::vector<std::pair<track_index_t, track_ptr>> inserted;
 
     auto canceller = timeline->observe(
         [&events, &inserted](auto const &event) {
@@ -75,7 +75,7 @@ using namespace yas::proc;
     timeline->insert_track(0, track);
 
     std::vector<timeline_event> events;
-    std::vector<std::pair<track_index_t, proc::track_ptr>> erased;
+    std::vector<std::pair<track_index_t, track_ptr>> erased;
 
     auto canceller = timeline->observe(
         [&events, &erased](auto const &event) {

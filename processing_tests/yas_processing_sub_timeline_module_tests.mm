@@ -83,7 +83,7 @@ using namespace yas::proc;
         XCTAssertEqual(channel.events().size(), 1);
         XCTAssertEqual(channel.events().cbegin()->first, make_range_time(0, 4));
 
-        auto const signal = std::dynamic_pointer_cast<signal_event>(channel.events().cbegin()->second);
+        auto const signal = channel.events().cbegin()->second.get<signal_event>();
         auto const &vec = signal->vector<int8_t>();
         XCTAssertEqual(vec.size(), 4);
         for (auto const &value : vec) {
@@ -96,7 +96,7 @@ using namespace yas::proc;
         XCTAssertEqual(channel.events().size(), 1);
         XCTAssertEqual(channel.events().cbegin()->first, make_range_time(0, 4));
 
-        auto const signal = std::dynamic_pointer_cast<signal_event>(channel.events().cbegin()->second);
+        auto const signal = channel.events().cbegin()->second.get<signal_event>();
         auto const &vec = signal->vector<int8_t>();
         XCTAssertEqual(vec.size(), 4);
         for (auto const &value : vec) {
@@ -109,7 +109,7 @@ using namespace yas::proc;
         XCTAssertEqual(channel.events().size(), 1);
         XCTAssertEqual(channel.events().cbegin()->first, make_range_time(1, 2));
 
-        auto const signal = std::dynamic_pointer_cast<signal_event>(channel.events().cbegin()->second);
+        auto const signal = channel.events().cbegin()->second.get<signal_event>();
         auto const &vec = signal->vector<int8_t>();
         XCTAssertEqual(vec.size(), 2);
         for (auto const &value : vec) {
@@ -161,7 +161,7 @@ using namespace yas::proc;
         XCTAssertEqual(channel.events().size(), 1);
         XCTAssertEqual(channel.events().cbegin()->first, make_range_time(0, 4));
 
-        auto const signal = std::dynamic_pointer_cast<signal_event>(channel.events().cbegin()->second);
+        auto const signal = channel.events().cbegin()->second.get<signal_event>();
         auto const &vec = signal->vector<int8_t>();
         XCTAssertEqual(vec.size(), 4);
         XCTAssertEqual(vec[0], 1);
@@ -227,7 +227,7 @@ using namespace yas::proc;
         XCTAssertEqual(channel.events().size(), 1);
         XCTAssertEqual(channel.events().cbegin()->first, make_range_time(0, 4));
 
-        auto const signal = std::dynamic_pointer_cast<signal_event>(channel.events().cbegin()->second);
+        auto const signal = channel.events().cbegin()->second.get<signal_event>();
         auto const &vec = signal->vector<int8_t>();
         XCTAssertEqual(vec.size(), 4);
         for (auto const &value : vec) {
@@ -240,7 +240,7 @@ using namespace yas::proc;
         XCTAssertEqual(channel.events().size(), 1);
         XCTAssertEqual(channel.events().cbegin()->first, make_range_time(0, 4));
 
-        auto const signal = std::dynamic_pointer_cast<signal_event>(channel.events().cbegin()->second);
+        auto const signal = channel.events().cbegin()->second.get<signal_event>();
         auto const &vec = signal->vector<int8_t>();
         XCTAssertEqual(vec.size(), 4);
         for (auto const &value : vec) {
@@ -253,7 +253,7 @@ using namespace yas::proc;
         XCTAssertEqual(channel.events().size(), 1);
         XCTAssertEqual(channel.events().cbegin()->first, make_range_time(1, 2));
 
-        auto const signal = std::dynamic_pointer_cast<signal_event>(channel.events().cbegin()->second);
+        auto const signal = channel.events().cbegin()->second.get<signal_event>();
         auto const &vec = signal->vector<int8_t>();
         XCTAssertEqual(vec.size(), 2);
         for (auto const &value : vec) {
@@ -346,7 +346,7 @@ using namespace yas::proc;
         auto const &channel = stream.channel(20);
         XCTAssertEqual(channel.events().size(), 1);
         XCTAssertEqual(channel.events().cbegin()->first, make_frame_time(1));
-        XCTAssertEqual(std::dynamic_pointer_cast<number_event>(channel.events().cbegin()->second)->get<int8_t>(), 15);
+        XCTAssertEqual(channel.events().cbegin()->second.get<number_event>()->get<int8_t>(), 15);
     }
 }
 

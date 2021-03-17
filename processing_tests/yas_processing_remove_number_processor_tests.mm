@@ -26,12 +26,12 @@ using namespace yas::proc;
     stream stream{sync_source{1, 1}};
 
     auto &channel0 = stream.add_channel(0);
-    channel0.insert_event(make_frame_time(0), proc::number_event::make_shared(int8_t(0)));
-    channel0.insert_event(make_frame_time(0), proc::number_event::make_shared(float(1.0f)));
-    channel0.insert_event(make_frame_time(10), proc::number_event::make_shared(int8_t(10)));
+    channel0.insert_event(make_frame_time(0), number_event::make_shared(int8_t(0)));
+    channel0.insert_event(make_frame_time(0), number_event::make_shared(float(1.0f)));
+    channel0.insert_event(make_frame_time(10), number_event::make_shared(int8_t(10)));
 
     auto &channel1 = stream.add_channel(1);
-    channel1.insert_event(make_frame_time(0), proc::number_event::make_shared(int8_t(0)));
+    channel1.insert_event(make_frame_time(0), number_event::make_shared(int8_t(0)));
 
     auto module = module::make_shared([] { return module::processors_t{make_remove_number_processor<int8_t>({0})}; });
 

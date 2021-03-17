@@ -33,26 +33,26 @@ using namespace yas::proc;
 
     std::vector<called_type> called;
 
-    auto const module1 = proc::module::make_shared([&called] {
+    auto const module1 = module::make_shared([&called] {
         called.emplace_back(called_type::one);
-        return proc::module::processors_t{};
+        return module::processors_t{};
     });
-    auto const module2 = proc::module::make_shared([&called] {
+    auto const module2 = module::make_shared([&called] {
         called.emplace_back(called_type::two);
-        return proc::module::processors_t{};
+        return module::processors_t{};
     });
-    auto const module3 = proc::module::make_shared([&called] {
+    auto const module3 = module::make_shared([&called] {
         called.emplace_back(called_type::three);
-        return proc::module::processors_t{};
+        return module::processors_t{};
     });
-    auto const module4 = proc::module::make_shared([&called] {
+    auto const module4 = module::make_shared([&called] {
         called.emplace_back(called_type::four);
-        return proc::module::processors_t{};
+        return module::processors_t{};
     });
 
     track_module_set_map_t src_modules;
-    src_modules.emplace(proc::time::range{0, 1}, module_set::make_shared({module1, module2}));
-    src_modules.emplace(proc::time::range{1, 1}, module_set::make_shared({module3, module4}));
+    src_modules.emplace(time::range{0, 1}, module_set::make_shared({module1, module2}));
+    src_modules.emplace(time::range{1, 1}, module_set::make_shared({module3, module4}));
 
     XCTAssertEqual(called.size(), 4);
     XCTAssertEqual(called.at(0), called_type::one);
@@ -69,10 +69,10 @@ using namespace yas::proc;
     XCTAssertEqual(called.at(7), called_type::four);
 
     XCTAssertEqual(dst_modules.size(), 2);
-    XCTAssertEqual(dst_modules.count(proc::time::range{0, 1}), 1);
-    XCTAssertEqual(dst_modules.at(proc::time::range{0, 1})->size(), 2);
-    XCTAssertEqual(dst_modules.count(proc::time::range{1, 1}), 1);
-    XCTAssertEqual(dst_modules.at(proc::time::range{1, 1})->size(), 2);
+    XCTAssertEqual(dst_modules.count(time::range{0, 1}), 1);
+    XCTAssertEqual(dst_modules.at(time::range{0, 1})->size(), 2);
+    XCTAssertEqual(dst_modules.count(time::range{1, 1}), 1);
+    XCTAssertEqual(dst_modules.at(time::range{1, 1})->size(), 2);
 }
 
 @end

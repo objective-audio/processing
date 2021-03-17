@@ -55,7 +55,7 @@ using namespace yas::proc;
         }
     };
 
-    auto module = proc::module::make_shared([handler = std::move(handler)] {
+    auto module = module::make_shared([handler = std::move(handler)] {
         return module::processors_t{proc::make_send_signal_processor<int64_t>(std::move(handler))};
     });
     module->connect_output(out_co_idx, ch_idx);
@@ -75,9 +75,7 @@ using namespace yas::proc;
         XCTAssertEqual(called_slice_length, 2);
 
         XCTAssertTrue(stream.has_channel(ch_idx));
-        auto const &vec =
-            std::dynamic_pointer_cast<proc::signal_event>(stream.channel(ch_idx).events().cbegin()->second)
-                ->vector<int64_t>();
+        auto const &vec = stream.channel(ch_idx).events().cbegin()->second.get<signal_event>()->vector<int64_t>();
         XCTAssertEqual(vec.size(), 2);
         XCTAssertEqual(vec.at(0), 0);
         XCTAssertEqual(vec.at(1), 1);
@@ -98,9 +96,7 @@ using namespace yas::proc;
         XCTAssertEqual(called_slice_length, 1);
 
         XCTAssertTrue(stream.has_channel(ch_idx));
-        auto const &vec =
-            std::dynamic_pointer_cast<proc::signal_event>(stream.channel(ch_idx).events().cbegin()->second)
-                ->vector<int64_t>();
+        auto const &vec = stream.channel(ch_idx).events().cbegin()->second.get<signal_event>()->vector<int64_t>();
         XCTAssertEqual(vec.size(), 1);
         XCTAssertEqual(vec.at(0), 1);
     }
@@ -120,9 +116,7 @@ using namespace yas::proc;
         XCTAssertEqual(called_slice_length, 1);
 
         XCTAssertTrue(stream.has_channel(ch_idx));
-        auto const &vec =
-            std::dynamic_pointer_cast<proc::signal_event>(stream.channel(ch_idx).events().cbegin()->second)
-                ->vector<int64_t>();
+        auto const &vec = stream.channel(ch_idx).events().cbegin()->second.get<signal_event>()->vector<int64_t>();
         XCTAssertEqual(vec.size(), 1);
         XCTAssertEqual(vec.at(0), 0);
     }
@@ -181,8 +175,8 @@ using namespace yas::proc;
 
     auto processor = make_receive_signal_processor<int64_t>(std::move(handler));
 
-    auto module = proc::module::make_shared(
-        [processor = std::move(processor)] { return module::processors_t{std::move(processor)}; });
+    auto module =
+        module::make_shared([processor = std::move(processor)] { return module::processors_t{std::move(processor)}; });
     module->connect_input(in_co_idx, ch_idx);
 
     {
@@ -279,8 +273,8 @@ using namespace yas::proc;
         }
     };
 
-    auto module = proc::module::make_shared(
-        [receive_handler = std::move(receive_handler), send_handler = std::move(send_handler)] {
+    auto module =
+        module::make_shared([receive_handler = std::move(receive_handler), send_handler = std::move(send_handler)] {
             auto receive_processor = make_receive_signal_processor<int16_t>(std::move(receive_handler));
             auto send_processor = proc::make_send_signal_processor<int16_t>(std::move(send_handler));
             return module::processors_t{{std::move(receive_processor), std::move(send_processor)}};
@@ -293,8 +287,7 @@ using namespace yas::proc;
     XCTAssertTrue(stream.has_channel(send_ch_idx));
 
     auto const &send_channel = stream.channel(send_ch_idx);
-    auto const &send_vec =
-        std::dynamic_pointer_cast<proc::signal_event>(send_channel.events().cbegin()->second)->vector<int16_t>();
+    auto const &send_vec = send_channel.events().cbegin()->second.get<signal_event>()->vector<int16_t>();
 
     XCTAssertEqual(send_vec.size(), 2);
     XCTAssertEqual(send_vec[0], 2);
@@ -303,8 +296,7 @@ using namespace yas::proc;
     XCTAssertTrue(stream.has_channel(receive_ch_idx));
 
     auto const &receive_channel = stream.channel(receive_ch_idx);
-    auto const &receive_vec =
-        std::dynamic_pointer_cast<proc::signal_event>(receive_channel.events().cbegin()->second)->vector<int16_t>();
+    auto const &receive_vec = receive_channel.events().cbegin()->second.get<signal_event>()->vector<int16_t>();
 
     XCTAssertEqual(receive_vec.size(), 2);
     XCTAssertEqual(receive_vec[0], 1);

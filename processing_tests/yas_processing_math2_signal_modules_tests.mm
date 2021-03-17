@@ -52,7 +52,7 @@
 
     XCTAssertEqual(events.size(), 1);
 
-    auto const signal = std::dynamic_pointer_cast<signal_event>(events.cbegin()->second);
+    auto const signal = events.cbegin()->second.get<signal_event>();
     auto const &vec = signal->vector<int16_t>();
 
     XCTAssertEqual(vec.size(), process_length);
@@ -86,7 +86,7 @@
 
     XCTAssertEqual(events.size(), 1);
 
-    auto const &signal = std::dynamic_pointer_cast<signal_event>(events.cbegin()->second);
+    auto const &signal = events.cbegin()->second.get<signal_event>();
     auto const &vec = signal->vector<int16_t>();
 
     XCTAssertEqual(vec.size(), 5);
@@ -120,7 +120,7 @@
 
     XCTAssertEqual(events.size(), 1);
 
-    auto const &signal = std::dynamic_pointer_cast<signal_event>(events.cbegin()->second);
+    auto const &signal = events.cbegin()->second.get<signal_event>();
     auto const &vec = signal->vector<int16_t>();
 
     XCTAssertEqual(vec.size(), 5);
@@ -154,7 +154,7 @@
 
     XCTAssertEqual(events.size(), 1);
 
-    auto const &signal = std::dynamic_pointer_cast<signal_event>(events.cbegin()->second);
+    auto const &signal = events.cbegin()->second.get<signal_event>();
     auto const &vec = signal->vector<int16_t>();
 
     XCTAssertEqual(vec.size(), 5);
@@ -188,7 +188,7 @@
 
     XCTAssertEqual(events.size(), 1);
 
-    auto const &signal = std::dynamic_pointer_cast<signal_event>(events.cbegin()->second);
+    auto const &signal = events.cbegin()->second.get<signal_event>();
     auto const &vec = signal->vector<double>();
 
     XCTAssertEqual(vec.size(), process_length);
@@ -226,7 +226,7 @@
 
     XCTAssertEqual(events.size(), 1);
 
-    auto const &signal = std::dynamic_pointer_cast<signal_event>(events.cbegin()->second);
+    auto const &signal = events.cbegin()->second.get<signal_event>();
     auto const &vec = signal->vector<double>();
 
     XCTAssertEqual(vec.size(), 5);
@@ -260,7 +260,7 @@
 
     XCTAssertEqual(events.size(), 1);
 
-    auto const &signal = std::dynamic_pointer_cast<signal_event>(events.cbegin()->second);
+    auto const &signal = events.cbegin()->second.get<signal_event>();
     auto const &vec = signal->vector<double>();
 
     XCTAssertEqual(vec.size(), 5);

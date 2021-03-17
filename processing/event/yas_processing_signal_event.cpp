@@ -43,7 +43,7 @@ proc::signal_event::pair_t proc::signal_event::combined(time::range const &inser
     return this->_impl->combined(insert_range, event_pairs);
 }
 
-proc::event_ptr proc::signal_event::copy() const {
+proc::signal_event_ptr proc::signal_event::copy() const {
     return this->_impl->copy();
 }
 
@@ -52,4 +52,8 @@ bool proc::signal_event::validate_time(proc::time const &time) const {
         return time.get<time::range>().length == this->size();
     }
     return false;
+}
+
+bool proc::signal_event::is_equal(signal_event_ptr const &rhs) const {
+    return reinterpret_cast<uintptr_t>(this) == reinterpret_cast<uintptr_t>(rhs.get());
 }

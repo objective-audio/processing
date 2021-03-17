@@ -62,11 +62,11 @@ proc::module_ptr proc::make_module(timeline_ptr const &timeline, frame_index_t c
                     out_channel.erase_events(time_range);
 
                     for (auto &event_pair : sub_channel.events()) {
-                        auto const &time = event_pair.first;
-                        auto const &event = event_pair.second;
+                        time const &time = event_pair.first;
+                        event const &event = event_pair.second;
                         if (time.is_range_type()) {
-                            if (auto signal_event = std::dynamic_pointer_cast<proc::signal_event>(event)) {
-                                out_channel.combine_signal_event(time.get<time::range>().offset(offset), signal_event);
+                            if (auto const &signal = event.get<signal_event>()) {
+                                out_channel.combine_signal_event(time.get<time::range>().offset(offset), signal);
                             }
                         } else {
                             out_channel.insert_event(time.offset(offset), event);

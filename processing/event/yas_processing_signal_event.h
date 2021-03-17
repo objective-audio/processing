@@ -10,7 +10,7 @@
 #include <vector>
 
 namespace yas::proc {
-struct signal_event : event {
+struct signal_event final {
     using time_type = time::range;
     using pair_t = std::pair<time::range, signal_event_ptr>;
     using pair_vector_t = std::vector<pair_t>;
@@ -41,8 +41,9 @@ struct signal_event : event {
     pair_vector_t cropped(time::range const &) const;
     pair_t combined(time::range const &, pair_vector_t);
 
-    event_ptr copy() const override;
-    bool validate_time(time const &) const override;
+    signal_event_ptr copy() const;
+    bool validate_time(time const &) const;
+    bool is_equal(signal_event_ptr const &) const;
 
    private:
     class impl;

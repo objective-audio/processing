@@ -282,14 +282,14 @@
 		B62381E221E2DD4D00234CC2 /* event */ = {
 			isa = PBXGroup;
 			children = (
+				B62381DF21E2DD4D00234CC2 /* yas_processing_event.cpp */,
+				B62381DA21E2DD4D00234CC2 /* yas_processing_event.h */,
 				B62381E321E2DD4D00234CC2 /* yas_processing_number_event_private.h */,
 				B62381E721E2DD4D00234CC2 /* yas_processing_number_event.cpp */,
 				B62381E421E2DD4D00234CC2 /* yas_processing_number_event.h */,
 				B62381E821E2DD4D00234CC2 /* yas_processing_signal_event_private.h */,
 				B62381E621E2DD4D00234CC2 /* yas_processing_signal_event.cpp */,
 				B62381E521E2DD4D00234CC2 /* yas_processing_signal_event.h */,
-				B62381DF21E2DD4D00234CC2 /* yas_processing_event.cpp */,
-				B62381DA21E2DD4D00234CC2 /* yas_processing_event.h */,
 			);
 			path = event;
 			sourceTree = "<group>";
