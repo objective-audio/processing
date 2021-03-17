@@ -17,7 +17,6 @@ enum event_type {
 };
 
 struct event {
-    event();
     event(number_event_ptr const &);
     event(signal_event_ptr const &);
 
@@ -26,6 +25,9 @@ struct event {
     virtual bool validate_time(time const &) const = 0;
     virtual event_ptr copy() const = 0;
     virtual bool is_equal(event_ptr const &) const;
+
+   protected:
+    event();
 
    private:
     number_event_ptr _number = nullptr;
