@@ -16,19 +16,18 @@ enum event_type {
     signal,
 };
 
-struct event {
+struct event final {
     event(number_event_ptr const &);
     event(signal_event_ptr const &);
 
-    virtual ~event() = default;
-
-    virtual bool validate_time(time const &) const = 0;
-    virtual event_ptr copy() const = 0;
-    virtual bool is_equal(event_ptr const &) const;
+    bool validate_time(time const &) const;
+    event copy() const;
+    bool is_equal(event const &) const;
+    std::type_info const &sample_type() const;
 
     event_type type() const;
-    number_event_ptr const &number() const;
-    signal_event_ptr const &signal() const;
+    template <typename T>
+    std::shared_ptr<T> const &get() const;
 
    protected:
     event();
@@ -37,4 +36,6 @@ struct event {
     number_event_ptr _number = nullptr;
     signal_event_ptr _signal = nullptr;
 };
+
+std::type_info const &to_time_type(event_type const);
 }  // namespace yas::proc

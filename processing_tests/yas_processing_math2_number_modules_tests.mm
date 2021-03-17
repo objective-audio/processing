@@ -83,7 +83,7 @@ using namespace yas::proc;
     auto const &event_pair = *result_channel.events().cbegin();
 
     XCTAssertEqual(event_pair.first, make_frame_time(0));
-    XCTAssertTrue(event_pair.second->is_equal(number_event::make_shared(int8_t(11))));
+    XCTAssertTrue(event_pair.second.is_equal(number_event::make_shared(int8_t(11))));
 }
 
 - (void)test_plus_process {
@@ -115,17 +115,17 @@ using namespace yas::proc;
     auto event_iterator = result_channel.events().cbegin();
 
     XCTAssertEqual(event_iterator->first, make_frame_time(0));
-    XCTAssertTrue(event_iterator->second->is_equal(number_event::make_shared(int8_t(1))));
+    XCTAssertTrue(event_iterator->second.is_equal(number_event::make_shared(int8_t(1))));
 
     ++event_iterator;
 
     XCTAssertEqual(event_iterator->first, make_frame_time(1));
-    XCTAssertTrue(event_iterator->second->is_equal(number_event::make_shared(int8_t(11))));
+    XCTAssertTrue(event_iterator->second.is_equal(number_event::make_shared(int8_t(11))));
 
     ++event_iterator;
 
     XCTAssertEqual(event_iterator->first, make_frame_time(3));
-    XCTAssertTrue(event_iterator->second->is_equal(number_event::make_shared(int8_t(22))));
+    XCTAssertTrue(event_iterator->second.is_equal(number_event::make_shared(int8_t(22))));
 }
 
 - (void)test_minus_process {
@@ -155,7 +155,7 @@ using namespace yas::proc;
     auto const &event_pair = *result_channel.events().cbegin();
 
     XCTAssertEqual(event_pair.first, make_frame_time(0));
-    XCTAssertTrue(event_pair.second->is_equal(number_event::make_shared(int8_t(1))));
+    XCTAssertTrue(event_pair.second.is_equal(number_event::make_shared(int8_t(1))));
 }
 
 - (void)test_multiply_process {
@@ -185,7 +185,7 @@ using namespace yas::proc;
     auto const &event_pair = *result_channel.events().cbegin();
 
     XCTAssertEqual(event_pair.first, make_frame_time(0));
-    XCTAssertTrue(event_pair.second->is_equal(number_event::make_shared(int8_t(8))));
+    XCTAssertTrue(event_pair.second.is_equal(number_event::make_shared(int8_t(8))));
 }
 
 - (void)test_divide_process {
@@ -215,7 +215,7 @@ using namespace yas::proc;
     auto const &event_pair = *result_channel.events().cbegin();
 
     XCTAssertEqual(event_pair.first, make_frame_time(0));
-    XCTAssertTrue(event_pair.second->is_equal(number_event::make_shared(int8_t(2))));
+    XCTAssertTrue(event_pair.second.is_equal(number_event::make_shared(int8_t(2))));
 }
 
 - (void)test_atan2_process {
@@ -254,14 +254,14 @@ using namespace yas::proc;
 
     auto event_iterator = result_channel.events().cbegin();
 
-    XCTAssertTrue((event_iterator++)->second->is_equal(number_event::make_shared(std::atan2(0.0, 0.0))));
-    XCTAssertTrue((event_iterator++)->second->is_equal(number_event::make_shared(std::atan2(1.0, 0.0))));
-    XCTAssertTrue((event_iterator++)->second->is_equal(number_event::make_shared(std::atan2(1.0, 1.0))));
-    XCTAssertTrue((event_iterator++)->second->is_equal(number_event::make_shared(std::atan2(1.0, -1.0))));
-    XCTAssertTrue((event_iterator++)->second->is_equal(number_event::make_shared(std::atan2(-1.0, 1.0))));
-    XCTAssertTrue((event_iterator++)->second->is_equal(number_event::make_shared(std::atan2(-1.0, -1.0))));
-    XCTAssertTrue((event_iterator++)->second->is_equal(number_event::make_shared(std::atan2(-1.0, 1.0))));
-    XCTAssertTrue((event_iterator++)->second->is_equal(number_event::make_shared(std::atan2(0.0, -1.0))));
+    XCTAssertTrue((event_iterator++)->second.is_equal(number_event::make_shared(std::atan2(0.0, 0.0))));
+    XCTAssertTrue((event_iterator++)->second.is_equal(number_event::make_shared(std::atan2(1.0, 0.0))));
+    XCTAssertTrue((event_iterator++)->second.is_equal(number_event::make_shared(std::atan2(1.0, 1.0))));
+    XCTAssertTrue((event_iterator++)->second.is_equal(number_event::make_shared(std::atan2(1.0, -1.0))));
+    XCTAssertTrue((event_iterator++)->second.is_equal(number_event::make_shared(std::atan2(-1.0, 1.0))));
+    XCTAssertTrue((event_iterator++)->second.is_equal(number_event::make_shared(std::atan2(-1.0, -1.0))));
+    XCTAssertTrue((event_iterator++)->second.is_equal(number_event::make_shared(std::atan2(-1.0, 1.0))));
+    XCTAssertTrue((event_iterator++)->second.is_equal(number_event::make_shared(std::atan2(0.0, -1.0))));
 }
 
 - (void)test_pow_process {
@@ -300,10 +300,10 @@ using namespace yas::proc;
 
     auto event_iterator = result_channel.events().cbegin();
 
-    XCTAssertTrue((event_iterator++)->second->is_equal(number_event::make_shared(std::pow(0.0, 0.0))));
-    XCTAssertTrue((event_iterator++)->second->is_equal(number_event::make_shared(std::pow(2.0, 0.0))));
-    XCTAssertTrue((event_iterator++)->second->is_equal(number_event::make_shared(std::pow(2.0, 4.0))));
-    XCTAssertTrue((event_iterator++)->second->is_equal(number_event::make_shared(std::pow(0.0, 4.0))));
+    XCTAssertTrue((event_iterator++)->second.is_equal(number_event::make_shared(std::pow(0.0, 0.0))));
+    XCTAssertTrue((event_iterator++)->second.is_equal(number_event::make_shared(std::pow(2.0, 0.0))));
+    XCTAssertTrue((event_iterator++)->second.is_equal(number_event::make_shared(std::pow(2.0, 4.0))));
+    XCTAssertTrue((event_iterator++)->second.is_equal(number_event::make_shared(std::pow(0.0, 4.0))));
 }
 
 - (void)test_hypot_process {
@@ -342,10 +342,10 @@ using namespace yas::proc;
 
     auto event_iterator = result_channel.events().cbegin();
 
-    XCTAssertTrue((event_iterator++)->second->is_equal(number_event::make_shared(std::hypot(0.0, 0.0))));
-    XCTAssertTrue((event_iterator++)->second->is_equal(number_event::make_shared(std::hypot(1.0, 0.0))));
-    XCTAssertTrue((event_iterator++)->second->is_equal(number_event::make_shared(std::hypot(1.0, 3.0))));
-    XCTAssertTrue((event_iterator++)->second->is_equal(number_event::make_shared(std::hypot(0.0, 3.0))));
+    XCTAssertTrue((event_iterator++)->second.is_equal(number_event::make_shared(std::hypot(0.0, 0.0))));
+    XCTAssertTrue((event_iterator++)->second.is_equal(number_event::make_shared(std::hypot(1.0, 0.0))));
+    XCTAssertTrue((event_iterator++)->second.is_equal(number_event::make_shared(std::hypot(1.0, 3.0))));
+    XCTAssertTrue((event_iterator++)->second.is_equal(number_event::make_shared(std::hypot(0.0, 3.0))));
 }
 
 - (void)test_connect_input {

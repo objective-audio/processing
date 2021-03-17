@@ -27,8 +27,8 @@ proc::channel::events_map_t &proc::channel::events() {
     return this->_events;
 }
 
-void proc::channel::insert_event(time time, event_ptr event) {
-    if (!event->validate_time(time)) {
+void proc::channel::insert_event(time time, event event) {
+    if (!event.validate_time(time)) {
         throw "invalid time for event.";
     }
 
@@ -45,11 +45,11 @@ proc::signal_event::pair_t proc::channel::combine_signal_event(time::range const
                                                                signal_event_ptr const &signal) {
     auto const &sample_type = signal->sample_type();
 
-    auto predicate = [&insert_range, &sample_type](auto const &pair) {
+    auto predicate = [&insert_range, &sample_type](std::pair<time, event> const &pair) {
         time const &time = pair.first;
         if (time.is_range_type()) {
             if (time.get<time::range>().can_combine(insert_range)) {
-                if (auto const signal = std::dynamic_pointer_cast<signal_event>(pair.second)) {
+                if (auto const &signal = pair.second.get<signal_event>()) {
                     if (signal->sample_type() == sample_type) {
                         return true;
                     }
@@ -62,9 +62,9 @@ proc::signal_event::pair_t proc::channel::combine_signal_event(time::range const
     auto const filtered_events = filter(this->events(), predicate);
 
     if (filtered_events.size() > 0) {
-        auto vec = to_vector<signal_event::pair_t>(filtered_events, [](auto const &pair) {
+        auto vec = to_vector<signal_event::pair_t>(filtered_events, [](std::pair<time, event> const &pair) {
             time const &time = pair.first;
-            return std::make_pair(time.get<time::range>(), std::dynamic_pointer_cast<signal_event>(pair.second));
+            return std::make_pair(time.get<time::range>(), pair.second.get<signal_event>());
         });
         auto combined_pair = signal->combined(insert_range, vec);
         this->erase_event_if(predicate);
@@ -84,16 +84,16 @@ proc::channel::events_map_t proc::channel::copied_events(time::range const &copy
         auto const &event_time = event_pair.first;
         auto const &event = event_pair.second;
         if (event_time.is_any_type()) {
-            result.emplace(std::make_pair(event_time, event->copy()));
+            result.emplace(std::make_pair(event_time, event.copy()));
         } else if (event_time.is_frame_type()) {
             if (copy_range.is_contain(event_time.get<time::frame>())) {
-                result.emplace(std::make_pair(make_frame_time(event_time.get<time::frame>() + offset), event->copy()));
+                result.emplace(std::make_pair(make_frame_time(event_time.get<time::frame>() + offset), event.copy()));
             }
         } else if (event_time.is_range_type()) {
             auto const &event_range = event_time.get<time::range>();
             if (auto const overlap_range_opt = copy_range.intersected(event_range)) {
                 auto const &overlap_range = *overlap_range_opt;
-                auto const signal = std::dynamic_pointer_cast<signal_event>(event);
+                auto const signal = event.get<signal_event>();
                 auto copied_signal =
                     signal->copy_in_range(time::range{overlap_range.frame - event_range.frame, overlap_range.length});
                 result.emplace(std::make_pair(time{overlap_range.offset(offset)}, std::move(copied_signal)));
@@ -109,7 +109,7 @@ proc::channel::events_map_t proc::channel::copied_events(time::range const &copy
 void proc::channel::erase_events(time::range const &erase_range) {
     signal_event::pair_vector_t remained_signal;
 
-    erase_if(this->events(), [erase_range, &remained_signal](auto const &event_pair) {
+    erase_if(this->events(), [erase_range, &remained_signal](std::pair<time, event> const &event_pair) {
         time const &event_time = event_pair.first;
         if (event_time.is_any_type()) {
             return true;
@@ -120,7 +120,7 @@ void proc::channel::erase_events(time::range const &erase_range) {
         } else if (event_time.is_range_type()) {
             auto const &event_range = event_time.get<time::range>();
             if (auto overlapped_range = erase_range.intersected(event_range)) {
-                auto const signal = std::dynamic_pointer_cast<signal_event>(event_pair.second);
+                auto const &signal = event_pair.second.get<signal_event>();
                 auto const range = time::range{overlapped_range->frame - event_range.frame, overlapped_range->length};
                 signal_event::pair_vector_t cropped_signals = signal->cropped(range);
                 for (auto const &cropped_signal : cropped_signals) {

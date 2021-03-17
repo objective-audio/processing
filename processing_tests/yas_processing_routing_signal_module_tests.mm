@@ -67,7 +67,7 @@
     auto const &output_events = stream.channel(output_ch_idx).events();
     XCTAssertEqual(output_events.size(), 1);
 
-    auto const signal = std::dynamic_pointer_cast<proc::signal_event>(output_events.cbegin()->second);
+    auto const signal = output_events.cbegin()->second.get<signal_event>();
     auto const &vec = signal->vector<int8_t>();
 
     XCTAssertEqual(vec[0], 1);
@@ -93,7 +93,7 @@
     XCTAssertEqual(unprocessed_events.size(), 1);
 
     auto const unprocessed_time = unprocessed_events.cbegin()->first;
-    auto const unprocessed_signal = std::dynamic_pointer_cast<proc::signal_event>(unprocessed_events.cbegin()->second);
+    auto const unprocessed_signal = unprocessed_events.cbegin()->second.get<signal_event>();
     auto const &unprocessed_vec = unprocessed_signal->vector<int8_t>();
 
     XCTAssertEqual(unprocessed_time.get<time::range>(), time::range(0, 1));
@@ -103,7 +103,7 @@
     XCTAssertEqual(processed_events.size(), 1);
 
     auto const processed_time = processed_events.cbegin()->first;
-    auto const processed_signal = std::dynamic_pointer_cast<proc::signal_event>(processed_events.cbegin()->second);
+    auto const processed_signal = processed_events.cbegin()->second.get<signal_event>();
     auto const &processed_vec = processed_signal->vector<int8_t>();
 
     XCTAssertEqual(processed_time.get<time::range>(), time::range(1, 1));
@@ -128,7 +128,7 @@
     auto const &input_events = stream.channel(input_ch_idx).events();
     XCTAssertEqual(input_events.size(), 1);
 
-    auto const input_signal = std::dynamic_pointer_cast<proc::signal_event>(input_events.cbegin()->second);
+    auto const input_signal = input_events.cbegin()->second.get<signal_event>();
     auto const &input_vec = input_signal->vector<int8_t>();
 
     XCTAssertEqual(input_vec[0], 1);
@@ -137,7 +137,7 @@
     auto const &output_events = stream.channel(output_ch_idx).events();
     XCTAssertEqual(output_events.size(), 1);
 
-    auto const output_signal = std::dynamic_pointer_cast<proc::signal_event>(output_events.cbegin()->second);
+    auto const output_signal = output_events.cbegin()->second.get<signal_event>();
     auto const &output_vec = output_signal->vector<int8_t>();
 
     XCTAssertEqual(output_vec[0], 1);
@@ -163,7 +163,7 @@
     XCTAssertEqual(input_events.size(), 1);
 
     auto const input_time = input_events.cbegin()->first;
-    auto const input_signal = std::dynamic_pointer_cast<proc::signal_event>(input_events.cbegin()->second);
+    auto const input_signal = input_events.cbegin()->second.get<signal_event>();
     auto const &input_vec = input_signal->vector<int8_t>();
 
     XCTAssertEqual(input_time.get<time::range>(), time::range(0, process_length));
@@ -174,7 +174,7 @@
     XCTAssertEqual(output_events.size(), 1);
 
     auto const output_time = output_events.cbegin()->first;
-    auto const output_signal = std::dynamic_pointer_cast<proc::signal_event>(output_events.cbegin()->second);
+    auto const output_signal = output_events.cbegin()->second.get<signal_event>();
     auto const &output_vec = output_signal->vector<int8_t>();
 
     XCTAssertEqual(output_time.get<time::range>(), time::range(1, 1));

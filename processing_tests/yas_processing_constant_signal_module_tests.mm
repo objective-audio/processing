@@ -55,7 +55,7 @@ using namespace yas::proc;
 
     auto const &event_pair = *channel.events().cbegin();
     auto const &time = event_pair.first;
-    auto const signal = std::dynamic_pointer_cast<proc::signal_event>(event_pair.second);
+    auto const signal = event_pair.second.get<signal_event>();
 
     XCTAssertTrue(time.type() == typeid(proc::time::range));
 

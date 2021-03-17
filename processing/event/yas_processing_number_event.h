@@ -10,7 +10,7 @@
 #include <map>
 
 namespace yas::proc {
-struct number_event : event {
+struct number_event final {
     using time_type = time::frame;
 
     template <typename T>
@@ -22,9 +22,9 @@ struct number_event : event {
     template <typename T>
     T const &get() const;
 
-    event_ptr copy() const override;
-    bool validate_time(time const &) const override;
-    bool is_equal(event_ptr const &) const override;
+    number_event_ptr copy() const;
+    bool validate_time(time const &) const;
+    bool is_equal(number_event_ptr const &) const;
 
    private:
     class impl;

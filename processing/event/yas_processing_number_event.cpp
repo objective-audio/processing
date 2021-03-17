@@ -79,7 +79,7 @@ template uint16_t const &proc::number_event::get() const;
 template uint8_t const &proc::number_event::get() const;
 template boolean const &proc::number_event::get() const;
 
-proc::event_ptr proc::number_event::copy() const {
+proc::number_event_ptr proc::number_event::copy() const {
     return this->_impl->copy();
 }
 
@@ -87,9 +87,9 @@ bool proc::number_event::validate_time(time const &time) const {
     return time.is_frame_type();
 }
 
-bool proc::number_event::is_equal(event_ptr const &rhs) const {
-    if (auto number_rhs = std::dynamic_pointer_cast<number_event>(rhs)) {
-        return this->_impl->is_equal(number_rhs->_impl);
+bool proc::number_event::is_equal(number_event_ptr const &rhs) const {
+    if (rhs) {
+        return this->_impl->is_equal(rhs->_impl);
     }
     return false;
 }

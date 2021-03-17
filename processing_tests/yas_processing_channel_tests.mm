@@ -39,7 +39,7 @@ using namespace yas::proc;
     auto const pair = *channel.events().cbegin();
 
     XCTAssertEqual(pair.first, make_frame_time(10));
-    XCTAssertTrue(pair.second->is_equal(number_event::make_shared(int8_t(100))));
+    XCTAssertTrue(pair.second.is_equal(number_event::make_shared(int8_t(100))));
 }
 
 - (void)test_insert_event {
@@ -69,7 +69,7 @@ using namespace yas::proc;
         auto const &event = pair.second;
         if (idx == 0) {
             XCTAssertTrue((time == proc::time{8, 2}));
-            auto const signal = std::dynamic_pointer_cast<proc::signal_event>(event);
+            auto const signal = event.get<signal_event>();
             XCTAssertTrue(signal->sample_type() == typeid(float));
             auto const &vec = signal->vector<float>();
             XCTAssertEqual(vec.size(), 2);
@@ -77,7 +77,7 @@ using namespace yas::proc;
             XCTAssertEqual(vec[1], 4.0f);
         } else if (idx == 1) {
             XCTAssertTrue((time == proc::time{16, 4}));
-            auto const signal = std::dynamic_pointer_cast<proc::signal_event>(event);
+            auto const signal = event.get<signal_event>();
             XCTAssertTrue(signal->sample_type() == typeid(uint32_t));
             auto const &vec = signal->vector<uint32_t>();
             XCTAssertEqual(vec.size(), 4);
@@ -103,12 +103,12 @@ using namespace yas::proc;
     auto iterator = dst_channel.events().cbegin();
 
     XCTAssertEqual(iterator->first.get<time::frame>(), 0);
-    XCTAssertEqual(std::dynamic_pointer_cast<number_event>(iterator->second)->get<int8_t>(), 10);
+    XCTAssertEqual(iterator->second.get<number_event>()->get<int8_t>(), 10);
 
     ++iterator;
 
     XCTAssertEqual(iterator->first.get<time::frame>(), 1);
-    XCTAssertEqual(std::dynamic_pointer_cast<number_event>(iterator->second)->get<int8_t>(), 11);
+    XCTAssertEqual(iterator->second.get<number_event>()->get<int8_t>(), 11);
 }
 
 - (void)test_insert_same_time_range_signal_event {
@@ -129,10 +129,10 @@ using namespace yas::proc;
 - (void)test_const_signal_event {
     proc::channel channel;
 
-    auto signal_event = signal_event::make_shared<float>(1);
-    signal_event->vector<float>()[0] = 1.0f;
+    auto signal = signal_event::make_shared<float>(1);
+    signal->vector<float>()[0] = 1.0f;
 
-    channel.insert_event(proc::time{10, 1}, std::move(signal_event));
+    channel.insert_event(proc::time{10, 1}, std::move(signal));
 
     proc::channel const &const_channel = channel;
 
@@ -140,7 +140,7 @@ using namespace yas::proc;
 
     for (auto const &pair : const_channel.events()) {
         auto const &const_time = pair.first;
-        auto const &const_signal = std::dynamic_pointer_cast<proc::signal_event>(pair.second);
+        auto const &const_signal = pair.second.get<signal_event>();
 
         XCTAssertTrue((const_time == proc::time{10, 1}));
         XCTAssertEqual(const_signal->vector<float>()[0], 1.0f);
@@ -210,7 +210,7 @@ using namespace yas::proc;
     auto const &pair = *copied_events.cbegin();
 
     XCTAssertEqual(pair.first, make_frame_time(2));
-    XCTAssertTrue(pair.second->is_equal(number_event::make_shared(int8_t(2))));
+    XCTAssertTrue(pair.second.is_equal(number_event::make_shared(int8_t(2))));
 }
 
 - (void)test_copied_events_number_offset {
@@ -227,7 +227,7 @@ using namespace yas::proc;
     auto const &pair = *copied_events.cbegin();
 
     XCTAssertEqual(pair.first, make_frame_time(12));
-    XCTAssertTrue(pair.second->is_equal(number_event::make_shared(int8_t(2))));
+    XCTAssertTrue(pair.second.is_equal(number_event::make_shared(int8_t(2))));
 }
 
 - (void)test_copied_events_signal {
@@ -256,7 +256,7 @@ using namespace yas::proc;
     auto iterator = copied_events.cbegin();
 
     auto const &first_pair = *iterator;
-    auto const first_signal = std::dynamic_pointer_cast<signal_event>(first_pair.second);
+    auto const first_signal = first_pair.second.get<signal_event>();
     auto const &first_vec = first_signal->vector<int8_t>();
 
     XCTAssertEqual(first_pair.first, make_range_time(2, 1));
@@ -266,7 +266,7 @@ using namespace yas::proc;
     ++iterator;
 
     auto const &second_pair = *iterator;
-    auto const second_signal = std::dynamic_pointer_cast<signal_event>(second_pair.second);
+    auto const second_signal = second_pair.second.get<signal_event>();
     auto const &second_vec = second_signal->vector<int8_t>();
 
     XCTAssertEqual(second_pair.first, make_range_time(4, 2));
@@ -301,7 +301,7 @@ using namespace yas::proc;
     auto iterator = copied_events.cbegin();
 
     auto const &first_pair = *iterator;
-    auto const first_signal = std::dynamic_pointer_cast<signal_event>(first_pair.second);
+    auto const first_signal = first_pair.second.get<signal_event>();
     auto const &first_vec = first_signal->vector<int8_t>();
 
     XCTAssertEqual(first_pair.first, make_range_time(-8, 1));
@@ -311,7 +311,7 @@ using namespace yas::proc;
     ++iterator;
 
     auto const &second_pair = *iterator;
-    auto const second_signal = std::dynamic_pointer_cast<signal_event>(second_pair.second);
+    auto const second_signal = second_pair.second.get<signal_event>();
     auto const &second_vec = second_signal->vector<int8_t>();
 
     XCTAssertEqual(second_pair.first, make_range_time(-6, 2));
@@ -429,7 +429,7 @@ using namespace yas::proc;
     {
         XCTAssertEqual(iterator->first, make_range_time(0, 6));
 
-        auto const &combined_signal = std::dynamic_pointer_cast<signal_event>(iterator->second);
+        auto const &combined_signal = iterator->second.get<signal_event>();
         auto const &combined_vec = combined_signal->vector<int8_t>();
 
         XCTAssertEqual(combined_vec.size(), 6);
@@ -446,7 +446,7 @@ using namespace yas::proc;
     {
         XCTAssertEqual(iterator->first, make_range_time(8, 2));
 
-        auto const &remained_signal = std::dynamic_pointer_cast<signal_event>(iterator->second);
+        auto const &remained_signal = iterator->second.get<signal_event>();
         auto const &remained_vec = remained_signal->vector<int8_t>();
 
         XCTAssertEqual(remained_vec.size(), 2);
