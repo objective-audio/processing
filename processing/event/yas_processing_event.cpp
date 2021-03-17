@@ -7,7 +7,16 @@
 #include "yas_processing_time.h"
 
 using namespace yas;
+using namespace yas::proc;
 
-bool proc::event::is_equal(event_ptr const &rhs) const {
+event::event() = default;
+
+event::event(number_event_ptr const &number) : _number(number) {
+}
+
+event::event(signal_event_ptr const &signal) : _signal(signal) {
+}
+
+bool event::is_equal(event_ptr const &rhs) const {
     return reinterpret_cast<uintptr_t>(this) == reinterpret_cast<uintptr_t>(rhs.get());
 }
