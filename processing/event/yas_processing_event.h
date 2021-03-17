@@ -26,6 +26,8 @@ struct event {
     virtual event_ptr copy() const = 0;
     virtual bool is_equal(event_ptr const &) const;
 
+    event_type type() const;
+
    protected:
     event();
 
