@@ -82,7 +82,7 @@ using namespace yas::proc;
     auto const &channel = stream.channel(2);
     XCTAssertEqual(channel.events().size(), 1);
 
-    auto const filtered_events = channel.filtered_events<double, proc::signal_event>();
+    auto const filtered_events = channel.filtered_events<double, signal_event>();
     XCTAssertEqual(filtered_events.size(), 1);
 
     auto const &pair = *filtered_events.cbegin();

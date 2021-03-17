@@ -57,9 +57,9 @@ using namespace yas::proc;
     auto const &time = event_pair.first;
     auto const signal = event_pair.second.get<signal_event>();
 
-    XCTAssertTrue(time.type() == typeid(proc::time::range));
+    XCTAssertTrue(time.type() == typeid(time::range));
 
-    auto const &time_range = time.get<proc::time::range>();
+    auto const &time_range = time.get<time::range>();
 
     XCTAssertEqual(time_range.frame, 0);
     XCTAssertEqual(time_range.length, 2);

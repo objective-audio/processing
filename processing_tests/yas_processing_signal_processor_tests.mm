@@ -55,7 +55,7 @@ using namespace yas::proc;
         }
     };
 
-    auto module = proc::module::make_shared([handler = std::move(handler)] {
+    auto module = module::make_shared([handler = std::move(handler)] {
         return module::processors_t{proc::make_send_signal_processor<int64_t>(std::move(handler))};
     });
     module->connect_output(out_co_idx, ch_idx);
@@ -175,8 +175,8 @@ using namespace yas::proc;
 
     auto processor = make_receive_signal_processor<int64_t>(std::move(handler));
 
-    auto module = proc::module::make_shared(
-        [processor = std::move(processor)] { return module::processors_t{std::move(processor)}; });
+    auto module =
+        module::make_shared([processor = std::move(processor)] { return module::processors_t{std::move(processor)}; });
     module->connect_input(in_co_idx, ch_idx);
 
     {
@@ -273,8 +273,8 @@ using namespace yas::proc;
         }
     };
 
-    auto module = proc::module::make_shared(
-        [receive_handler = std::move(receive_handler), send_handler = std::move(send_handler)] {
+    auto module =
+        module::make_shared([receive_handler = std::move(receive_handler), send_handler = std::move(send_handler)] {
             auto receive_processor = make_receive_signal_processor<int16_t>(std::move(receive_handler));
             auto send_processor = proc::make_send_signal_processor<int16_t>(std::move(send_handler));
             return module::processors_t{{std::move(receive_processor), std::move(send_processor)}};

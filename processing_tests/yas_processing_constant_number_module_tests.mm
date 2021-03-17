@@ -57,9 +57,9 @@ using namespace yas::proc;
     auto const &time = event_pair.first;
     auto const number = event_pair.second.get<number_event>();
 
-    XCTAssertTrue(time.type() == typeid(proc::time::frame));
+    XCTAssertTrue(time.type() == typeid(time::frame));
 
-    auto const &frame = time.get<proc::time::frame>();
+    auto const &frame = time.get<time::frame>();
 
     XCTAssertEqual(frame, 3);
     XCTAssertEqual(number->get<int16_t>(), 55);

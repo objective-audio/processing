@@ -23,16 +23,16 @@ using namespace yas::proc;
 }
 
 - (void)test_make_track {
-    auto track = proc::track::make_shared();
+    auto track = track::make_shared();
 
     XCTAssertEqual(track->module_sets().size(), 0);
 }
 
 - (void)test_push_back_module {
-    auto track = proc::track::make_shared();
+    auto track = track::make_shared();
 
-    auto module1 = proc::module::make_shared([] { return proc::module::processors_t{}; });
-    auto module2 = proc::module::make_shared([] { return proc::module::processors_t{}; });
+    auto module1 = module::make_shared([] { return module::processors_t{}; });
+    auto module2 = module::make_shared([] { return module::processors_t{}; });
 
     track->push_back_module(std::move(module1), {0, 1});
     track->push_back_module(std::move(module2), {1, 1});
@@ -49,9 +49,9 @@ using namespace yas::proc;
         XCTAssertEqual(module_vec->size(), 1);
 
         if (idx == 0) {
-            XCTAssertTrue((time_range == proc::time::range{0, 1}));
+            XCTAssertTrue((time_range == time::range{0, 1}));
         } else if (idx == 1) {
-            XCTAssertTrue((time_range == proc::time::range{1, 1}));
+            XCTAssertTrue((time_range == time::range{1, 1}));
         } else {
             XCTFail();
         }
@@ -61,11 +61,11 @@ using namespace yas::proc;
 }
 
 - (void)test_insert_module {
-    auto track = proc::track::make_shared();
+    auto track = track::make_shared();
 
-    auto module1 = proc::module::make_shared([] { return proc::module::processors_t{}; });
-    auto module2 = proc::module::make_shared([] { return proc::module::processors_t{}; });
-    auto module3 = proc::module::make_shared([] { return proc::module::processors_t{}; });
+    auto module1 = module::make_shared([] { return module::processors_t{}; });
+    auto module2 = module::make_shared([] { return module::processors_t{}; });
+    auto module3 = module::make_shared([] { return module::processors_t{}; });
 
     track->insert_module(module1, 0, {0, 1});
     track->insert_module(module2, 0, {0, 1});
@@ -78,10 +78,10 @@ using namespace yas::proc;
 }
 
 - (void)test_remove_module {
-    auto track = proc::track::make_shared();
+    auto track = track::make_shared();
 
-    auto module1 = proc::module::make_shared([] { return proc::module::processors_t{}; });
-    auto module2 = proc::module::make_shared([] { return proc::module::processors_t{}; });
+    auto module1 = module::make_shared([] { return module::processors_t{}; });
+    auto module2 = module::make_shared([] { return module::processors_t{}; });
 
     track->push_back_module(module1, {0, 1});
     track->push_back_module(module2, {1, 1});
@@ -96,15 +96,15 @@ using namespace yas::proc;
 }
 
 - (void)test_push_back_and_erase_modules_same_range {
-    auto track = proc::track::make_shared();
+    auto track = track::make_shared();
 
-    auto module1 = proc::module::make_shared([] { return proc::module::processors_t{}; });
-    auto module2 = proc::module::make_shared([] { return proc::module::processors_t{}; });
+    auto module1 = module::make_shared([] { return module::processors_t{}; });
+    auto module2 = module::make_shared([] { return module::processors_t{}; });
 
     track->push_back_module(module1, {0, 1});
 
     XCTAssertEqual(track->module_sets().size(), 1);
-    XCTAssertEqual(track->module_sets().begin()->first, (proc::time::range{0, 1}));
+    XCTAssertEqual(track->module_sets().begin()->first, (time::range{0, 1}));
     XCTAssertEqual(track->module_sets().begin()->second->size(), 1);
     XCTAssertEqual(track->module_sets().begin()->second->at(0), module1);
 
@@ -127,11 +127,11 @@ using namespace yas::proc;
 }
 
 - (void)test_erase_modules_for_range {
-    auto track = proc::track::make_shared();
+    auto track = track::make_shared();
 
-    auto module1 = proc::module::make_shared([] { return proc::module::processors_t{}; });
-    auto module1b = proc::module::make_shared([] { return proc::module::processors_t{}; });
-    auto module2 = proc::module::make_shared([] { return proc::module::processors_t{}; });
+    auto module1 = module::make_shared([] { return module::processors_t{}; });
+    auto module1b = module::make_shared([] { return module::processors_t{}; });
+    auto module2 = module::make_shared([] { return module::processors_t{}; });
 
     track->push_back_module(module1, {0, 1});
     track->push_back_module(module1b, {0, 1});
@@ -147,10 +147,10 @@ using namespace yas::proc;
 }
 
 - (void)test_erase_module_with_range {
-    auto track = proc::track::make_shared();
+    auto track = track::make_shared();
 
-    auto module1 = proc::module::make_shared([] { return proc::module::processors_t{}; });
-    auto module1b = proc::module::make_shared([] { return proc::module::processors_t{}; });
+    auto module1 = module::make_shared([] { return module::processors_t{}; });
+    auto module1b = module::make_shared([] { return module::processors_t{}; });
 
     track->push_back_module(module1, {0, 1});
     track->push_back_module(module1b, {0, 1});
@@ -166,11 +166,11 @@ using namespace yas::proc;
 }
 
 - (void)test_erase_module_at {
-    auto track = proc::track::make_shared();
+    auto track = track::make_shared();
 
-    auto const module1 = proc::module::make_shared([] { return proc::module::processors_t{}; });
-    auto const module2 = proc::module::make_shared([] { return proc::module::processors_t{}; });
-    auto const module3 = proc::module::make_shared([] { return proc::module::processors_t{}; });
+    auto const module1 = module::make_shared([] { return module::processors_t{}; });
+    auto const module2 = module::make_shared([] { return module::processors_t{}; });
+    auto const module3 = module::make_shared([] { return module::processors_t{}; });
 
     track->push_back_module(module1, {0, 1});
     track->push_back_module(module2, {0, 1});
@@ -189,39 +189,39 @@ using namespace yas::proc;
 }
 
 - (void)test_total_range {
-    auto track = proc::track::make_shared();
+    auto track = track::make_shared();
 
     XCTAssertFalse(track->total_range());
 
-    track->push_back_module(proc::module::make_shared([] { return proc::module::processors_t{}; }), {0, 1});
+    track->push_back_module(module::make_shared([] { return module::processors_t{}; }), {0, 1});
 
-    XCTAssertEqual(track->total_range(), (proc::time::range{0, 1}));
+    XCTAssertEqual(track->total_range(), (time::range{0, 1}));
 
-    track->push_back_module(proc::module::make_shared([] { return proc::module::processors_t{}; }), {1, 1});
+    track->push_back_module(module::make_shared([] { return module::processors_t{}; }), {1, 1});
 
-    XCTAssertEqual(track->total_range(), (proc::time::range{0, 2}));
+    XCTAssertEqual(track->total_range(), (time::range{0, 2}));
 
-    track->push_back_module(proc::module::make_shared([] { return proc::module::processors_t{}; }), {99, 1});
+    track->push_back_module(module::make_shared([] { return module::processors_t{}; }), {99, 1});
 
-    XCTAssertEqual(track->total_range(), (proc::time::range{0, 100}));
+    XCTAssertEqual(track->total_range(), (time::range{0, 100}));
 
-    track->push_back_module(proc::module::make_shared([] { return proc::module::processors_t{}; }), {-10, 1});
+    track->push_back_module(module::make_shared([] { return module::processors_t{}; }), {-10, 1});
 
-    XCTAssertEqual(track->total_range(), (proc::time::range{-10, 110}));
+    XCTAssertEqual(track->total_range(), (time::range{-10, 110}));
 }
 
 - (void)test_copy {
     std::vector<int> called;
 
     auto index = std::make_shared<int>(0);
-    auto module = proc::module::make_shared([index = std::move(index), &called] {
+    auto module = module::make_shared([index = std::move(index), &called] {
         auto processor = [index = *index, &called](time::range const &, connector_map_t const &,
                                                    connector_map_t const &, stream &) { called.push_back(index); };
         ++(*index);
         return module::processors_t{std::move(processor)};
     });
 
-    auto track = proc::track::make_shared();
+    auto track = track::make_shared();
     track->push_back_module(std::move(module), {0, 1});
 
     auto copied_track = track->copy();
