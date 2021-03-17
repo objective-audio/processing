@@ -11,6 +11,11 @@
 namespace yas::proc {
 class time;
 
+enum event_type {
+    number,
+    signal,
+};
+
 struct event {
     virtual ~event() = default;
 
