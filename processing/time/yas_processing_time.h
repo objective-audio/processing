@@ -40,18 +40,18 @@ struct time {
         bool operator!=(range const &) const;
         bool operator<(range const &) const;
 
-        frame_index_t next_frame() const;
+        [[nodiscard]] frame_index_t next_frame() const;
 
-        bool is_contain(range const &) const;
-        bool is_contain(frame::type const &) const;
-        bool is_contain(any::type const &) const;
-        bool is_overlap(range const &) const;
-        bool can_combine(range const &) const;
-        std::optional<range> intersected(range const &) const;
-        std::optional<range> combined(range const &) const;
-        std::vector<range> cropped(range const &) const;
-        range merged(range const &) const;
-        range offset(frame_index_t const &) const;
+        [[nodiscard]] bool is_contain(range const &) const;
+        [[nodiscard]] bool is_contain(frame::type const &) const;
+        [[nodiscard]] bool is_contain(any::type const &) const;
+        [[nodiscard]] bool is_overlap(range const &) const;
+        [[nodiscard]] bool can_combine(range const &) const;
+        [[nodiscard]] std::optional<range> intersected(range const &) const;
+        [[nodiscard]] std::optional<range> combined(range const &) const;
+        [[nodiscard]] std::vector<range> cropped(range const &) const;
+        [[nodiscard]] range merged(range const &) const;
+        [[nodiscard]] range offset(frame_index_t const &) const;
     };
 
     time(frame_index_t const, length_t const);
@@ -65,17 +65,17 @@ struct time {
 
     bool operator<(time const &) const;
 
-    std::type_info const &type() const;
-    bool is_range_type() const;
-    bool is_frame_type() const;
-    bool is_any_type() const;
+    [[nodiscard]] std::type_info const &type() const;
+    [[nodiscard]] bool is_range_type() const;
+    [[nodiscard]] bool is_frame_type() const;
+    [[nodiscard]] bool is_any_type() const;
 
-    bool is_contain(time const &) const;
+    [[nodiscard]] bool is_contain(time const &) const;
 
     template <typename T>
-    typename T::type const &get() const;
+    [[nodiscard]] typename T::type const &get() const;
 
-    time offset(frame_index_t const &) const;
+    [[nodiscard]] time offset(frame_index_t const &) const;
 
     explicit operator bool() const;
     bool operator==(time const &) const;
@@ -87,12 +87,12 @@ struct time {
     std::shared_ptr<impl_base> _impl;
 };
 
-time make_range_time(frame_index_t const, length_t const);
-time make_frame_time(frame_index_t const);
-time make_any_time();
+[[nodiscard]] time make_range_time(frame_index_t const, length_t const);
+[[nodiscard]] time make_frame_time(frame_index_t const);
+[[nodiscard]] time make_any_time();
 }  // namespace yas::proc
 
 namespace yas {
-std::string to_string(proc::time const &);
-std::string to_string(proc::time::range const &);
+[[nodiscard]] std::string to_string(proc::time const &);
+[[nodiscard]] std::string to_string(proc::time::range const &);
 }  // namespace yas

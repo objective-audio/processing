@@ -15,35 +15,35 @@ struct signal_event final {
     using pair_t = std::pair<time::range, signal_event_ptr>;
     using pair_vector_t = std::vector<pair_t>;
 
-    std::type_info const &sample_type() const;
-    std::size_t sample_byte_count() const;
-    std::size_t size() const;
-    std::size_t byte_size() const;
+    [[nodiscard]] std::type_info const &sample_type() const;
+    [[nodiscard]] std::size_t sample_byte_count() const;
+    [[nodiscard]] std::size_t size() const;
+    [[nodiscard]] std::size_t byte_size() const;
     void resize(std::size_t const);
     void reserve(std::size_t const);
 
     template <typename T>
-    std::vector<T> const &vector() const;
+    [[nodiscard]] std::vector<T> const &vector() const;
     template <typename T>
-    std::vector<T> &vector();
+    [[nodiscard]] std::vector<T> &vector();
 
     template <typename T>
-    T const *data() const;
+    [[nodiscard]] T const *data() const;
     template <typename T>
-    T *data();
+    [[nodiscard]] T *data();
 
     template <typename T>
     void copy_from(T const *, std::size_t const);
     template <typename T>
     void copy_to(T *, std::size_t const) const;
 
-    signal_event_ptr copy_in_range(time::range const &) const;
-    pair_vector_t cropped(time::range const &) const;
-    pair_t combined(time::range const &, pair_vector_t);
+    [[nodiscard]] signal_event_ptr copy_in_range(time::range const &) const;
+    [[nodiscard]] pair_vector_t cropped(time::range const &) const;
+    [[nodiscard]] pair_t combined(time::range const &, pair_vector_t);
 
-    signal_event_ptr copy() const;
-    bool validate_time(time const &) const;
-    bool is_equal(signal_event_ptr const &) const;
+    [[nodiscard]] signal_event_ptr copy() const;
+    [[nodiscard]] bool validate_time(time const &) const;
+    [[nodiscard]] bool is_equal(signal_event_ptr const &) const;
 
    private:
     class impl;

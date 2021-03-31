@@ -19,5 +19,5 @@ using send_signal_process_f = std::function<void(proc::time::range const &, sync
                                                  connector_index_t const, T *const)>;
 
 template <typename T>
-processor_f make_send_signal_processor(send_signal_process_f<T>);
+[[nodiscard]] processor_f make_send_signal_processor(send_signal_process_f<T>);
 }  // namespace yas::proc

@@ -24,8 +24,8 @@ struct number_process_context {
     void update_last_values(input const &input);
     void reset(time::range const &);
 
-    std::map<frame_index_t, input> const &inputs() const;
-    std::vector<T> const &last_values() const;
+    [[nodiscard]] std::map<frame_index_t, input> const &inputs() const;
+    [[nodiscard]] std::vector<T> const &last_values() const;
 
    private:
     std::map<frame_index_t, input> _inputs;

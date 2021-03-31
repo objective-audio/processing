@@ -16,8 +16,8 @@ namespace constant {
 }
 
 template <typename T>
-module_ptr make_signal_module(T);
+[[nodiscard]] module_ptr make_signal_module(T);
 
 template <typename T>
-module_ptr make_number_module(T);
+[[nodiscard]] module_ptr make_number_module(T);
 }  // namespace yas::proc

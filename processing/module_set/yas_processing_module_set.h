@@ -16,10 +16,10 @@ struct module_set final {
     void insert(module_ptr const &, std::size_t const);
     bool erase(std::size_t const);
 
-    module_set_ptr copy() const;
+    [[nodiscard]] module_set_ptr copy() const;
 
     using observing_handler_f = std::function<void(module_set_event const &)>;
-    observing::syncable observe(observing_handler_f &&);
+    [[nodiscard]] observing::syncable observe(observing_handler_f &&);
 
     [[nodiscard]] static module_set_ptr make_shared();
     [[nodiscard]] static module_set_ptr make_shared(module_vector_t &&);

@@ -18,5 +18,5 @@ using send_number_process_f = std::function<number_event::value_map_t<T>(
     proc::time::range const &, sync_source const &, channel_index_t const, connector_index_t const)>;
 
 template <typename T>
-processor_f make_send_number_processor(send_number_process_f<T>);
+[[nodiscard]] processor_f make_send_number_processor(send_number_process_f<T>);
 }  // namespace yas::proc

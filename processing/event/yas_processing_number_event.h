@@ -16,15 +16,15 @@ struct number_event final {
     template <typename T>
     using value_map_t = std::multimap<time::frame::type, T>;
 
-    std::type_info const &sample_type() const;
-    std::size_t sample_byte_count() const;
+    [[nodiscard]] std::type_info const &sample_type() const;
+    [[nodiscard]] std::size_t sample_byte_count() const;
 
     template <typename T>
-    T const &get() const;
+    [[nodiscard]] T const &get() const;
 
-    number_event_ptr copy() const;
-    bool validate_time(time const &) const;
-    bool is_equal(number_event_ptr const &) const;
+    [[nodiscard]] number_event_ptr copy() const;
+    [[nodiscard]] bool validate_time(time const &) const;
+    [[nodiscard]] bool is_equal(number_event_ptr const &) const;
 
    private:
     class impl;

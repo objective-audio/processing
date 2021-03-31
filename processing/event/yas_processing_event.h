@@ -20,14 +20,14 @@ struct event final {
     event(number_event_ptr const &);
     event(signal_event_ptr const &);
 
-    bool validate_time(time const &) const;
-    event copy() const;
-    bool is_equal(event const &) const;
-    std::type_info const &sample_type() const;
+    [[nodiscard]] bool validate_time(time const &) const;
+    [[nodiscard]] event copy() const;
+    [[nodiscard]] bool is_equal(event const &) const;
+    [[nodiscard]] std::type_info const &sample_type() const;
 
-    event_type type() const;
+    [[nodiscard]] event_type type() const;
     template <typename T>
-    std::shared_ptr<T> const &get() const;
+    [[nodiscard]] std::shared_ptr<T> const &get() const;
 
    protected:
     event();

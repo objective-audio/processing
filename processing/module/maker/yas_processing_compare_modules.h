@@ -32,16 +32,16 @@ enum class output : connector_index_t {
 
 namespace yas::proc {
 template <typename T>
-module_ptr make_signal_module(compare::kind const);
+[[nodiscard]] module_ptr make_signal_module(compare::kind const);
 
 template <typename T>
-module_ptr make_number_module(compare::kind const);
+[[nodiscard]] module_ptr make_number_module(compare::kind const);
 }  // namespace yas::proc
 
 namespace yas {
 void connect(proc::module_ptr const &, proc::compare::input const &, proc::channel_index_t const &);
 void connect(proc::module_ptr const &, proc::compare::output const &, proc::channel_index_t const &);
 
-std::string to_string(proc::compare::input const &);
-std::string to_string(proc::compare::output const &);
+[[nodiscard]] std::string to_string(proc::compare::input const &);
+[[nodiscard]] std::string to_string(proc::compare::output const &);
 }  // namespace yas

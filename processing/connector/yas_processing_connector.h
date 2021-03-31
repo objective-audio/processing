@@ -18,7 +18,7 @@ struct connector {
 using connector_map_t = std::map<connector_index_t, connector>;
 
 template <typename T>
-connector_index_t to_connector_index(T const &);
+[[nodiscard]] connector_index_t to_connector_index(T const &);
 }  // namespace yas::proc
 
 #include <processing/yas_processing_connector_private.h>
