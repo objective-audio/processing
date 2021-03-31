@@ -28,7 +28,7 @@ struct track final {
     void process(time::range const &, stream &);
 
     using observing_handler_f = std::function<void(track_event const &)>;
-    [[nodiscard]] observing::canceller_ptr observe(observing_handler_f &&, bool const sync);
+    [[nodiscard]] observing::syncable observe(observing_handler_f &&);
 
     [[nodiscard]] static track_ptr make_shared();
     [[nodiscard]] static track_ptr make_shared(track_module_set_map_t &&);

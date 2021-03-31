@@ -20,12 +20,12 @@ namespace envelope {
     };
 
     template <typename T>
-    module_ptr make_signal_module(anchors_t<T>, frame_index_t const offset);
+    [[nodiscard]] module_ptr make_signal_module(anchors_t<T>, frame_index_t const offset);
 }  // namespace envelope
 }  // namespace yas::proc
 
 namespace yas {
 void connect(proc::module_ptr const &, proc::envelope::output const &, proc::channel_index_t const &);
 
-std::string to_string(proc::envelope::output const &);
+[[nodiscard]] std::string to_string(proc::envelope::output const &);
 }  // namespace yas

@@ -31,7 +31,7 @@ using namespace yas::proc;
 
     std::vector<timeline_event> events;
 
-    auto canceller = timeline->observe([&events](auto const &event) { events.push_back(event); }, true);
+    auto canceller = timeline->observe([&events](auto const &event) { events.push_back(event); }).sync();
 
     XCTAssertEqual(events.size(), 1);
     XCTAssertEqual(events.at(0).type, timeline_event_type::any);
@@ -50,14 +50,14 @@ using namespace yas::proc;
     std::vector<timeline_event> events;
     std::vector<std::pair<track_index_t, track_ptr>> inserted;
 
-    auto canceller = timeline->observe(
-        [&events, &inserted](auto const &event) {
-            events.push_back(event);
-            if (event.type == timeline_event_type::inserted) {
-                inserted.push_back({*event.index, *event.track});
-            }
-        },
-        false);
+    auto canceller = timeline
+                         ->observe([&events, &inserted](auto const &event) {
+                             events.push_back(event);
+                             if (event.type == timeline_event_type::inserted) {
+                                 inserted.push_back({*event.index, *event.track});
+                             }
+                         })
+                         .end();
 
     timeline->insert_track(0, track);
 
@@ -77,14 +77,14 @@ using namespace yas::proc;
     std::vector<timeline_event> events;
     std::vector<std::pair<track_index_t, track_ptr>> erased;
 
-    auto canceller = timeline->observe(
-        [&events, &erased](auto const &event) {
-            events.push_back(event);
-            if (event.type == timeline_event_type::erased) {
-                erased.push_back({*event.index, *event.track});
-            }
-        },
-        false);
+    auto canceller = timeline
+                         ->observe([&events, &erased](auto const &event) {
+                             events.push_back(event);
+                             if (event.type == timeline_event_type::erased) {
+                                 erased.push_back({*event.index, *event.track});
+                             }
+                         })
+                         .end();
 
     timeline->erase_track(0);
 
@@ -104,14 +104,14 @@ using namespace yas::proc;
     std::vector<timeline_event> events;
     std::vector<std::tuple<track_index_t, track_event_type>> relayed;
 
-    auto canceller = timeline->observe(
-        [&events, &relayed](timeline_event const &event) {
-            events.push_back(event);
-            if (event.type == timeline_event_type::relayed) {
-                relayed.push_back({*event.index, event.track_event->type});
-            }
-        },
-        false);
+    auto canceller = timeline
+                         ->observe([&events, &relayed](timeline_event const &event) {
+                             events.push_back(event);
+                             if (event.type == timeline_event_type::relayed) {
+                                 relayed.push_back({*event.index, event.track_event->type});
+                             }
+                         })
+                         .end();
 
     auto module = proc::module::make_shared([] { return module::processors_t{}; });
     track->push_back_module(module, {0, 1});

@@ -39,7 +39,7 @@ struct timeline final {
     void process(time::range const &, sync_source const &, process_track_f const &);
 
     using observing_handler_f = std::function<void(timeline_event const &)>;
-    [[nodiscard]] observing::canceller_ptr observe(observing_handler_f &&, bool const sync);
+    [[nodiscard]] observing::syncable observe(observing_handler_f &&);
 
     [[nodiscard]] static timeline_ptr make_shared();
     [[nodiscard]] static timeline_ptr make_shared(track_map_t &&);

@@ -21,10 +21,10 @@ namespace cast {
     };
 
     template <typename In, typename Out>
-    module_ptr make_signal_module();
+    [[nodiscard]] module_ptr make_signal_module();
 
     template <typename In, typename Out>
-    module_ptr make_number_module();
+    [[nodiscard]] module_ptr make_number_module();
 }  // namespace cast
 }  // namespace yas::proc
 

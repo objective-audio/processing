@@ -52,15 +52,13 @@ module_set_ptr module_set::copy() const {
     return module_set::make_shared(std::move(copied));
 }
 
-observing::canceller_ptr module_set::observe(observing_handler_f &&handler, bool const sync) {
-    return this->_modules_holder->observe(
-        [this, handler = std::move(handler)](auto const &event) {
-            handler({.type = to_module_set_event_type(event.type),
-                     .modules = event.elements,
-                     .module = event.element,
-                     .index = event.index});
-        },
-        sync);
+observing::syncable module_set::observe(observing_handler_f &&handler) {
+    return this->_modules_holder->observe([this, handler = std::move(handler)](auto const &event) {
+        handler({.type = to_module_set_event_type(event.type),
+                 .modules = event.elements,
+                 .module = event.element,
+                 .index = event.index});
+    });
 }
 
 module_set_ptr module_set::make_shared() {

@@ -17,13 +17,13 @@ struct signal_process_context {
 
     void reset(std::size_t const reserve_size);
 
-    pair_vector_t const &inputs() const;
+    [[nodiscard]] pair_vector_t const &inputs() const;
 
     void copy_data_from(T const *ptr, std::size_t const size, std::size_t const idx);
-    T const *data(std::size_t const idx) const;
+    [[nodiscard]] T const *data(std::size_t const idx) const;
 
     void set_time(proc::time time, std::size_t const idx);
-    time const &time(std::size_t const idx) const;
+    [[nodiscard]] time const &time(std::size_t const idx) const;
 
    private:
     pair_vector_t _inputs;

@@ -7,5 +7,5 @@
 #include <processing/yas_processing_module_set_types.h>
 
 namespace yas::proc {
-module_set_event_type to_module_set_event_type(observing::vector::event_type const &);
+[[nodiscard]] module_set_event_type to_module_set_event_type(observing::vector::event_type const &);
 }

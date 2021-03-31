@@ -20,14 +20,14 @@ timeline::timeline(track_map_t &&tracks) : _tracks_holder(tracks_holder_t::make_
         return timeline_event{.type = timeline_event_type::any, .tracks = this->_tracks_holder->elements()};
     });
 
-    this->_tracks_canceller = this->_tracks_holder->observe(
-        [this](tracks_holder_t::event const &tracks_event) {
-            this->_push_timeline_event({.type = to_timeline_event_type(tracks_event.type),
-                                        .tracks = tracks_event.elements,
-                                        .track = tracks_event.element,
-                                        .index = tracks_event.key});
-        },
-        false);
+    this->_tracks_canceller = this->_tracks_holder
+                                  ->observe([this](tracks_holder_t::event const &tracks_event) {
+                                      this->_push_timeline_event({.type = to_timeline_event_type(tracks_event.type),
+                                                                  .tracks = tracks_event.elements,
+                                                                  .track = tracks_event.element,
+                                                                  .index = tracks_event.key});
+                                  })
+                                  .end();
 }
 
 timeline::track_map_t const &timeline::tracks() const {
@@ -91,8 +91,8 @@ void timeline::process(time::range const &range, sync_source const &sync_src, pr
     this->_process_continuously(range, sync_src, handler);
 }
 
-observing::canceller_ptr timeline::observe(observing_handler_f &&handler, bool const sync) {
-    return this->_fetcher->observe(std::move(handler), sync);
+observing::syncable timeline::observe(observing_handler_f &&handler) {
+    return this->_fetcher->observe(std::move(handler));
 }
 
 void timeline::_process_continuously(time::range const &range, sync_source const &sync_src,
@@ -138,15 +138,15 @@ void timeline::_push_timeline_event(timeline_event const &event) {
 }
 
 void timeline::_observe_track(track_index_t const &track_idx) {
-    auto canceller = this->_tracks_holder->at(track_idx)->observe(
-        [this, track_idx](track_event const &trk_event) {
-            this->_push_timeline_event({.type = timeline_event_type::relayed,
-                                        .tracks = this->_tracks_holder->elements(),
-                                        .track = &this->_tracks_holder->at(track_idx),
-                                        .index = track_idx,
-                                        .track_event = &trk_event});
-        },
-        false);
+    auto canceller = this->_tracks_holder->at(track_idx)
+                         ->observe([this, track_idx](track_event const &trk_event) {
+                             this->_push_timeline_event({.type = timeline_event_type::relayed,
+                                                         .tracks = this->_tracks_holder->elements(),
+                                                         .track = &this->_tracks_holder->at(track_idx),
+                                                         .index = track_idx,
+                                                         .track_event = &trk_event});
+                         })
+                         .end();
 
     this->_track_cancellers.emplace(track_idx, std::move(canceller));
 }
