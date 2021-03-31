@@ -24,7 +24,7 @@ using namespace yas::proc;
 
     std::vector<track_event> events;
 
-    auto canceller = track->observe([&events](auto const &event) { events.push_back(event); }, true);
+    auto canceller = track->observe([&events](auto const &event) { events.push_back(event); }).sync();
 
     XCTAssertEqual(events.size(), 1);
     XCTAssertEqual(events.at(0).type, track_event_type::any);
@@ -48,12 +48,12 @@ using namespace yas::proc;
     std::vector<track_event> events;
     std::vector<std::pair<time::range, module_set_ptr>> inserted;
 
-    auto canceller = track->observe(
-        [&events, &inserted](track_event const &event) {
-            events.push_back(event);
-            inserted.push_back({*event.range, *event.module_set});
-        },
-        false);
+    auto canceller = track
+                         ->observe([&events, &inserted](track_event const &event) {
+                             events.push_back(event);
+                             inserted.push_back({*event.range, *event.module_set});
+                         })
+                         .end();
 
     auto module1 = module::make_shared([] { return module::processors_t{}; });
     auto module2 = module::make_shared([] { return module::processors_t{}; });
@@ -88,17 +88,17 @@ using namespace yas::proc;
     std::vector<track_event_type> event_types;
     std::vector<std::pair<time::range, module_set_ptr>> erased;
 
-    auto canceller = track->observe(
-        [&event_types, &erased](auto const &event) {
-            event_types.push_back(event.type);
+    auto canceller = track
+                         ->observe([&event_types, &erased](auto const &event) {
+                             event_types.push_back(event.type);
 
-            if (event.type == track_event_type::erased) {
-                erased.push_back({*event.range, *event.module_set});
-            } else {
-                XCTFail();
-            }
-        },
-        false);
+                             if (event.type == track_event_type::erased) {
+                                 erased.push_back({*event.range, *event.module_set});
+                             } else {
+                                 XCTFail();
+                             }
+                         })
+                         .end();
 
     track->erase_module(module1);
 
@@ -117,14 +117,15 @@ using namespace yas::proc;
         std::tuple<track_event_type, module_set_ptr, std::optional<time::range>, std::optional<module_set_event_type>>>
         event_types;
 
-    auto canceller = track->observe(
-        [&event_types](auto const &event) {
-            event_types.push_back({event.type, (event.module_set ? *event.module_set : nullptr),
-                                   (event.range ? *event.range : std::optional<time::range>(std::nullopt)),
-                                   (event.module_set_event ? event.module_set_event->type :
-                                                             std::optional<module_set_event_type>(std::nullopt))});
-        },
-        false);
+    auto canceller =
+        track
+            ->observe([&event_types](auto const &event) {
+                event_types.push_back({event.type, (event.module_set ? *event.module_set : nullptr),
+                                       (event.range ? *event.range : std::optional<time::range>(std::nullopt)),
+                                       (event.module_set_event ? event.module_set_event->type :
+                                                                 std::optional<module_set_event_type>(std::nullopt))});
+            })
+            .end();
 
     auto module1 = module::make_shared([] { return module::processors_t{}; });
     auto module2 = module::make_shared([] { return module::processors_t{}; });

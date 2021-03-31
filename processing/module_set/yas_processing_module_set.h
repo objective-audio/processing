@@ -19,7 +19,7 @@ struct module_set final {
     module_set_ptr copy() const;
 
     using observing_handler_f = std::function<void(module_set_event const &)>;
-    observing::canceller_ptr observe(observing_handler_f &&, bool const sync);
+    observing::syncable observe(observing_handler_f &&);
 
     [[nodiscard]] static module_set_ptr make_shared();
     [[nodiscard]] static module_set_ptr make_shared(module_vector_t &&);

@@ -19,14 +19,14 @@ track::track(track_module_set_map_t &&modules)
         return track_event{.type = track_event_type::any, .module_sets = this->_module_sets_holder->elements()};
     });
 
-    this->_module_sets_canceller = this->_module_sets_holder->observe(
-        [this](track_module_set_map_holder_t::event const &module_sets_event) {
-            this->_push_track_event({.type = to_track_event_type(module_sets_event.type),
-                                     .module_sets = module_sets_event.elements,
-                                     .module_set = module_sets_event.element,
-                                     .range = module_sets_event.key});
-        },
-        false);
+    this->_module_sets_canceller = this->_module_sets_holder
+                                       ->observe([this](track_module_set_map_holder_t::event const &module_sets_event) {
+                                           this->_push_track_event({.type = to_track_event_type(module_sets_event.type),
+                                                                    .module_sets = module_sets_event.elements,
+                                                                    .module_set = module_sets_event.element,
+                                                                    .range = module_sets_event.key});
+                                       })
+                                       .end();
 }
 
 track_module_set_map_t const &track::module_sets() const {
@@ -128,8 +128,8 @@ void track::process(time::range const &time_range, stream &stream) {
     }
 }
 
-observing::canceller_ptr track::observe(observing_handler_f &&handler, bool const sync) {
-    return this->_fetcher->observe(std::move(handler), sync);
+observing::syncable track::observe(observing_handler_f &&handler) {
+    return this->_fetcher->observe(std::move(handler));
 }
 
 void track::_push_track_event(track_event const &track_event) {
@@ -137,15 +137,15 @@ void track::_push_track_event(track_event const &track_event) {
 }
 
 void track::_observe_module_set(time::range const &range) {
-    auto canceller = this->_module_sets_holder->at(range)->observe(
-        [this, range](module_set_event const &set_event) {
-            this->_push_track_event({.type = track_event_type::relayed,
-                                     .module_sets = this->_module_sets_holder->elements(),
-                                     .module_set = &this->_module_sets_holder->at(range),
-                                     .range = range,
-                                     .module_set_event = &set_event});
-        },
-        false);
+    auto canceller = this->_module_sets_holder->at(range)
+                         ->observe([this, range](module_set_event const &set_event) {
+                             this->_push_track_event({.type = track_event_type::relayed,
+                                                      .module_sets = this->_module_sets_holder->elements(),
+                                                      .module_set = &this->_module_sets_holder->at(range),
+                                                      .range = range,
+                                                      .module_set_event = &set_event});
+                         })
+                         .end();
 
     this->_module_set_cancellers.emplace(range, std::move(canceller));
 }
