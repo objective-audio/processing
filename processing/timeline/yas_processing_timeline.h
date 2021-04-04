@@ -50,8 +50,8 @@ struct timeline final {
 
     tracks_holder_ptr_t const _tracks_holder;
     observing::fetcher_ptr<timeline_event> _fetcher = nullptr;
-    observing::canceller_ptr _tracks_canceller = nullptr;
-    std::map<track_index_t, observing::canceller_ptr> _track_cancellers;
+    observing::cancellable_ptr _tracks_canceller = nullptr;
+    std::map<track_index_t, observing::cancellable_ptr> _track_cancellers;
 
     timeline(track_map_t &&);
 
