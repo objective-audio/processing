@@ -39,8 +39,8 @@ struct track final {
 
     track_module_set_map_holder_ptr_t const _module_sets_holder;
     observing::fetcher_ptr<track_event> _fetcher = nullptr;
-    observing::canceller_ptr _module_sets_canceller = nullptr;
-    std::map<time::range, observing::canceller_ptr> _module_set_cancellers;
+    observing::cancellable_ptr _module_sets_canceller = nullptr;
+    std::map<time::range, observing::cancellable_ptr> _module_set_cancellers;
 
     explicit track(track_module_set_map_t &&);
 
