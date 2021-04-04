@@ -41,8 +41,7 @@ struct channel {
     void insert_event(time, event);
     void insert_events(events_map_t);
 
-    [[nodiscard]] std::pair<time::range, signal_event_ptr> combine_signal_event(time::range const &,
-                                                                                signal_event_ptr const &);
+    std::pair<time::range, signal_event_ptr> combine_signal_event(time::range const &, signal_event_ptr const &);
 
     template <typename P>
     void erase_event_if(P predicate);
