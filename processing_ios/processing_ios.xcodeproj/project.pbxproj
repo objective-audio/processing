@@ -236,7 +236,6 @@
 			children = (
 				B67E63EC25FBAB010031C189 /* track */,
 				B67E63F225FBAB010031C189 /* yas_processing_umbrella.h */,
-				B67E63F325FBAB010031C189 /* New Group1 */,
 				B67E63F425FBAB010031C189 /* module */,
 				B67E641225FBAB010031C189 /* stream */,
 				B67E641525FBAB010031C189 /* processor */,
@@ -245,7 +244,6 @@
 				B67E642A25FBAB010031C189 /* channel */,
 				B67E642E25FBAB010031C189 /* common */,
 				B67E643225FBAB010031C189 /* connector */,
-				B67E643525FBAB010031C189 /* New Group */,
 				B67E643625FBAB010031C189 /* module_set */,
 				B67E643C25FBAB010031C189 /* timeline */,
 				B67E644225FBAB010031C189 /* event */,
@@ -264,13 +262,6 @@
 				B67E63F125FBAB010031C189 /* yas_processing_track.cpp */,
 			);
 			path = track;
-			sourceTree = "<group>";
-		};
-		B67E63F325FBAB010031C189 /* New Group1 */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "New Group1";
 			sourceTree = "<group>";
 		};
 		B67E63F425FBAB010031C189 /* module */ = {
@@ -405,13 +396,6 @@
 				B67E643425FBAB010031C189 /* yas_processing_connector_private.h */,
 			);
 			path = connector;
-			sourceTree = "<group>";
-		};
-		B67E643525FBAB010031C189 /* New Group */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "New Group";
 			sourceTree = "<group>";
 		};
 		B67E643625FBAB010031C189 /* module_set */ = {
