@@ -24,14 +24,10 @@ jobs:
       with:
         submodules: true
 
-    - name: Install clang-format
-      run:
-        brew install clang-format
-
     - name: Run mac tests
       run:
         xcodebuild -workspace processing_mac.xcworkspace -scheme processing_mac_tests -configuration Debug OBJROOT=build -sdk macosx clean test
-        
+
     - name: Run iOS tests
       run:
         xcodebuild -workspace processing_ios.xcworkspace -scheme processing_ios_tests -configuration Debug OBJROOT=build -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 11' clean test
