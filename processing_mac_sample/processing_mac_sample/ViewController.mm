@@ -143,7 +143,7 @@ typedef NS_ENUM(NSUInteger, SampleBits) {
     panel.allowedFileTypes = @[@"wav"];
     panel.canCreateDirectories = YES;
 
-    if ([panel runModal] == NSFileHandlingPanelOKButton) {
+    if ([panel runModal] == NSModalResponseOK) {
         uint32_t const bits = [self bitsValue];
         sample_rate_t const sample_rate = [self sampleRateValue];
         NSInteger const freqValue = [self freqValue];
