@@ -56,7 +56,8 @@ observing::syncable module_set::observe(observing_handler_f &&handler) {
     return this->_modules_holder->observe([this, handler = std::move(handler)](auto const &event) {
         handler({.type = to_module_set_event_type(event.type),
                  .modules = event.elements,
-                 .module = event.element,
+                 .inserted = event.inserted,
+                 .erased = event.erased,
                  .index = event.index});
     });
 }

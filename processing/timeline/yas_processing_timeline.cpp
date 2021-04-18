@@ -24,7 +24,8 @@ timeline::timeline(track_map_t &&tracks) : _tracks_holder(tracks_holder_t::make_
                                   ->observe([this](tracks_holder_t::event const &tracks_event) {
                                       this->_push_timeline_event({.type = to_timeline_event_type(tracks_event.type),
                                                                   .tracks = tracks_event.elements,
-                                                                  .track = tracks_event.element,
+                                                                  .inserted = tracks_event.inserted,
+                                                                  .erased = tracks_event.erased,
                                                                   .index = tracks_event.key});
                                   })
                                   .end();
@@ -142,7 +143,7 @@ void timeline::_observe_track(track_index_t const &track_idx) {
                          ->observe([this, track_idx](track_event const &trk_event) {
                              this->_push_timeline_event({.type = timeline_event_type::relayed,
                                                          .tracks = this->_tracks_holder->elements(),
-                                                         .track = &this->_tracks_holder->at(track_idx),
+                                                         .relayed = &this->_tracks_holder->at(track_idx),
                                                          .index = track_idx,
                                                          .track_event = &trk_event});
                          })

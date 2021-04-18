@@ -24,7 +24,8 @@ enum class module_set_event_type {
 struct module_set_event {
     module_set_event_type type;
     std::vector<module_ptr> const &modules;
-    module_ptr const *module = nullptr;
+    module_ptr const *inserted = nullptr;
+    module_ptr const *erased = nullptr;
     std::optional<std::size_t> index = std::nullopt;
 };
 }  // namespace yas::proc
