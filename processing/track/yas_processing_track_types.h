@@ -24,7 +24,9 @@ enum class track_event_type {
 struct track_event {
     track_event_type type;
     track_module_set_map_t const &module_sets;
-    module_set_ptr const *module_set = nullptr;
+    module_set_ptr const *inserted = nullptr;
+    module_set_ptr const *erased = nullptr;
+    module_set_ptr const *relayed = nullptr;
     std::optional<time::range> range = std::nullopt;
     module_set_event const *module_set_event = nullptr;
 };

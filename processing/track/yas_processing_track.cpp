@@ -23,7 +23,8 @@ track::track(track_module_set_map_t &&modules)
                                        ->observe([this](track_module_set_map_holder_t::event const &module_sets_event) {
                                            this->_push_track_event({.type = to_track_event_type(module_sets_event.type),
                                                                     .module_sets = module_sets_event.elements,
-                                                                    .module_set = module_sets_event.element,
+                                                                    .inserted = module_sets_event.inserted,
+                                                                    .erased = module_sets_event.erased,
                                                                     .range = module_sets_event.key});
                                        })
                                        .end();
@@ -141,7 +142,7 @@ void track::_observe_module_set(time::range const &range) {
                          ->observe([this, range](module_set_event const &set_event) {
                              this->_push_track_event({.type = track_event_type::relayed,
                                                       .module_sets = this->_module_sets_holder->elements(),
-                                                      .module_set = &this->_module_sets_holder->at(range),
+                                                      .relayed = &this->_module_sets_holder->at(range),
                                                       .range = range,
                                                       .module_set_event = &set_event});
                          })
