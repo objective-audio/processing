@@ -39,7 +39,9 @@ using namespace yas::proc;
     XCTAssertEqual(tracks.at(0), track0);
     XCTAssertEqual(tracks.at(1), track1);
     XCTAssertEqual(events.at(0).index, std::nullopt);
-    XCTAssertEqual(events.at(0).track, nullptr);
+    XCTAssertEqual(events.at(0).inserted, nullptr);
+    XCTAssertEqual(events.at(0).erased, nullptr);
+    XCTAssertEqual(events.at(0).relayed, nullptr);
 }
 
 - (void)test_inserted {
@@ -54,7 +56,7 @@ using namespace yas::proc;
                          ->observe([&events, &inserted](auto const &event) {
                              events.push_back(event);
                              if (event.type == timeline_event_type::inserted) {
-                                 inserted.push_back({*event.index, *event.track});
+                                 inserted.push_back({*event.index, *event.inserted});
                              }
                          })
                          .end();
@@ -81,7 +83,7 @@ using namespace yas::proc;
                          ->observe([&events, &erased](auto const &event) {
                              events.push_back(event);
                              if (event.type == timeline_event_type::erased) {
-                                 erased.push_back({*event.index, *event.track});
+                                 erased.push_back({*event.index, *event.erased});
                              }
                          })
                          .end();
