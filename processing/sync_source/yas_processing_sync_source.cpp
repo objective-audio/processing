@@ -5,6 +5,7 @@
 #include "yas_processing_sync_source.h"
 
 using namespace yas;
+using namespace yas::proc;
 
 proc::sync_source::sync_source(sample_rate_t const sample_rate, length_t const slice_length)
     : sample_rate(sample_rate), slice_length(slice_length) {

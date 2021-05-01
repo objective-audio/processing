@@ -10,6 +10,7 @@
 #include "yas_processing_send_signal_processor.h"
 
 using namespace yas;
+using namespace yas::proc;
 
 namespace yas::proc::envelope {
 template <typename T>

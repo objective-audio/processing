@@ -12,6 +12,7 @@
 #include "yas_processing_stream.h"
 
 using namespace yas;
+using namespace yas::proc;
 
 template <typename T>
 proc::processor_f proc::make_remove_number_processor(connector_index_set_t keys) {

@@ -9,6 +9,7 @@
 #include "yas_processing_channel.h"
 
 using namespace yas;
+using namespace yas::proc;
 
 #pragma mark - proc::stream
 

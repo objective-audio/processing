@@ -7,6 +7,7 @@
 #include <string>
 
 using namespace yas;
+using namespace yas::proc;
 
 #pragma mark - time::range
 

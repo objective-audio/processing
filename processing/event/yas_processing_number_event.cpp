@@ -7,6 +7,7 @@
 #include <cpp_utils/yas_boolean.h>
 
 using namespace yas;
+using namespace yas::proc;
 
 namespace yas::proc {
 template <typename T>

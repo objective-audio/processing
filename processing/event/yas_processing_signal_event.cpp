@@ -5,6 +5,7 @@
 #include "yas_processing_signal_event.h"
 
 using namespace yas;
+using namespace yas::proc;
 
 std::type_info const &proc::signal_event::sample_type() const {
     return this->_impl->type();

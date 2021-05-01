@@ -12,6 +12,7 @@
 #include "yas_processing_send_signal_processor.h"
 
 using namespace yas;
+using namespace yas::proc;
 
 template <typename T>
 proc::module_ptr proc::make_signal_module(T value) {

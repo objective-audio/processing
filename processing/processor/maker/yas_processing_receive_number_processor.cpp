@@ -11,6 +11,7 @@
 #include "yas_processing_stream.h"
 
 using namespace yas;
+using namespace yas::proc;
 
 template <typename T>
 proc::processor_f proc::make_receive_number_processor(proc::receive_number_process_f<T> handler) {

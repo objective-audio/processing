@@ -7,6 +7,7 @@
 #include "yas_processing_signal_event.h"
 
 using namespace yas;
+using namespace yas::proc;
 
 #pragma mark - proc::channel
 
