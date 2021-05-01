@@ -18,6 +18,7 @@
 #include "yas_processing_signal_event.h"
 
 using namespace yas;
+using namespace yas::proc;
 
 template <typename T>
 proc::module_ptr proc::make_number_to_signal_module() {

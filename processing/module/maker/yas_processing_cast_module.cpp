@@ -5,6 +5,7 @@
 #include "yas_processing_cast_module.h"
 
 using namespace yas;
+using namespace yas::proc;
 
 void yas::connect(proc::module_ptr const &module, proc::cast::input const &input, proc::channel_index_t const &ch_idx) {
     module->connect_input(proc::to_connector_index(input), ch_idx);

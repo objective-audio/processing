@@ -10,6 +10,7 @@
 #include "yas_processing_timeline.h"
 
 using namespace yas;
+using namespace yas::proc;
 
 namespace yas::proc {
 namespace sub_timeline {

@@ -12,6 +12,7 @@
 #include "yas_processing_sync_source.h"
 
 using namespace yas;
+using namespace yas::proc;
 
 template <typename T>
 proc::module_ptr proc::make_signal_module(generator::kind const kind, frame_index_t const offset) {

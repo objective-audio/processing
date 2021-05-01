@@ -10,6 +10,7 @@
 #include "yas_processing_time.h"
 
 using namespace yas;
+using namespace yas::proc;
 
 template <typename T>
 proc::processor_f proc::make_send_number_processor(send_number_process_f<T> handler) {

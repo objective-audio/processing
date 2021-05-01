@@ -17,6 +17,7 @@
 #include "yas_processing_signal_process_context.h"
 
 using namespace yas;
+using namespace yas::proc;
 
 #pragma mark - signal
 

@@ -9,6 +9,7 @@
 #include "yas_processing_connector.h"
 
 using namespace yas;
+using namespace yas::proc;
 
 #pragma mark - utility
 
