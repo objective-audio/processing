@@ -90,6 +90,12 @@
 		B67E649825FBAB010031C189 /* yas_processing_signal_event_private.h in Headers */ = {isa = PBXBuildFile; fileRef = B67E644A25FBAB010031C189 /* yas_processing_signal_event_private.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B694CAB7263D659800EC80B8 /* yas_processing_module_utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B694CAB5263D659800EC80B8 /* yas_processing_module_utils.cpp */; };
 		B694CAB8263D659800EC80B8 /* yas_processing_module_utils.h in Headers */ = {isa = PBXBuildFile; fileRef = B694CAB6263D659800EC80B8 /* yas_processing_module_utils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B694CAD0263D6D5800EC80B8 /* yas_processing_file_module.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B694CACE263D6D5700EC80B8 /* yas_processing_file_module.cpp */; };
+		B694CAD1263D6D5800EC80B8 /* yas_processing_file_module.h in Headers */ = {isa = PBXBuildFile; fileRef = B694CACF263D6D5800EC80B8 /* yas_processing_file_module.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B694CAE9263D7B1800EC80B8 /* audio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B694CAE8263D7B1800EC80B8 /* audio.framework */; };
+		B694CAEE263D7B2A00EC80B8 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B694CAED263D7B2A00EC80B8 /* CoreFoundation.framework */; };
+		B694CB09263E5F8800EC80B8 /* yas_processing_file_module_context.h in Headers */ = {isa = PBXBuildFile; fileRef = B694CB07263E5F8800EC80B8 /* yas_processing_file_module_context.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B694CB0A263E5F8800EC80B8 /* yas_processing_file_module_context.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B694CB08263E5F8800EC80B8 /* yas_processing_file_module_context.cpp */; };
 		B6A989EA25F3B425007BD61F /* observing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6A989E925F3B425007BD61F /* observing.framework */; };
 /* End PBXBuildFile section */
 
@@ -180,6 +186,12 @@
 		B67E644A25FBAB010031C189 /* yas_processing_signal_event_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yas_processing_signal_event_private.h; sourceTree = "<group>"; };
 		B694CAB5263D659800EC80B8 /* yas_processing_module_utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = yas_processing_module_utils.cpp; sourceTree = "<group>"; };
 		B694CAB6263D659800EC80B8 /* yas_processing_module_utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yas_processing_module_utils.h; sourceTree = "<group>"; };
+		B694CACE263D6D5700EC80B8 /* yas_processing_file_module.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = yas_processing_file_module.cpp; sourceTree = "<group>"; };
+		B694CACF263D6D5800EC80B8 /* yas_processing_file_module.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yas_processing_file_module.h; sourceTree = "<group>"; };
+		B694CAE8263D7B1800EC80B8 /* audio.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = audio.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B694CAED263D7B2A00EC80B8 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		B694CB07263E5F8800EC80B8 /* yas_processing_file_module_context.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yas_processing_file_module_context.h; sourceTree = "<group>"; };
+		B694CB08263E5F8800EC80B8 /* yas_processing_file_module_context.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = yas_processing_file_module_context.cpp; sourceTree = "<group>"; };
 		B6A989E925F3B425007BD61F /* observing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = observing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -188,7 +200,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B694CAEE263D7B2A00EC80B8 /* CoreFoundation.framework in Frameworks */,
 				B65AF74C21E38B2100C65DB5 /* cpp_utils.framework in Frameworks */,
+				B694CAE9263D7B1800EC80B8 /* audio.framework in Frameworks */,
 				B6A989EA25F3B425007BD61F /* observing.framework in Frameworks */,
 				B65AF74E21E38B2100C65DB5 /* objc_utils.framework in Frameworks */,
 			);
@@ -227,6 +241,8 @@
 		B65AF74621E38B2100C65DB5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B694CAED263D7B2A00EC80B8 /* CoreFoundation.framework */,
+				B694CAE8263D7B1800EC80B8 /* audio.framework */,
 				B6A989E925F3B425007BD61F /* observing.framework */,
 				B65AF74721E38B2100C65DB5 /* audio.framework */,
 				B65AF74B21E38B2100C65DB5 /* cpp_utils.framework */,
@@ -295,27 +311,31 @@
 		B67E63FB25FBAB010031C189 /* maker */ = {
 			isa = PBXGroup;
 			children = (
-				B67E63FC25FBAB010031C189 /* yas_processing_generator_modules.h */,
-				B67E63FD25FBAB010031C189 /* yas_processing_compare_modules.cpp */,
-				B67E63FE25FBAB010031C189 /* yas_processing_sub_timeline_module.h */,
-				B67E63FF25FBAB010031C189 /* yas_processing_math2_modules.cpp */,
 				B67E640025FBAB010031C189 /* yas_processing_cast_module_private.h */,
-				B67E640125FBAB010031C189 /* yas_processing_compare_modules.h */,
-				B67E640225FBAB010031C189 /* yas_processing_routing_modules.h */,
-				B67E640325FBAB010031C189 /* yas_processing_generator_modules.cpp */,
-				B67E640425FBAB010031C189 /* yas_processing_math2_modules.h */,
-				B67E640525FBAB010031C189 /* yas_processing_math1_modules.cpp */,
-				B67E640625FBAB010031C189 /* yas_processing_number_to_signal_module.cpp */,
-				B67E640725FBAB010031C189 /* yas_processing_math1_modules.h */,
-				B67E640825FBAB010031C189 /* yas_processing_number_to_signal_module.h */,
-				B67E640925FBAB010031C189 /* yas_processing_envelope_module.cpp */,
-				B67E640A25FBAB010031C189 /* yas_processing_routing_modules.cpp */,
-				B67E640B25FBAB010031C189 /* yas_processing_envelope_module.h */,
-				B67E640C25FBAB010031C189 /* yas_processing_cast_module.h */,
-				B67E640D25FBAB010031C189 /* yas_processing_constant_module.cpp */,
 				B67E640E25FBAB010031C189 /* yas_processing_cast_module.cpp */,
-				B67E640F25FBAB010031C189 /* yas_processing_sub_timeline_module.cpp */,
+				B67E640C25FBAB010031C189 /* yas_processing_cast_module.h */,
+				B67E63FD25FBAB010031C189 /* yas_processing_compare_modules.cpp */,
+				B67E640125FBAB010031C189 /* yas_processing_compare_modules.h */,
+				B67E640D25FBAB010031C189 /* yas_processing_constant_module.cpp */,
 				B67E641025FBAB010031C189 /* yas_processing_constant_module.h */,
+				B67E640925FBAB010031C189 /* yas_processing_envelope_module.cpp */,
+				B67E640B25FBAB010031C189 /* yas_processing_envelope_module.h */,
+				B694CB08263E5F8800EC80B8 /* yas_processing_file_module_context.cpp */,
+				B694CB07263E5F8800EC80B8 /* yas_processing_file_module_context.h */,
+				B694CACE263D6D5700EC80B8 /* yas_processing_file_module.cpp */,
+				B694CACF263D6D5800EC80B8 /* yas_processing_file_module.h */,
+				B67E640325FBAB010031C189 /* yas_processing_generator_modules.cpp */,
+				B67E63FC25FBAB010031C189 /* yas_processing_generator_modules.h */,
+				B67E640525FBAB010031C189 /* yas_processing_math1_modules.cpp */,
+				B67E640725FBAB010031C189 /* yas_processing_math1_modules.h */,
+				B67E63FF25FBAB010031C189 /* yas_processing_math2_modules.cpp */,
+				B67E640425FBAB010031C189 /* yas_processing_math2_modules.h */,
+				B67E640625FBAB010031C189 /* yas_processing_number_to_signal_module.cpp */,
+				B67E640825FBAB010031C189 /* yas_processing_number_to_signal_module.h */,
+				B67E640A25FBAB010031C189 /* yas_processing_routing_modules.cpp */,
+				B67E640225FBAB010031C189 /* yas_processing_routing_modules.h */,
+				B67E640F25FBAB010031C189 /* yas_processing_sub_timeline_module.cpp */,
+				B67E63FE25FBAB010031C189 /* yas_processing_sub_timeline_module.h */,
 			);
 			path = maker;
 			sourceTree = "<group>";
@@ -460,6 +480,8 @@
 				B67E646A25FBAB010031C189 /* yas_processing_constant_module.h in Headers */,
 				B67E648725FBAB010031C189 /* yas_processing_module_set_utils.h in Headers */,
 				B67E645E25FBAB010031C189 /* yas_processing_math2_modules.h in Headers */,
+				B694CAD1263D6D5800EC80B8 /* yas_processing_file_module.h in Headers */,
+				B694CB09263E5F8800EC80B8 /* yas_processing_file_module_context.h in Headers */,
 				B67E647125FBAB010031C189 /* yas_processing_receive_signal_processor.h in Headers */,
 				B67E649825FBAB010031C189 /* yas_processing_signal_event_private.h in Headers */,
 				B67E647625FBAB010031C189 /* yas_processing_receive_number_processor.h in Headers */,
@@ -575,6 +597,7 @@
 				B67E644F25FBAB010031C189 /* yas_processing_track.cpp in Sources */,
 				B67E645525FBAB010031C189 /* yas_processing_module.cpp in Sources */,
 				B67E648A25FBAB010031C189 /* yas_processing_module_set.cpp in Sources */,
+				B694CB0A263E5F8800EC80B8 /* yas_processing_file_module_context.cpp in Sources */,
 				B67E646F25FBAB010031C189 /* yas_processing_send_number_processor.cpp in Sources */,
 				B67E648925FBAB010031C189 /* yas_processing_module_set_utils.cpp in Sources */,
 				B67E648E25FBAB010031C189 /* yas_processing_timeline.cpp in Sources */,
@@ -586,6 +609,7 @@
 				B694CAB7263D659800EC80B8 /* yas_processing_module_utils.cpp in Sources */,
 				B67E645725FBAB010031C189 /* yas_processing_compare_modules.cpp in Sources */,
 				B67E647A25FBAB010031C189 /* yas_processing_send_signal_processor.cpp in Sources */,
+				B694CAD0263D6D5800EC80B8 /* yas_processing_file_module.cpp in Sources */,
 				B67E647B25FBAB010031C189 /* yas_processing_sync_source.cpp in Sources */,
 				B67E647E25FBAB010031C189 /* yas_processing_time.cpp in Sources */,
 				B67E648125FBAB010031C189 /* yas_processing_channel.cpp in Sources */,

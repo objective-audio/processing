@@ -4,12 +4,19 @@
 
 #pragma once
 
+#include <cpp_utils/yas_url.h>
 #include <processing/yas_processing_umbrella.h>
 
 #include <functional>
 
 using namespace yas;
 using namespace yas::proc;
+
+namespace yas::proc::test_utils {
+url test_url();
+void create_test_directory();
+void remove_contents_in_test_directory();
+}  // namespace yas::proc::test_utils
 
 namespace yas {
 namespace test {
