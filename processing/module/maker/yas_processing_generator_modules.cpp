@@ -15,20 +15,20 @@ using namespace yas;
 using namespace yas::proc;
 
 template <typename T>
-proc::module_ptr proc::make_signal_module(generator::kind const kind, frame_index_t const offset) {
+proc::module_ptr proc::make_signal_module(generator::kind const kind, frame_index_t const frame_offset) {
     using namespace yas::proc::generator;
 
-    auto make_processors = [kind, offset] {
+    auto make_processors = [kind, frame_offset] {
         auto prepare_processor = [](time::range const &, connector_map_t const &, connector_map_t const &,
                                     stream &) mutable {};
 
         auto send_processor = proc::make_send_signal_processor<T>(
-            [kind, offset, out_each = fast_each<T *>{}](proc::time::range const &time_range,
-                                                        sync_source const &sync_src, channel_index_t const,
-                                                        connector_index_t const co_idx, T *const signal_ptr) mutable {
+            [kind, frame_offset, out_each = fast_each<T *>{}](
+                proc::time::range const &time_range, sync_source const &sync_src, channel_index_t const,
+                connector_index_t const co_idx, T *const signal_ptr) mutable {
                 if (co_idx == to_connector_index(output::value)) {
                     out_each.reset(signal_ptr, time_range.length);
-                    auto const top_idx = offset + time_range.frame;
+                    auto const top_idx = frame_offset + time_range.frame;
                     T const sr = sync_src.sample_rate;
 
                     while (yas_each_next(out_each)) {
