@@ -20,8 +20,9 @@ namespace generator {
     };
 }  // namespace generator
 
+// frame_offsetは絶対的な時間の位置を足してずらす
 template <typename T>
-[[nodiscard]] module_ptr make_signal_module(generator::kind const, frame_index_t const offset);
+[[nodiscard]] module_ptr make_signal_module(generator::kind const, frame_index_t const frame_offset);
 }  // namespace yas::proc
 
 namespace yas {

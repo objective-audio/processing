@@ -5,9 +5,9 @@
 #include "yas_processing_envelope_module.h"
 
 #include <cpp_utils/yas_fast_each.h>
-
-#include "yas_processing_module.h"
-#include "yas_processing_send_signal_processor.h"
+#include <processing/yas_processing_module.h>
+#include <processing/yas_processing_module_utils.h>
+#include <processing/yas_processing_send_signal_processor.h>
 
 using namespace yas;
 using namespace yas::proc;
@@ -65,16 +65,16 @@ struct context {
 }  // namespace yas::proc::envelope
 
 template <typename T>
-proc::module_ptr proc::envelope::make_signal_module(anchors_t<T> anchors, frame_index_t const offset) {
+proc::module_ptr proc::envelope::make_signal_module(anchors_t<T> anchors, frame_index_t const module_offset) {
     auto context = std::make_shared<envelope::context<T>>(std::move(anchors));
 
-    auto make_processors = [context = std::move(context), offset] {
+    auto make_processors = [context = std::move(context), module_offset] {
         auto prepare_processor = [context](time::range const &current_range, connector_map_t const &,
                                            connector_map_t const &,
                                            stream &) mutable { context->reset(current_range); };
 
         auto send_processor = proc::make_send_signal_processor<T>(
-            [context, offset, out_each = fast_each<T *>{}](
+            [context, module_offset, out_each = fast_each<T *>{}](
                 proc::time::range const &time_range, sync_source const &sync_src, channel_index_t const,
                 connector_index_t const co_idx, T *const signal_ptr) mutable {
                 static auto const output_co_idx = to_connector_index(output::value);
@@ -83,7 +83,7 @@ proc::module_ptr proc::envelope::make_signal_module(anchors_t<T> anchors, frame_
 
                     while (yas_each_next(out_each)) {
                         auto const &idx = yas_each_index(out_each);
-                        auto const env_idx = time_range.frame + idx - offset;
+                        auto const env_idx = module_frame(time_range.frame, module_offset) + idx;
                         yas_each_value(out_each) = context->value(env_idx);
                     }
                 }
