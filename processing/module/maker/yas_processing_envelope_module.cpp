@@ -5,9 +5,9 @@
 #include "yas_processing_envelope_module.h"
 
 #include <cpp_utils/yas_fast_each.h>
-
-#include "yas_processing_module.h"
-#include "yas_processing_send_signal_processor.h"
+#include <processing/yas_processing_module.h>
+#include <processing/yas_processing_module_utils.h>
+#include <processing/yas_processing_send_signal_processor.h>
 
 using namespace yas;
 using namespace yas::proc;
@@ -83,7 +83,7 @@ proc::module_ptr proc::envelope::make_signal_module(anchors_t<T> anchors, frame_
 
                     while (yas_each_next(out_each)) {
                         auto const &idx = yas_each_index(out_each);
-                        auto const env_idx = time_range.frame + idx - module_offset;
+                        auto const env_idx = module_frame(time_range.frame, module_offset) + idx;
                         yas_each_value(out_each) = context->value(env_idx);
                     }
                 }
