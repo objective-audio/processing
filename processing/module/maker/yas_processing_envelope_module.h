@@ -20,7 +20,7 @@ namespace envelope {
     };
 
     template <typename T>
-    [[nodiscard]] module_ptr make_signal_module(anchors_t<T>, frame_index_t const offset);
+    [[nodiscard]] module_ptr make_signal_module(anchors_t<T>, frame_index_t const module_offset);
 }  // namespace envelope
 }  // namespace yas::proc
 
