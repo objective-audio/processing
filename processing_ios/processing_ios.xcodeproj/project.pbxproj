@@ -88,6 +88,8 @@
 		B67E649625FBAB010031C189 /* yas_processing_number_event.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B67E644825FBAB010031C189 /* yas_processing_number_event.cpp */; };
 		B67E649725FBAB010031C189 /* yas_processing_event.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B67E644925FBAB010031C189 /* yas_processing_event.cpp */; };
 		B67E649825FBAB010031C189 /* yas_processing_signal_event_private.h in Headers */ = {isa = PBXBuildFile; fileRef = B67E644A25FBAB010031C189 /* yas_processing_signal_event_private.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B694CAB7263D659800EC80B8 /* yas_processing_module_utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B694CAB5263D659800EC80B8 /* yas_processing_module_utils.cpp */; };
+		B694CAB8263D659800EC80B8 /* yas_processing_module_utils.h in Headers */ = {isa = PBXBuildFile; fileRef = B694CAB6263D659800EC80B8 /* yas_processing_module_utils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B6A989EA25F3B425007BD61F /* observing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6A989E925F3B425007BD61F /* observing.framework */; };
 /* End PBXBuildFile section */
 
@@ -176,6 +178,8 @@
 		B67E644825FBAB010031C189 /* yas_processing_number_event.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = yas_processing_number_event.cpp; sourceTree = "<group>"; };
 		B67E644925FBAB010031C189 /* yas_processing_event.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = yas_processing_event.cpp; sourceTree = "<group>"; };
 		B67E644A25FBAB010031C189 /* yas_processing_signal_event_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yas_processing_signal_event_private.h; sourceTree = "<group>"; };
+		B694CAB5263D659800EC80B8 /* yas_processing_module_utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = yas_processing_module_utils.cpp; sourceTree = "<group>"; };
+		B694CAB6263D659800EC80B8 /* yas_processing_module_utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yas_processing_module_utils.h; sourceTree = "<group>"; };
 		B6A989E925F3B425007BD61F /* observing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = observing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -236,7 +240,6 @@
 			children = (
 				B67E63EC25FBAB010031C189 /* track */,
 				B67E63F225FBAB010031C189 /* yas_processing_umbrella.h */,
-				B67E63F325FBAB010031C189 /* New Group1 */,
 				B67E63F425FBAB010031C189 /* module */,
 				B67E641225FBAB010031C189 /* stream */,
 				B67E641525FBAB010031C189 /* processor */,
@@ -245,7 +248,6 @@
 				B67E642A25FBAB010031C189 /* channel */,
 				B67E642E25FBAB010031C189 /* common */,
 				B67E643225FBAB010031C189 /* connector */,
-				B67E643525FBAB010031C189 /* New Group */,
 				B67E643625FBAB010031C189 /* module_set */,
 				B67E643C25FBAB010031C189 /* timeline */,
 				B67E644225FBAB010031C189 /* event */,
@@ -266,20 +268,15 @@
 			path = track;
 			sourceTree = "<group>";
 		};
-		B67E63F325FBAB010031C189 /* New Group1 */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "New Group1";
-			sourceTree = "<group>";
-		};
 		B67E63F425FBAB010031C189 /* module */ = {
 			isa = PBXGroup;
 			children = (
 				B67E63F525FBAB010031C189 /* context */,
-				B67E63FA25FBAB010031C189 /* yas_processing_module.cpp */,
 				B67E63FB25FBAB010031C189 /* maker */,
+				B67E63FA25FBAB010031C189 /* yas_processing_module.cpp */,
 				B67E641125FBAB010031C189 /* yas_processing_module.h */,
+				B694CAB5263D659800EC80B8 /* yas_processing_module_utils.cpp */,
+				B694CAB6263D659800EC80B8 /* yas_processing_module_utils.h */,
 			);
 			path = module;
 			sourceTree = "<group>";
@@ -407,13 +404,6 @@
 			path = connector;
 			sourceTree = "<group>";
 		};
-		B67E643525FBAB010031C189 /* New Group */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "New Group";
-			sourceTree = "<group>";
-		};
 		B67E643625FBAB010031C189 /* module_set */ = {
 			isa = PBXGroup;
 			children = (
@@ -475,6 +465,7 @@
 				B67E647625FBAB010031C189 /* yas_processing_receive_number_processor.h in Headers */,
 				B67E648825FBAB010031C189 /* yas_processing_module_set_types.h in Headers */,
 				B67E646B25FBAB010031C189 /* yas_processing_module.h in Headers */,
+				B694CAB8263D659800EC80B8 /* yas_processing_module_utils.h in Headers */,
 				B67E649025FBAB010031C189 /* yas_processing_timeline.h in Headers */,
 				B67E644B25FBAB010031C189 /* yas_processing_track.h in Headers */,
 				B67E644D25FBAB010031C189 /* yas_processing_track_types.h in Headers */,
@@ -592,6 +583,7 @@
 				B67E646325FBAB010031C189 /* yas_processing_envelope_module.cpp in Sources */,
 				B67E646D25FBAB010031C189 /* yas_processing_stream.cpp in Sources */,
 				B67E646425FBAB010031C189 /* yas_processing_routing_modules.cpp in Sources */,
+				B694CAB7263D659800EC80B8 /* yas_processing_module_utils.cpp in Sources */,
 				B67E645725FBAB010031C189 /* yas_processing_compare_modules.cpp in Sources */,
 				B67E647A25FBAB010031C189 /* yas_processing_send_signal_processor.cpp in Sources */,
 				B67E647B25FBAB010031C189 /* yas_processing_sync_source.cpp in Sources */,
