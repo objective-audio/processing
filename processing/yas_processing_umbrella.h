@@ -8,6 +8,7 @@
 #include <processing/yas_processing_constant_module.h>
 #include <processing/yas_processing_constants.h>
 #include <processing/yas_processing_envelope_module.h>
+#include <processing/yas_processing_file_module.h>
 #include <processing/yas_processing_generator_modules.h>
 #include <processing/yas_processing_math1_modules.h>
 #include <processing/yas_processing_math2_modules.h>
