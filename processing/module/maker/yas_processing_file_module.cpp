@@ -10,8 +10,6 @@
 #include <processing/yas_processing_module_utils.h>
 #include <processing/yas_processing_send_signal_processor.h>
 
-#include <iostream>
-
 using namespace yas;
 using namespace yas::proc;
 
@@ -22,13 +20,11 @@ module_ptr file::make_signal_module(url const &url, frame_index_t const module_o
 
     auto make_processors = [context] {
         auto prepare_processor = [context](time::range const &current_range, connector_map_t const &,
-                                           connector_map_t const &,
-                                           stream &) { std::cout << "yaso prepare" << std::endl; };
+                                           connector_map_t const &, stream &) {};
 
         auto send_processor = make_send_signal_processor<SampleType>(
             [context](time::range const &time_range, sync_source const &sync_src, channel_index_t const,
                       connector_index_t const co_idx, SampleType *const signal_ptr) {
-                std::cout << "yaso read" << std::endl;
                 context->read_from_file(time_range, sync_src, co_idx, signal_ptr);
             });
 
