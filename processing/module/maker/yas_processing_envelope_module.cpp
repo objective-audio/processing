@@ -40,7 +40,10 @@ struct context {
             return this->_prev->second;
         }
 
-        while (this->_next != this->_end && env_frame >= this->_next->first) {
+        while (this->_next != this->_end) {
+            if (env_frame < this->_next->first) {
+                break;
+            }
             this->_prev = this->_next;
             ++this->_next;
         }
