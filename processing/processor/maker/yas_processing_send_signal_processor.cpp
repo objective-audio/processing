@@ -61,7 +61,7 @@ proc::processor_f proc::make_send_signal_processor(proc::send_signal_process_f<T
                         channel.insert_event(time{combined_time_range},
                                              proc::signal_event::make_shared(std::move(vec)));
 
-                        return;
+                        continue;
                     }
                 }
 
