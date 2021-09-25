@@ -6,10 +6,9 @@
 
 #include <cpp_utils/yas_boolean.h>
 #include <cpp_utils/yas_fast_each.h>
-
-#include "yas_processing_module.h"
-#include "yas_processing_send_number_processor.h"
-#include "yas_processing_send_signal_processor.h"
+#include <processing/yas_processing_module.h>
+#include <processing/yas_processing_send_number_processor.h>
+#include <processing/yas_processing_send_signal_processor.h>
 
 using namespace yas;
 using namespace yas::proc;

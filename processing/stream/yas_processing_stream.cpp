@@ -4,9 +4,9 @@
 
 #include "yas_processing_stream.h"
 
-#include <map>
+#include <processing/yas_processing_channel.h>
 
-#include "yas_processing_channel.h"
+#include <map>
 
 using namespace yas;
 using namespace yas::proc;

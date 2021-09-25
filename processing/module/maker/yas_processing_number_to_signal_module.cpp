@@ -6,16 +6,15 @@
 
 #include <cpp_utils/yas_boolean.h>
 #include <cpp_utils/yas_fast_each.h>
+#include <processing/yas_processing_module.h>
+#include <processing/yas_processing_number_event.h>
+#include <processing/yas_processing_number_process_context.h>
+#include <processing/yas_processing_receive_number_processor.h>
+#include <processing/yas_processing_remove_number_processor.h>
+#include <processing/yas_processing_send_signal_processor.h>
+#include <processing/yas_processing_signal_event.h>
 
 #include <map>
-
-#include "yas_processing_module.h"
-#include "yas_processing_number_event.h"
-#include "yas_processing_number_process_context.h"
-#include "yas_processing_receive_number_processor.h"
-#include "yas_processing_remove_number_processor.h"
-#include "yas_processing_send_signal_processor.h"
-#include "yas_processing_signal_event.h"
 
 using namespace yas;
 using namespace yas::proc;

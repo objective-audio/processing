@@ -4,11 +4,10 @@
 
 #include "yas_processing_timeline.h"
 
+#include <processing/yas_processing_stream.h>
+#include <processing/yas_processing_sync_source.h>
 #include <processing/yas_processing_timeline_utils.h>
-
-#include "yas_processing_stream.h"
-#include "yas_processing_sync_source.h"
-#include "yas_processing_track.h"
+#include <processing/yas_processing_track.h>
 
 using namespace yas;
 using namespace yas::proc;
