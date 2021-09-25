@@ -5,17 +5,16 @@
 #include "yas_processing_math2_modules.h"
 
 #include <cpp_utils/yas_fast_each.h>
-
-#include "yas_processing_constants.h"
-#include "yas_processing_module.h"
-#include "yas_processing_number_event.h"
-#include "yas_processing_number_process_context.h"
-#include "yas_processing_receive_number_processor.h"
-#include "yas_processing_receive_signal_processor.h"
-#include "yas_processing_send_number_processor.h"
-#include "yas_processing_send_signal_processor.h"
-#include "yas_processing_signal_event.h"
-#include "yas_processing_signal_process_context.h"
+#include <processing/yas_processing_constants.h>
+#include <processing/yas_processing_module.h>
+#include <processing/yas_processing_number_event.h>
+#include <processing/yas_processing_number_process_context.h>
+#include <processing/yas_processing_receive_number_processor.h>
+#include <processing/yas_processing_receive_signal_processor.h>
+#include <processing/yas_processing_send_number_processor.h>
+#include <processing/yas_processing_send_signal_processor.h>
+#include <processing/yas_processing_signal_event.h>
+#include <processing/yas_processing_signal_process_context.h>
 
 using namespace yas;
 using namespace yas::proc;

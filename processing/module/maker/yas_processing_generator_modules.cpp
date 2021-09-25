@@ -5,11 +5,10 @@
 #include "yas_processing_generator_modules.h"
 
 #include <cpp_utils/yas_fast_each.h>
-
-#include "yas_processing_module.h"
-#include "yas_processing_send_signal_processor.h"
-#include "yas_processing_signal_event.h"
-#include "yas_processing_sync_source.h"
+#include <processing/yas_processing_module.h>
+#include <processing/yas_processing_send_signal_processor.h>
+#include <processing/yas_processing_signal_event.h>
+#include <processing/yas_processing_sync_source.h>
 
 using namespace yas;
 using namespace yas::proc;

@@ -6,8 +6,7 @@
 
 #include <processing/yas_processing_number_event.h>
 #include <processing/yas_processing_signal_event.h>
-
-#include "yas_processing_time.h"
+#include <processing/yas_processing_time.h>
 
 using namespace yas;
 using namespace yas::proc;

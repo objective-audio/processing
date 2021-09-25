@@ -6,10 +6,9 @@
 
 #include <cpp_utils/yas_boolean.h>
 #include <cpp_utils/yas_stl_utils.h>
-
-#include "yas_processing_channel.h"
-#include "yas_processing_number_event.h"
-#include "yas_processing_stream.h"
+#include <processing/yas_processing_channel.h>
+#include <processing/yas_processing_number_event.h>
+#include <processing/yas_processing_stream.h>
 
 using namespace yas;
 using namespace yas::proc;

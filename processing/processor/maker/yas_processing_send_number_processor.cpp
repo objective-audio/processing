@@ -5,9 +5,8 @@
 #include "yas_processing_send_number_processor.h"
 
 #include <cpp_utils/yas_boolean.h>
-
-#include "yas_processing_stream.h"
-#include "yas_processing_time.h"
+#include <processing/yas_processing_stream.h>
+#include <processing/yas_processing_time.h>
 
 using namespace yas;
 using namespace yas::proc;
