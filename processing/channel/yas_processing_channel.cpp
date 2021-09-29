@@ -110,7 +110,7 @@ proc::channel::events_map_t proc::channel::copied_events(time::range const &copy
 void proc::channel::erase_events(time::range const &erase_range) {
     signal_event::pair_vector_t remained_signal;
 
-    erase_if(this->events(), [erase_range, &remained_signal](std::pair<time, event> const &event_pair) {
+    std::erase_if(this->events(), [erase_range, &remained_signal](std::pair<time, event> const &event_pair) {
         time const &event_time = event_pair.first;
         if (event_time.is_any_type()) {
             return true;

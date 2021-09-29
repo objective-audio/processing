@@ -10,7 +10,7 @@
 namespace yas {
 template <typename P>
 void proc::channel::erase_event_if(P predicate) {
-    erase_if(this->events(), predicate);
+    std::erase_if(this->events(), predicate);
 }
 
 template <typename SampleType, typename Event>
@@ -20,7 +20,7 @@ void proc::channel::erase_event() {
 
 template <typename SampleType, typename Event, typename P>
 void proc::channel::erase_event(P predicate) {
-    erase_if(this->events(), [predicate = std::move(predicate)](auto const &pair) {
+    std::erase_if(this->events(), [predicate = std::move(predicate)](auto const &pair) {
         time const &time = pair.first;
         if (time.type() == typeid(typename Event::time_type)) {
             if (auto const &casted_event = pair.second.template get<Event>()) {
