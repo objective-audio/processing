@@ -30,3 +30,6 @@ void connect(proc::module_ptr const &, proc::number_to_signal::output const &, p
 [[nodiscard]] std::string to_string(proc::number_to_signal::input const &);
 [[nodiscard]] std::string to_string(proc::number_to_signal::output const &);
 }  // namespace yas
+
+std::ostream &operator<<(std::ostream &, yas::proc::number_to_signal::input const &);
+std::ostream &operator<<(std::ostream &, yas::proc::number_to_signal::output const &);

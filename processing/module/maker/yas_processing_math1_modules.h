@@ -69,3 +69,7 @@ void connect(proc::module_ptr const &, proc::math1::output const &, proc::channe
 [[nodiscard]] std::string to_string(proc::math1::input const &);
 [[nodiscard]] std::string to_string(proc::math1::output const &);
 }  // namespace yas
+
+std::ostream &operator<<(std::ostream &, yas::proc::math1::kind const &);
+std::ostream &operator<<(std::ostream &, yas::proc::math1::input const &);
+std::ostream &operator<<(std::ostream &, yas::proc::math1::output const &);

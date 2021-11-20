@@ -30,3 +30,5 @@ void connect(proc::module_ptr const &, proc::generator::output const &, proc::ch
 
 [[nodiscard]] std::string to_string(proc::generator::output const &);
 }  // namespace yas
+
+std::ostream &operator<<(std::ostream &, yas::proc::generator::output const &);

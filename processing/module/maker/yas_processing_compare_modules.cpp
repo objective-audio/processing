@@ -237,3 +237,13 @@ std::string yas::to_string(proc::compare::output const &output) {
 
     throw "output not found.";
 }
+
+std::ostream &operator<<(std::ostream &os, yas::proc::compare::input const &value) {
+    os << to_string(value);
+    return os;
+}
+
+std::ostream &operator<<(std::ostream &os, yas::proc::compare::output const &value) {
+    os << to_string(value);
+    return os;
+}

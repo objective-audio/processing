@@ -36,4 +36,7 @@ std::string to_string(proc::cast::input const &);
 std::string to_string(proc::cast::output const &);
 }  // namespace yas
 
+std::ostream &operator<<(std::ostream &, yas::proc::cast::input const &);
+std::ostream &operator<<(std::ostream &, yas::proc::cast::output const &);
+
 #include <processing/yas_processing_cast_module_private.h>

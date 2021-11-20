@@ -212,4 +212,24 @@ using namespace yas::proc;
     XCTAssertEqual(to_string(cast::output::value), "value");
 }
 
+- (void)test_input_ostream {
+    auto const values = {cast::input::value};
+
+    for (auto const &value : values) {
+        std::ostringstream stream;
+        stream << value;
+        XCTAssertEqual(stream.str(), to_string(value));
+    }
+}
+
+- (void)test_output_ostream {
+    auto const values = {cast::output::value};
+
+    for (auto const &value : values) {
+        std::ostringstream stream;
+        stream << value;
+        XCTAssertEqual(stream.str(), to_string(value));
+    }
+}
+
 @end

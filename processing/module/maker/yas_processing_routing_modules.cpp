@@ -185,3 +185,13 @@ std::string yas::to_string(proc::routing::output const &output) {
 
     throw "output not found.";
 }
+
+std::ostream &operator<<(std::ostream &os, yas::proc::routing::input const &value) {
+    os << to_string(value);
+    return os;
+}
+
+std::ostream &operator<<(std::ostream &os, yas::proc::routing::output const &value) {
+    os << to_string(value);
+    return os;
+}

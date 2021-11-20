@@ -743,4 +743,40 @@ namespace test {
     XCTAssertEqual(to_string(math1::output::result), "result");
 }
 
+- (void)test_kind_ostream {
+    auto const values = {math1::kind::sin,   math1::kind::cos,   math1::kind::tan,   math1::kind::asin,
+                         math1::kind::acos,  math1::kind::atan,  math1::kind::sinh,  math1::kind::cosh,
+                         math1::kind::tanh,  math1::kind::asinh, math1::kind::acosh, math1::kind::atanh,
+                         math1::kind::exp,   math1::kind::exp2,  math1::kind::expm1, math1::kind::log,
+                         math1::kind::log10, math1::kind::log1p, math1::kind::log2,  math1::kind::sqrt,
+                         math1::kind::cbrt,  math1::kind::abs,   math1::kind::ceil,  math1::kind::floor,
+                         math1::kind::trunc, math1::kind::round};
+
+    for (auto const &value : values) {
+        std::ostringstream stream;
+        stream << value;
+        XCTAssertEqual(stream.str(), to_string(value));
+    }
+}
+
+- (void)test_input_ostream {
+    auto const values = {math1::input::parameter};
+
+    for (auto const &value : values) {
+        std::ostringstream stream;
+        stream << value;
+        XCTAssertEqual(stream.str(), to_string(value));
+    }
+}
+
+- (void)test_output_ostream {
+    auto const values = {math1::output::result};
+
+    for (auto const &value : values) {
+        std::ostringstream stream;
+        stream << value;
+        XCTAssertEqual(stream.str(), to_string(value));
+    }
+}
+
 @end

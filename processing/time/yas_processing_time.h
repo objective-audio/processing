@@ -96,3 +96,6 @@ namespace yas {
 [[nodiscard]] std::string to_string(proc::time const &);
 [[nodiscard]] std::string to_string(proc::time::range const &);
 }  // namespace yas
+
+std::ostream &operator<<(std::ostream &, yas::proc::time const &);
+std::ostream &operator<<(std::ostream &, yas::proc::time::range const &);

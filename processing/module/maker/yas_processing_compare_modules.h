@@ -45,3 +45,6 @@ void connect(proc::module_ptr const &, proc::compare::output const &, proc::chan
 [[nodiscard]] std::string to_string(proc::compare::input const &);
 [[nodiscard]] std::string to_string(proc::compare::output const &);
 }  // namespace yas
+
+std::ostream &operator<<(std::ostream &, yas::proc::compare::input const &);
+std::ostream &operator<<(std::ostream &, yas::proc::compare::output const &);

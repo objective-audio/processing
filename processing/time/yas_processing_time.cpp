@@ -323,6 +323,16 @@ std::string yas::to_string(proc::time::range const &range) {
     return "{" + std::to_string(range.frame) + ", " + std::to_string(range.length) + "}";
 }
 
+std::ostream &operator<<(std::ostream &os, yas::proc::time const &value) {
+    os << to_string(value);
+    return os;
+}
+
+std::ostream &operator<<(std::ostream &os, yas::proc::time::range const &value) {
+    os << to_string(value);
+    return os;
+}
+
 #pragma mark - private
 
 std::shared_ptr<proc::time::impl<proc::time::any>> const &proc::time::any_impl_ptr() {
