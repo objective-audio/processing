@@ -38,3 +38,6 @@ void connect(proc::module_ptr const &, proc::routing::output const &, proc::chan
 [[nodiscard]] std::string to_string(proc::routing::input const &);
 [[nodiscard]] std::string to_string(proc::routing::output const &);
 }  // namespace yas
+
+std::ostream &operator<<(std::ostream &, yas::proc::routing::input const &);
+std::ostream &operator<<(std::ostream &, yas::proc::routing::output const &);

@@ -71,3 +71,8 @@ std::string yas::to_string(proc::generator::output const &output) {
 
     throw "output not found.";
 }
+
+std::ostream &operator<<(std::ostream &os, yas::proc::generator::output const &value) {
+    os << to_string(value);
+    return os;
+}

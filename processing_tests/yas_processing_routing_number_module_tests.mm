@@ -194,4 +194,24 @@ using namespace yas::proc;
     XCTAssertEqual(to_string(routing::output::value), "value");
 }
 
+- (void)test_input_ostream {
+    auto const values = {routing::input::value};
+
+    for (auto const &value : values) {
+        std::ostringstream stream;
+        stream << value;
+        XCTAssertEqual(stream.str(), to_string(value));
+    }
+}
+
+- (void)test_output_ostream {
+    auto const values = {routing::output::value};
+
+    for (auto const &value : values) {
+        std::ostringstream stream;
+        stream << value;
+        XCTAssertEqual(stream.str(), to_string(value));
+    }
+}
+
 @end

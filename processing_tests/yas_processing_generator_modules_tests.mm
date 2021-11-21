@@ -166,4 +166,14 @@ using namespace yas::proc;
     XCTAssertEqual(to_string(generator::output::value), "value");
 }
 
+- (void)test_output_ostream {
+    auto const values = {generator::output::value};
+
+    for (auto const &value : values) {
+        std::ostringstream stream;
+        stream << value;
+        XCTAssertEqual(stream.str(), to_string(value));
+    }
+}
+
 @end

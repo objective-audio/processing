@@ -267,3 +267,18 @@ std::string yas::to_string(proc::math2::output const &output) {
 
     throw "output not found.";
 }
+
+std::ostream &operator<<(std::ostream &os, yas::proc::math2::kind const &value) {
+    os << to_string(value);
+    return os;
+}
+
+std::ostream &operator<<(std::ostream &os, yas::proc::math2::input const &value) {
+    os << to_string(value);
+    return os;
+}
+
+std::ostream &operator<<(std::ostream &os, yas::proc::math2::output const &value) {
+    os << to_string(value);
+    return os;
+}

@@ -29,3 +29,5 @@ void connect(proc::module_ptr const &, proc::envelope::output const &, proc::cha
 
 [[nodiscard]] std::string to_string(proc::envelope::output const &);
 }  // namespace yas
+
+std::ostream &operator<<(std::ostream &, yas::proc::envelope::output const &);

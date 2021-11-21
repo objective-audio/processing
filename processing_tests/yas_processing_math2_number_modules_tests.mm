@@ -391,4 +391,35 @@ using namespace yas::proc;
     XCTAssertEqual(to_string(math2::output::result), "result");
 }
 
+- (void)test_kind_ostream {
+    auto const values = {math2::kind::plus,  math2::kind::minus, math2::kind::multiply, math2::kind::divide,
+                         math2::kind::atan2, math2::kind::pow,   math2::kind::hypot};
+
+    for (auto const &value : values) {
+        std::ostringstream stream;
+        stream << value;
+        XCTAssertEqual(stream.str(), to_string(value));
+    }
+}
+
+- (void)test_input_ostream {
+    auto const values = {math2::input::left, math2::input::right};
+
+    for (auto const &value : values) {
+        std::ostringstream stream;
+        stream << value;
+        XCTAssertEqual(stream.str(), to_string(value));
+    }
+}
+
+- (void)test_output_ostream {
+    auto const values = {math2::output::result};
+
+    for (auto const &value : values) {
+        std::ostringstream stream;
+        stream << value;
+        XCTAssertEqual(stream.str(), to_string(value));
+    }
+}
+
 @end

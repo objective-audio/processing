@@ -108,3 +108,13 @@ std::string yas::to_string(proc::number_to_signal::output const &output) {
 
     throw "output not found.";
 }
+
+std::ostream &operator<<(std::ostream &os, yas::proc::number_to_signal::input const &value) {
+    os << to_string(value);
+    return os;
+}
+
+std::ostream &operator<<(std::ostream &os, yas::proc::number_to_signal::output const &value) {
+    os << to_string(value);
+    return os;
+}

@@ -309,4 +309,24 @@ using namespace yas::proc;
     XCTAssertEqual(to_string(time::range{1, 2}), "{1, 2}");
 }
 
+- (void)test_time_ostream {
+    auto const values = {make_frame_time(3), make_range_time(4, 5), make_any_time()};
+
+    for (auto const &value : values) {
+        std::ostringstream stream;
+        stream << value;
+        XCTAssertEqual(stream.str(), to_string(value));
+    }
+}
+
+- (void)test_time_range_ostream {
+    auto const values = {time::range{1, 2}};
+
+    for (auto const &value : values) {
+        std::ostringstream stream;
+        stream << value;
+        XCTAssertEqual(stream.str(), to_string(value));
+    }
+}
+
 @end

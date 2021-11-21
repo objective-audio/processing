@@ -124,3 +124,8 @@ std::string yas::to_string(proc::envelope::output const &output) {
 
     throw "output not found.";
 }
+
+std::ostream &operator<<(std::ostream &os, yas::proc::envelope::output const &value) {
+    os << to_string(value);
+    return os;
+}
