@@ -14,9 +14,9 @@ using namespace yas;
 using namespace yas::proc;
 
 template <typename SampleType>
-module_ptr file::make_signal_module(url const &url, frame_index_t const module_offset,
+module_ptr file::make_signal_module(std::filesystem::path const &path, frame_index_t const module_offset,
                                     frame_index_t const file_offset) {
-    auto context = std::make_shared<file::context<SampleType>>(url, module_offset, file_offset);
+    auto context = std::make_shared<file::context<SampleType>>(path, module_offset, file_offset);
 
     auto make_processors = [context] {
         auto prepare_processor = [context](time::range const &current_range, connector_map_t const &,
@@ -34,9 +34,11 @@ module_ptr file::make_signal_module(url const &url, frame_index_t const module_o
     return module::make_shared(std::move(make_processors));
 }
 
-template proc::module_ptr proc::file::make_signal_module<double>(url const &, frame_index_t const, frame_index_t const);
-template proc::module_ptr proc::file::make_signal_module<float>(url const &, frame_index_t const, frame_index_t const);
-template proc::module_ptr proc::file::make_signal_module<int32_t>(url const &, frame_index_t const,
+template proc::module_ptr proc::file::make_signal_module<double>(std::filesystem::path const &, frame_index_t const,
+                                                                 frame_index_t const);
+template proc::module_ptr proc::file::make_signal_module<float>(std::filesystem::path const &, frame_index_t const,
+                                                                frame_index_t const);
+template proc::module_ptr proc::file::make_signal_module<int32_t>(std::filesystem::path const &, frame_index_t const,
                                                                   frame_index_t const);
-template proc::module_ptr proc::file::make_signal_module<int16_t>(url const &, frame_index_t const,
+template proc::module_ptr proc::file::make_signal_module<int16_t>(std::filesystem::path const &, frame_index_t const,
                                                                   frame_index_t const);

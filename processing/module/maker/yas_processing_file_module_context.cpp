@@ -13,21 +13,23 @@ using namespace yas;
 using namespace yas::proc;
 
 template <typename SampleType>
-file::context<SampleType>::context(url const &url, frame_index_t const module_offset, frame_index_t const file_offset)
-    : _url(url), _module_offset(module_offset), _file_offset(file_offset) {
+file::context<SampleType>::context(std::filesystem::path const &path, frame_index_t const module_offset,
+                                   frame_index_t const file_offset)
+    : _path(path), _module_offset(module_offset), _file_offset(file_offset) {
 }
 
-template file::context<double>::context(url const &, frame_index_t const, frame_index_t const);
-template file::context<float>::context(url const &, frame_index_t const, frame_index_t const);
-template file::context<int32_t>::context(url const &, frame_index_t const, frame_index_t const);
-template file::context<int16_t>::context(url const &, frame_index_t const, frame_index_t const);
+template file::context<double>::context(std::filesystem::path const &, frame_index_t const, frame_index_t const);
+template file::context<float>::context(std::filesystem::path const &, frame_index_t const, frame_index_t const);
+template file::context<int32_t>::context(std::filesystem::path const &, frame_index_t const, frame_index_t const);
+template file::context<int16_t>::context(std::filesystem::path const &, frame_index_t const, frame_index_t const);
 
 template <typename SampleType>
 void file::context<SampleType>::read_from_file(time::range const &time_range, sync_source const &sync_src,
                                                connector_index_t const co_idx, SampleType *const signal_ptr) const {
     memset(signal_ptr, 0, time_range.length * sizeof(SampleType));
 
-    auto file_result = audio::file::make_opened({.file_url = this->_url, .pcm_format = proc::pcm_format<SampleType>()});
+    auto file_result =
+        audio::file::make_opened({.file_path = this->_path, .pcm_format = proc::pcm_format<SampleType>()});
     if (file_result.is_error()) {
         return;
     }
