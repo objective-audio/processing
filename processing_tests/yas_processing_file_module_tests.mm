@@ -4,7 +4,6 @@
 
 #import <XCTest/XCTest.h>
 #import <audio/yas_audio_umbrella.h>
-#import <cpp_utils/yas_url.h>
 #import <processing/yas_processing_file_module.h>
 #import "yas_processing_test_utils.h"
 
@@ -17,9 +16,9 @@ static uint32_t constexpr ch_count = 2;
 static uint32_t constexpr bit_depth = 16;
 static audio::pcm_format constexpr pcm_format = audio::pcm_format::int16;
 
-static void setup_file(url const &url) {
+static void setup_file(std::filesystem::path const &path) {
     auto const file_result =
-        audio::file::make_created({.file_url = url,
+        audio::file::make_created({.file_path = path,
                                    .pcm_format = pcm_format,
                                    .settings = audio::wave_file_settings(sample_rate, ch_count, bit_depth)});
     XCTAssertTrue(file_result.is_success());
@@ -57,10 +56,10 @@ static void setup_file(url const &url) {
 }
 
 - (void)test_context_read_from_file {
-    auto url = test_utils::test_url().appending("test.wav");
-    test_utils::file_module::setup_file(url);
+    auto path = test_utils::test_path().append("test.wav");
+    test_utils::file_module::setup_file(path);
 
-    file::context<int16_t> const context{url, 0, 0};
+    file::context<int16_t> const context{path, 0, 0};
 
     audio::format const format{{.sample_rate = test_utils::file_module::sample_rate,
                                 .channel_count = 1,
@@ -136,7 +135,7 @@ static void setup_file(url const &url) {
 
     [XCTContext runActivityNamed:@"型が違うが変換される"
                            block:^(id<XCTActivity> activity) {
-                               file::context<float> const context{url, 0, 0};
+                               file::context<float> const context{path, 0, 0};
 
                                audio::format const format{{.sample_rate = test_utils::file_module::sample_rate,
                                                            .channel_count = 1,
@@ -153,7 +152,7 @@ static void setup_file(url const &url) {
     [XCTContext
         runActivityNamed:@"sample_rateが違うので0が返る"
                    block:^(id<XCTActivity> activity) {
-                       file::context<float> const context{url, 0, 0};
+                       file::context<float> const context{path, 0, 0};
 
                        audio::format const format{
                            {.sample_rate = 96000, .channel_count = 1, .pcm_format = audio::pcm_format::float32}};
@@ -168,7 +167,7 @@ static void setup_file(url const &url) {
 
     [XCTContext runActivityNamed:@"module_offsetをずらす"
                            block:^(id<XCTActivity> activity) {
-                               file::context<int16_t> const context{url, 10, 0};
+                               file::context<int16_t> const context{path, 10, 0};
 
                                context.read_from_file(time::range{8, 2}, sync_src, 0, data);
 
@@ -198,7 +197,7 @@ static void setup_file(url const &url) {
 
     [XCTContext runActivityNamed:@"file_offsetをずらす"
                            block:^(id<XCTActivity> activity) {
-                               file::context<int16_t> const context{url, 0, 1};
+                               file::context<int16_t> const context{path, 0, 1};
 
                                context.read_from_file(time::range{-2, 2}, sync_src, 0, data);
 
@@ -223,23 +222,23 @@ static void setup_file(url const &url) {
 }
 
 - (void)test_make_signal_module {
-    auto const url = test_utils::test_url().appending("test.wav");
+    auto const path = test_utils::test_path().append("test.wav");
 
-    XCTAssertTrue(file::make_signal_module<double>(url, 0, 0));
-    XCTAssertTrue(file::make_signal_module<float>(url, 0, 0));
-    XCTAssertTrue(file::make_signal_module<int32_t>(url, 0, 0));
-    XCTAssertTrue(file::make_signal_module<int16_t>(url, 0, 0));
+    XCTAssertTrue(file::make_signal_module<double>(path, 0, 0));
+    XCTAssertTrue(file::make_signal_module<float>(path, 0, 0));
+    XCTAssertTrue(file::make_signal_module<int32_t>(path, 0, 0));
+    XCTAssertTrue(file::make_signal_module<int16_t>(path, 0, 0));
 }
 
 - (void)test_process {
     length_t const process_length = 4;
 
-    auto const url = test_utils::test_url().appending("test.wav");
-    test_utils::file_module::setup_file(url);
+    auto const path = test_utils::test_path().append("test.wav");
+    test_utils::file_module::setup_file(path);
 
     sync_source const sync_src{(sample_rate_t)test_utils::file_module::sample_rate, process_length};
 
-    auto const module = file::make_signal_module<int16_t>(url, 0, 0);
+    auto const module = file::make_signal_module<int16_t>(path, 0, 0);
 
     module->connect_output(0, 0);
     module->connect_output(1, 1);
