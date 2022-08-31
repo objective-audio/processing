@@ -11,7 +11,7 @@ using namespace yas;
 using namespace yas::proc;
 
 std::filesystem::path test_utils::test_path() {
-    auto directory = system_path_utils::directory_fs_path(system_path_utils::dir::temporary);
+    auto directory = system_path_utils::directory_path(system_path_utils::dir::temporary);
     return directory.append("jp.objective-audio.processing_tests");
 }
 
