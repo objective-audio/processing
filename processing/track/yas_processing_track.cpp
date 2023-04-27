@@ -65,13 +65,19 @@ void track::insert_module(module_ptr const &module, module_index_t const idx, ti
     }
 }
 
-bool track::erase_module(module_ptr const &module) {
-    for (auto &pair : this->_module_sets_holder->elements()) {
-        if (this->erase_module(module, pair.first)) {
-            return true;
+bool track::erase_module(module_ptr const &erasing) {
+    std::optional<time::range> range;
+
+    for (auto const &pair : this->_module_sets_holder->elements()) {
+        for (auto const &module : pair.second->modules()) {
+            if (module == erasing) {
+                range = pair.first;
+                break;
+            }
         }
     }
-    return false;
+
+    return range.has_value() && this->erase_module(erasing, range.value());
 }
 
 bool track::erase_module(module_ptr const &erasing, time::range const &range) {
