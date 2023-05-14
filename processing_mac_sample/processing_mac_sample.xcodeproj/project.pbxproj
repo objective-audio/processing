@@ -16,6 +16,7 @@
 		B650E3E31DD810B300E423C7 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = B650E3E21DD810B300E423C7 /* ViewController.mm */; };
 		B650E3E51DD810B300E423C7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B650E3E41DD810B300E423C7 /* Assets.xcassets */; };
 		B650E3E81DD810B300E423C7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B650E3E61DD810B300E423C7 /* Main.storyboard */; };
+		B681EB062A10E53400C60833 /* UniformTypeIdentifiers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B681EB052A10E53400C60833 /* UniformTypeIdentifiers.framework */; };
 		B6A989DE25F3B3F9007BD61F /* observing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6A989DD25F3B3F9007BD61F /* observing.framework */; };
 		B6AA843D1E67F21A00120472 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6AA843C1E67F21A00120472 /* AVFoundation.framework */; };
 		B6AA84401E67F22700120472 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6AA843E1E67F22700120472 /* AudioToolbox.framework */; };
@@ -38,6 +39,7 @@
 		B650E3E41DD810B300E423C7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B650E3E71DD810B300E423C7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B650E3E91DD810B300E423C7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B681EB052A10E53400C60833 /* UniformTypeIdentifiers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UniformTypeIdentifiers.framework; path = System/Library/Frameworks/UniformTypeIdentifiers.framework; sourceTree = SDKROOT; };
 		B6A989DD25F3B3F9007BD61F /* observing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = observing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6AA843C1E67F21A00120472 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		B6AA843E1E67F22700120472 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -54,6 +56,7 @@
 				B623823021E3794F00234CC2 /* cpp_utils.framework in Frameworks */,
 				B623823221E3794F00234CC2 /* objc_utils.framework in Frameworks */,
 				B623823421E3794F00234CC2 /* processing.framework in Frameworks */,
+				B681EB062A10E53400C60833 /* UniformTypeIdentifiers.framework in Frameworks */,
 				B6AA84431E67F23400120472 /* Accelerate.framework in Frameworks */,
 				B6A989DE25F3B3F9007BD61F /* observing.framework in Frameworks */,
 				B6AA84401E67F22700120472 /* AudioToolbox.framework in Frameworks */,
@@ -108,6 +111,7 @@
 		B6AA843B1E67F21A00120472 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B681EB052A10E53400C60833 /* UniformTypeIdentifiers.framework */,
 				B6A989DD25F3B3F9007BD61F /* observing.framework */,
 				B623823521E3796E00234CC2 /* audio.framework */,
 				B623822D21E3794F00234CC2 /* chaining.framework */,
