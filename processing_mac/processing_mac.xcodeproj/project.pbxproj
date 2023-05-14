@@ -60,7 +60,7 @@
 		B623821B21E2DD4D00234CC2 /* yas_processing_stream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B62381D821E2DD4D00234CC2 /* yas_processing_stream.cpp */; };
 		B623821C21E2DD4D00234CC2 /* yas_processing_timeline.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B62381D921E2DD4D00234CC2 /* yas_processing_timeline.cpp */; };
 		B623821D21E2DD4D00234CC2 /* yas_processing_event.h in Headers */ = {isa = PBXBuildFile; fileRef = B62381DA21E2DD4D00234CC2 /* yas_processing_event.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B623821E21E2DD4D00234CC2 /* yas_processing_umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = B62381DB21E2DD4D00234CC2 /* yas_processing_umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B623821E21E2DD4D00234CC2 /* yas_processing_umbrella.hpp in Headers */ = {isa = PBXBuildFile; fileRef = B62381DB21E2DD4D00234CC2 /* yas_processing_umbrella.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		B623821F21E2DD4D00234CC2 /* yas_processing_module.h in Headers */ = {isa = PBXBuildFile; fileRef = B62381DC21E2DD4D00234CC2 /* yas_processing_module.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B623822021E2DD4D00234CC2 /* yas_processing_connector.h in Headers */ = {isa = PBXBuildFile; fileRef = B62381DD21E2DD4D00234CC2 /* yas_processing_connector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B623822121E2DD4D00234CC2 /* yas_processing_sync_source.h in Headers */ = {isa = PBXBuildFile; fileRef = B62381DE21E2DD4D00234CC2 /* yas_processing_sync_source.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -155,7 +155,7 @@
 		B62381D821E2DD4D00234CC2 /* yas_processing_stream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = yas_processing_stream.cpp; sourceTree = "<group>"; };
 		B62381D921E2DD4D00234CC2 /* yas_processing_timeline.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = yas_processing_timeline.cpp; sourceTree = "<group>"; };
 		B62381DA21E2DD4D00234CC2 /* yas_processing_event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yas_processing_event.h; sourceTree = "<group>"; };
-		B62381DB21E2DD4D00234CC2 /* yas_processing_umbrella.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yas_processing_umbrella.h; sourceTree = "<group>"; };
+		B62381DB21E2DD4D00234CC2 /* yas_processing_umbrella.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = yas_processing_umbrella.hpp; sourceTree = "<group>"; };
 		B62381DC21E2DD4D00234CC2 /* yas_processing_module.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yas_processing_module.h; sourceTree = "<group>"; };
 		B62381DD21E2DD4D00234CC2 /* yas_processing_connector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yas_processing_connector.h; sourceTree = "<group>"; };
 		B62381DE21E2DD4D00234CC2 /* yas_processing_sync_source.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yas_processing_sync_source.h; sourceTree = "<group>"; };
@@ -262,7 +262,7 @@
 				B69CD2FF25F46E20000AEE7E /* time */,
 				B69CD2FD25F46E19000AEE7E /* timeline */,
 				B69CD2FB25F46E12000AEE7E /* track */,
-				B62381DB21E2DD4D00234CC2 /* yas_processing_umbrella.h */,
+				B62381DB21E2DD4D00234CC2 /* yas_processing_umbrella.hpp */,
 			);
 			name = processing;
 			path = ../../processing;
@@ -510,7 +510,7 @@
 				B62381F121E2DD4D00234CC2 /* yas_processing_time.h in Headers */,
 				B62381ED21E2DD4D00234CC2 /* yas_processing_channel_private.h in Headers */,
 				B62381F021E2DD4D00234CC2 /* yas_processing_processor.h in Headers */,
-				B623821E21E2DD4D00234CC2 /* yas_processing_umbrella.h in Headers */,
+				B623821E21E2DD4D00234CC2 /* yas_processing_umbrella.hpp in Headers */,
 				B62381EC21E2DD4D00234CC2 /* yas_processing_channel.h in Headers */,
 				B623821A21E2DD4D00234CC2 /* yas_processing_common_types.h in Headers */,
 				B623822121E2DD4D00234CC2 /* yas_processing_sync_source.h in Headers */,

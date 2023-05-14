@@ -15,7 +15,7 @@
 		B67E644D25FBAB010031C189 /* yas_processing_track_types.h in Headers */ = {isa = PBXBuildFile; fileRef = B67E63EF25FBAB010031C189 /* yas_processing_track_types.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B67E644E25FBAB010031C189 /* yas_processing_track_utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B67E63F025FBAB010031C189 /* yas_processing_track_utils.cpp */; };
 		B67E644F25FBAB010031C189 /* yas_processing_track.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B67E63F125FBAB010031C189 /* yas_processing_track.cpp */; };
-		B67E645025FBAB010031C189 /* yas_processing_umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = B67E63F225FBAB010031C189 /* yas_processing_umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B67E645025FBAB010031C189 /* yas_processing_umbrella.hpp in Headers */ = {isa = PBXBuildFile; fileRef = B67E63F225FBAB010031C189 /* yas_processing_umbrella.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		B67E645125FBAB010031C189 /* yas_processing_number_process_context_private.h in Headers */ = {isa = PBXBuildFile; fileRef = B67E63F625FBAB010031C189 /* yas_processing_number_process_context_private.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B67E645225FBAB010031C189 /* yas_processing_signal_process_context.h in Headers */ = {isa = PBXBuildFile; fileRef = B67E63F725FBAB010031C189 /* yas_processing_signal_process_context.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B67E645325FBAB010031C189 /* yas_processing_number_process_context.h in Headers */ = {isa = PBXBuildFile; fileRef = B67E63F825FBAB010031C189 /* yas_processing_number_process_context.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -111,7 +111,7 @@
 		B67E63EF25FBAB010031C189 /* yas_processing_track_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yas_processing_track_types.h; sourceTree = "<group>"; };
 		B67E63F025FBAB010031C189 /* yas_processing_track_utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = yas_processing_track_utils.cpp; sourceTree = "<group>"; };
 		B67E63F125FBAB010031C189 /* yas_processing_track.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = yas_processing_track.cpp; sourceTree = "<group>"; };
-		B67E63F225FBAB010031C189 /* yas_processing_umbrella.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yas_processing_umbrella.h; sourceTree = "<group>"; };
+		B67E63F225FBAB010031C189 /* yas_processing_umbrella.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = yas_processing_umbrella.hpp; sourceTree = "<group>"; };
 		B67E63F625FBAB010031C189 /* yas_processing_number_process_context_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yas_processing_number_process_context_private.h; sourceTree = "<group>"; };
 		B67E63F725FBAB010031C189 /* yas_processing_signal_process_context.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yas_processing_signal_process_context.h; sourceTree = "<group>"; };
 		B67E63F825FBAB010031C189 /* yas_processing_number_process_context.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yas_processing_number_process_context.h; sourceTree = "<group>"; };
@@ -255,7 +255,7 @@
 			isa = PBXGroup;
 			children = (
 				B67E63EC25FBAB010031C189 /* track */,
-				B67E63F225FBAB010031C189 /* yas_processing_umbrella.h */,
+				B67E63F225FBAB010031C189 /* yas_processing_umbrella.hpp */,
 				B67E63F425FBAB010031C189 /* module */,
 				B67E641225FBAB010031C189 /* stream */,
 				B67E641525FBAB010031C189 /* processor */,
@@ -498,7 +498,7 @@
 				B67E649425FBAB010031C189 /* yas_processing_event.h in Headers */,
 				B67E649125FBAB010031C189 /* yas_processing_number_event_private.h in Headers */,
 				B67E648C25FBAB010031C189 /* yas_processing_timeline_utils.h in Headers */,
-				B67E645025FBAB010031C189 /* yas_processing_umbrella.h in Headers */,
+				B67E645025FBAB010031C189 /* yas_processing_umbrella.hpp in Headers */,
 				B67E648225FBAB010031C189 /* yas_processing_ptr.h in Headers */,
 				B67E645C25FBAB010031C189 /* yas_processing_routing_modules.h in Headers */,
 				B67E648025FBAB010031C189 /* yas_processing_channel_private.h in Headers */,

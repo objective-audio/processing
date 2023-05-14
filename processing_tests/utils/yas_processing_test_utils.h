@@ -4,9 +4,8 @@
 
 #pragma once
 
-#include <processing/yas_processing_umbrella.h>
-
 #include <functional>
+#include <processing/yas_processing_umbrella.hpp>
 
 using namespace yas;
 using namespace yas::proc;
