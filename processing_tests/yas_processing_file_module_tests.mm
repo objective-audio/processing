@@ -3,8 +3,8 @@
 //
 
 #import <XCTest/XCTest.h>
-#import <audio/yas_audio_umbrella.h>
 #import <processing/yas_processing_file_module.h>
+#import <audio/yas_audio_umbrella.hpp>
 #import "yas_processing_test_utils.h"
 
 using namespace yas;

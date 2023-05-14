@@ -4,12 +4,12 @@
 
 #pragma once
 
-#include <observing/yas_observing_umbrella.h>
 #include <processing/yas_processing_connector.h>
 #include <processing/yas_processing_processor.h>
 #include <processing/yas_processing_stream.h>
 #include <processing/yas_processing_time.h>
 
+#include <observing/yas_observing_umbrella.hpp>
 #include <vector>
 
 namespace yas::proc {

@@ -4,9 +4,10 @@
 
 #pragma once
 
-#include <observing/yas_observing_umbrella.h>
 #include <processing/yas_processing_time.h>
 #include <processing/yas_processing_timeline_types.h>
+
+#include <observing/yas_observing_umbrella.hpp>
 
 namespace yas::proc {
 [[nodiscard]] timeline_event_type to_timeline_event_type(observing::map::event_type const &);

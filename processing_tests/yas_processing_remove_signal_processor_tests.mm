@@ -3,7 +3,7 @@
 //
 
 #import <XCTest/XCTest.h>
-#import <processing/yas_processing_umbrella.h>
+#import <processing/yas_processing_umbrella.hpp>
 
 using namespace yas;
 using namespace yas::proc;
