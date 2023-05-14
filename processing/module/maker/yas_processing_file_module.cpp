@@ -4,7 +4,6 @@
 
 #include "yas_processing_file_module.h"
 
-#include <audio/yas_audio_umbrella.h>
 #include <processing/yas_processing_file_module_context.h>
 #include <processing/yas_processing_module.h>
 #include <processing/yas_processing_module_utils.h>

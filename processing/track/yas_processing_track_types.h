@@ -4,10 +4,11 @@
 
 #pragma once
 
-#include <observing/yas_observing_umbrella.h>
 #include <processing/yas_processing_module_set_types.h>
 #include <processing/yas_processing_ptr.h>
 #include <processing/yas_processing_time.h>
+
+#include <observing/yas_observing_umbrella.hpp>
 
 namespace yas::proc {
 using track_module_set_map_t = std::map<time::range, module_set_ptr>;

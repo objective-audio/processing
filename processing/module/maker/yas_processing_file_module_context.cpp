@@ -4,10 +4,11 @@
 
 #include "yas_processing_file_module_context.h"
 
-#include <audio/yas_audio_umbrella.h>
 #include <processing/yas_processing_module.h>
 #include <processing/yas_processing_module_utils.h>
 #include <processing/yas_processing_send_signal_processor.h>
+
+#include <audio/yas_audio_umbrella.hpp>
 
 using namespace yas;
 using namespace yas::proc;

@@ -4,9 +4,10 @@
 
 #pragma once
 
-#include <audio/yas_audio_umbrella.h>
 #include <processing/yas_processing_common_types.h>
 #include <processing/yas_processing_time.h>
+
+#include <audio/yas_audio_umbrella.hpp>
 
 namespace yas::proc {
 template <typename T>

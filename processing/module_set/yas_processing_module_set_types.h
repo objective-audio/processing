@@ -4,9 +4,9 @@
 
 #pragma once
 
-#include <observing/yas_observing_umbrella.h>
 #include <processing/yas_processing_ptr.h>
 
+#include <observing/yas_observing_umbrella.hpp>
 #include <vector>
 
 namespace yas::proc {
