@@ -50,6 +50,11 @@ void timeline::erase_track(track_index_t const trk_idx) {
     this->_tracks_holder->erase(trk_idx);
 }
 
+void timeline::erase_all_tracks() {
+    this->_track_cancellers.clear();
+    this->_tracks_holder->clear();
+}
+
 std::size_t timeline::track_count() const {
     return this->_tracks_holder->size();
 }

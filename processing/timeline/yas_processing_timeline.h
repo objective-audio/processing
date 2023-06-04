@@ -24,6 +24,7 @@ struct timeline final {
 
     bool insert_track(track_index_t const, track_ptr const &);
     void erase_track(track_index_t const);
+    void erase_all_tracks();
     [[nodiscard]] std::size_t track_count() const;
     [[nodiscard]] bool has_track(track_index_t const) const;
     [[nodiscard]] track_ptr const &track(track_index_t const) const;
