@@ -44,6 +44,14 @@ timeline::track_map_t const &timeline::tracks() const {
     return this->_tracks_holder->elements();
 }
 
+void timeline::replace_tracks(track_map_t &&tracks) {
+    this->_track_cancellers.clear();
+
+    this->_tracks_holder->replace(std::move(tracks));
+
+    this->_observe_all_tracks();
+}
+
 bool timeline::insert_track(track_index_t const trk_idx, proc::track_ptr const &track) {
     auto const &tracks_holder = this->_tracks_holder;
     if (!tracks_holder->contains(trk_idx)) {

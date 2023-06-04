@@ -25,6 +25,7 @@ struct timeline final {
 
     [[nodiscard]] track_map_t const &tracks() const;
 
+    void replace_tracks(track_map_t &&);
     bool insert_track(track_index_t const, track_ptr const &);
     void erase_track(track_index_t const);
     void erase_all_tracks();
