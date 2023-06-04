@@ -80,6 +80,19 @@ using namespace yas::proc;
     XCTAssertTrue(timeline->has_track(11));
 }
 
+- (void)test_erase_all_tracks {
+    auto timeline = timeline::make_shared();
+
+    timeline->insert_track(20, track::make_shared());
+    timeline->insert_track(21, track::make_shared());
+
+    timeline->erase_all_tracks();
+
+    XCTAssertEqual(timeline->track_count(), 0);
+    XCTAssertFalse(timeline->has_track(20));
+    XCTAssertFalse(timeline->has_track(21));
+}
+
 - (void)test_process {
     auto timeline = timeline::make_shared();
 
