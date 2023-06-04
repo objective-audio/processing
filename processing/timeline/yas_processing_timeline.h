@@ -18,8 +18,11 @@ struct timeline final {
     using process_track_f =
         std::function<continuation(time::range const &, stream const &, std::optional<track_index_t> const &)>;
     using process_f = std::function<continuation(time::range const &, stream const &)>;
-
     using track_map_t = timeline_track_map_t;
+
+    [[nodiscard]] static timeline_ptr make_shared();
+    [[nodiscard]] static timeline_ptr make_shared(track_map_t &&);
+
     [[nodiscard]] track_map_t const &tracks() const;
 
     bool insert_track(track_index_t const, track_ptr const &);
@@ -42,9 +45,6 @@ struct timeline final {
     using observing_handler_f = std::function<void(timeline_event const &)>;
     [[nodiscard]] observing::syncable observe(observing_handler_f &&);
 
-    [[nodiscard]] static timeline_ptr make_shared();
-    [[nodiscard]] static timeline_ptr make_shared(track_map_t &&);
-
    private:
     using tracks_holder_t = observing::map::holder<track_index_t, track_ptr>;
     using tracks_holder_ptr_t = observing::map::holder_ptr<track_index_t, track_ptr>;
@@ -60,5 +60,6 @@ struct timeline final {
     continuation _process_tracks(time::range const &, stream &, process_track_f const &);
     void _push_timeline_event(timeline_event const &);
     void _observe_track(track_index_t const &);
+    void _observe_all_tracks();
 };
 }  // namespace yas::proc
