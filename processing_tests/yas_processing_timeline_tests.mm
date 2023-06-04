@@ -24,17 +24,17 @@ using namespace yas::proc;
 }
 
 - (void)test_create {
-    auto timeline = timeline::make_shared();
+    auto const timeline = timeline::make_shared();
 
     XCTAssertEqual(timeline->track_count(), 0);
 }
 
 - (void)test_insert_track {
-    auto timeline = timeline::make_shared();
+    auto const timeline = timeline::make_shared();
 
-    auto track1 = track::make_shared();
-    auto track2 = track::make_shared();
-    auto track_minus_1 = track::make_shared();
+    auto const track1 = track::make_shared();
+    auto const track2 = track::make_shared();
+    auto const track_minus_1 = track::make_shared();
 
     timeline->insert_track(1, track1);
     timeline->insert_track(2, track2);
@@ -54,13 +54,13 @@ using namespace yas::proc;
 }
 
 - (void)test_insert_track_result {
-    auto timeline = timeline::make_shared();
+    auto const timeline = timeline::make_shared();
 
-    auto track_a = track::make_shared();
+    auto const track_a = track::make_shared();
 
     XCTAssertTrue(timeline->insert_track(0, track_a));
 
-    auto track_b = track::make_shared();
+    auto const track_b = track::make_shared();
 
     XCTAssertFalse(timeline->insert_track(0, track_b));
 
@@ -68,7 +68,7 @@ using namespace yas::proc;
 }
 
 - (void)test_erase_track {
-    auto timeline = timeline::make_shared();
+    auto const timeline = timeline::make_shared();
 
     timeline->insert_track(10, track::make_shared());
     timeline->insert_track(11, track::make_shared());
@@ -81,7 +81,7 @@ using namespace yas::proc;
 }
 
 - (void)test_erase_all_tracks {
-    auto timeline = timeline::make_shared();
+    auto const timeline = timeline::make_shared();
 
     timeline->insert_track(20, track::make_shared());
     timeline->insert_track(21, track::make_shared());
@@ -94,7 +94,7 @@ using namespace yas::proc;
 }
 
 - (void)test_process {
-    auto timeline = timeline::make_shared();
+    auto const timeline = timeline::make_shared();
 
     proc::time called_send_time = nullptr;
     proc::time called_receive_time = nullptr;
@@ -112,7 +112,7 @@ using namespace yas::proc;
 
     // setup track1 > インデックスをそのままセット
 
-    auto track1 = track::make_shared();
+    auto const track1 = track::make_shared();
 
     auto module1 = module::make_shared([] {
         auto send_handler1 = [](time::range const &time_range, sync_source const &, channel_index_t const ch_idx,
@@ -132,7 +132,7 @@ using namespace yas::proc;
 
     // setup track2 > +1する
 
-    auto track2 = track::make_shared();
+    auto const track2 = track::make_shared();
 
     auto send_handler2 = [&process_signal, &called_send_time](
                              time::range const &time_range, sync_source const &, channel_index_t const ch_idx,
@@ -238,12 +238,12 @@ using namespace yas::proc;
 }
 
 - (void)test_process_with_handler {
-    auto timeline = timeline::make_shared();
+    auto const timeline = timeline::make_shared();
 
     channel_index_t const ch_idx = 0;
     length_t const process_length = 5;
 
-    auto track = track::make_shared();
+    auto const track = track::make_shared();
     auto fast_each = make_fast_each<frame_index_t>(process_length);
     while (yas_each_next(fast_each)) {
         auto const &idx = yas_each_index(fast_each);
@@ -279,7 +279,7 @@ using namespace yas::proc;
 }
 
 - (void)test_process_with_track_handler {
-    auto timeline = timeline::make_shared();
+    auto const timeline = timeline::make_shared();
 
     channel_index_t const ch_idx = 0;
     length_t const process_length = 5;
@@ -287,7 +287,7 @@ using namespace yas::proc;
     auto trk_each = make_fast_each(2);
     while (yas_each_next(trk_each)) {
         auto const &trk_idx = yas_each_index(trk_each);
-        auto track = track::make_shared();
+        auto const track = track::make_shared();
         auto frame_each = make_fast_each<frame_index_t>(process_length);
         while (yas_each_next(frame_each)) {
             auto const &frame_idx = yas_each_index(frame_each);
@@ -358,7 +358,7 @@ using namespace yas::proc;
 }
 
 - (void)test_stop_process_with_handler {
-    auto timeline = timeline::make_shared();
+    auto const timeline = timeline::make_shared();
 
     length_t const process_length = 10;
     frame_index_t last_frame = 0;
@@ -377,29 +377,29 @@ using namespace yas::proc;
 }
 
 - (void)test_total_range {
-    auto timeline = timeline::make_shared();
+    auto const timeline = timeline::make_shared();
 
     XCTAssertFalse(timeline->total_range());
 
-    auto track_0 = track::make_shared();
+    auto const track_0 = track::make_shared();
     track_0->push_back_module(module::make_shared([] { return module::processors_t{}; }), {0, 1});
     timeline->insert_track(0, track_0);
 
     XCTAssertEqual(timeline->total_range(), (time::range{0, 1}));
 
-    auto track_1 = track::make_shared();
+    auto const track_1 = track::make_shared();
     track_1->push_back_module(module::make_shared([] { return module::processors_t{}; }), {1, 1});
     timeline->insert_track(1, track_1);
 
     XCTAssertEqual(timeline->total_range(), (time::range{0, 2}));
 
-    auto track_2 = track::make_shared();
+    auto const track_2 = track::make_shared();
     track_2->push_back_module(module::make_shared([] { return module::processors_t{}; }), {99, 1});
     timeline->insert_track(2, track_2);
 
     XCTAssertEqual(timeline->total_range(), (time::range{0, 100}));
 
-    auto track_3 = track::make_shared();
+    auto const track_3 = track::make_shared();
     track_3->push_back_module(module::make_shared([] { return module::processors_t{}; }), {-10, 1});
     timeline->insert_track(3, track_3);
 
@@ -417,10 +417,10 @@ using namespace yas::proc;
         return module::processors_t{std::move(processor)};
     });
 
-    auto track = track::make_shared();
+    auto const track = track::make_shared();
     track->push_back_module(std::move(module), {0, 1});
 
-    auto timeline = timeline::make_shared();
+    auto const timeline = timeline::make_shared();
     timeline->insert_track(0, std::move(track));
 
     auto copied_timeline = timeline->copy();
@@ -441,6 +441,92 @@ using namespace yas::proc;
 
     XCTAssertEqual(called.size(), 2);
     XCTAssertEqual(called.at(1), 1);
+}
+
+- (void)test_observe_timeline {
+    auto const timeline = timeline::make_shared();
+
+    std::vector<timeline_event_type> received;
+
+    auto canceller = timeline->observe([&received](auto const &event) { received.emplace_back(event.type); }).sync();
+
+    XCTAssertEqual(received.size(), 1);
+    XCTAssertEqual(received.at(0), timeline_event_type::any);
+
+    auto const track1 = track::make_shared();
+    timeline->insert_track(1, track1);
+
+    XCTAssertEqual(received.size(), 2);
+    XCTAssertEqual(received.at(1), timeline_event_type::inserted);
+
+    timeline->erase_track(1);
+
+    XCTAssertEqual(received.size(), 3);
+    XCTAssertEqual(received.at(2), timeline_event_type::erased);
+
+    auto const track2 = track::make_shared();
+    auto const track3 = track::make_shared();
+    timeline->replace_tracks({{2, track2}, {3, track3}});
+
+    XCTAssertEqual(received.size(), 4);
+    XCTAssertEqual(received.at(3), timeline_event_type::any);
+
+    timeline->erase_all_tracks();
+
+    XCTAssertEqual(received.size(), 5);
+    XCTAssertEqual(received.at(4), timeline_event_type::any);
+
+    timeline->erase_all_tracks();
+
+    XCTAssertEqual(received.size(), 5);
+
+    canceller->cancel();
+}
+
+- (void)test_observe_track {
+    auto const track1 = track::make_shared();
+    auto const track2 = track::make_shared();
+    auto module1 = module::make_shared([] { return module::processors_t{}; });
+    auto module2 = module::make_shared([] { return module::processors_t{}; });
+    auto const timeline = timeline::make_shared({{1, track1}});
+
+    std::vector<timeline_event_type> received;
+
+    auto canceller = timeline->observe([&received](auto const &event) { received.emplace_back(event.type); }).end();
+
+    XCTAssertEqual(received.size(), 0);
+
+    track1->push_back_module(module1, {0, 1});
+
+    XCTAssertEqual(received.size(), 1);
+    XCTAssertEqual(received.at(0), timeline_event_type::relayed);
+
+    timeline->insert_track(2, track2);
+
+    XCTAssertEqual(received.size(), 2);
+
+    track2->push_back_module(module2, {0, 1});
+
+    XCTAssertEqual(received.size(), 3);
+    XCTAssertEqual(received.at(2), timeline_event_type::relayed);
+
+    timeline->erase_track(1);
+
+    XCTAssertEqual(received.size(), 4);
+
+    track1->erase_module(module1);
+
+    XCTAssertEqual(received.size(), 4);
+
+    timeline->erase_track(2);
+
+    XCTAssertEqual(received.size(), 5);
+
+    track2->erase_module(module2);
+
+    XCTAssertEqual(received.size(), 5);
+
+    canceller->cancel();
 }
 
 @end
