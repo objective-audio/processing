@@ -14,6 +14,14 @@ using namespace yas::proc;
 
 #pragma mark - timeline
 
+proc::timeline_ptr timeline::make_shared() {
+    return make_shared({});
+}
+
+proc::timeline_ptr timeline::make_shared(track_map_t &&tracks) {
+    return timeline_ptr(new timeline{std::move(tracks)});
+}
+
 timeline::timeline(track_map_t &&tracks) : _tracks_holder(tracks_holder_t::make_shared(std::move(tracks))) {
     this->_fetcher = observing::fetcher<timeline_event>::make_shared([this] {
         return timeline_event{.type = timeline_event_type::any, .tracks = this->_tracks_holder->elements()};
@@ -28,10 +36,20 @@ timeline::timeline(track_map_t &&tracks) : _tracks_holder(tracks_holder_t::make_
                                                                   .index = tracks_event.key});
                                   })
                                   .end();
+
+    this->_observe_all_tracks();
 }
 
 timeline::track_map_t const &timeline::tracks() const {
     return this->_tracks_holder->elements();
+}
+
+void timeline::replace_tracks(track_map_t &&tracks) {
+    this->_track_cancellers.clear();
+
+    this->_tracks_holder->replace(std::move(tracks));
+
+    this->_observe_all_tracks();
 }
 
 bool timeline::insert_track(track_index_t const trk_idx, proc::track_ptr const &track) {
@@ -156,10 +174,8 @@ void timeline::_observe_track(track_index_t const &track_idx) {
     this->_track_cancellers.emplace(track_idx, std::move(canceller));
 }
 
-proc::timeline_ptr timeline::make_shared() {
-    return make_shared({});
-}
-
-proc::timeline_ptr timeline::make_shared(track_map_t &&tracks) {
-    return timeline_ptr(new timeline{std::move(tracks)});
+void timeline::_observe_all_tracks() {
+    for (auto const &pair : this->_tracks_holder->elements()) {
+        this->_observe_track(pair.first);
+    }
 }
