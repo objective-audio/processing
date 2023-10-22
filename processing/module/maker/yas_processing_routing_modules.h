@@ -7,6 +7,8 @@
 #include <processing/yas_processing_common_types.h>
 #include <processing/yas_processing_ptr.h>
 
+#include <ostream>
+
 namespace yas::proc {
 /// ルーティングするモジュール
 namespace routing {

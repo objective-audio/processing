@@ -7,6 +7,8 @@
 #include <processing/yas_processing_common_types.h>
 #include <processing/yas_processing_ptr.h>
 
+#include <ostream>
+
 namespace yas::proc {
 /// パラメータを2つ受け取る算術関数の結果を生成するモジュール
 namespace math2 {

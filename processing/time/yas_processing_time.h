@@ -8,6 +8,7 @@
 
 #include <memory>
 #include <optional>
+#include <ostream>
 #include <vector>
 
 namespace yas::proc {
