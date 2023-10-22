@@ -8,6 +8,7 @@
 #include <processing/yas_processing_ptr.h>
 
 #include <map>
+#include <ostream>
 
 namespace yas::proc {
 /// エンベロープを生成するモジュール

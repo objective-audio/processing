@@ -7,6 +7,8 @@
 #include <processing/yas_processing_common_types.h>
 #include <processing/yas_processing_ptr.h>
 
+#include <ostream>
+
 namespace yas::proc {
 /// 数値からシグナルへ変換するモジュール
 namespace number_to_signal {
