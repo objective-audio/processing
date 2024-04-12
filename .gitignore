@@ -59,3 +59,13 @@ fastlane/screenshots
 # https://github.com/johnno1962/injectionforxcode
 
 iOSInjectionProject/
+
+# SwiftPM
+
+/.build
+/Packages
+xcuserdata/
+DerivedData/
+.swiftpm/configuration/registries.json
+.swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
+.netrc
