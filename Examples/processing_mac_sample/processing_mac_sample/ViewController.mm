@@ -4,16 +4,16 @@
 
 #import "ViewController.h"
 #import <UniformTypeIdentifiers/UTCoreTypes.h>
-#import <audio/file/yas_audio_file.h>
-#import <audio/file/yas_audio_file_utils.h>
-#import <audio/format/yas_audio_format.h>
-#import <audio/pcm_buffer/yas_audio_pcm_buffer.h>
-#import <cpp-utils/yas_cf_utils.h>
-#import <cpp-utils/yas_fast_each.h>
-#import <cpp-utils/yas_result.h>
-#import <objc-utils/yas_objc_macros.h>
+#import <audio-engine/file/file.h>
+#import <audio-engine/file/file_utils.h>
+#import <audio-engine/format/format.h>
+#import <audio-engine/pcm_buffer/pcm_buffer.h>
+#import <cpp-utils/cf_utils.h>
+#import <cpp-utils/fast_each.h>
+#import <cpp-utils/result.h>
+#import <objc-utils/macros.h>
 #import <iostream>
-#import <processing/yas_processing_umbrella.hpp>
+#import <audio-processing/umbrella.hpp>
 
 using namespace yas;
 using namespace yas::proc;

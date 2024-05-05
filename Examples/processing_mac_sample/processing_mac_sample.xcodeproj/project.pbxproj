@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B64EF5172BEF3D0C00F69724 /* audio-processing in Frameworks */ = {isa = PBXBuildFile; productRef = B64EF5162BEF3D0C00F69724 /* audio-processing */; };
 		B650E3DD1DD810B300E423C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B650E3DC1DD810B300E423C7 /* AppDelegate.m */; };
 		B650E3E01DD810B300E423C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B650E3DF1DD810B300E423C7 /* main.m */; };
 		B650E3E31DD810B300E423C7 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = B650E3E21DD810B300E423C7 /* ViewController.mm */; };
 		B650E3E51DD810B300E423C7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B650E3E41DD810B300E423C7 /* Assets.xcassets */; };
 		B650E3E81DD810B300E423C7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B650E3E61DD810B300E423C7 /* Main.storyboard */; };
-		B66E020F2BC8DA8500974FE0 /* processing in Frameworks */ = {isa = PBXBuildFile; productRef = B66E020E2BC8DA8500974FE0 /* processing */; };
 		B681EB062A10E53400C60833 /* UniformTypeIdentifiers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B681EB052A10E53400C60833 /* UniformTypeIdentifiers.framework */; };
 /* End PBXBuildFile section */
 
@@ -44,8 +44,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B64EF5172BEF3D0C00F69724 /* audio-processing in Frameworks */,
 				B681EB062A10E53400C60833 /* UniformTypeIdentifiers.framework in Frameworks */,
-				B66E020F2BC8DA8500974FE0 /* processing in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -127,7 +127,7 @@
 			);
 			name = processing_mac_sample;
 			packageProductDependencies = (
-				B66E020E2BC8DA8500974FE0 /* processing */,
+				B64EF5162BEF3D0C00F69724 /* audio-processing */,
 			);
 			productName = processing_mac_sample;
 			productReference = B650E3D81DD810B300E423C7 /* processing_mac_sample.app */;
@@ -378,9 +378,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		B66E020E2BC8DA8500974FE0 /* processing */ = {
+		B64EF5162BEF3D0C00F69724 /* audio-processing */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = processing;
+			productName = "audio-processing";
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
