@@ -4,12 +4,12 @@
 import PackageDescription
 
 let package = Package(
-    name: "processing",
-    platforms: [.macOS(.v10_15), .iOS(.v13), .macCatalyst(.v13)],
+    name: "audio-processing",
+    platforms: [.macOS(.v14), .iOS(.v17), .macCatalyst(.v17)],
     products: [
         .library(
-            name: "processing",
-            targets: ["processing"]
+            name: "audio-processing",
+            targets: ["audio-processing"]
         ),
     ],
     dependencies: [
@@ -17,7 +17,7 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "processing",
+            name: "audio-processing",
             dependencies: [
                 .product(name: "audio", package: "audio_engine")
             ],
@@ -26,9 +26,9 @@ let package = Package(
             ]
         ),
         .testTarget(
-            name: "processing-tests",
+            name: "audio-processing-tests",
             dependencies: [
-                "processing",
+                "audio-processing",
             ],
             cxxSettings: [
                 .unsafeFlags(["-fcxx-modules"]),
